@@ -71,8 +71,12 @@ async function loadLesson() {
   const res = await fetch('data/france.json');
   conversation = (await res.json()).exercises;
   currentIndex = 0;
-  showNextMessage();       // ⬅️ show the first message
-  updateMicIcon();         // ⬅️ update the mic icon *after* first message is shown
+
+  // ✅ Update mic icon BEFORE first message is rendered
+  updateMicIcon();
+
+  // Then render the first message
+  showNextMessage();
 }
 
 function updateMicIcon() {
@@ -111,10 +115,11 @@ function showNextMessage() {
     if (latestMsg && avatar) {
       // Listen for swipe-in animation on the WHOLE message div
       latestMsg.addEventListener('animationend', () => {
-        avatar.classList.add('rotate-shake');
+        const emoji = avatar.querySelector('.emoji');
+        if (emoji) emoji.classList.add('rotate-shake');
 
-        avatar.addEventListener('animationend', () => {
-          avatar.classList.remove('rotate-shake');
+        emoji.addEventListener('animationend', () => {
+        emoji.classList.remove('rotate-shake');
 
           speakText(item.text, () => {
             if (item.hint) renderHintBubble(item.hint);
@@ -134,10 +139,10 @@ function showNextMessage() {
     renderHintBubble(item.hint);
   }
 
-  if (item.type !== 'response') {
+    updateMicIcon(); // ✅ always reflect current item first
+    if (item.type !== 'response') {
     currentIndex++;
-    updateMicIcon();
-  }
+    }
 }
 
 function renderCurrentLine(item) {
@@ -216,7 +221,7 @@ function renderHintBubble(hint) {
 
   // Outer wrapper positions both layers
   const wrapper = document.createElement('div');
-  wrapper.className = 'bubble-wrapper';
+  wrapper.className = 'bubble-wrapper swipe-in-right';
 
   // Text layer (normal size, drives layout)
   const textLayer = document.createElement('div');
@@ -308,11 +313,11 @@ function handleUserResponse(spokenText) {
     matched = validAnswers.find(answer => normalize(answer) === normalizedSpoken);
   }
 
-  // Remove the last hint bubble (if any)
-  const lastHint = document.querySelector('#cue-content .message.user .bubble.thought');
-  if (lastHint?.parentElement) {
-    lastHint.parentElement.remove();
-  }
+    // ✅ Remove the current hint bubble (animated wrapper)
+    const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
+    if (hintWrapper?.parentElement) {
+    hintWrapper.parentElement.remove();
+    }
 
   item.text = matched || spokenText;
   renderCurrentLine(item);
