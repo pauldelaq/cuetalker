@@ -1,0 +1,147 @@
+{
+  "language": "en",
+  "languageName": "English",
+  "lessonName": "A Trip to France",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "Your friend is asking you some questions about your trip to France."
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "Have you been to France before?",
+      "hint": "Yes, ...",
+      "expectedAnswers": [ "Yes, I have been to France before.", "Yes, I've been to France before.", "Yes, I have been there before.", "Yes, I've been there before." ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "When did you go there?",
+      "hint": "... last year",
+      "expectedAnswers": [ "I went there last year.", "I went to France last year." ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 5,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "Was it cold at that time?",
+      "hint": "Yes, ...",
+      "expectedAnswers": [ "Yes, it was cold at that time." ]
+    },
+    {
+      "id": 6,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 7,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "Which city did you visit?",
+      "hint": "... Paris",
+      "expectedAnswers": [ "I visited Paris." ]
+    },
+    {
+      "id": 8,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 9,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "What did you do there?",
+      "hint": "... see ... Eiffel Tower",
+      "expectedAnswers": [ "I saw the Eiffel Tower there." ]
+    },
+    {
+      "id": 10,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 11,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "Did you like the food there?",
+      "hint": "Yes, ...",
+      "expectedAnswers": [ "Yes, I liked the food there." ]
+    },
+    {
+      "id": 12,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 13,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "What was your favorite dish?",
+      "hint": "... cheese omelette",
+      "expectedAnswers": [ "My favorite dish was the cheese omelette." ]
+    },
+    {
+      "id": 14,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 15,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "How did it taste?",
+      "hint": "... delicious",
+      "expectedAnswers": [ "It tasted very delicious.", "It tasted delicious." ]
+    },
+    {
+      "id": 16,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 17,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "Do you want to go back there?",
+      "hint": "Yes, ...",
+      "expectedAnswers": [ "Yes, I want to go back there." ]
+    },
+    {
+      "id": 18,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 19,
+      "type": "prompt",
+      "character": { "name": "Friend", "emoji": "🧑🏽‍🦱" },
+      "text": "Can I come with you?",
+      "hint": "Yes, ...",
+      "expectedAnswers": [ "Yes, you can come with me." ]
+    },
+    {
+      "id": 20,
+      "type": "response",
+      "character": { "name": "You", "emoji": "🙂" }
+    },
+    {
+      "id": 21,
+      "type": "narration",
+      "text": "Well done! Your friend is happy that you've shared your experience with him."
+    }
+  ]
+}

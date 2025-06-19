@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CueTalker</title>
+  <link rel="stylesheet" href="css/cuetalker.css" />
+</head>
+<body>
+  <header>
+    <h1 id="header-title">CueTalker</h1>
+    <div class="menu">
+      <button id="settingsButton" class="circle-btn">
+        <img src="https://openmoji.org/data/color/svg/2699.svg" alt="Settings" width="32" height="32" />
+      </button>
+    </div>
+  </header>
+
+  <main id="cue-content">
+    <!-- Message bubbles (narration, speaker, user) will be dynamically inserted here -->
+    <div id="settingsMenu" class="hidden">
+    <h2>Settings</h2>
+
+    <label for="ctlanguage">Language:</label>
+    <select id="ctlanguage"></select>
+
+    <label for="ctvoice">Voice:</label>
+    <select id="ctvoice"></select>
+    </div>
+  </main>
+
+  <footer id="cue-footer">
+    <div id="liveTranscript"></div>
+    <button id="micButton" class="circle-btn">
+      <img src="https://openmoji.org/data/color/svg/1F3A4.svg">
+    </button>
+  </footer>
+
+  <script src="js/cuetalker.js"></script>
+</body>
+</html>
