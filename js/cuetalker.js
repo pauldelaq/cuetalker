@@ -54,11 +54,16 @@ function animateMicPulse(volume) {
   micButton.style.boxShadow = `0 0 ${glowSize}px red`;
 }
 
-function speakText(text) {
+function speakText(text, onend) {
   const utterance = new SpeechSynthesisUtterance(text);
   const matchedVoice = availableVoices.find(v => v.name === selectedVoiceName);
   if (matchedVoice) utterance.voice = matchedVoice;
-  speechSynthesis.cancel();
+
+  utterance.onend = () => {
+    if (typeof onend === 'function') onend();
+  };
+
+  speechSynthesis.cancel(); // Cancel any queued speech
   speechSynthesis.speak(utterance);
 }
 
@@ -95,12 +100,37 @@ function showNextMessage() {
 
   renderCurrentLine(item);
 
-  // Speak it if it's a prompt
   if (item.type === 'prompt' && item.text) {
-    speakText(item.text);
-  }
+    const container = document.getElementById('cue-content');
 
-  if (item.type === 'prompt' && item.hint) {
+    // Get the most recent full message div (with avatar and bubble)
+    const messageDivs = container.querySelectorAll('.message.speaker');
+    const latestMsg = messageDivs[messageDivs.length - 1];
+    const avatar = latestMsg?.querySelector('.avatar');
+
+    if (latestMsg && avatar) {
+      // Listen for swipe-in animation on the WHOLE message div
+      latestMsg.addEventListener('animationend', () => {
+        avatar.classList.add('rotate-shake');
+
+        avatar.addEventListener('animationend', () => {
+          avatar.classList.remove('rotate-shake');
+
+          speakText(item.text, () => {
+            if (item.hint) renderHintBubble(item.hint);
+          });
+        }, { once: true });
+
+      }, { once: true });
+    } else {
+      // fallback
+      speakText(item.text, () => {
+        if (item.hint) renderHintBubble(item.hint);
+      });
+    }
+
+  } else if (item.type === 'prompt' && item.hint) {
+    // fallback if no text to speak
     renderHintBubble(item.hint);
   }
 
@@ -129,11 +159,16 @@ function renderCurrentLine(item) {
   `;
 
   const bubble = document.createElement('div');
-  bubble.className = 'bubble ' + (
+    bubble.className = 'bubble ' + (
     item.type === 'response' ? 'right' :
     item.type === 'prompt' ? 'left' :
     item.type === 'narration' ? 'center' : ''
-  );
+    );
+
+    // Apply swipe-in animation to the entire message row for prompts
+    if (item.type === 'prompt') {
+    msgDiv.classList.add('swipe-in-left');
+    }
 
   bubble.innerText = item.text || '...';
 
@@ -179,13 +214,24 @@ function renderHintBubble(hint) {
     <div class="name">You</div>
   `;
 
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble right thought';
-  bubble.innerText = hint;
+  // Outer wrapper positions both layers
+  const wrapper = document.createElement('div');
+  wrapper.className = 'bubble-wrapper';
 
-  hintDiv.appendChild(bubble);
+  // Text layer (normal size, drives layout)
+  const textLayer = document.createElement('div');
+  textLayer.className = 'hint-bubble';
+  textLayer.textContent = hint;
+
+  // Background animation layer (same size, scaled)
+  const bgLayer = document.createElement('div');
+  bgLayer.className = 'bubble-bg-pulse';
+
+  wrapper.appendChild(bgLayer);
+  wrapper.appendChild(textLayer);
+
+  hintDiv.appendChild(wrapper);
   hintDiv.appendChild(avatar);
-
   container.appendChild(hintDiv);
   container.scrollTop = container.scrollHeight;
 }

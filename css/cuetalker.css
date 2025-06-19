@@ -288,3 +288,131 @@ main {
   margin-top: 0;
   font-size: 1.5em;
 }
+
+  @keyframes swipeInLeftBounce {
+    0% {
+      transform: translateX(-100%);
+      opacity: 1;
+    }
+    60% {
+      transform: translateX(15%);
+      opacity: 1;
+    }
+    80% {
+      transform: translateX(-5%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes swipeInRightBounce {
+    0% {
+      transform: translateX(100%);
+      opacity: 1;
+    }
+    60% {
+      transform: translateX(-15%);
+      opacity: 1;
+    }
+    80% {
+      transform: translateX(5%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  .swipe-in-left {
+    animation: swipeInLeftBounce 0.6s ease-out;
+  }
+  
+  .swipe-in-right {
+    animation: swipeInRightBounce 0.6s ease-out;
+  }
+
+    .rotate-shake {
+    display: inline-block;
+    animation: rotate-shake 0.5s ease-in-out;
+  }
+  
+  @keyframes rotate-shake {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+  }
+
+.bubble-wrapper {
+  position: relative;
+  display: inline-block;
+  left: -20px;
+  bottom: 15px;
+}
+
+.hint-bubble {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 10px;
+  padding: 20px 30px 20px 20px;
+  background: transparent; /* background handled by bg-pulse layer */
+  color: white;
+  font-size: large;
+  font-family: sans-serif;
+  text-align: center;
+  font-style: italic;
+  opacity: 0.95;
+  pointer-events: none; /* Prevents hint-bubble from blocking clicks if needed */
+}
+
+/* Animated background: matches the bubble shape */
+.bubble-bg-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background-color: var(--bubble-user);
+  border: 2px solid #333;
+  border-radius: 30px;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: bubblePulse 1.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Match tail using pseudo-elements */
+.bubble-bg-pulse::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  bottom: 33px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--bubble-user);
+  border: 2px solid #333;
+  border-radius: 50%;
+}
+
+.bubble-bg-pulse::before {
+  content: '';
+  position: absolute;
+  right: -25px;
+  bottom: 30px;
+  width: 15px;
+  height: 15px;
+  background-color: var(--bubble-user);
+  border: 2px solid #333;
+  border-radius: 50%;
+}
+
+@keyframes bubblePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
