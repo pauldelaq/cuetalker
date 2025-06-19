@@ -294,6 +294,13 @@ main {
   font-size: 1.5em;
 }
 
+.setting-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+
   @keyframes swipeInLeftBounce {
     0% {
       transform: translateX(-100%);

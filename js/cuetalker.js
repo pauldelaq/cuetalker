@@ -9,6 +9,7 @@ let micStream;
 let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
+let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
 
 function startVolumeMonitoring(stream) {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -79,6 +80,22 @@ async function loadLesson() {
   showNextMessage();
 }
 
+function tryAutoAdvance() {
+  const nextItem = conversation[currentIndex + 1];
+
+  if (autoAdvance && nextItem?.type === 'response' && !isRecording) {
+    setTimeout(() => {
+      const micButton = document.getElementById('micButton');
+      if (!isRecording && micButton) {
+        currentIndex++; // ✅ manually advance index since we're skipping a click
+        micButton.click(); // safely start recording
+      }
+    }, 300);
+  } else {
+    currentIndex++; // ✅ always move forward unless we’re waiting for speech
+  }
+}
+
 function updateMicIcon() {
   const micIcon = document.querySelector('#micButton img');
   const micButton = document.getElementById('micButton');
@@ -103,46 +120,47 @@ function showNextMessage() {
   if (!item) return;
 
   renderCurrentLine(item);
+  updateMicIcon(); // always show the correct icon before anything else
 
   if (item.type === 'prompt' && item.text) {
     const container = document.getElementById('cue-content');
-
-    // Get the most recent full message div (with avatar and bubble)
     const messageDivs = container.querySelectorAll('.message.speaker');
     const latestMsg = messageDivs[messageDivs.length - 1];
     const avatar = latestMsg?.querySelector('.avatar');
 
     if (latestMsg && avatar) {
-      // Listen for swipe-in animation on the WHOLE message div
       latestMsg.addEventListener('animationend', () => {
         const emoji = avatar.querySelector('.emoji');
         if (emoji) emoji.classList.add('rotate-shake');
 
-        emoji.addEventListener('animationend', () => {
-        emoji.classList.remove('rotate-shake');
-
+        emoji?.addEventListener('animationend', () => {
+          emoji.classList.remove('rotate-shake');
           speakText(item.text, () => {
             if (item.hint) renderHintBubble(item.hint);
+
+            // ✅ After hint is shown, advance if allowed
+            tryAutoAdvance();
           });
         }, { once: true });
-
       }, { once: true });
     } else {
-      // fallback
       speakText(item.text, () => {
         if (item.hint) renderHintBubble(item.hint);
+        tryAutoAdvance();
       });
     }
 
   } else if (item.type === 'prompt' && item.hint) {
-    // fallback if no text to speak
     renderHintBubble(item.hint);
-  }
+    tryAutoAdvance();
 
-    updateMicIcon(); // ✅ always reflect current item first
-    if (item.type !== 'response') {
-    currentIndex++;
-    }
+  } else if (item.type === 'narration') {
+    // Show narration and wait for user input — no auto-advance
+
+
+  } else if (item.type === 'response') {
+    // Do nothing. Wait for user or auto-advance to trigger mic manually.
+  }
 }
 
 function renderCurrentLine(item) {
@@ -254,7 +272,7 @@ function startSpeechRecognition() {
     startVolumeMonitoring(stream);
 
     // Now start STT
-    const recognition = new webkitSpeechRecognition();
+    recognition = new webkitSpeechRecognition(); // ✅ now assigned to global
     recognition.lang = 'en-US';
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
@@ -276,6 +294,7 @@ function startSpeechRecognition() {
 
       if (final) {
         isRecording = false;
+        recognition.stop(); // ✅ explicitly stop the mic
         stopVolumeMonitoring();
         updateMicIcon();
         document.getElementById('liveTranscript').innerText = final;
@@ -285,6 +304,7 @@ function startSpeechRecognition() {
 
     recognition.onerror = () => {
       isRecording = false;
+      recognition.stop(); // ✅ explicitly stop the mic
       stopVolumeMonitoring();
       updateMicIcon();
     };
@@ -388,23 +408,35 @@ function initializeVoiceMenus() {
   }
 }
 
+function initializeSettingsMenu() {
+  const autoAdvanceToggle = document.getElementById('autoAdvanceToggle');
+  if (autoAdvanceToggle) {
+    autoAdvanceToggle.checked = autoAdvance;
+    autoAdvanceToggle.addEventListener('change', (e) => {
+      autoAdvance = e.target.checked;
+      localStorage.setItem('ctAutoAdvance', autoAdvance);
+    });
+  }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   loadLesson();
-  initializeVoiceMenus(); // <- REPLACEMENT LINE
+  initializeVoiceMenus();
+  initializeSettingsMenu(); // ✅ new clean hook
 
-  document.getElementById('micButton').addEventListener('click', () => {
+    document.getElementById('micButton').addEventListener('click', () => {
     const currentItem = conversation[currentIndex];
     if (!currentItem) return;
 
-    if (currentItem.type === 'narration') {
-      currentIndex++;
-      showNextMessage();
-    } else if (currentItem.type === 'response') {
-      startSpeechRecognition();
+    if (currentItem.type === 'response') {
+        startSpeechRecognition();
+    } else if (currentItem.type === 'narration') {
+        currentIndex++;
+        showNextMessage();
     } else {
-      showNextMessage();
+        showNextMessage();
     }
-  });
+    });
 
   document.getElementById('settingsButton').addEventListener('click', () => {
     document.getElementById('settingsMenu')?.classList.toggle('show');
