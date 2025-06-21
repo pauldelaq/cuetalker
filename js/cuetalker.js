@@ -285,21 +285,28 @@ function startSpeechRecognition() {
     };
 
     recognition.onresult = (event) => {
-      let final = '';
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          final += event.results[i][0].transcript;
-        }
-      }
+    let interimTranscript = '';
+    let finalTranscript = '';
 
-      if (final) {
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+        const result = event.results[i];
+        if (result.isFinal) {
+        finalTranscript += result[0].transcript;
+        } else {
+        interimTranscript += result[0].transcript;
+        }
+    }
+
+    const display = finalTranscript || interimTranscript || '';
+    document.getElementById('liveTranscript').innerText = display;
+
+    if (finalTranscript) {
         isRecording = false;
-        recognition.stop(); // ✅ explicitly stop the mic
+        recognition.stop();
         stopVolumeMonitoring();
         updateMicIcon();
-        document.getElementById('liveTranscript').innerText = final;
-        handleUserResponse(final);
-      }
+        handleUserResponse(finalTranscript);
+    }
     };
 
     recognition.onerror = () => {
@@ -333,17 +340,31 @@ function handleUserResponse(spokenText) {
     matched = validAnswers.find(answer => normalize(answer) === normalizedSpoken);
   }
 
+  if (matched) {
     // ✅ Remove the current hint bubble (animated wrapper)
     const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
     if (hintWrapper?.parentElement) {
-    hintWrapper.parentElement.remove();
+      hintWrapper.parentElement.remove();
     }
 
-  item.text = matched || spokenText;
-  renderCurrentLine(item);
+    item.text = matched;
+    renderCurrentLine(item);
 
-  currentIndex++;
-  showNextMessage();
+    currentIndex++;
+    showNextMessage();
+  } else {
+    // ❌ INCORRECT ANSWER: shake the latest user avatar
+    const container = document.getElementById('cue-content');
+    const avatars = container.querySelectorAll('.message.user .avatar .emoji');
+    const lastEmoji = avatars[avatars.length - 1];
+
+    if (lastEmoji) {
+      lastEmoji.classList.add('shake');
+      lastEmoji.addEventListener('animationend', () => {
+        lastEmoji.classList.remove('shake');
+      }, { once: true });
+    }
+  }
 }
 
 function populateLanguageList() {
