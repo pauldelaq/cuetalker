@@ -11,6 +11,42 @@ let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
 let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
 
+function wordLevelDistance(a, b) {
+  const wordsA = a.trim().split(/\s+/);
+  const wordsB = b.trim().split(/\s+/);
+
+  let mismatches = 0;
+  const len = Math.max(wordsA.length, wordsB.length);
+
+  for (let i = 0; i < len; i++) {
+    if (wordsA[i] !== wordsB[i]) mismatches++;
+  }
+  return mismatches;
+}
+
+function highlightDifferences(userText, expectedText) {
+  const userWordsRaw = userText.trim().split(/\s+/); // unnormalized for display
+  const userWordsNorm = normalize(userText).split(/\s+/); // for comparison
+  const expectedWordsNorm = normalize(expectedText).split(/\s+/);
+  const highlighted = [];
+
+  const len = Math.max(userWordsNorm.length, expectedWordsNorm.length);
+
+  for (let i = 0; i < len; i++) {
+    const userRaw = userWordsRaw[i] || '';
+    const userNorm = userWordsNorm[i] || '';
+    const expectedNorm = expectedWordsNorm[i] || '';
+
+    if (userNorm === expectedNorm) {
+      highlighted.push(userRaw);
+    } else {
+      highlighted.push(`<span class="wrong-word">${userRaw}</span>`);
+    }
+  }
+
+  return highlighted.join(' ');
+}
+
 function startVolumeMonitoring(stream) {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
   const micSource = audioContext.createMediaStreamSource(stream);
@@ -320,6 +356,19 @@ function startSpeechRecognition() {
   });
 }
 
+function stopSpeechRecognition() {
+  if (recognition) {
+    recognition.abort(); // 💥 force stop (use abort, not stop, to cancel)
+  }
+
+  isRecording = false;
+  stopVolumeMonitoring();
+  updateMicIcon();
+
+  const liveTranscript = document.getElementById('liveTranscript');
+  if (liveTranscript) liveTranscript.textContent = '';
+}
+
 function normalize(text) {
   return text.toLowerCase().replace(/[.,!?]/g, '').trim();
 }
@@ -331,10 +380,10 @@ function handleUserResponse(spokenText) {
   const promptItem = conversation[currentIndex - 1];
   const validAnswers = promptItem?.expectedAnswers || [];
 
-  // Try exact match first
+  // ✅ Try exact match first
   let matched = validAnswers.find(answer => answer === spokenText);
 
-  // If not found, try normalized match
+  // ✅ Try normalized match
   if (!matched) {
     const normalizedSpoken = normalize(spokenText);
     matched = validAnswers.find(answer => normalize(answer) === normalizedSpoken);
@@ -353,16 +402,34 @@ function handleUserResponse(spokenText) {
     currentIndex++;
     showNextMessage();
   } else {
-    // ❌ INCORRECT ANSWER: shake the latest user avatar
-    const container = document.getElementById('cue-content');
+    // ❌ INCORRECT: Find closest expectedAnswer for red-word comparison
+    const normalizedSpoken = normalize(spokenText);
+    let bestMatch = '';
+    let lowestDistance = Infinity;
+
+    for (const expected of validAnswers) {
+      const dist = wordLevelDistance(normalizedSpoken, normalize(expected));
+      if (dist < lowestDistance) {
+        lowestDistance = dist;
+        bestMatch = expected;
+      }
+    }
+
+    const redText = highlightDifferences(spokenText, bestMatch);
+
+    // 🟥 Update footer transcript with red highlights
+    const transcriptEl = document.getElementById('liveTranscript');
+    if (transcriptEl) transcriptEl.innerHTML = redText;
+
+    // 💢 Shake latest user avatar
+    const container = document.getElementById('cue-content'); // ✅ Define this first
     const avatars = container.querySelectorAll('.message.user .avatar .emoji');
     const lastEmoji = avatars[avatars.length - 1];
-
     if (lastEmoji) {
-      lastEmoji.classList.add('shake');
-      lastEmoji.addEventListener('animationend', () => {
+    lastEmoji.classList.add('shake');
+    lastEmoji.addEventListener('animationend', () => {
         lastEmoji.classList.remove('shake');
-      }, { once: true });
+    }, { once: true });
     }
   }
 }
@@ -445,9 +512,15 @@ window.addEventListener('DOMContentLoaded', () => {
   initializeVoiceMenus();
   initializeSettingsMenu(); // ✅ new clean hook
 
-    document.getElementById('micButton').addEventListener('click', () => {
-    const currentItem = conversation[currentIndex];
-    if (!currentItem) return;
+document.getElementById('micButton').addEventListener('click', () => {
+  const currentItem = conversation[currentIndex];
+  if (!currentItem) return;
+
+    // 🔁 Toggle logic: if already recording, cancel it
+    if (isRecording) {
+        stopSpeechRecognition(); // You'll define this below
+        return;
+    }
 
     if (currentItem.type === 'response') {
         startSpeechRecognition();
