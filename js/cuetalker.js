@@ -2,6 +2,8 @@
 
 let currentIndex = 0;
 let conversation = [];
+let svgLibrary = {};
+let hintAvatar = {};
 let recognition;
 let isRecording = false;
 let audioContext, analyser, dataArray, volumeInterval;
@@ -106,7 +108,12 @@ function speakText(text, onend) {
 
 async function loadLesson() {
   const res = await fetch('data/france.json');
-  conversation = (await res.json()).exercises;
+  const data = await res.json();
+
+  conversation = data.exercises;
+  svgLibrary = data.svgLibrary || {};
+  hintAvatar = data.hintAvatar || {};
+
   currentIndex = 0;
 
   // ✅ Update mic icon BEFORE first message is rendered
@@ -123,13 +130,13 @@ function tryAutoAdvance() {
     setTimeout(() => {
       const micButton = document.getElementById('micButton');
       if (!isRecording && micButton) {
-        currentIndex++; // ✅ manually advance index since we're skipping a click
-        micButton.click(); // safely start recording
+        currentIndex++;      // ✅ Only increment here if actually auto-advancing
+        micButton.click();
       }
     }, 300);
-  } else {
-    currentIndex++; // ✅ always move forward unless we’re waiting for speech
   }
+
+  // ✅ DO NOT increment otherwise — user must manually trigger
 }
 
 function updateMicIcon() {
@@ -166,18 +173,26 @@ function showNextMessage() {
 
     if (latestMsg && avatar) {
       latestMsg.addEventListener('animationend', () => {
-        const emoji = avatar.querySelector('.emoji');
-        if (emoji) emoji.classList.add('rotate-shake');
+        const svgEl = avatar.querySelector('.svg-avatar');
 
-        emoji?.addEventListener('animationend', () => {
-          emoji.classList.remove('rotate-shake');
+        if (svgEl) {
+          svgEl.classList.add('rotate-shake');
+
+          svgEl.addEventListener('animationend', () => {
+            svgEl.classList.remove('rotate-shake');
+            speakText(item.text, () => {
+              if (item.hint) renderHintBubble(item.hint);
+              tryAutoAdvance();
+            });
+          }, { once: true });
+
+        } else {
+          // Fallback in case .svg-avatar is missing for any reason
           speakText(item.text, () => {
             if (item.hint) renderHintBubble(item.hint);
-
-            // ✅ After hint is shown, advance if allowed
             tryAutoAdvance();
           });
-        }, { once: true });
+        }
       }, { once: true });
     } else {
       speakText(item.text, () => {
@@ -192,7 +207,6 @@ function showNextMessage() {
 
   } else if (item.type === 'narration') {
     // Show narration and wait for user input — no auto-advance
-
 
   } else if (item.type === 'response') {
     // Do nothing. Wait for user or auto-advance to trigger mic manually.
@@ -212,22 +226,31 @@ function renderCurrentLine(item) {
 
   const avatar = document.createElement('div');
   avatar.className = 'avatar';
-  avatar.innerHTML = `
-    <div class="emoji">${item.character?.emoji || ''}</div>
-    <div class="name">${item.character?.name || ''}</div>
-  `;
+
+  // ✅ Handle avatar rendering: SVG from library
+  const character = item.character || {};
+  let avatarHTML = `<div class="name">${character.name || ''}</div>`;
+
+  if (character.svg !== undefined && svgLibrary?.[character.svg]) {
+    avatarHTML = `
+    <img class="svg-avatar" src="${svgLibrary[character.svg]}" alt="avatar">
+    ${avatarHTML}
+    `;
+  }
+
+  avatar.innerHTML = avatarHTML;
 
   const bubble = document.createElement('div');
-    bubble.className = 'bubble ' + (
+  bubble.className = 'bubble ' + (
     item.type === 'response' ? 'right' :
     item.type === 'prompt' ? 'left' :
     item.type === 'narration' ? 'center' : ''
-    );
+  );
 
-    // Apply swipe-in animation to the entire message row for prompts
-    if (item.type === 'prompt') {
+  // Apply swipe-in animation to the entire message row for prompts
+  if (item.type === 'prompt') {
     msgDiv.classList.add('swipe-in-left');
-    }
+  }
 
   bubble.innerText = item.text || '...';
 
@@ -268,21 +291,24 @@ function renderHintBubble(hint) {
 
   const avatar = document.createElement('div');
   avatar.className = 'avatar';
-  avatar.innerHTML = `
-    <div class="emoji">🤔</div>
-    <div class="name">You</div>
-  `;
 
-  // Outer wrapper positions both layers
+  // ✅ Use svgLibrary + hintAvatar
+  let avatarHTML = `<div class="name">${hintAvatar?.name || 'You'}</div>`;
+
+    avatarHTML = `
+    <img class="svg-avatar" src="${svgLibrary[hintAvatar.svg]}" alt="thinking">
+    ${avatarHTML}
+    `;
+
+  avatar.innerHTML = avatarHTML;
+
   const wrapper = document.createElement('div');
   wrapper.className = 'bubble-wrapper swipe-in-right';
 
-  // Text layer (normal size, drives layout)
   const textLayer = document.createElement('div');
   textLayer.className = 'hint-bubble';
   textLayer.textContent = hint;
 
-  // Background animation layer (same size, scaled)
   const bgLayer = document.createElement('div');
   bgLayer.className = 'bubble-bg-pulse';
 
@@ -397,8 +423,7 @@ function handleUserResponse(spokenText) {
     }
 
     item.text = matched;
-    renderCurrentLine(item);
-
+    renderCurrentLine(item); // ✅ Restore this
     currentIndex++;
     showNextMessage();
   } else {
@@ -423,7 +448,7 @@ function handleUserResponse(spokenText) {
 
     // 💢 Shake latest user avatar
     const container = document.getElementById('cue-content'); // ✅ Define this first
-    const avatars = container.querySelectorAll('.message.user .avatar .emoji');
+    const avatars = container.querySelectorAll('.message.user .avatar .svg-avatar');
     const lastEmoji = avatars[avatars.length - 1];
     if (lastEmoji) {
     lastEmoji.classList.add('shake');
@@ -513,24 +538,33 @@ window.addEventListener('DOMContentLoaded', () => {
   initializeSettingsMenu(); // ✅ new clean hook
 
 document.getElementById('micButton').addEventListener('click', () => {
-  const currentItem = conversation[currentIndex];
+  let currentItem = conversation[currentIndex];
   if (!currentItem) return;
 
-    // 🔁 Toggle logic: if already recording, cancel it
-    if (isRecording) {
-        stopSpeechRecognition(); // You'll define this below
-        return;
-    }
+  // 🔁 Toggle logic: if already recording, cancel it
+  if (isRecording) {
+    stopSpeechRecognition();
+    return;
+  }
 
-    if (currentItem.type === 'response') {
-        startSpeechRecognition();
-    } else if (currentItem.type === 'narration') {
-        currentIndex++;
-        showNextMessage();
-    } else {
-        showNextMessage();
-    }
-    });
+  // ✅ If we’re on a prompt with a hint and the next item is a response,
+  // treat this click as a manual "advance" to the response
+  if (
+    currentItem.type === 'prompt' &&
+    currentItem.hint &&
+    conversation[currentIndex + 1]?.type === 'response'
+  ) {
+    currentIndex++;
+    currentItem = conversation[currentIndex]; // update currentItem
+  }
+
+  if (currentItem.type === 'response') {
+    startSpeechRecognition();
+  } else if (currentItem.type === 'narration') {
+    currentIndex++;
+    showNextMessage();
+  }
+});
 
   document.getElementById('settingsButton').addEventListener('click', () => {
     document.getElementById('settingsMenu')?.classList.toggle('show');
