@@ -12,6 +12,7 @@ let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
 let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
+let practiceMode = localStorage.getItem('ctPracticeMode') === 'true';
 
 function wordLevelDistance(a, b) {
   const wordsA = a.trim().split(/\s+/);
@@ -124,6 +125,7 @@ async function loadLesson() {
 }
 
 function tryAutoAdvance() {
+  if (practiceMode) return; // ⛔ Always block auto-advance during Practice Mode
   const nextItem = conversation[currentIndex + 1];
 
   if (autoAdvance && nextItem?.type === 'response' && !isRecording) {
@@ -145,17 +147,21 @@ function updateMicIcon() {
   const currentItem = conversation[currentIndex];
 
   // 🔁 Toggle recording visual
-  if (isRecording) {
-    micIcon.src = 'https://openmoji.org/data/color/svg/23FA.svg'; // stop icon
+    if (isRecording) {
+    micIcon.src = 'https://openmoji.org/data/color/svg/23FA.svg';
     micButton.classList.add('recording');
-  } else {
-    micButton.classList.remove('recording');
-    if (!currentItem || currentItem.type === 'narration') {
-      micIcon.src = 'https://openmoji.org/data/color/svg/23E9.svg'; // narration
     } else {
-      micIcon.src = 'https://openmoji.org/data/color/svg/1F3A4.svg'; // mic
+    micButton.classList.remove('recording');
+
+    if (practiceMode) {
+        // ✅ Keep static icon in practice mode
+        micIcon.src = 'https://openmoji.org/data/color/svg/25B6.svg'; // mic
+    } else if (!currentItem || currentItem.type === 'narration') {
+        micIcon.src = 'https://openmoji.org/data/color/svg/25B6.svg'; // narration
+    } else {
+        micIcon.src = 'https://openmoji.org/data/color/svg/1F3A4.svg'; // mic
     }
-  }
+    }
 }
 
 function showNextMessage() {
@@ -242,7 +248,7 @@ function renderCurrentLine(item) {
 
   const bubble = document.createElement('div');
   bubble.className = 'bubble ' + (
-    item.type === 'response' ? 'right' :
+    item.type === 'response' ? 'right response-fade-in' :
     item.type === 'prompt' ? 'left' :
     item.type === 'narration' ? 'center' : ''
   );
@@ -289,8 +295,8 @@ function renderHintBubble(hint) {
   const hintDiv = document.createElement('div');
   hintDiv.className = 'message user';
 
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar';
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar swipe-in-right';
 
   // ✅ Use svgLibrary + hintAvatar
   let avatarHTML = `<div class="name">${hintAvatar?.name || 'You'}</div>`;
@@ -319,6 +325,13 @@ function renderHintBubble(hint) {
   hintDiv.appendChild(avatar);
   container.appendChild(hintDiv);
   container.scrollTop = container.scrollHeight;
+
+  if (practiceMode) {
+  const transcriptEl = document.getElementById('liveTranscript');
+  if (transcriptEl) {
+    transcriptEl.textContent = '[Recording is disabled in Practice Mode]';
+  }
+}
 }
 
 function startSpeechRecognition() {
@@ -523,12 +536,42 @@ function initializeVoiceMenus() {
 
 function initializeSettingsMenu() {
   const autoAdvanceToggle = document.getElementById('autoAdvanceToggle');
+  const autoAdvanceLabel = document.querySelector('label[for="autoAdvanceToggle"]');
+  const practiceToggle = document.getElementById('practiceModeToggle');
+
+  // 🔁 Setup auto-advance toggle
   if (autoAdvanceToggle) {
     autoAdvanceToggle.checked = autoAdvance;
     autoAdvanceToggle.addEventListener('change', (e) => {
       autoAdvance = e.target.checked;
       localStorage.setItem('ctAutoAdvance', autoAdvance);
     });
+  }
+
+  // 🔁 Setup practice mode toggle
+  if (practiceToggle) {
+    practiceToggle.checked = practiceMode;
+    practiceToggle.addEventListener('change', (e) => {
+      practiceMode = e.target.checked;
+      localStorage.setItem('ctPracticeMode', practiceMode);
+      updateMicIcon();
+
+      // ✅ Enable/disable auto-advance toggle and label appearance
+      if (autoAdvanceToggle) {
+        autoAdvanceToggle.disabled = practiceMode;
+      }
+      if (autoAdvanceLabel) {
+        autoAdvanceLabel.classList.toggle('disabled', practiceMode);
+      }
+    });
+  }
+
+  // ✅ Set correct disabled state on page load
+  if (autoAdvanceToggle) {
+    autoAdvanceToggle.disabled = practiceMode;
+  }
+  if (autoAdvanceLabel) {
+    autoAdvanceLabel.classList.toggle('disabled', practiceMode);
   }
 }
 
@@ -541,21 +584,56 @@ document.getElementById('micButton').addEventListener('click', () => {
   let currentItem = conversation[currentIndex];
   if (!currentItem) return;
 
-  // 🔁 Toggle logic: if already recording, cancel it
   if (isRecording) {
     stopSpeechRecognition();
     return;
   }
 
-  // ✅ If we’re on a prompt with a hint and the next item is a response,
-  // treat this click as a manual "advance" to the response
+  if (practiceMode) {
+    if (
+        currentItem.type === 'prompt' &&
+        currentItem.hint &&
+        conversation[currentIndex + 1]?.type === 'response'
+    ) {
+        currentIndex++; // go to response
+        currentItem = conversation[currentIndex]; // update reference
+    } else if (currentItem.type === 'narration' || currentItem.type === 'response') {
+        currentIndex++;
+        currentItem = conversation[currentIndex];
+    }
+
+    // ✅ Handle auto-fill for empty response
+    if (currentItem?.type === 'response' && !currentItem.text) {
+        const prevItem = conversation[currentIndex - 1];
+        const fallbackAnswer = prevItem?.expectedAnswers?.[0];
+        if (fallbackAnswer) {
+        currentItem.text = fallbackAnswer;
+        }
+    }
+
+    // ✅ Remove the current hint bubble (if visible)
+    const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
+    if (hintWrapper?.parentElement) {
+    hintWrapper.parentElement.remove();
+    }
+
+    const transcriptEl = document.getElementById('liveTranscript');
+    if (transcriptEl) {
+    transcriptEl.textContent = '';
+    }
+
+    showNextMessage();
+    return;
+    }
+
+  // Normal mode logic
   if (
     currentItem.type === 'prompt' &&
     currentItem.hint &&
     conversation[currentIndex + 1]?.type === 'response'
   ) {
     currentIndex++;
-    currentItem = conversation[currentIndex]; // update currentItem
+    currentItem = conversation[currentIndex];
   }
 
   if (currentItem.type === 'response') {

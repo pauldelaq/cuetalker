@@ -1,5 +1,9 @@
 /* cuetalker.css */
 
+* {
+    -webkit-tap-highlight-color: transparent;
+  }  
+
 :root {
   --bg: #f5f5f5;
   --fg: #222;
@@ -32,7 +36,7 @@ header {
 }
 
 #header-title {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin: 0;
 }
 
@@ -187,6 +191,11 @@ footer#cue-footer {
   background: #357ab8;
 }
 
+.circle-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
+}
+
 .bubble.thought {
   background-color: var(--bubble-user);
   border: 2px solid #333;
@@ -271,7 +280,7 @@ footer#cue-footer {
 #settingsMenu {
   position: fixed;
   top: 60px;
-  bottom: 60px;
+  height: 100vh;
   left: 0;
   right: 0;
   background: #f9f9f9;
@@ -301,6 +310,10 @@ main {
   margin-bottom: 1em;
 }
 
+label.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 
   @keyframes swipeInLeftBounce {
     0% {
@@ -367,6 +380,25 @@ main {
     40%, 80% { transform: translateX(10px); }
   }
 
+.response-fade-in {
+  animation: borderFlash 0.8s ease-in-out;
+}
+
+@keyframes borderFlash {
+  0% {
+    border: 2px solid rgba(0, 255, 0, 0.7);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    border-color: rgba(0, 255, 0, 0.4);
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+
+  
 .bubble-wrapper {
   position: relative;
   display: inline-block;
