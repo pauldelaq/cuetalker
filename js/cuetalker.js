@@ -14,6 +14,9 @@ let availableVoices = [];
 let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
 let practiceMode = localStorage.getItem('ctPracticeMode') === 'true';
 
+// Enable :active on mobile
+document.addEventListener('touchstart', () => {}, true);
+
 function wordLevelDistance(a, b) {
   const wordsA = a.trim().split(/\s+/);
   const wordsB = b.trim().split(/\s+/);
@@ -230,8 +233,9 @@ function renderCurrentLine(item) {
     item.type === 'narration' ? 'narration' : ''
   );
 
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar';
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.dataset.id = item.id;
 
   // ✅ Handle avatar rendering: SVG from library
   const character = item.character || {};
@@ -552,21 +556,44 @@ function initializeSettingsMenu() {
   if (practiceToggle) {
     practiceToggle.checked = practiceMode;
     practiceToggle.addEventListener('change', (e) => {
-      practiceMode = e.target.checked;
-      localStorage.setItem('ctPracticeMode', practiceMode);
-      updateMicIcon();
+    practiceMode = e.target.checked;
+    localStorage.setItem('ctPracticeMode', practiceMode);
 
-      // ✅ Enable/disable auto-advance toggle and label appearance
-      if (autoAdvanceToggle) {
+    const currentItem = conversation[currentIndex];
+
+    // ✅ Disable/enable auto-advance setting
+    if (autoAdvanceToggle) {
         autoAdvanceToggle.disabled = practiceMode;
-      }
-      if (autoAdvanceLabel) {
+
+        if (practiceMode) {
+        autoAdvance = false;
+        autoAdvanceToggle.checked = false;
+        localStorage.setItem('ctAutoAdvance', false);
+        }
+    }
+
+    // ✅ Grey out label
+    if (autoAdvanceLabel) {
         autoAdvanceLabel.classList.toggle('disabled', practiceMode);
-      }
+    }
+
+    // ✅ Only update UI if not currently showing a response (preserve behavior)
+    if (currentItem?.type !== 'response') {
+        updateMicIcon();
+
+        const transcriptEl = document.getElementById('liveTranscript');
+        if (transcriptEl) {
+        if (practiceMode && currentItem?.type !== 'narration') {
+            transcriptEl.textContent = '[Recording is disabled in Practice Mode]';
+        } else {
+            transcriptEl.textContent = '';
+        }
+        }
+    }
     });
   }
 
-  // ✅ Set correct disabled state on page load
+  // ✅ Initial disabled state on page load
   if (autoAdvanceToggle) {
     autoAdvanceToggle.disabled = practiceMode;
   }
@@ -580,71 +607,121 @@ window.addEventListener('DOMContentLoaded', () => {
   initializeVoiceMenus();
   initializeSettingsMenu(); // ✅ new clean hook
 
-document.getElementById('micButton').addEventListener('click', () => {
-  let currentItem = conversation[currentIndex];
-  if (!currentItem) return;
+  const micButton = document.getElementById('micButton');
+  const settingsButton = document.getElementById('settingsButton');
 
-  if (isRecording) {
-    stopSpeechRecognition();
-    return;
-  }
+  micButton.addEventListener('click', () => {
+    micButton.blur(); // ✅ Clear focus so :active doesn't stick on mobile
 
-  if (practiceMode) {
-    if (
+    let currentItem = conversation[currentIndex];
+    if (!currentItem) return;
+
+    if (isRecording) {
+      stopSpeechRecognition();
+      return;
+    }
+
+    if (practiceMode) {
+      if (
         currentItem.type === 'prompt' &&
         currentItem.hint &&
         conversation[currentIndex + 1]?.type === 'response'
-    ) {
-        currentIndex++; // go to response
-        currentItem = conversation[currentIndex]; // update reference
-    } else if (currentItem.type === 'narration' || currentItem.type === 'response') {
+      ) {
         currentIndex++;
         currentItem = conversation[currentIndex];
-    }
+      } else if (currentItem.type === 'narration' || currentItem.type === 'response') {
+        currentIndex++;
+        currentItem = conversation[currentIndex];
+      }
 
-    // ✅ Handle auto-fill for empty response
-    if (currentItem?.type === 'response' && !currentItem.text) {
+      // ✅ Handle auto-fill for empty response
+        if (currentItem?.type === 'response' && !currentItem.text) {
         const prevItem = conversation[currentIndex - 1];
         const fallbackAnswer = prevItem?.expectedAnswers?.[0];
         if (fallbackAnswer) {
-        currentItem.text = fallbackAnswer;
+            currentItem.text = fallbackAnswer;
+
+            // ✅ Mark that it was auto-filled in Practice Mode
+            currentItem.autoFilled = true;
         }
+        }
+
+      // ✅ Remove the current hint bubble (if visible)
+      const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
+      if (hintWrapper?.parentElement) {
+        hintWrapper.parentElement.remove();
+      }
+
+      const transcriptEl = document.getElementById('liveTranscript');
+      if (transcriptEl) {
+        transcriptEl.textContent = '';
+      }
+
+      showNextMessage();
+      return;
     }
 
-    // ✅ Remove the current hint bubble (if visible)
-    const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
-    if (hintWrapper?.parentElement) {
-    hintWrapper.parentElement.remove();
+    // 🔁 Regular mode
+    if (
+      currentItem.type === 'prompt' &&
+      currentItem.hint &&
+      conversation[currentIndex + 1]?.type === 'response'
+    ) {
+      currentIndex++;
+      currentItem = conversation[currentIndex];
     }
 
-    const transcriptEl = document.getElementById('liveTranscript');
-    if (transcriptEl) {
-    transcriptEl.textContent = '';
+    if (currentItem.type === 'response') {
+    if (currentItem.autoFilled) {
+        // ✅ Just go to the next message
+        currentIndex++;
+        showNextMessage();
+    } else {
+        startSpeechRecognition();
     }
-
-    showNextMessage();
-    return;
+    } else if (currentItem.type === 'narration') {
+      currentIndex++;
+      showNextMessage();
     }
+  });
 
-  // Normal mode logic
-  if (
-    currentItem.type === 'prompt' &&
-    currentItem.hint &&
-    conversation[currentIndex + 1]?.type === 'response'
-  ) {
-    currentIndex++;
-    currentItem = conversation[currentIndex];
-  }
-
-  if (currentItem.type === 'response') {
-    startSpeechRecognition();
-  } else if (currentItem.type === 'narration') {
-    currentIndex++;
-    showNextMessage();
-  }
-});
-
-  document.getElementById('settingsButton').addEventListener('click', () => {
+  settingsButton.addEventListener('click', () => {
+    settingsButton.blur(); // ✅ Prevent sticky focus
     document.getElementById('settingsMenu')?.classList.toggle('show');
   });
+});
+
+document.addEventListener('click', (e) => {
+  const avatar = e.target.closest('.avatar');
+  if (!avatar || !avatar.dataset.id) return;
+
+  // 🚫 Ignore hint avatars
+  if (avatar.closest('.message.user.swipe-in-right')) return;
+
+  const id = Number(avatar.dataset.id);
+  const item = conversation.find(entry => entry.id === id);
+  if (!item || !item.text) return;
+
+  const svg = avatar.querySelector('.svg-avatar');
+  if (svg) {
+    svg.classList.add('rotate-shake');
+    svg.addEventListener('animationend', () => {
+      svg.classList.remove('rotate-shake');
+    }, { once: true });
+  }
+
+  speakText(item.text);
+});
+
+document.querySelectorAll('.circle-btn').forEach(button => {
+  button.addEventListener('touchstart', () => {
+    button.classList.add('active');
+  });
+
+  const removeActive = () => {
+    button.classList.remove('active');
+  };
+
+  button.addEventListener('touchend', removeActive);
+  button.addEventListener('touchcancel', removeActive);
 });
