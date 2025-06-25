@@ -151,18 +151,18 @@ function updateMicIcon() {
 
   // 🔁 Toggle recording visual
     if (isRecording) {
-    micIcon.src = 'https://openmoji.org/data/color/svg/23FA.svg';
+    micIcon.src = 'assets/svg/23FA.svg';
     micButton.classList.add('recording');
     } else {
     micButton.classList.remove('recording');
 
     if (practiceMode) {
         // ✅ Keep static icon in practice mode
-        micIcon.src = 'https://openmoji.org/data/color/svg/25B6.svg'; // mic
+        micIcon.src = 'assets/svg/25B6.svg'; // mic
     } else if (!currentItem || currentItem.type === 'narration') {
-        micIcon.src = 'https://openmoji.org/data/color/svg/25B6.svg'; // narration
+        micIcon.src = 'assets/svg/25B6.svg'; // narration
     } else {
-        micIcon.src = 'https://openmoji.org/data/color/svg/1F3A4.svg'; // mic
+        micIcon.src = 'assets/svg/1F3A4.svg'; // mic
     }
     }
 }
