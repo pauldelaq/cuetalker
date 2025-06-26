@@ -7,8 +7,10 @@
   --fg: #222;
   --accent: #4a90e2;
   --bubble-friend: #2196F3;
-  --bubble-user: teal;
+  --bubble-user: #1e9709;
   --message-font-size: 1rem;
+  --bubble-user-correct: #1e9709;
+  --bubble-user-incorrect: crimson;
 }
 
 body {

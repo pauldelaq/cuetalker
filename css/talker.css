@@ -57,7 +57,7 @@ main#cue-content {
 
 .avatar .name {
   font-size: 0.9rem;
-  color: #4CAF50;
+  color: #666666;
   font-weight: bold;
 }
 
@@ -109,6 +109,22 @@ main#cue-content {
   border-style: solid;
   border-width: 10px 0 10px 10px;
   border-color: transparent transparent transparent var(--bubble-user);
+}
+
+.bubble.right.correct {
+  background-color: var(--bubble-user-correct);
+}
+
+.bubble.right.incorrect {
+  background-color: var(--bubble-user-incorrect);
+}
+
+.bubble.right.correct::after {
+  border-color: transparent transparent transparent var(--bubble-user-correct);
+}
+
+.bubble.right.incorrect::after {
+  border-color: transparent transparent transparent var(--bubble-user-incorrect);
 }
 
 footer#cue-footer {
@@ -422,4 +438,26 @@ label.disabled {
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   border: 1px solid #ccc;
   margin-top: 8px;
+}
+
+#modeSelector {
+  margin-right: auto;
+}
+
+.mode-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 10px; /* 🔥 Push it away from the left edge */
+  margin-right: auto; /* 🔥 Align it LEFT within the footer */
+}
+
+.mode-selector label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#cue-footer.locked .mode-selector {
+  display: none;
 }

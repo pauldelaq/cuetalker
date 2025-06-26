@@ -36,13 +36,6 @@
         </div>
 
         <div class="setting-row">
-            <label for="practiceModeToggle">
-            <input type="checkbox" id="practiceModeToggle" />
-            Practice Mode
-            </label>
-        </div>
-
-        <div class="setting-row">
             <label for="fontSizeSlider">Font Size:</label>
             <input type="range" id="fontSizeSlider" min="100" max="160" value="100" style="margin: 5px 0;">
             <div id="fontSizePreview" class="font-preview">
@@ -53,12 +46,24 @@
     </div>
   </main>
 
-  <footer id="cue-footer">
-    <div id="liveTranscript"></div>
-    <button id="micButton" class="circle-btn">
-      <img src="assets/svg/1F3A4.svg">
-    </button>
-  </footer>
+<footer id="cue-footer">
+  <div id="modeSelector" class="mode-selector">
+    <label>
+      <input type="radio" name="mode" value="test" checked>
+      Test Mode
+    </label>
+    <label>
+      <input type="radio" name="mode" value="practice">
+      Practice Mode
+    </label>
+  </div>
+
+  <div id="liveTranscript"></div>
+
+  <button id="micButton" class="circle-btn">
+    <img src="assets/svg/1F3A4.svg">
+  </button>
+</footer>
 
   <script src="js/talker.js"></script>
 </body>

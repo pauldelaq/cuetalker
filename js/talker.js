@@ -12,7 +12,10 @@ let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
 let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
-let practiceMode = localStorage.getItem('ctPracticeMode') === 'true';
+let totalResponses = 0;
+let incorrectResponses = 0;
+let modeLocked = false;
+let practiceMode = false;
 
 // Enable :active on mobile
 document.addEventListener('touchstart', () => {}, true);
@@ -28,6 +31,47 @@ function wordLevelDistance(a, b) {
     if (wordsA[i] !== wordsB[i]) mismatches++;
   }
   return mismatches;
+}
+
+const fallbackTriggersByLang = {
+  'en': ["i don't know", "i dont know"],
+  'fr': ["je ne sais pas"],
+  'es': ["no lo sé"],
+  'zh': ["我不知道"],
+  'ja': ["わかりません"],
+  'de': ["ich weiß nicht"],
+  'ko': ["몰라요"]
+  // ➕ Add more as needed
+};
+
+function isFallbackTrigger(spokenText) {
+  const normalized = normalize(spokenText);
+  const triggers = fallbackTriggersByLang[selectedLang] || [];
+  return triggers.includes(normalized);
+}
+
+function displayFinalScore() {
+  const transcriptEl = document.getElementById('liveTranscript');
+  if (!transcriptEl) return;
+
+  const correct = totalResponses - incorrectResponses;
+  const percent = totalResponses > 0
+    ? Math.round((correct / totalResponses) * 100)
+    : 100;
+
+  transcriptEl.textContent = `${percent}% (${correct}/${totalResponses})`;
+}
+
+function updateAutoAdvanceToggle() {
+  const autoAdvanceToggle = document.getElementById('autoAdvanceToggle');
+  const autoAdvanceLabel = document.querySelector('label[for="autoAdvanceToggle"]');
+
+  if (autoAdvanceToggle) {
+    autoAdvanceToggle.disabled = practiceMode;
+  }
+  if (autoAdvanceLabel) {
+    autoAdvanceLabel.classList.toggle('disabled', practiceMode);
+  }
 }
 
 function populateVoiceList() {
@@ -159,9 +203,20 @@ async function loadLesson() {
     lessonLang = data.language;
     lessonLangName = data.languageName;
 
+    // ✅ Reset session state
     currentIndex = 0;
+    totalResponses = 0;
+    incorrectResponses = 0;
 
-    // ✅ Force ctlanguage to match the lesson
+    // ✅ Reset mode locking and practiceMode
+    modeLocked = false;
+    practiceMode = false;
+    document.getElementById('cue-footer')?.classList.remove('locked');
+
+    // ✅ Reset UI toggle states
+    updateAutoAdvanceToggle();
+
+    // ✅ Ensure ctlanguage matches the lesson language
     const storedLang = localStorage.getItem('ctlanguage');
     if (storedLang !== lessonLang) {
       localStorage.setItem('ctlanguage', lessonLang);
@@ -221,6 +276,11 @@ function updateMicIcon() {
 function showNextMessage() {
   const item = conversation[currentIndex];
   if (!item) return;
+
+  const nextItem = conversation[currentIndex + 1];
+  if (!nextItem) {
+    displayFinalScore();
+  }
 
   renderCurrentLine(item);
   updateMicIcon(); // always show the correct icon before anything else
@@ -284,18 +344,17 @@ function renderCurrentLine(item) {
     item.type === 'narration' ? 'narration' : ''
   );
 
-    const avatar = document.createElement('div');
-    avatar.className = 'avatar';
-    avatar.dataset.id = item.id;
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.dataset.id = item.id;
 
-  // ✅ Handle avatar rendering: SVG from library
   const character = item.character || {};
   let avatarHTML = `<div class="name">${character.name || ''}</div>`;
 
   if (character.svg !== undefined && svgLibrary?.[character.svg]) {
     avatarHTML = `
-    <img class="svg-avatar" src="${svgLibrary[character.svg]}" alt="avatar">
-    ${avatarHTML}
+      <img class="svg-avatar" src="${svgLibrary[character.svg]}" alt="avatar">
+      ${avatarHTML}
     `;
   }
 
@@ -307,6 +366,15 @@ function renderCurrentLine(item) {
     item.type === 'prompt' ? 'left' :
     item.type === 'narration' ? 'center' : ''
   );
+
+  // ✅ Apply correct/incorrect bubble coloring for responses
+  if (item.type === 'response') {
+    if (item.wasIncorrect) {
+      bubble.classList.add('incorrect');
+    } else {
+      bubble.classList.add('correct');
+    }
+  }
 
   // Apply swipe-in animation to the entire message row for prompts
   if (item.type === 'prompt') {
@@ -322,7 +390,7 @@ function renderCurrentLine(item) {
     msgDiv.appendChild(avatar);
     msgDiv.appendChild(bubble);
   } else if (item.type === 'narration') {
-    msgDiv.appendChild(bubble); // narration doesn't need an avatar
+    msgDiv.appendChild(bubble);
   }
 
   container.appendChild(msgDiv);
@@ -474,29 +542,52 @@ function handleUserResponse(spokenText) {
   const promptItem = conversation[currentIndex - 1];
   const validAnswers = promptItem?.expectedAnswers || [];
 
-  // ✅ Try exact match first
-  let matched = validAnswers.find(answer => answer === spokenText);
+  const normalizedSpoken = normalize(spokenText);
 
-  // ✅ Try normalized match
-  if (!matched) {
-    const normalizedSpoken = normalize(spokenText);
-    matched = validAnswers.find(answer => normalize(answer) === normalizedSpoken);
+  totalResponses++; // ✅ Always increment
+
+  // ✅ Handle fallback trigger ("I don't know")
+  if (isFallbackTrigger(spokenText)) {
+    incorrectResponses++;
+    item.wasIncorrect = true; // 🔥 Mark as incorrect permanently for this item
+
+    const fallbackAnswer = validAnswers[0] || '...';
+
+    const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
+    if (hintWrapper?.parentElement) {
+      hintWrapper.parentElement.remove();
+    }
+
+    item.text = fallbackAnswer;
+    renderCurrentLine(item);
+
+    currentIndex++;
+    showNextMessage();
+    return;
   }
 
+  // ✅ Check for exact or normalized match
+  let matched = validAnswers.find(answer => answer === spokenText)
+    || validAnswers.find(answer => normalize(answer) === normalizedSpoken);
+
   if (matched) {
-    // ✅ Remove the current hint bubble (animated wrapper)
+    // ✅ CORRECT
     const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
     if (hintWrapper?.parentElement) {
       hintWrapper.parentElement.remove();
     }
 
     item.text = matched;
-    renderCurrentLine(item); // ✅ Restore this
+    renderCurrentLine(item);
+
     currentIndex++;
     showNextMessage();
   } else {
-    // ❌ INCORRECT: Find closest expectedAnswer for red-word comparison
-    const normalizedSpoken = normalize(spokenText);
+    // ❌ INCORRECT — do not advance
+
+    incorrectResponses++;
+    item.wasIncorrect = true; // 🔥 Once incorrect, always red for this item
+
     let bestMatch = '';
     let lowestDistance = Infinity;
 
@@ -510,20 +601,20 @@ function handleUserResponse(spokenText) {
 
     const redText = highlightDifferences(spokenText, bestMatch);
 
-    // 🟥 Update footer transcript with red highlights
     const transcriptEl = document.getElementById('liveTranscript');
     if (transcriptEl) transcriptEl.innerHTML = redText;
 
-    // 💢 Shake latest user avatar
-    const container = document.getElementById('cue-content'); // ✅ Define this first
+    const container = document.getElementById('cue-content');
     const avatars = container.querySelectorAll('.message.user .avatar .svg-avatar');
     const lastEmoji = avatars[avatars.length - 1];
     if (lastEmoji) {
-    lastEmoji.classList.add('shake');
-    lastEmoji.addEventListener('animationend', () => {
+      lastEmoji.classList.add('shake');
+      lastEmoji.addEventListener('animationend', () => {
         lastEmoji.classList.remove('shake');
-    }, { once: true });
+      }, { once: true });
     }
+
+    // ❌ Do NOT advance — wait for user to try again
   }
 }
 
@@ -592,7 +683,6 @@ function initializeVoiceMenu() {
 function initializeSettingsMenu() {
   const autoAdvanceToggle = document.getElementById('autoAdvanceToggle');
   const autoAdvanceLabel = document.querySelector('label[for="autoAdvanceToggle"]');
-  const practiceToggle = document.getElementById('practiceModeToggle');
 
   // 🔁 Setup auto-advance toggle
   if (autoAdvanceToggle) {
@@ -603,78 +693,37 @@ function initializeSettingsMenu() {
     });
   }
 
-  // 🔁 Setup practice mode toggle
-  if (practiceToggle) {
-    practiceToggle.checked = practiceMode;
-    practiceToggle.addEventListener('change', (e) => {
-    practiceMode = e.target.checked;
-    localStorage.setItem('ctPracticeMode', practiceMode);
-
-    const currentItem = conversation[currentIndex];
-
-    // ✅ Disable/enable auto-advance setting
-    if (autoAdvanceToggle) {
-        autoAdvanceToggle.disabled = practiceMode;
-
-        if (practiceMode) {
-        autoAdvance = false;
-        autoAdvanceToggle.checked = false;
-        localStorage.setItem('ctAutoAdvance', false);
-        }
-    }
-
-    // ✅ Grey out label
-    if (autoAdvanceLabel) {
-        autoAdvanceLabel.classList.toggle('disabled', practiceMode);
-    }
-
-    // ✅ Only update UI if not currently showing a response (preserve behavior)
-    if (currentItem?.type !== 'response') {
-        updateMicIcon();
-
-        const transcriptEl = document.getElementById('liveTranscript');
-        if (transcriptEl) {
-        if (practiceMode && currentItem?.type !== 'narration') {
-            transcriptEl.textContent = '[Recording is disabled in Practice Mode]';
-        } else {
-            transcriptEl.textContent = '';
-        }
-        }
-    }
-    });
-  }
-
-  // ✅ Initial disabled state on page load
+  // ✅ Disable auto-advance when Practice Mode is active
   if (autoAdvanceToggle) {
     autoAdvanceToggle.disabled = practiceMode;
   }
+
   if (autoAdvanceLabel) {
     autoAdvanceLabel.classList.toggle('disabled', practiceMode);
   }
 
-    // Font size control
-    const fontSizeSlider = document.getElementById('fontSizeSlider');
-    const fontPreview = document.getElementById('fontSizePreview');
+  // ✅ Font size control
+  const fontSizeSlider = document.getElementById('fontSizeSlider');
+  const fontPreview = document.getElementById('fontSizePreview');
 
-    if (fontSizeSlider) {
+  if (fontSizeSlider) {
     const savedSize = localStorage.getItem('ctFontSize') || '100';
     fontSizeSlider.value = savedSize;
     document.documentElement.style.setProperty('--message-font-size', `${savedSize}%`);
     if (fontPreview) {
-        fontPreview.style.fontSize = `${savedSize}%`;
+      fontPreview.style.fontSize = `${savedSize}%`;
     }
 
     fontSizeSlider.addEventListener('input', (e) => {
-        const newSize = e.target.value;
-        document.documentElement.style.setProperty('--message-font-size', `${newSize}%`);
-        localStorage.setItem('ctFontSize', newSize);
+      const newSize = e.target.value;
+      document.documentElement.style.setProperty('--message-font-size', `${newSize}%`);
+      localStorage.setItem('ctFontSize', newSize);
 
-        if (fontPreview) {
+      if (fontPreview) {
         fontPreview.style.fontSize = `${newSize}%`;
-        }
+      }
     });
-    }
-    
+  }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -688,6 +737,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
   micButton.addEventListener('click', () => {
     micButton.blur(); // ✅ Clear focus so :active doesn't stick on mobile
+
+  if (!modeLocked) {
+    const selected = document.querySelector('input[name="mode"]:checked')?.value;
+    practiceMode = (selected === 'practice');
+
+    if (practiceMode) {
+      autoAdvance = false; // ✅ Always force autoAdvance off in Practice Mode
+    }
+
+    modeLocked = true;
+    document.getElementById('cue-footer').classList.add('locked');
+
+    updateAutoAdvanceToggle();
+  }
 
     let currentItem = conversation[currentIndex];
     if (!currentItem) return;

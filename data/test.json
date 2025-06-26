@@ -1,0 +1,93 @@
+{
+  "language": "en",
+  "languageName": "English",
+  "lessonName": "A Trip to France",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "Your friend is asking you some questions about your trip to France."
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "Friend",
+        "svg": 1
+      },
+      "text": "Have you been to France before?",
+      "hint": "Yes, ...",
+      "expectedAnswers": [
+        "Yes, I have been to France before.",
+        "Yes, I've been to France before.",
+        "Yes, I have been there before.",
+        "Yes, I've been there before."
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "You",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "Friend",
+        "svg": 1
+      },
+      "text": "When did you go there?",
+      "hint": "... last year",
+      "expectedAnswers": [
+        "I went there last year.",
+        "I went to France last year."
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "You",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "prompt",
+      "character": {
+        "name": "Friend",
+        "svg": 1
+      },
+      "text": "Was it cold at that time?",
+      "hint": "Yes, ...",
+      "expectedAnswers": [
+        "Yes, it was cold at that time."
+      ]
+    },
+    {
+      "id": 6,
+      "type": "response",
+      "character": {
+        "name": "You",
+        "svg": 2
+      }
+    },
+    {
+      "id": 7,
+      "type": "narration",
+      "text": "Well done! Your friend is happy that you've shared your experience with her."
+    }
+  ],
+  "svgLibrary": {
+    "1": "assets/svg/1F935-200D-2640-FE0F.svg",
+    "2": "assets/svg/1F9D1-200D-1F393.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "You",
+    "svg": "hint"
+  }
+}
