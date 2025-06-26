@@ -111,20 +111,29 @@ function speakText(text, onend) {
 }
 
 async function loadLesson() {
-  const res = await fetch('data/france.json');
-  const data = await res.json();
+  const urlParams = new URLSearchParams(window.location.search);
+  const lessonId = urlParams.get('lesson');
 
-  conversation = data.exercises;
-  svgLibrary = data.svgLibrary || {};
-  hintAvatar = data.hintAvatar || {};
+  if (!lessonId) {
+    alert('No lesson specified in URL.');
+    return;
+  }
 
-  currentIndex = 0;
+  try {
+    const res = await fetch(`data/${lessonId}.json`);
+    const data = await res.json();
 
-  // ✅ Update mic icon BEFORE first message is rendered
-  updateMicIcon();
+    conversation = data.exercises;
+    svgLibrary = data.svgLibrary || {};
+    hintAvatar = data.hintAvatar || {};
 
-  // Then render the first message
-  showNextMessage();
+    currentIndex = 0;
+
+    updateMicIcon();
+    showNextMessage();
+  } catch (error) {
+    console.error('Failed to load lesson:', error);
+  }
 }
 
 function tryAutoAdvance() {
@@ -600,6 +609,30 @@ function initializeSettingsMenu() {
   if (autoAdvanceLabel) {
     autoAdvanceLabel.classList.toggle('disabled', practiceMode);
   }
+
+    // Font size control
+    const fontSizeSlider = document.getElementById('fontSizeSlider');
+    const fontPreview = document.getElementById('fontSizePreview');
+
+    if (fontSizeSlider) {
+    const savedSize = localStorage.getItem('ctFontSize') || '100';
+    fontSizeSlider.value = savedSize;
+    document.documentElement.style.setProperty('--message-font-size', `${savedSize}%`);
+    if (fontPreview) {
+        fontPreview.style.fontSize = `${savedSize}%`;
+    }
+
+    fontSizeSlider.addEventListener('input', (e) => {
+        const newSize = e.target.value;
+        document.documentElement.style.setProperty('--message-font-size', `${newSize}%`);
+        localStorage.setItem('ctFontSize', newSize);
+
+        if (fontPreview) {
+        fontPreview.style.fontSize = `${newSize}%`;
+        }
+    });
+    }
+    
 }
 
 window.addEventListener('DOMContentLoaded', () => {

@@ -1,51 +1,5 @@
 /* cuetalker.css */
 
-* {
-    -webkit-tap-highlight-color: transparent;
-  }  
-
-:root {
-  --bg: #f5f5f5;
-  --fg: #222;
-  --accent: #4a90e2;
-  --bubble-friend: #2196F3;
-  --bubble-user: teal;
-}
-
-body {
-  margin: 0;
-  font-family: 'Noto Sans', sans-serif;
-  letter-spacing: 1px;
-  background: var(--bg);
-  color: var(--fg);
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5em 1em;
-  background: white;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  position: relative;
-  z-index: 1010; /* Higher than settings menu */
-}
-
-#header-title {
-  font-size: 1.4rem;
-  margin: 0;
-}
-
-.menu button {
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
 main#cue-content {
   flex: 1;
   overflow-y: auto;
@@ -116,6 +70,7 @@ main#cue-content {
   word-wrap: break-word;
   color: white;
   box-sizing: border-box;
+  font-size: var(--message-font-size);
 }
 
 .bubble.left {
@@ -170,43 +125,6 @@ footer#cue-footer {
   margin-right: 1em;
   font-style: italic;
   color: #666;
-}
-
-.circle-btn {
-  border: none;
-  background: var(--accent);
-  color: white;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  font-size: 1.25em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .circle-btn:hover {
-    background: #357ab8;
-  }
-}
-
-.circle-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
-}
-
-.circle-btn.active {
-  transform: scale(0.95);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
-  background: #357ab8;
-}
-
-.circle-btn:focus {
-  outline: none;
-  box-shadow: none;
 }
 
 .bubble.thought {
@@ -268,7 +186,7 @@ footer#cue-footer {
   font-style: italic;
   border-radius: 15px;
   padding: 10px 15px;
-  font-size: var(--font-size, 1rem);
+  font-size: var(--message-font-size);
   max-width: 80%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
@@ -410,7 +328,6 @@ label.disabled {
     border-color: transparent;
   }
 }
-
   
 .bubble-wrapper {
   position: relative;
@@ -426,7 +343,7 @@ label.disabled {
   padding: 20px 30px 20px 20px;
   background: transparent; /* background handled by bg-pulse layer */
   color: white;
-  font-size: large;
+  font-size: var(--message-font-size);
   font-family: sans-serif;
   text-align: center;
   font-style: italic;
@@ -494,4 +411,15 @@ label.disabled {
   height: 60px;
   display: block;
   margin: 0 auto;
+}
+
+.font-preview {
+  background: white;
+  padding: 10px 14px;
+  border-radius: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  border: 1px solid #ccc;
+  margin-top: 8px;
 }

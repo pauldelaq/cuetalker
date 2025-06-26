@@ -1,0 +1,16 @@
+{
+  "lessons": [
+    {
+      "id": "GettingStarted",
+      "name": "Getting Started"
+    },
+    {
+      "id": "France",
+      "name": "Chatting About a Trip to France"
+    },
+    {
+      "id": "Cafe",
+      "name": "At the Cafe"
+    }
+  ]
+}
