@@ -30,6 +30,33 @@ function wordLevelDistance(a, b) {
   return mismatches;
 }
 
+function populateVoiceList() {
+  availableVoices = speechSynthesis.getVoices();
+  const voiceSelect = document.getElementById('ctvoice');
+  voiceSelect.innerHTML = '';
+
+  const filtered = availableVoices.filter(v => v.lang.startsWith(lessonLang));
+
+  const storedVoice = localStorage.getItem(`ctvoice_${lessonLang}`);
+  let selectedVoice = storedVoice || '';
+
+  filtered.forEach(voice => {
+    const opt = document.createElement('option');
+    opt.value = voice.name;
+    opt.textContent = `${voice.name} (${voice.lang})${voice.default ? ' — DEFAULT' : ''}`;
+    if (voice.name === selectedVoice) opt.selected = true;
+    voiceSelect.appendChild(opt);
+  });
+
+  // Fallback if the stored voice isn't valid anymore
+  if (filtered.length > 0 && !filtered.find(v => v.name === selectedVoice)) {
+    selectedVoiceName = filtered[0].name;
+    localStorage.setItem(`ctvoice_${lessonLang}`, selectedVoiceName);
+  } else {
+    selectedVoiceName = selectedVoice;
+  }
+}
+
 function highlightDifferences(userText, expectedText) {
   const userWordsRaw = userText.trim().split(/\s+/); // unnormalized for display
   const userWordsNorm = normalize(userText).split(/\s+/); // for comparison
@@ -110,6 +137,9 @@ function speakText(text, onend) {
   speechSynthesis.speak(utterance);
 }
 
+let lessonLang = '';
+let lessonLangName = '';
+
 async function loadLesson() {
   const urlParams = new URLSearchParams(window.location.search);
   const lessonId = urlParams.get('lesson');
@@ -126,13 +156,25 @@ async function loadLesson() {
     conversation = data.exercises;
     svgLibrary = data.svgLibrary || {};
     hintAvatar = data.hintAvatar || {};
+    lessonLang = data.language;
+    lessonLangName = data.languageName;
 
     currentIndex = 0;
+
+    // ✅ Force ctlanguage to match the lesson
+    const storedLang = localStorage.getItem('ctlanguage');
+    if (storedLang !== lessonLang) {
+      localStorage.setItem('ctlanguage', lessonLang);
+    }
+    selectedLang = lessonLang;
+
+    initializeVoiceMenu();
 
     updateMicIcon();
     showNextMessage();
   } catch (error) {
     console.error('Failed to load lesson:', error);
+    alert(`Could not load lesson: ${lessonId}`);
   }
 }
 
@@ -485,18 +527,16 @@ function handleUserResponse(spokenText) {
   }
 }
 
-function populateLanguageList() {
-  const langSelect = document.getElementById('ctlanguage');
-  const langs = [...new Set(speechSynthesis.getVoices().map(v => v.lang))];
-  langSelect.innerHTML = '';
-
-  langs.forEach(lang => {
-    const opt = document.createElement('option');
-    opt.value = lang;
-    opt.textContent = lang;
-    if (lang === selectedLang) opt.selected = true;
-    langSelect.appendChild(opt);
-  });
+function setupVoiceMenuListener() {
+  const voiceSelect = document.getElementById('ctvoice');
+  if (voiceSelect) {
+    voiceSelect.addEventListener('change', (e) => {
+      selectedVoiceName = e.target.value;
+      const storedVoices = JSON.parse(localStorage.getItem('ctvoice')) || {};
+      storedVoices[selectedLang] = selectedVoiceName;
+      localStorage.setItem('ctvoice', JSON.stringify(storedVoices));
+    });
+  }
 }
 
 function populateVoiceList() {
@@ -504,45 +544,47 @@ function populateVoiceList() {
   const voiceSelect = document.getElementById('ctvoice');
   voiceSelect.innerHTML = '';
 
-const filtered = availableVoices.filter(v => v.lang.startsWith(selectedLang));
+  const storedVoices = JSON.parse(localStorage.getItem('ctvoice')) || {};
+  const storedVoice = storedVoices[selectedLang] || '';
+
+  const filtered = availableVoices.filter(v => v.lang.startsWith(selectedLang));
 
   filtered.forEach(voice => {
     const opt = document.createElement('option');
     opt.value = voice.name;
     opt.textContent = `${voice.name} (${voice.lang})${voice.default ? ' — DEFAULT' : ''}`;
-    if (voice.name === selectedVoiceName) opt.selected = true;
+    if (voice.name === storedVoice) opt.selected = true;
     voiceSelect.appendChild(opt);
   });
+
+  // Fallback if stored voice doesn't exist anymore
+  if (filtered.length > 0 && !filtered.find(v => v.name === storedVoice)) {
+    const fallback = filtered[0].name;
+    storedVoices[selectedLang] = fallback;
+    localStorage.setItem('ctvoice', JSON.stringify(storedVoices));
+    selectedVoiceName = fallback;
+  } else {
+    selectedVoiceName = storedVoice;
+  }
 }
 
-function initializeVoiceMenus() {
+function initializeVoiceMenu() {
   availableVoices = speechSynthesis.getVoices();
 
   if (availableVoices.length) {
-    populateLanguageList();
     populateVoiceList();
   } else {
-    // Try again when voices load
     speechSynthesis.onvoiceschanged = () => {
       availableVoices = speechSynthesis.getVoices();
-      populateLanguageList();
       populateVoiceList();
     };
   }
 
-  const langSelect = document.getElementById('ctlanguage');
   const voiceSelect = document.getElementById('ctvoice');
-
-  if (langSelect && voiceSelect) {
-    langSelect.addEventListener('change', (e) => {
-      selectedLang = e.target.value;
-      localStorage.setItem('ctlanguage', selectedLang);
-      populateVoiceList();
-    });
-
+  if (voiceSelect) {
     voiceSelect.addEventListener('change', (e) => {
       selectedVoiceName = e.target.value;
-      localStorage.setItem('ctvoice', selectedVoiceName);
+      localStorage.setItem(`ctvoice_${lessonLang}`, selectedVoiceName);
     });
   }
 }
@@ -637,7 +679,8 @@ function initializeSettingsMenu() {
 
 window.addEventListener('DOMContentLoaded', () => {
   loadLesson();
-  initializeVoiceMenus();
+  initializeVoiceMenu();
+  setupVoiceMenuListener();
   initializeSettingsMenu(); // ✅ new clean hook
 
   const micButton = document.getElementById('micButton');
