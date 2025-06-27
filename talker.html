@@ -28,6 +28,24 @@
             <select id="ctvoice"></select>
         </div>
 
+    <div class="setting-row">
+      <label id="volumeLevelLabel">Volume:</label>
+      <div class="volume-slider-container">
+        <img src="assets/svg/1F508.svg" alt="Quiet" width="24" height="24" id="volumeMinIcon">
+        <input type="range" id="volumeLevelSlider" min="0" max="1" step="0.1" value="1">
+        <img src="assets/svg/1F50A.svg" alt="Loud" width="24" height="24">
+      </div>
+    </div>
+
+    <div class="setting-row">
+      <label id="TTSSpeedLabel">Speed:</label>
+      <div class="speed-slider-container">
+        <span class="speed-text">0.5x</span>
+        <input type="range" id="TTSSpeedSlider" min="0.5" max="1.0" step="0.1" value="1.0">
+        <span class="speed-text">1.0x</span>
+      </div>
+    </div>
+
         <div class="setting-row">
             <label for="autoAdvanceToggle">
             <input type="checkbox" id="autoAdvanceToggle" />

@@ -35,7 +35,7 @@ main {
   left: 0;
   right: 0;
   bottom: 40px; /* Above footer */
-  background: #f9f9f9;
+  background: var(--bg);
   padding: 20px;
   z-index: 1000;
   overflow-y: auto;

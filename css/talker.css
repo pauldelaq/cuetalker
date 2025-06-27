@@ -461,3 +461,32 @@ label.disabled {
 #cue-footer.locked .mode-selector {
   display: none;
 }
+
+.volume-slider-container,
+.speed-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.speed-text {
+  width: 40px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+input#volumeLevelSlider, input#TTSSpeedSlider {
+  width: 100%;
+}
+
+#volumeMinIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  content: url('../assets/svg/1F508.svg'); /* 🔥 Corrected path */
+}
+
+#volumeMinIcon.muted {
+  content: url('../assets/svg/1F507.svg');
+  transform: translateX(-2px);
+}

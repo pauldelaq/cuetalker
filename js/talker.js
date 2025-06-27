@@ -54,6 +54,12 @@ function displayFinalScore() {
   const transcriptEl = document.getElementById('liveTranscript');
   if (!transcriptEl) return;
 
+  // ✅ 🔥 Don't show score in Practice Mode
+  if (practiceMode) {
+    transcriptEl.textContent = '';
+    return;
+  }
+
   const correct = totalResponses - incorrectResponses;
   const percent = totalResponses > 0
     ? Math.round((correct / totalResponses) * 100)
@@ -71,6 +77,19 @@ function updateAutoAdvanceToggle() {
   }
   if (autoAdvanceLabel) {
     autoAdvanceLabel.classList.toggle('disabled', practiceMode);
+  }
+}
+
+function updateSpeakerIcon(volume) {
+  const volumeMinIcon = document.getElementById('volumeMinIcon');
+  if (!volumeMinIcon) return;
+
+  const numericVolume = parseFloat(volume);
+
+  if (numericVolume <= 0.01) {
+    volumeMinIcon.classList.add('muted');
+  } else {
+    volumeMinIcon.classList.remove('muted');
   }
 }
 
@@ -170,14 +189,19 @@ function animateMicPulse(volume) {
 
 function speakText(text, onend) {
   const utterance = new SpeechSynthesisUtterance(text);
+
   const matchedVoice = availableVoices.find(v => v.name === selectedVoiceName);
   if (matchedVoice) utterance.voice = matchedVoice;
+
+  // ✅ Apply volume and speed settings
+  utterance.volume = parseFloat(localStorage.getItem('ctvolume') ?? '1');
+  utterance.rate = parseFloat(localStorage.getItem('ctspeed') ?? '1.0');
 
   utterance.onend = () => {
     if (typeof onend === 'function') onend();
   };
 
-  speechSynthesis.cancel(); // Cancel any queued speech
+  speechSynthesis.cancel();
   speechSynthesis.speak(utterance);
 }
 
@@ -700,6 +724,32 @@ function initializeSettingsMenu() {
 
   if (autoAdvanceLabel) {
     autoAdvanceLabel.classList.toggle('disabled', practiceMode);
+  }
+
+  // 🔈 Volume control
+  const volumeSlider = document.getElementById('volumeLevelSlider');
+  if (volumeSlider) {
+    const savedVolume = parseFloat(localStorage.getItem('ctvolume') ?? '1');
+    volumeSlider.value = savedVolume;
+    updateSpeakerIcon(savedVolume);
+
+    volumeSlider.addEventListener('input', (e) => {
+      const volume = parseFloat(e.target.value);
+      localStorage.setItem('ctvolume', volume);
+      updateSpeakerIcon(volume); // ✅ Update icon live as the slider moves
+    });
+  }
+
+  // 🚀 TTS Speed control
+  const speedSlider = document.getElementById('TTSSpeedSlider');
+  if (speedSlider) {
+    const savedSpeed = localStorage.getItem('ctspeed') ?? '1.0';
+    speedSlider.value = savedSpeed;
+
+    speedSlider.addEventListener('input', (e) => {
+      const speed = parseFloat(e.target.value);
+      localStorage.setItem('ctspeed', speed);
+    });
   }
 
   // ✅ Font size control
