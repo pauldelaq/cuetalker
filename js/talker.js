@@ -487,72 +487,85 @@ function startSpeechRecognition() {
     return;
   }
 
-  navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-    micStream = stream;
+  // ✅ Always request new mic access
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then((stream) => {
+      micStream = stream;
 
-    // Start audio volume analysis
-    startVolumeMonitoring(stream);
+      startVolumeMonitoring(stream);
 
-    // Now start STT
-    recognition = new webkitSpeechRecognition(); // ✅ now assigned to global
-    recognition.lang = 'en-US';
-    recognition.interimResults = true;
-    recognition.maxAlternatives = 1;
+      recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
 
-    isRecording = true;
-    updateMicIcon();
+      isRecording = true;
+      updateMicIcon();
 
-    recognition.onstart = () => {
-      document.getElementById('liveTranscript').innerText = '[Listening...]';
-    };
+      recognition.onstart = () => {
+        document.getElementById('liveTranscript').innerText = '[Listening...]';
+      };
 
-    recognition.onresult = (event) => {
-    let interimTranscript = '';
-    let finalTranscript = '';
+      recognition.onresult = (event) => {
+        let interimTranscript = '';
+        let finalTranscript = '';
 
-    for (let i = event.resultIndex; i < event.results.length; ++i) {
-        const result = event.results[i];
-        if (result.isFinal) {
-        finalTranscript += result[0].transcript;
-        } else {
-        interimTranscript += result[0].transcript;
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const result = event.results[i];
+          if (result.isFinal) {
+            finalTranscript += result[0].transcript;
+          } else {
+            interimTranscript += result[0].transcript;
+          }
         }
-    }
 
-    const display = finalTranscript || interimTranscript || '';
-    document.getElementById('liveTranscript').innerText = display;
+        const display = finalTranscript || interimTranscript || '';
+        document.getElementById('liveTranscript').innerText = display;
 
-    if (finalTranscript) {
+        if (finalTranscript) {
+          isRecording = false;
+          recognition.stop();
+          stopVolumeMonitoring();
+          updateMicIcon();
+          handleUserResponse(finalTranscript);
+        }
+      };
+
+      recognition.onerror = () => {
         isRecording = false;
         recognition.stop();
         stopVolumeMonitoring();
         updateMicIcon();
-        handleUserResponse(finalTranscript);
-    }
-    };
+      };
 
-    recognition.onerror = () => {
-      isRecording = false;
-      recognition.stop(); // ✅ explicitly stop the mic
-      stopVolumeMonitoring();
-      updateMicIcon();
-    };
-
-    recognition.start();
-  });
+      recognition.start();
+    })
+    .catch(err => {
+      console.error('Microphone error:', err);
+      alert('Could not access microphone.');
+    });
 }
 
 function stopSpeechRecognition() {
   if (recognition) {
-    recognition.abort(); // 💥 force stop (use abort, not stop, to cancel)
+    recognition.abort(); // 💥 safer than stop() for immediate cancel
+    recognition = null;
   }
 
   isRecording = false;
+
   stopVolumeMonitoring();
+
+  // ✅ Fully stop the mic stream
+  if (micStream) {
+    micStream.getTracks().forEach(track => track.stop());
+    micStream = null;
+  }
+
   updateMicIcon();
 
-  const liveTranscript = document.getElementById('liveTranscript');
-  if (liveTranscript) liveTranscript.textContent = '';
+  const transcriptEl = document.getElementById('liveTranscript');
+  if (transcriptEl) transcriptEl.textContent = '';
 }
 
 function normalize(text) {
@@ -785,9 +798,13 @@ window.addEventListener('DOMContentLoaded', () => {
   const micButton = document.getElementById('micButton');
   const settingsButton = document.getElementById('settingsButton');
 
-  micButton.addEventListener('click', () => {
-    micButton.blur(); // ✅ Clear focus so :active doesn't stick on mobile
+micButton.addEventListener('click', () => {
+  micButton.blur(); // ✅ Clear focus so :active doesn't stick on mobile
 
+  // ✅ Unlock TTS on iPhone (safari autoplay workaround)
+  speechSynthesis.cancel();
+  speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+  
   if (!modeLocked) {
     const selected = document.querySelector('input[name="mode"]:checked')?.value;
     practiceMode = (selected === 'practice');
