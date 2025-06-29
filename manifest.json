@@ -1,0 +1,43 @@
+{
+  "id": "/cuetalker/index.html",
+  "name": "CueTalker",
+    "short_name": "CueTalker",
+    "description": "PWA version of CueTalker",
+    "start_url": "/cuetalker/index.html",
+    "scope": "/cuetalker/",
+    "display": "standalone",
+    "background_color": "white",
+    "theme_color": "white",
+    "icons": [
+      {
+        "src": "icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "screenshots": [
+    {
+        "src": "screenshots/screenshot-wide.png",
+        "sizes": "1280x720",
+        "type": "image/png",
+        "form_factor": "wide"
+    },
+    {
+        "src": "screenshots/screenshot-mobile.png",
+        "sizes": "640x1136",
+        "type": "image/png",
+        "form_factor": "narrow"
+    },
+    {
+        "src": "screenshots/screenshot-default.png",
+        "sizes": "750x1334",
+        "type": "image/png"
+    }
+    ]
+  }
+  
