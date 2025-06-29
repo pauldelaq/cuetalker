@@ -8,10 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     { code: 'en', name: 'English' },
     { code: 'fr', name: 'Français' },
     { code: 'es', name: 'Español' },
-    { code: 'zh', name: '中文' }
+    { code: 'zh-TW', name: '中文 (繁體)' },
+    { code: 'zh-CN', name: '中文 (简体)' }
   ];
 
   const currentLang = localStorage.getItem('ctlanguage') || '';
+  let translations = {};
 
   // Open language menu
   langButton.addEventListener('click', () => {
@@ -27,14 +29,36 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = lang.name;
       if (lang.code === currentLang) btn.classList.add('selected');
 
-      btn.addEventListener('click', () => {
-        localStorage.setItem('ctlanguage', lang.code);
-        langMenu.classList.add('hidden');
-        updateLanguageHighlight();
-      });
+  btn.addEventListener('click', () => {
+    localStorage.setItem('ctlanguage', lang.code);
+    langMenu.classList.add('hidden');
+    updateLanguageHighlight();
+    applyTranslations();
+    loadLessons(); // 🔥 Reload lesson titles
+  });
 
       langList.appendChild(btn);
     });
+  }
+
+  function loadTranslations() {
+    fetch('data/index-translations.json')
+      .then(res => res.json())
+      .then(data => {
+        translations = data;
+        applyTranslations();
+      });
+  }
+
+  function applyTranslations() {
+    const lang = localStorage.getItem('ctlanguage') || 'en';
+    const t = translations[lang] || translations['en'];
+
+    document.getElementById('header-title').textContent = t.title;
+    document.getElementById('intro-text').textContent = t.intro;
+    document.getElementById('choose-text').textContent = t.choose;
+    document.querySelector('#languageMenu h2').textContent = t.languageMenuTitle;
+    document.querySelector('footer p').textContent = t.footer;
   }
 
   function updateLanguageHighlight() {
@@ -48,21 +72,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Load Lessons
-  fetch('data/lessons.json')
-    .then(res => res.json())
-    .then(data => {
-      lessonList.innerHTML = '';
-      data.lessons.forEach(lesson => {
-        const li = document.createElement('li');
-        li.className = 'lesson-item';
-        li.textContent = lesson.name;
-        li.addEventListener('click', () => {
-          window.location.href = `talker.html?lesson=${encodeURIComponent(lesson.id)}`;
+  function loadLessons() {
+    fetch('data/lessons.json')
+      .then(res => res.json())
+      .then(data => {
+        const lang = localStorage.getItem('ctlanguage') || 'en';
+
+        lessonList.innerHTML = '';
+        data.lessons.forEach(lesson => {
+          const li = document.createElement('li');
+          li.className = 'lesson-item';
+
+          // 🔥 Grab the title in the current language, fallback to English
+          const title = lesson.name[lang] || lesson.name['en'] || lesson.id;
+          li.textContent = title;
+
+          li.addEventListener('click', () => {
+            window.location.href = `talker.html?lesson=${encodeURIComponent(lesson.id)}`;
+          });
+
+          lessonList.appendChild(li);
         });
-        lessonList.appendChild(li);
       });
-    });
+  }
 
   populateLanguageMenu();
   updateLanguageHighlight();
+  loadTranslations();
+  loadLessons();
 });

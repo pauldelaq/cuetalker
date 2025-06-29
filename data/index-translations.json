@@ -1,0 +1,37 @@
+{
+  "en": {
+    "title": "CueTalker",
+    "intro": "This is CueTalker: a simple interface for practicing spoken dialogues and building muscle memory for language — so you can respond naturally, quickly, and confidently.",
+    "choose": "Choose a lesson below:",
+    "languageMenuTitle": "Select a Language",
+    "footer": "© 2025 CueTalker"
+  },
+  "fr": {
+    "title": "CueTalker",
+    "intro": "Voici CueTalker : une interface simple pour pratiquer des dialogues et développer votre mémoire musculaire — pour répondre naturellement, rapidement et avec confiance.",
+    "choose": "Choisissez une leçon ci-dessous :",
+    "languageMenuTitle": "Choisissez une langue",
+    "footer": "© 2025 CueTalker"
+  },
+  "es": {
+    "title": "CueTalker",
+    "intro": "Este es CueTalker: una interfaz sencilla para practicar diálogos y desarrollar memoria muscular en el idioma, para responder de forma natural, rápida y segura.",
+    "choose": "Elige una lección a continuación:",
+    "languageMenuTitle": "Selecciona un idioma",
+    "footer": "© 2025 CueTalker"
+  },
+  "zh-TW": {
+    "title": "CueTalker",
+    "intro": "這是 CueTalker：一個用於練習對話並培養語言肌肉記憶的簡單介面，幫助你自然而快速地做出反應。",
+    "choose": "請選擇一個課程：",
+    "languageMenuTitle": "選擇語言",
+    "footer": "© 2025 CueTalker"
+  },
+  "zh-CN": {
+    "title": "CueTalker",
+    "intro": "这是 CueTalker：一个用于练习对话并培养语言肌肉记忆的简单界面，帮助你自然而快速地做出反应。",
+    "choose": "请选择一个课程：",
+    "languageMenuTitle": "选择语言",
+    "footer": "© 2025 CueTalker"
+  }
+}

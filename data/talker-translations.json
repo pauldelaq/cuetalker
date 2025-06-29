@@ -1,0 +1,57 @@
+{
+  "en": {
+    "settings": "Settings",
+    "voice": "Voice:",
+    "volume": "Volume:",
+    "speed": "Speed:",
+    "autoAdvance": "Auto-advance",
+    "fontSize": "Font Size:",
+    "preview": "This is a preview of the message text.",
+    "modeTest": "Test Mode",
+    "modePractice": "Practice Mode"
+  },
+  "fr": {
+    "settings": "Paramètres",
+    "voice": "Voix :",
+    "volume": "Volume :",
+    "speed": "Vitesse :",
+    "autoAdvance": "Avancement auto",
+    "fontSize": "Taille de police :",
+    "preview": "Ceci est un aperçu du texte du message.",
+    "modeTest": "Mode Test",
+    "modePractice": "Mode Pratique"
+  },
+  "es": {
+  "settings": "Configuración",
+  "voice": "Voz:",
+  "volume": "Volumen:",
+  "speed": "Velocidad:",
+  "autoAdvance": "Avance automático",
+  "fontSize": "Tamaño de fuente:",
+  "preview": "Este es un ejemplo del texto del mensaje.",
+  "modeTest": "Modo de prueba",
+  "modePractice": "Modo de práctica"
+    },
+  "zh-TW": {
+    "settings": "設定",
+    "voice": "語音：",
+    "volume": "音量：",
+    "speed": "語速：",
+    "autoAdvance": "自動前進",
+    "fontSize": "字體大小：",
+    "preview": "這是訊息文字的預覽。",
+    "modeTest": "測驗模式",
+    "modePractice": "練習模式"
+  },
+  "zh-CN": {
+    "settings": "设置",
+    "voice": "语音：",
+    "volume": "音量：",
+    "speed": "语速：",
+    "autoAdvance": "自动前进",
+    "fontSize": "字体大小：",
+    "preview": "这是消息文本的预览。",
+    "modeTest": "测试模式",
+    "modePractice": "练习模式"
+  }
+}

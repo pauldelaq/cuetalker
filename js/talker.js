@@ -16,9 +16,65 @@ let totalResponses = 0;
 let incorrectResponses = 0;
 let modeLocked = false;
 let practiceMode = false;
+let talkerTranslations = {};
+let graceTimeout = null;
 
 // Enable :active on mobile
 document.addEventListener('touchstart', () => {}, true);
+
+function startGraceTimer() {
+  clearGraceTimer();
+  graceTimeout = setTimeout(() => {
+    if (recognition) {
+      recognition.abort();
+      recognition = null;
+    }
+    isRecording = false;
+    stopVolumeMonitoring();
+    stopMicStream();
+    updateMicIcon();
+    const transcriptEl = document.getElementById('liveTranscript');
+    if (transcriptEl) transcriptEl.textContent = '';
+    console.log('Grace period expired — recognition stopped');
+  }, 3000); // 🔥 Adjust delay as needed
+}
+
+function clearGraceTimer() {
+  if (graceTimeout) {
+    clearTimeout(graceTimeout);
+    graceTimeout = null;
+  }
+}
+
+function loadTalkerTranslations() {
+  fetch('data/talker-translations.json')
+    .then(res => res.json())
+    .then(data => {
+      talkerTranslations = data;
+      applyTalkerTranslations();
+    });
+}
+
+function applyTalkerTranslations() {
+  const lang = localStorage.getItem('ctlanguage') || 'en';
+  const t = talkerTranslations[lang] || talkerTranslations['en'];
+
+  // Settings menu
+  document.querySelector('#settingsMenu h2').textContent = t.settings;
+  document.querySelector('label[for="ctvoice"]').textContent = t.voice;
+  document.getElementById('volumeLevelLabel').textContent = t.volume;
+  document.getElementById('TTSSpeedLabel').textContent = t.speed;
+  document.querySelector('label[for="autoAdvanceToggle"]').lastChild.nodeValue = ` ${t.autoAdvance}`;
+  document.querySelector('label[for="fontSizeSlider"]').textContent = t.fontSize;
+  document.getElementById('fontSizePreview').textContent = t.preview;
+
+  // Footer mode labels
+  const modeLabels = document.querySelectorAll('#modeSelector label');
+  if (modeLabels.length >= 2) {
+    modeLabels[0].lastChild.nodeValue = ` ${t.modeTest}`;
+    modeLabels[1].lastChild.nodeValue = ` ${t.modePractice}`;
+  }
+}
 
 function wordLevelDistance(a, b) {
   const wordsA = a.trim().split(/\s+/);
@@ -37,7 +93,8 @@ const fallbackTriggersByLang = {
   'en': ["i don't know", "i dont know"],
   'fr': ["je ne sais pas"],
   'es': ["no lo sé"],
-  'zh': ["我不知道"],
+  'zh-TW': ["我不知道"],
+  'zh-CN': ["我不知道"],
   'ja': ["わかりません"],
   'de': ["ich weiß nicht"],
   'ko': ["몰라요"]
@@ -48,6 +105,13 @@ function isFallbackTrigger(spokenText) {
   const normalized = normalize(spokenText);
   const triggers = fallbackTriggersByLang[selectedLang] || [];
   return triggers.includes(normalized);
+}
+
+function stopMicStream() {
+  if (micStream) {
+    micStream.getTracks().forEach(track => track.stop());
+    micStream = null;
+  }
 }
 
 function displayFinalScore() {
@@ -121,17 +185,20 @@ function populateVoiceList() {
 }
 
 function highlightDifferences(userText, expectedText) {
-  const userWordsRaw = userText.trim().split(/\s+/); // unnormalized for display
-  const userWordsNorm = normalize(userText).split(/\s+/); // for comparison
-  const expectedWordsNorm = normalize(expectedText).split(/\s+/);
+  const isCJK = ['zh-CN', 'zh-TW', 'ja', 'ko'].includes(lessonLang);
+
+  const userUnitsRaw = isCJK ? Array.from(userText.trim()) : userText.trim().split(/\s+/);
+  const userUnitsNorm = isCJK ? Array.from(normalize(userText)) : normalize(userText).split(/\s+/);
+  const expectedUnitsNorm = isCJK ? Array.from(normalize(expectedText)) : normalize(expectedText).split(/\s+/);
+
   const highlighted = [];
 
-  const len = Math.max(userWordsNorm.length, expectedWordsNorm.length);
+  const len = Math.max(userUnitsNorm.length, expectedUnitsNorm.length);
 
   for (let i = 0; i < len; i++) {
-    const userRaw = userWordsRaw[i] || '';
-    const userNorm = userWordsNorm[i] || '';
-    const expectedNorm = expectedWordsNorm[i] || '';
+    const userRaw = userUnitsRaw[i] || '';
+    const userNorm = userUnitsNorm[i] || '';
+    const expectedNorm = expectedUnitsNorm[i] || '';
 
     if (userNorm === expectedNorm) {
       highlighted.push(userRaw);
@@ -140,7 +207,7 @@ function highlightDifferences(userText, expectedText) {
     }
   }
 
-  return highlighted.join(' ');
+  return highlighted.join(isCJK ? '' : ' ');
 }
 
 function startVolumeMonitoring(stream) {
@@ -167,14 +234,12 @@ function stopVolumeMonitoring() {
     audioContext = null;
   }
 
-  if (micStream) {
-    micStream.getTracks().forEach(track => track.stop());
-    micStream = null;
-  }
+  analyser = null;
+  dataArray = null;
 
   const micButton = document.getElementById('micButton');
-  micButton.classList.remove('recording'); // ✅ remove class
-  micButton.style.boxShadow = 'none';      // ✅ clear any inline override
+  micButton.classList.remove('recording');
+  micButton.style.boxShadow = 'none';
   micButton.style.transform = 'scale(1)';
 }
 
@@ -221,34 +286,39 @@ async function loadLesson() {
     const res = await fetch(`data/${lessonId}.json`);
     const data = await res.json();
 
-    conversation = data.exercises;
+    // 🌍 Get the user's selected language
+    const storedLang = localStorage.getItem('ctlanguage') || 'en';
+    const languageData = data.languages[storedLang] || data.languages['en'];
+
+    if (!languageData) {
+      throw new Error(`Language ${storedLang} not found in lesson data.`);
+    }
+
+    // 🔗 Load global assets
     svgLibrary = data.svgLibrary || {};
     hintAvatar = data.hintAvatar || {};
-    lessonLang = data.language;
-    lessonLangName = data.languageName;
+
+    // 🌍 Load per-language content
+    conversation = languageData.exercises || [];
+    lessonLang = languageData.language || storedLang;
+    lessonLangName = languageData.languageName || storedLang;
 
     // ✅ Reset session state
     currentIndex = 0;
     totalResponses = 0;
     incorrectResponses = 0;
 
-    // ✅ Reset mode locking and practiceMode
     modeLocked = false;
     practiceMode = false;
     document.getElementById('cue-footer')?.classList.remove('locked');
 
-    // ✅ Reset UI toggle states
     updateAutoAdvanceToggle();
 
-    // ✅ Ensure ctlanguage matches the lesson language
-    const storedLang = localStorage.getItem('ctlanguage');
-    if (storedLang !== lessonLang) {
-      localStorage.setItem('ctlanguage', lessonLang);
-    }
+    // ✅ Update localStorage if needed
+    localStorage.setItem('ctlanguage', lessonLang);
     selectedLang = lessonLang;
 
     initializeVoiceMenu();
-
     updateMicIcon();
     showNextMessage();
   } catch (error) {
@@ -495,7 +565,19 @@ function startSpeechRecognition() {
       startVolumeMonitoring(stream);
 
       recognition = new webkitSpeechRecognition();
-      recognition.lang = 'en-US';
+      const langMap = {
+        'en': 'en-US',
+        'fr': 'fr-FR',
+        'es': 'es-ES',
+        'zh-CN': 'zh-CN',
+        'zh-TW': 'zh-TW',
+        'ja': 'ja-JP',
+        'de': 'de-DE',
+        'ko': 'ko-KR'
+      };
+
+      recognition = new webkitSpeechRecognition();
+      recognition.lang = langMap[lessonLang] || 'en-US'; // 🔥 dynamic
       recognition.interimResults = true;
       recognition.maxAlternatives = 1;
 
@@ -504,6 +586,7 @@ function startSpeechRecognition() {
 
       recognition.onstart = () => {
         document.getElementById('liveTranscript').innerText = '[Listening...]';
+        startGraceTimer(); // ✅ Start right away
       };
 
       recognition.onresult = (event) => {
@@ -523,18 +606,37 @@ function startSpeechRecognition() {
         document.getElementById('liveTranscript').innerText = display;
 
         if (finalTranscript) {
+          clearGraceTimer(); // ✅ Stop the grace timer when finished
+
+          if (recognition) {
+            recognition.abort();
+            recognition = null;
+          }
+
           isRecording = false;
-          recognition.stop();
           stopVolumeMonitoring();
+          stopMicStream(); // ✅ Important — stop the mic
           updateMicIcon();
+
           handleUserResponse(finalTranscript);
+        } else if (interimTranscript) {
+          startGraceTimer(); // ✅ Reset grace timer on interim speech
         }
       };
 
-      recognition.onerror = () => {
+      recognition.onerror = (e) => {
+        console.warn('Speech recognition error:', e.error);
+
+        clearGraceTimer(); // ✅ Stop any pending grace timeout
+
+        if (recognition) {
+          recognition.abort();
+          recognition = null;
+        }
+
         isRecording = false;
-        recognition.stop();
         stopVolumeMonitoring();
+        stopMicStream(); // ✅ Always stop the mic
         updateMicIcon();
       };
 
@@ -547,29 +649,32 @@ function startSpeechRecognition() {
 }
 
 function stopSpeechRecognition() {
+  clearGraceTimer(); // ✅ Stop any pending grace timeout
+
   if (recognition) {
-    recognition.abort(); // 💥 safer than stop() for immediate cancel
+    recognition.abort();
     recognition = null;
   }
 
   isRecording = false;
-
   stopVolumeMonitoring();
-
-  // ✅ Fully stop the mic stream
-  if (micStream) {
-    micStream.getTracks().forEach(track => track.stop());
-    micStream = null;
-  }
-
+  stopMicStream(); // ✅ Always stop the mic
   updateMicIcon();
 
   const transcriptEl = document.getElementById('liveTranscript');
-  if (transcriptEl) transcriptEl.textContent = '';
+  if (transcriptEl) {
+    transcriptEl.textContent = '';
+  }
 }
 
 function normalize(text) {
-  return text.toLowerCase().replace(/[.,!?]/g, '').trim();
+  return text
+    .toLowerCase()
+    .replace(
+      /[.,!?;:'"(){}\[\]。，！？；：“”‘’（）《》「」『』、]/g,
+      ''
+    )
+    .trim();
 }
 
 function handleUserResponse(spokenText) {
@@ -793,7 +898,8 @@ window.addEventListener('DOMContentLoaded', () => {
   loadLesson();
   initializeVoiceMenu();
   setupVoiceMenuListener();
-  initializeSettingsMenu(); // ✅ new clean hook
+  initializeSettingsMenu();
+  loadTalkerTranslations();
 
   const micButton = document.getElementById('micButton');
   const settingsButton = document.getElementById('settingsButton');

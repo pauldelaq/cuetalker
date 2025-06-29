@@ -1,234 +1,4 @@
 {
-  "language": "en",
-  "languageName": "English",
-  "lessonName": "A Trip to France",
-  "exercises": [
-    {
-      "id": 0,
-      "type": "narration",
-      "text": "Your friend is asking you some questions about your trip to France."
-    },
-    {
-      "id": 1,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "Have you been to France before?",
-      "hint": "Yes, ...",
-      "expectedAnswers": [
-        "Yes, I have been to France before.",
-        "Yes, I've been to France before.",
-        "Yes, I have been there before.",
-        "Yes, I've been there before."
-      ]
-    },
-    {
-      "id": 2,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 3,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "When did you go there?",
-      "hint": "... last year",
-      "expectedAnswers": [
-        "I went there last year.",
-        "I went to France last year."
-      ]
-    },
-    {
-      "id": 4,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 5,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "Was it cold at that time?",
-      "hint": "Yes, ...",
-      "expectedAnswers": [
-        "Yes, it was cold at that time."
-      ]
-    },
-    {
-      "id": 6,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 7,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "Which city did you visit?",
-      "hint": "... Paris",
-      "expectedAnswers": [
-        "I visited Paris."
-      ]
-    },
-    {
-      "id": 8,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 9,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "What did you do there?",
-      "hint": "... see ... Eiffel Tower",
-      "expectedAnswers": [
-        "I saw the Eiffel Tower there."
-      ]
-    },
-    {
-      "id": 10,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 11,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "Did you like the food there?",
-      "hint": "Yes, ...",
-      "expectedAnswers": [
-        "Yes, I liked the food there."
-      ]
-    },
-    {
-      "id": 12,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 13,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "What was your favorite dish?",
-      "hint": "... cheese omelette",
-      "expectedAnswers": [
-        "My favorite dish was the cheese omelette."
-      ]
-    },
-    {
-      "id": 14,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 15,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "How did it taste?",
-      "hint": "... delicious",
-      "expectedAnswers": [
-        "It tasted very delicious.",
-        "It tasted delicious."
-      ]
-    },
-    {
-      "id": 16,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 17,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "Do you want to go back there?",
-      "hint": "Yes, ...",
-      "expectedAnswers": [
-        "Yes, I want to go back there."
-      ]
-    },
-    {
-      "id": 18,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 19,
-      "type": "prompt",
-      "character": {
-        "name": "Friend",
-        "svg": 1
-      },
-      "text": "Can I come with you?",
-      "hint": "Yes, ...",
-      "expectedAnswers": [
-        "Yes, you can come with me."
-      ]
-    },
-    {
-      "id": 20,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-    {
-      "id": 21,
-      "type": "narration",
-      "text": "Well done! Your friend is happy that you've shared your experience with her."
-    }
-  ],
   "svgLibrary": {
     "1": "assets/svg/1F935-200D-2640-FE0F.svg",
     "2": "assets/svg/1F9D1-200D-1F393.svg",
@@ -237,5 +7,874 @@
   "hintAvatar": {
     "name": "You",
     "svg": "hint"
+  },
+  "languages": {
+    "en": {
+      "language": "en",
+      "languageName": "English",
+      "lessonName": "A Trip to France",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Your friend is asking you some questions about your trip to France."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "Have you been to France before?",
+          "hint": "Yes, ...",
+          "expectedAnswers": [
+            "Yes, I have been to France before.",
+            "Yes, I've been to France before.",
+            "Yes, I have been there before.",
+            "Yes, I've been there before."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "Wow, cool! When did you go there?",
+          "hint": "... last winter",
+          "expectedAnswers": [
+            "I went there last winter.",
+            "I went to France last winter."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "Oh, I see. Was it cold at that time?",
+          "hint": "Yes, ...",
+          "expectedAnswers": [
+            "Yes, it was cold at that time."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "So, which city did you visit?",
+          "hint": "... Paris",
+          "expectedAnswers": [
+            "I visited Paris."
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "Nice! I've heard that Paris is lovely. What did you do there?",
+          "hint": "... see ... Eiffel Tower",
+          "expectedAnswers": [
+            "I saw the Eiffel Tower there."
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "Awesome! And by the way, did you like the food there?",
+          "hint": "Yes, ...",
+          "expectedAnswers": [
+            "Yes, I liked the food there."
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "No wonder! French food looks amazing. What was your favorite dish?",
+          "hint": "... cheese omelette",
+          "expectedAnswers": [
+            "My favorite dish was the cheese omelette."
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "And how did it taste?",
+          "hint": "... delicious",
+          "expectedAnswers": [
+            "It tasted very delicious.",
+            "It tasted delicious."
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "I'm getting hungry just thinking about it! So, do you want to go back there?",
+          "hint": "Yes, ...",
+          "expectedAnswers": [
+            "Yes, I want to go back there."
+          ]
+        },
+        {
+          "id": 18,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "Friend", "svg": 1 },
+          "text": "Can I come with you next time?",
+          "hint": "Of course, ...",
+          "expectedAnswers": [
+            "Of course, you can come with me next time.",
+            "Of course, you can come with me."
+          ]
+        },
+        {
+          "id": 20,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 21,
+          "type": "narration",
+          "text": "Well done! Your friend is happy that you've shared your experience with her."
+        }
+      ]
+    },
+    "fr": {
+      "language": "fr",
+      "languageName": "Français",
+      "lessonName": "Un voyage en France",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Votre ami vous pose des questions sur votre voyage en France."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Es-tu déjà allé en France ?",
+          "hint": "Oui, ...",
+          "expectedAnswers": [
+            "Oui, je suis déjà allé en France.",
+            "Oui, j'y suis déjà allé.",
+            "Oui, je suis déjà allé là-bas.",
+            "Oui, j'y suis déjà allé."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Waouh, super ! Quand y es-tu allé ?",
+          "hint": "... l'hiver dernier",
+          "expectedAnswers": [
+            "J'y suis allé l'hiver dernier.",
+            "Je suis allé en France l'hiver dernier."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Ah, je vois. Faisait-il froid à ce moment-là ?",
+          "hint": "Oui, ...",
+          "expectedAnswers": [
+            "Oui, il faisait froid à ce moment-là."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Alors, quelle ville as-tu visitée ?",
+          "hint": "... Paris",
+          "expectedAnswers": [
+            "J'ai visité Paris."
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Génial ! J'ai entendu dire que Paris est magnifique. Qu'as-tu fait là-bas ?",
+          "hint": "... voir ... Tour Eiffel",
+          "expectedAnswers": [
+            "J'ai vu la Tour Eiffel là-bas."
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Génial ! Et au fait, as-tu aimé la nourriture là-bas ?",
+          "hint": "Oui, ...",
+          "expectedAnswers": [
+            "Oui, j'ai aimé la nourriture là-bas."
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Je comprends ! La cuisine française a l'air incroyable. Quel était ton plat préféré ?",
+          "hint": "... omelette au fromage",
+          "expectedAnswers": [
+            "Mon plat préféré était l'omelette au fromage."
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Et quel goût ça avait ?",
+          "hint": "... délicieux",
+          "expectedAnswers": [
+            "C'était vraiment délicieux.",
+            "C'était délicieux."
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Rien que d'y penser, j'ai faim ! Alors, veux-tu y retourner ?",
+          "hint": "Oui, ...",
+          "expectedAnswers": [
+            "Oui, je veux y retourner."
+          ]
+        },
+        {
+          "id": 18,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "Ami", "svg": 1 },
+          "text": "Puis-je venir avec toi la prochaine fois ?",
+          "hint": "Bien sûr, ...",
+          "expectedAnswers": [
+            "Bien sûr, tu peux venir avec moi la prochaine fois.",
+            "Bien sûr, tu peux venir avec moi.",
+            "Bien sûr, vous pouvez venir avec moi la prochaine fois.",
+            "Bien sûr, vous pouvez venir avec moi."
+          ]
+        },
+        {
+          "id": 20,
+          "type": "response",
+          "character": { "name": "Toi", "svg": 2 }
+        },
+        {
+          "id": 21,
+          "type": "narration",
+          "text": "Bravo ! Ton ami est heureux que tu aies partagé ton expérience avec lui."
+        }
+      ]
+    },
+    "es": {
+      "language": "es",
+      "languageName": "Español",
+      "lessonName": "Un viaje a Francia",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Tu amigo te está haciendo algunas preguntas sobre tu viaje a Francia."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "¿Has estado en Francia antes?",
+          "hint": "Sí, ...",
+          "expectedAnswers": [
+            "Sí, he estado en Francia antes.",
+            "Sí, ya he estado en Francia.",
+            "Sí, he estado allí antes.",
+            "Sí, ya he estado allí."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "¡Guau, qué bien! ¿Cuándo fuiste allí?",
+          "hint": "... el invierno pasado",
+          "expectedAnswers": [
+            "Fui allí el invierno pasado.",
+            "Fui a Francia el invierno pasado."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "Oh, ya veo. ¿Hacía frío en ese momento?",
+          "hint": "Sí, ...",
+          "expectedAnswers": [
+            "Sí, hacía frío en ese momento."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "Entonces, ¿qué ciudad visitaste?",
+          "hint": "... París",
+          "expectedAnswers": [
+            "Visité París."
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "¡Genial! He oído que París es encantadora. ¿Qué hiciste allí?",
+          "hint": "... ver ... Torre Eiffel",
+          "expectedAnswers": [
+            "Vi la Torre Eiffel allí."
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "¡Increíble! Y por cierto, ¿te gustó la comida allí?",
+          "hint": "Sí, ...",
+          "expectedAnswers": [
+            "Sí, me gustó la comida allí."
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "¡Con razón! La comida francesa se ve increíble. ¿Cuál fue tu plato favorito?",
+          "hint": "... tortilla de queso",
+          "expectedAnswers": [
+            "Mi plato favorito fue la tortilla de queso."
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "¿Y a qué sabía?",
+          "hint": "... delicioso",
+          "expectedAnswers": [
+            "Sabía muy delicioso.",
+            "Sabía delicioso."
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "¡Me está dando hambre solo de pensarlo! Entonces, ¿quieres volver allí?",
+          "hint": "Sí, ...",
+          "expectedAnswers": [
+            "Sí, quiero volver allí."
+          ]
+        },
+        {
+          "id": 18,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "Amigo", "svg": 1 },
+          "text": "¿Puedo ir contigo la próxima vez?",
+          "hint": "Por supuesto, ...",
+          "expectedAnswers": [
+            "Por supuesto, puedes venir conmigo la próxima vez.",
+            "Por supuesto, puedes venir conmigo."
+          ]
+        },
+        {
+          "id": 20,
+          "type": "response",
+          "character": { "name": "Tú", "svg": 2 }
+        },
+        {
+          "id": 21,
+          "type": "narration",
+          "text": "¡Bien hecho! Tu amigo está feliz de que hayas compartido tu experiencia con él."
+        }
+      ]
+    },
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "法国之旅",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "你的朋友在问你一些关于你去法国旅行的问题。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "你以前去过法国吗？",
+          "hint": "是的，...",
+          "expectedAnswers": [
+            "是的，我以前去过法国。",
+            "是的，我去过法国。",
+            "是的，我以前去过那里。",
+            "是的，我去过那里。"
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "哇，太酷了！你是什么时候去的？",
+          "hint": "... 去年冬天",
+          "expectedAnswers": [
+            "我是去年冬天去的。",
+            "我去年冬天去了法国。"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "哦，明白了。那时候冷吗？",
+          "hint": "是的，...",
+          "expectedAnswers": [
+            "是的，那时候很冷。"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "那么，你去了哪座城市？",
+          "hint": "... 巴黎",
+          "expectedAnswers": [
+            "我去了巴黎。"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "太棒了！我听说巴黎很漂亮。你在那里做了什么？",
+          "hint": "... 看 ... 埃菲尔铁塔",
+          "expectedAnswers": [
+            "我在那里看了埃菲尔铁塔。"
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "太棒了！顺便问一下，你喜欢那里的食物吗？",
+          "hint": "是的，...",
+          "expectedAnswers": [
+            "是的，我喜欢那里的食物。"
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "难怪！法国菜看起来很棒。你最喜欢的菜是什么？",
+          "hint": "... 奶酪煎蛋",
+          "expectedAnswers": [
+            "我最喜欢的菜是奶酪煎蛋。"
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "那它的味道怎么样？",
+          "hint": "... 很好吃",
+          "expectedAnswers": [
+            "味道非常好吃。",
+            "味道很好吃。"
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "光是想想我都饿了！那么，你想再去一次吗？",
+          "hint": "是的，...",
+          "expectedAnswers": [
+            "是的，我想再去一次。"
+          ]
+        },
+        {
+          "id": 18,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "下次我可以和你一起去吗？",
+          "hint": "当然，...",
+          "expectedAnswers": [
+            "当然，下次你可以和我一起去。",
+            "当然，你可以和我一起去。"
+          ]
+        },
+        {
+          "id": 20,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 21,
+          "type": "narration",
+          "text": "干得好！你的朋友很高兴你和她分享了你的经历。"
+        }
+      ]
+    },
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "法國之旅",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "你的朋友正在問你一些關於你去法國旅行的問題。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "你以前去過法國嗎？",
+          "hint": "是的，...",
+          "expectedAnswers": [
+            "是的，我以前去過法國。",
+            "是的，我去過法國。",
+            "是的，我以前去過那裡。",
+            "是的，我去過那裡。"
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "哇，太酷了！你是什麼時候去的？",
+          "hint": "... 去年冬天",
+          "expectedAnswers": [
+            "我是去年冬天去的。",
+            "我去年冬天去了法國。"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "哦，我明白了。那時候冷嗎？",
+          "hint": "是的，...",
+          "expectedAnswers": [
+            "是的，那時候很冷。"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "那你去了哪個城市？",
+          "hint": "... 巴黎",
+          "expectedAnswers": [
+            "我去了巴黎。"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "太棒了！我聽說巴黎很漂亮。你在那裡做了什麼？",
+          "hint": "... 看 ... 艾菲爾鐵塔",
+          "expectedAnswers": [
+            "我在那裡看了艾菲爾鐵塔。"
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "太棒了！順便問一下，你喜歡那裡的食物嗎？",
+          "hint": "是的，...",
+          "expectedAnswers": [
+            "是的，我喜歡那裡的食物。"
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "難怪！法國菜看起來很棒。你最喜歡的菜是什麼？",
+          "hint": "... 起司煎蛋",
+          "expectedAnswers": [
+            "我最喜歡的菜是起司煎蛋。"
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "味道怎麼樣？",
+          "hint": "... 很好吃",
+          "expectedAnswers": [
+            "味道非常好吃。",
+            "味道很好吃。"
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "光是想想我都餓了！那麼，你想再去一次嗎？",
+          "hint": "是的，...",
+          "expectedAnswers": [
+            "是的，我想再去一次。"
+          ]
+        },
+        {
+          "id": 18,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "朋友", "svg": 1 },
+          "text": "下次我可以跟你一起去嗎？",
+          "hint": "當然，...",
+          "expectedAnswers": [
+            "當然，下次你可以跟我一起去。",
+            "當然，你可以跟我一起去。"
+          ]
+        },
+        {
+          "id": 20,
+          "type": "response",
+          "character": { "name": "你", "svg": 2 }
+        },
+        {
+          "id": 21,
+          "type": "narration",
+          "text": "做得好！你的朋友很高興你和她分享了你的經歷。"
+        }
+      ]
+    }
   }
 }
