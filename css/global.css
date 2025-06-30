@@ -11,6 +11,7 @@
   --message-font-size: 1rem;
   --bubble-user-correct: #1e9709;
   --bubble-user-incorrect: crimson;
+  font-size: 20px;
 }
 
 body {
@@ -46,7 +47,7 @@ html, body {
 }
 
 #header-title {
-  font-size: 24px;
+  font-size: 30px;
   margin: 0;
 }
 

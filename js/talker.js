@@ -215,7 +215,10 @@ function highlightDifferences(userText, expectedText) {
 }
 
 function startVolumeMonitoring(stream) {
-  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
   const micSource = audioContext.createMediaStreamSource(stream);
   analyser = audioContext.createAnalyser();
   analyser.fftSize = 256;
@@ -233,18 +236,12 @@ function startVolumeMonitoring(stream) {
 function stopVolumeMonitoring() {
   clearInterval(volumeInterval);
 
-  if (audioContext) {
-    audioContext.close();
-    audioContext = null;
-  }
-
   analyser = null;
   dataArray = null;
 
   const micButton = document.getElementById('micButton');
   micButton.classList.remove('recording');
   micButton.style.boxShadow = 'none';
-  micButton.style.transform = 'scale(1)';
 }
 
 function animateMicPulse(volume) {
@@ -1047,4 +1044,11 @@ document.querySelectorAll('.circle-btn').forEach(button => {
 
   button.addEventListener('touchend', removeActive);
   button.addEventListener('touchcancel', removeActive);
+});
+
+window.addEventListener('beforeunload', () => {
+  if (audioContext) {
+    audioContext.close();
+    audioContext = null;
+  }
 });
