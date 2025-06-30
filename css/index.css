@@ -34,15 +34,11 @@ main {
   top: 60px; /* Below header */
   left: 0;
   right: 0;
-  bottom: 40px; /* Above footer */
+  bottom: 0px;
   background: var(--bg);
   padding: 20px;
   z-index: 1000;
   overflow-y: auto;
-}
-
-.panel h2 {
-  margin-top: 0;
 }
 
 .language-list {

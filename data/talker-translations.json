@@ -8,7 +8,9 @@
     "fontSize": "Font Size:",
     "preview": "This is a preview of the message text.",
     "modeTest": "Test Mode",
-    "modePractice": "Practice Mode"
+    "modePractice": "Practice Mode",
+    "listening": "[Listening...]",
+    "recordingDisabled": "[Recording is disabled in Practice Mode]"
   },
   "fr": {
     "settings": "Paramètres",
@@ -19,19 +21,23 @@
     "fontSize": "Taille de police :",
     "preview": "Ceci est un aperçu du texte du message.",
     "modeTest": "Mode Test",
-    "modePractice": "Mode Pratique"
+    "modePractice": "Mode Pratique",
+    "listening": "[Écoute...]",
+    "recordingDisabled": "[L'enregistrement est désactivé en mode Pratique]"
   },
   "es": {
-  "settings": "Configuración",
-  "voice": "Voz:",
-  "volume": "Volumen:",
-  "speed": "Velocidad:",
-  "autoAdvance": "Avance automático",
-  "fontSize": "Tamaño de fuente:",
-  "preview": "Este es un ejemplo del texto del mensaje.",
-  "modeTest": "Modo de prueba",
-  "modePractice": "Modo de práctica"
-    },
+    "settings": "Configuración",
+    "voice": "Voz:",
+    "volume": "Volumen:",
+    "speed": "Velocidad:",
+    "autoAdvance": "Avance automático",
+    "fontSize": "Tamaño de fuente:",
+    "preview": "Este es un ejemplo del texto del mensaje.",
+    "modeTest": "Modo de prueba",
+    "modePractice": "Modo de práctica",
+    "listening": "[Escuchando...]",
+    "recordingDisabled": "[La grabación está desactivada en el Modo de práctica]"
+  },
   "zh-TW": {
     "settings": "設定",
     "voice": "語音：",
@@ -41,7 +47,9 @@
     "fontSize": "字體大小：",
     "preview": "這是訊息文字的預覽。",
     "modeTest": "測驗模式",
-    "modePractice": "練習模式"
+    "modePractice": "練習模式",
+    "listening": "[正在聆聽...]",
+    "recordingDisabled": "[練習模式下無法錄音]"
   },
   "zh-CN": {
     "settings": "设置",
@@ -52,6 +60,8 @@
     "fontSize": "字体大小：",
     "preview": "这是消息文本的预览。",
     "modeTest": "测试模式",
-    "modePractice": "练习模式"
+    "modePractice": "练习模式",
+    "listening": "[正在聆听...]",
+    "recordingDisabled": "[练习模式下无法录音]"
   }
 }

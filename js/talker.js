@@ -8,6 +8,7 @@ let recognition;
 let isRecording = false;
 let audioContext, analyser, dataArray, volumeInterval;
 let micStream;
+let micIsMuted = true;
 let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
@@ -22,6 +23,15 @@ let graceTimeout = null;
 // Enable :active on mobile
 document.addEventListener('touchstart', () => {}, true);
 
+function t(key) {
+  const lang = localStorage.getItem('ctlanguage') || 'en';
+  return (
+    talkerTranslations?.[lang]?.[key] ||
+    talkerTranslations?.['en']?.[key] ||
+    `[${key}]`
+  );
+}
+
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -29,18 +39,11 @@ function wait(ms) {
 function startGraceTimer() {
   clearGraceTimer();
   graceTimeout = setTimeout(() => {
-    if (recognition) {
-      recognition.abort();
-      recognition = null;
-    }
-    isRecording = false;
-    stopVolumeMonitoring();
-    stopMicStream();
-    updateMicIcon();
+    console.log('Grace period expired — recognition stopped');
+    stopSpeechRecognition(); // ✅ Correct way
     const transcriptEl = document.getElementById('liveTranscript');
     if (transcriptEl) transcriptEl.textContent = '';
-    console.log('Grace period expired — recognition stopped');
-  }, 3000); // 🔥 Adjust delay as needed
+  }, 3000);
 }
 
 function clearGraceTimer() {
@@ -111,11 +114,29 @@ function isFallbackTrigger(spokenText) {
   return triggers.includes(normalized);
 }
 
+async function startMicSession() {
+  if (micStream) return; // ✅ Mic is already running
+
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    startVolumeMonitoring(micStream);
+  } catch (err) {
+    console.error('Mic error:', err);
+    alert('Could not access the microphone.');
+    micStream = null;
+  }
+}
+
 function stopMicStream() {
   if (micStream) {
     micStream.getTracks().forEach(track => track.stop());
     micStream = null;
   }
+}
+
+function stopMicSession() {
+  stopVolumeMonitoring();
+  stopMicStream();
 }
 
 function displayFinalScore() {
@@ -227,6 +248,13 @@ function startVolumeMonitoring(stream) {
   dataArray = new Uint8Array(analyser.fftSize);
 
   volumeInterval = setInterval(() => {
+    const micButton = document.getElementById('micButton');
+
+    if (micIsMuted) {
+      micButton.style.boxShadow = 'none'; // 🔥 Remove any glow entirely
+      return;
+    }
+
     analyser.getByteTimeDomainData(dataArray);
     const volume = Math.max(...dataArray) - 128;
     animateMicPulse(volume);
@@ -235,13 +263,14 @@ function startVolumeMonitoring(stream) {
 
 function stopVolumeMonitoring() {
   clearInterval(volumeInterval);
+  volumeInterval = null;
 
   analyser = null;
   dataArray = null;
 
   const micButton = document.getElementById('micButton');
   micButton.classList.remove('recording');
-  micButton.style.boxShadow = 'none';
+  micButton.style.boxShadow = 'none'; // ✅ 🔥 Fully removes glow
 }
 
 function animateMicPulse(volume) {
@@ -545,133 +574,109 @@ function renderHintBubble(hint) {
   container.scrollTop = container.scrollHeight;
 
   if (practiceMode) {
-  const transcriptEl = document.getElementById('liveTranscript');
-  if (transcriptEl) {
-    transcriptEl.textContent = '[Recording is disabled in Practice Mode]';
+    const transcriptEl = document.getElementById('liveTranscript');
+    if (transcriptEl) {
+      transcriptEl.textContent = t('recordingDisabled');
+    }
   }
 }
-}
 
-async function startSpeechRecognition() {
+function startSpeechRecognition() {
   if (!('webkitSpeechRecognition' in window)) {
     alert('Speech recognition not supported.');
     return;
   }
 
-  stopMicStream(); // ✅ Release any previous stream
-  await wait(200); // 🔥 ← THIS is the crucial delay
+  micIsMuted = false;
+  clearGraceTimer();
 
-  navigator.mediaDevices.getUserMedia({ audio: true })
-    .then((stream) => {
-      micStream = stream;
+  recognition = new webkitSpeechRecognition();
+  const langMap = {
+    'en': 'en-US',
+    'fr': 'fr-FR',
+    'es': 'es-ES',
+    'zh-CN': 'zh-CN',
+    'zh-TW': 'zh-TW',
+    'ja': 'ja-JP',
+    'de': 'de-DE',
+    'ko': 'ko-KR'
+  };
 
-      if (!stream.active) {
-        console.error('Microphone stream is inactive.');
-        alert('Microphone access failed. Please check permissions or reload the page.');
-        stopMicStream();
-        isRecording = false;
-        updateMicIcon();
-        return;
+  recognition.lang = langMap[lessonLang] || 'en-US';
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  isRecording = true;
+  updateMicIcon();
+
+  startVolumeMonitoring(micStream); // ✅ Start pulse when recording starts
+
+  recognition.onstart = () => {
+    document.getElementById('liveTranscript').innerText = t('listening');
+    startGraceTimer();
+  };
+
+  recognition.onresult = (event) => {
+    let interimTranscript = '';
+    let finalTranscript = '';
+
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      const result = event.results[i];
+      if (result.isFinal) {
+        finalTranscript += result[0].transcript;
+      } else {
+        interimTranscript += result[0].transcript;
       }
+    }
 
-      startVolumeMonitoring(stream);
+    const display = finalTranscript || interimTranscript || '';
+    document.getElementById('liveTranscript').innerText = display;
 
-      const langMap = {
-        'en': 'en-US',
-        'fr': 'fr-FR',
-        'es': 'es-ES',
-        'zh-CN': 'zh-CN',
-        'zh-TW': 'zh-TW',
-        'ja': 'ja-JP',
-        'de': 'de-DE',
-        'ko': 'ko-KR'
-      };
+    if (finalTranscript) {
+      clearGraceTimer();
+      stopSpeechRecognition(); // ✅ Handles pulse and recognition stop
+      handleUserResponse(finalTranscript);
+    } else if (interimTranscript) {
+      startGraceTimer();
+    }
+  };
 
-      recognition = new webkitSpeechRecognition();
-      recognition.lang = langMap[lessonLang] || 'en-US';
-      recognition.interimResults = true;
-      recognition.maxAlternatives = 1;
+  recognition.onerror = (e) => {
+    console.warn('Speech recognition error:', e.error);
+    clearGraceTimer();
+    stopSpeechRecognition();
+  };
 
-      isRecording = true;
-      updateMicIcon();
-
-      recognition.onstart = () => {
-        document.getElementById('liveTranscript').innerText = '[Listening...]';
-        startGraceTimer();
-      };
-
-      recognition.onresult = (event) => {
-        let interimTranscript = '';
-        let finalTranscript = '';
-
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          const result = event.results[i];
-          if (result.isFinal) {
-            finalTranscript += result[0].transcript;
-          } else {
-            interimTranscript += result[0].transcript;
-          }
-        }
-
-        const display = finalTranscript || interimTranscript || '';
-        document.getElementById('liveTranscript').innerText = display;
-
-        if (finalTranscript) {
-          clearGraceTimer();
-          if (recognition) {
-            recognition.abort();
-            recognition = null;
-          }
-          isRecording = false;
-          stopVolumeMonitoring();
-          stopMicStream();
-          updateMicIcon();
-          handleUserResponse(finalTranscript);
-        } else if (interimTranscript) {
-          startGraceTimer();
-        }
-      };
-
-      recognition.onerror = (e) => {
-        console.warn('Speech recognition error:', e.error);
-        clearGraceTimer();
-        if (recognition) {
-          recognition.abort();
-          recognition = null;
-        }
-        isRecording = false;
-        stopVolumeMonitoring();
-        stopMicStream();
-        updateMicIcon();
-      };
-
-      recognition.start();
-    })
-    .catch(err => {
-      console.error('Microphone error:', err);
-      alert('Could not access the microphone. Please check permissions.');
-      isRecording = false;
-      stopMicStream();
-      updateMicIcon();
-    });
+  recognition.start();
 }
 
 function stopSpeechRecognition() {
-  clearGraceTimer(); // ✅ Stop any pending grace timeout
+  if (!isRecording) return;
+
+  micIsMuted = true;
+  clearGraceTimer();
 
   if (recognition) {
-    recognition.abort();
+    try {
+      recognition.abort();
+    } catch (err) {
+      console.warn('Recognition abort failed (probably already stopped)', err);
+    }
     recognition = null;
   }
 
   isRecording = false;
-  stopVolumeMonitoring();
-  stopMicStream(); // ✅ Always stop the mic
   updateMicIcon();
+  stopVolumeMonitoring();
 
   const transcriptEl = document.getElementById('liveTranscript');
   if (transcriptEl) {
     transcriptEl.textContent = '';
+  }
+
+  const micButton = document.getElementById('micButton');
+  if (micButton) {
+    micButton.style.boxShadow = 'none';
   }
 }
 
@@ -918,13 +923,13 @@ micButton.addEventListener('click', () => {
   // ✅ Unlock TTS on iPhone (safari autoplay workaround)
   speechSynthesis.cancel();
   speechSynthesis.speak(new SpeechSynthesisUtterance(''));
-  
+
   if (!modeLocked) {
     const selected = document.querySelector('input[name="mode"]:checked')?.value;
     practiceMode = (selected === 'practice');
 
     if (practiceMode) {
-      autoAdvance = false; // ✅ Always force autoAdvance off in Practice Mode
+      autoAdvance = false;
     }
 
     modeLocked = true;
@@ -933,55 +938,17 @@ micButton.addEventListener('click', () => {
     updateAutoAdvanceToggle();
   }
 
-    let currentItem = conversation[currentIndex];
-    if (!currentItem) return;
+  let currentItem = conversation[currentIndex];
+  if (!currentItem) return;
 
-    if (isRecording) {
-      stopSpeechRecognition();
-      return;
-    }
+  // 🔥 ✅ Check if recognition is running — toggle it (soft mute model)
+  if (isRecording) {
+    stopSpeechRecognition();
+    return;
+  }
 
-    if (practiceMode) {
-      if (
-        currentItem.type === 'prompt' &&
-        currentItem.hint &&
-        conversation[currentIndex + 1]?.type === 'response'
-      ) {
-        currentIndex++;
-        currentItem = conversation[currentIndex];
-      } else if (currentItem.type === 'narration' || currentItem.type === 'response') {
-        currentIndex++;
-        currentItem = conversation[currentIndex];
-      }
-
-      // ✅ Handle auto-fill for empty response
-        if (currentItem?.type === 'response' && !currentItem.text) {
-        const prevItem = conversation[currentIndex - 1];
-        const fallbackAnswer = prevItem?.expectedAnswers?.[0];
-        if (fallbackAnswer) {
-            currentItem.text = fallbackAnswer;
-
-            // ✅ Mark that it was auto-filled in Practice Mode
-            currentItem.autoFilled = true;
-        }
-        }
-
-      // ✅ Remove the current hint bubble (if visible)
-      const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
-      if (hintWrapper?.parentElement) {
-        hintWrapper.parentElement.remove();
-      }
-
-      const transcriptEl = document.getElementById('liveTranscript');
-      if (transcriptEl) {
-        transcriptEl.textContent = '';
-      }
-
-      showNextMessage();
-      return;
-    }
-
-    // 🔁 Regular mode
+  // 🔥 ✅ Practice Mode
+  if (practiceMode) {
     if (
       currentItem.type === 'prompt' &&
       currentItem.hint &&
@@ -989,21 +956,60 @@ micButton.addEventListener('click', () => {
     ) {
       currentIndex++;
       currentItem = conversation[currentIndex];
+    } else if (currentItem.type === 'narration' || currentItem.type === 'response') {
+      currentIndex++;
+      currentItem = conversation[currentIndex];
     }
 
-    if (currentItem.type === 'response') {
-    if (currentItem.autoFilled) {
-        // ✅ Just go to the next message
-        currentIndex++;
-        showNextMessage();
-    } else {
-        startSpeechRecognition();
+    // ✅ Auto-fill for empty response
+    if (currentItem?.type === 'response' && !currentItem.text) {
+      const prevItem = conversation[currentIndex - 1];
+      const fallbackAnswer = prevItem?.expectedAnswers?.[0];
+      if (fallbackAnswer) {
+        currentItem.text = fallbackAnswer;
+        currentItem.autoFilled = true;
+      }
     }
-    } else if (currentItem.type === 'narration') {
+
+    // ✅ Remove current hint (if any)
+    const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
+    if (hintWrapper?.parentElement) {
+      hintWrapper.parentElement.remove();
+    }
+
+    const transcriptEl = document.getElementById('liveTranscript');
+    if (transcriptEl) {
+      transcriptEl.textContent = '';
+    }
+
+    showNextMessage();
+    return;
+  }
+
+  // 🔁 Regular Mode
+  if (
+    currentItem.type === 'prompt' &&
+    currentItem.hint &&
+    conversation[currentIndex + 1]?.type === 'response'
+  ) {
+    currentIndex++;
+    currentItem = conversation[currentIndex];
+  }
+
+  if (currentItem.type === 'response') {
+    if (currentItem.autoFilled) {
       currentIndex++;
       showNextMessage();
+    } else {
+      startMicSession().then(() => { // ✅ Make sure mic hardware is on
+        startSpeechRecognition();     // 🔥 Soft unmute
+      });
     }
-  });
+  } else if (currentItem.type === 'narration') {
+    currentIndex++;
+    showNextMessage();
+  }
+});
 
   settingsButton.addEventListener('click', () => {
     settingsButton.blur(); // ✅ Prevent sticky focus
@@ -1047,6 +1053,8 @@ document.querySelectorAll('.circle-btn').forEach(button => {
 });
 
 window.addEventListener('beforeunload', () => {
+  stopMicSession(); // ✅ First stop mic and volume monitoring
+
   if (audioContext) {
     audioContext.close();
     audioContext = null;
