@@ -22,6 +22,10 @@ let graceTimeout = null;
 // Enable :active on mobile
 document.addEventListener('touchstart', () => {}, true);
 
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function startGraceTimer() {
   clearGraceTimer();
   graceTimeout = setTimeout(() => {
@@ -283,7 +287,7 @@ async function loadLesson() {
   }
 
   try {
-    const res = await fetch(`data/${lessonId}.json`);
+    const res = await fetch(`data/lessons/${lessonId}.json`);
     const data = await res.json();
 
     // 🌍 Get the user's selected language
@@ -551,20 +555,30 @@ function renderHintBubble(hint) {
 }
 }
 
-function startSpeechRecognition() {
+async function startSpeechRecognition() {
   if (!('webkitSpeechRecognition' in window)) {
     alert('Speech recognition not supported.');
     return;
   }
 
-  // ✅ Always request new mic access
+  stopMicStream(); // ✅ Release any previous stream
+  await wait(200); // 🔥 ← THIS is the crucial delay
+
   navigator.mediaDevices.getUserMedia({ audio: true })
     .then((stream) => {
       micStream = stream;
 
+      if (!stream.active) {
+        console.error('Microphone stream is inactive.');
+        alert('Microphone access failed. Please check permissions or reload the page.');
+        stopMicStream();
+        isRecording = false;
+        updateMicIcon();
+        return;
+      }
+
       startVolumeMonitoring(stream);
 
-      recognition = new webkitSpeechRecognition();
       const langMap = {
         'en': 'en-US',
         'fr': 'fr-FR',
@@ -577,7 +591,7 @@ function startSpeechRecognition() {
       };
 
       recognition = new webkitSpeechRecognition();
-      recognition.lang = langMap[lessonLang] || 'en-US'; // 🔥 dynamic
+      recognition.lang = langMap[lessonLang] || 'en-US';
       recognition.interimResults = true;
       recognition.maxAlternatives = 1;
 
@@ -586,7 +600,7 @@ function startSpeechRecognition() {
 
       recognition.onstart = () => {
         document.getElementById('liveTranscript').innerText = '[Listening...]';
-        startGraceTimer(); // ✅ Start right away
+        startGraceTimer();
       };
 
       recognition.onresult = (event) => {
@@ -606,37 +620,31 @@ function startSpeechRecognition() {
         document.getElementById('liveTranscript').innerText = display;
 
         if (finalTranscript) {
-          clearGraceTimer(); // ✅ Stop the grace timer when finished
-
+          clearGraceTimer();
           if (recognition) {
             recognition.abort();
             recognition = null;
           }
-
           isRecording = false;
           stopVolumeMonitoring();
-          stopMicStream(); // ✅ Important — stop the mic
+          stopMicStream();
           updateMicIcon();
-
           handleUserResponse(finalTranscript);
         } else if (interimTranscript) {
-          startGraceTimer(); // ✅ Reset grace timer on interim speech
+          startGraceTimer();
         }
       };
 
       recognition.onerror = (e) => {
         console.warn('Speech recognition error:', e.error);
-
-        clearGraceTimer(); // ✅ Stop any pending grace timeout
-
+        clearGraceTimer();
         if (recognition) {
           recognition.abort();
           recognition = null;
         }
-
         isRecording = false;
         stopVolumeMonitoring();
-        stopMicStream(); // ✅ Always stop the mic
+        stopMicStream();
         updateMicIcon();
       };
 
@@ -644,7 +652,10 @@ function startSpeechRecognition() {
     })
     .catch(err => {
       console.error('Microphone error:', err);
-      alert('Could not access microphone.');
+      alert('Could not access the microphone. Please check permissions.');
+      isRecording = false;
+      stopMicStream();
+      updateMicIcon();
     });
 }
 

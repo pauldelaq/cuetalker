@@ -1,8 +1,8 @@
 {
   "svgLibrary": {
-    "1": "assets/svg/1F935-200D-2640-FE0F.svg",
-    "2": "assets/svg/1F9D1-200D-1F393.svg",
-    "hint": "assets/svg/1F914.svg"
+    "1": "/assets/svg/1F935-200D-2640-FE0F.svg",
+    "2": "/assets/svg/1F9D1-200D-1F393.svg",
+    "hint": "/assets/svg/1F914.svg"
   },
   "hintAvatar": {
     "name": "You",

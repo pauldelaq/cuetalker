@@ -79,8 +79,8 @@ color: var(--accent);
   background: var(--accent);
   color: white;
   border-radius: 50%;
-  width: 54px;
-  height: 54px;
+  width: 66px;
+  height: 66px;
   font-size: 1.25em;
   display: flex;
   align-items: center;
@@ -90,8 +90,8 @@ color: var(--accent);
 }
 
 .circle-btn img {
-  width: 42px;
-  height: 42px;
+  width: 54px;
+  height: 54px;
   object-fit: contain;
 }
 
