@@ -9,6 +9,8 @@ let isRecording = false;
 let audioContext, analyser, dataArray, volumeInterval;
 let micStream;
 let micIsMuted = true;
+let speechHasStarted = false;
+let fullTranscript = '';
 let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
@@ -41,8 +43,6 @@ function startGraceTimer() {
   graceTimeout = setTimeout(() => {
     console.log('Grace period expired — recognition stopped');
     stopSpeechRecognition(); // ✅ Correct way
-    const transcriptEl = document.getElementById('liveTranscript');
-    if (transcriptEl) transcriptEl.textContent = '';
   }, 3000);
 }
 
@@ -588,9 +588,12 @@ function startSpeechRecognition() {
   }
 
   micIsMuted = false;
+  speechHasStarted = false;
   clearGraceTimer();
+  fullTranscript = '';
 
   recognition = new webkitSpeechRecognition();
+  const langBase = (lessonLang || 'en').split('-')[0]; 
   const langMap = {
     'en': 'en-US',
     'fr': 'fr-FR',
@@ -608,12 +611,17 @@ function startSpeechRecognition() {
 
   isRecording = true;
   updateMicIcon();
-
-  startVolumeMonitoring(micStream); // ✅ Start pulse when recording starts
+  startVolumeMonitoring(micStream);
 
   recognition.onstart = () => {
-    document.getElementById('liveTranscript').innerText = t('listening');
-    startGraceTimer();
+    console.log('Speech recognition started');
+
+    if (!speechHasStarted && !fullTranscript.trim()) {
+      const transcriptEl = document.getElementById('liveTranscript');
+      if (transcriptEl) {
+        transcriptEl.innerText = t('listening');
+      }
+    }
   };
 
   recognition.onresult = (event) => {
@@ -629,22 +637,78 @@ function startSpeechRecognition() {
       }
     }
 
-    const display = finalTranscript || interimTranscript || '';
-    document.getElementById('liveTranscript').innerText = display;
-
+    // ✅ Always append finalized chunks
     if (finalTranscript) {
-      clearGraceTimer();
-      stopSpeechRecognition(); // ✅ Handles pulse and recognition stop
-      handleUserResponse(finalTranscript);
-    } else if (interimTranscript) {
-      startGraceTimer();
+      fullTranscript += ' ' + finalTranscript;
+    }
+
+    // ✅ Build the current transcript (final + interim together)
+    const currentTranscript = (fullTranscript + ' ' + interimTranscript).trim();
+
+    // ✅ Update the transcript display in real time
+    const transcriptEl = document.getElementById('liveTranscript');
+    if (transcriptEl) {
+      transcriptEl.innerText = currentTranscript;
+    }
+
+    // ✅ Handle grace timer logic (starts or resets based on speech)
+    if (currentTranscript) {
+      if (!speechHasStarted) {
+        speechHasStarted = true;
+        console.log('Speech detected — starting grace timer');
+        startGraceTimer();
+      } else {
+        clearGraceTimer();
+        startGraceTimer();
+      }
+    }
+
+    // 🔥 ✅ Check for instant match against valid answers
+    const promptItem = conversation[currentIndex - 1];
+    const validAnswers = promptItem?.expectedAnswers || [];
+    const normalizedTranscript = normalize(currentTranscript);
+
+    const matched = validAnswers.find(answer => 
+      normalize(answer) === normalizedTranscript
+    );
+
+    if (matched) {
+      console.log('✅ Instant match — stopping recognition early');
+
+      // 🔥 ✅ Critical: Merge interim transcript into fullTranscript before stopping
+      fullTranscript = currentTranscript;
+
+      stopSpeechRecognition();
+      handleUserResponse(currentTranscript);
     }
   };
 
   recognition.onerror = (e) => {
     console.warn('Speech recognition error:', e.error);
+
+    if (e.error === 'no-speech' && !speechHasStarted) {
+      console.log('No speech detected — restarting recognition');
+      stopSpeechRecognition();
+      startMicSession().then(() => {
+        startSpeechRecognition();
+      });
+      return;
+    }
+
+    // On other errors, stop cleanly
     clearGraceTimer();
     stopSpeechRecognition();
+  };
+
+  recognition.onend = () => {
+    if (isRecording) {
+      console.log('Recognition ended — restarting');
+      try {
+        recognition.start();
+      } catch (err) {
+        console.warn('Failed to restart recognition:', err);
+      }
+    }
   };
 
   recognition.start();
@@ -655,6 +719,7 @@ function stopSpeechRecognition() {
 
   micIsMuted = true;
   clearGraceTimer();
+  speechHasStarted = false;
 
   if (recognition) {
     try {
@@ -669,25 +734,41 @@ function stopSpeechRecognition() {
   updateMicIcon();
   stopVolumeMonitoring();
 
-  const transcriptEl = document.getElementById('liveTranscript');
-  if (transcriptEl) {
-    transcriptEl.textContent = '';
-  }
-
   const micButton = document.getElementById('micButton');
   if (micButton) {
     micButton.style.boxShadow = 'none';
   }
+
+  // ✅ Handle final response using fullTranscript
+  if (fullTranscript.trim()) {
+    handleUserResponse(fullTranscript.trim());
+  }
+
+  fullTranscript = ''; // Reset for next turn
 }
 
 function normalize(text) {
-  return text
-    .toLowerCase()
-    .replace(
-      /[.,!?;:'"(){}\[\]。，！？；：“”‘’（）《》「」『』、]/g,
-      ''
-    )
-    .trim();
+  if (!text) return '';
+
+  // Get the base language code
+  const langBase = (lessonLang || 'en').split('-')[0];
+
+  let normalized = text.trim().toLowerCase();
+
+  // Remove punctuation
+  normalized = normalized.replace(/[.,!?;:"'’“”()\[\]{}，。！？；：「」『』（）【】]/g, '');
+
+  // 🔥 If Asian language, remove spaces
+  const asianLangs = ['zh', 'ja', 'ko', 'th']; // Add others if needed
+
+  if (asianLangs.includes(langBase)) {
+    normalized = normalized.replace(/\s+/g, '');
+  } else {
+    // For space-based languages, collapse multiple spaces to single
+    normalized = normalized.replace(/\s+/g, ' ');
+  }
+
+  return normalized;
 }
 
 function handleUserResponse(spokenText) {
