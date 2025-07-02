@@ -25,8 +25,12 @@ let graceTimeout = null;
 // Enable :active on mobile
 document.addEventListener('touchstart', () => {}, true);
 
+function getLangKey(lang) {
+  return (lang === 'zh-CN' || lang === 'zh-TW') ? lang : (lang || 'en').split('-')[0];
+}
+
 function t(key) {
-  const lang = localStorage.getItem('ctlanguage') || 'en';
+  const lang = getLangKey(localStorage.getItem('ctlanguage'));
   return (
     talkerTranslations?.[lang]?.[key] ||
     talkerTranslations?.['en']?.[key] ||
@@ -89,7 +93,7 @@ function loadTalkerTranslations() {
 }
 
 function applyTalkerTranslations() {
-  const lang = localStorage.getItem('ctlanguage') || 'en';
+  const lang = getLangKey(localStorage.getItem('ctlanguage'));
   const t = talkerTranslations[lang] || talkerTranslations['en'];
 
   // Settings menu
@@ -131,9 +135,14 @@ const fallbackTriggersByLang = {
   // ➕ Add more as needed
 };
 
+// ✅ Normalize fallback trigger phrases at load time
+for (const lang in fallbackTriggersByLang) {
+  fallbackTriggersByLang[lang] = fallbackTriggersByLang[lang].map(t => normalize(t, lang));
+}
+
 function isFallbackTrigger(spokenText) {
   const normalized = normalize(spokenText);
-  const triggers = fallbackTriggersByLang[selectedLang] || [];
+  const triggers = fallbackTriggersByLang[getLangKey(selectedLang)] || [];
   return triggers.includes(normalized);
 }
 
@@ -340,7 +349,7 @@ async function loadLesson() {
     const data = await res.json();
 
     // 🌍 Get the user's selected language
-    const storedLang = localStorage.getItem('ctlanguage') || 'en';
+    const storedLang = getLangKey(localStorage.getItem('ctlanguage'));
     const languageData = data.languages[storedLang] || data.languages['en'];
 
     if (!languageData) {
@@ -370,6 +379,8 @@ async function loadLesson() {
     // ✅ Update localStorage if needed
     localStorage.setItem('ctlanguage', lessonLang);
     selectedLang = lessonLang;
+    selectedLang = getLangKey(lessonLang);
+    localStorage.setItem('ctlanguage', selectedLang); // ✅ Keep stored lang normalized
 
     initializeVoiceMenu();
     updateMicIcon();
@@ -780,20 +791,22 @@ function stopSpeechRecognition() {
   fullTranscript = ''; // Reset for next turn
 }
 
-function normalize(text) {
+function normalize(text, langHint) {
   if (!text) return '';
 
   // Get the base language code
-  const langBase = (lessonLang || 'en').split('-')[0];
+  const langBase = (langHint || lessonLang || 'en').split('-')[0];
 
   let normalized = text.trim().toLowerCase();
 
-  // Remove punctuation
-  normalized = normalized.replace(/[.,!?;:"'’“”()\[\]{}，。！？；：「」『』（）【】]/g, '');
+  // 🔥 Remove accents/diacritics globally
+  normalized = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  // 🔥 If Asian language, remove spaces
-  const asianLangs = ['zh', 'ja', 'ko', 'th']; // Add others if needed
+  // 🔥 Remove punctuation
+  normalized = normalized.replace(/[.,!?;:"'’“”()\[\]{}¿¡，。！？；：「」『』（）【】]/g, '');
 
+  // 🔥 If Asian language, remove spaces entirely
+  const asianLangs = ['zh', 'ja', 'ko', 'th'];
   if (asianLangs.includes(langBase)) {
     normalized = normalized.replace(/\s+/g, '');
   } else {
@@ -907,7 +920,8 @@ function populateVoiceList() {
   const storedVoices = JSON.parse(localStorage.getItem('ctvoice')) || {};
   const storedVoice = storedVoices[selectedLang] || '';
 
-  const filtered = availableVoices.filter(v => v.lang.startsWith(selectedLang));
+  const langKey = getLangKey(selectedLang);
+  const filtered = availableVoices.filter(v => v.lang.startsWith(langKey));
 
   filtered.forEach(voice => {
     const opt = document.createElement('option');
