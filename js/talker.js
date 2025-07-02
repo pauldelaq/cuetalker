@@ -53,6 +53,32 @@ function clearGraceTimer() {
   }
 }
 
+function patchFrenchPunctuationSpaces(container) {
+  if (!lessonLang || !lessonLang.startsWith('fr')) return;
+
+  const walker = document.createTreeWalker(
+    container,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    const oldText = node.textContent;
+
+    const newText = oldText
+      // 🔸 Non-breaking space after opening guillemet «
+      .replace(/(«)(\s)/g, '$1\u00A0')
+      // 🔸 Non-breaking space before closing guillemet », and before ! ? : ; % $ €
+      .replace(/(\s)([»!?;:%$€])/g, '\u00A0$2');
+
+    if (oldText !== newText) {
+      node.textContent = newText;
+    }
+  }
+}
+
 function loadTalkerTranslations() {
   fetch('data/talker-translations.json')
     .then(res => res.json())
@@ -102,9 +128,6 @@ const fallbackTriggersByLang = {
   'es': ["no lo sé"],
   'zh-TW': ["我不知道"],
   'zh-CN': ["我不知道"],
-  'ja': ["わかりません"],
-  'de': ["ich weiß nicht"],
-  'ko': ["몰라요"]
   // ➕ Add more as needed
 };
 
@@ -401,11 +424,6 @@ function showNextMessage() {
   const item = conversation[currentIndex];
   if (!item) return;
 
-  const nextItem = conversation[currentIndex + 1];
-  if (!nextItem) {
-    displayFinalScore();
-  }
-
   renderCurrentLine(item);
   updateMicIcon(); // always show the correct icon before anything else
 
@@ -431,7 +449,7 @@ function showNextMessage() {
           }, { once: true });
 
         } else {
-          // Fallback in case .svg-avatar is missing for any reason
+          // Fallback
           speakText(item.text, () => {
             if (item.hint) renderHintBubble(item.hint);
             tryAutoAdvance();
@@ -450,10 +468,24 @@ function showNextMessage() {
     tryAutoAdvance();
 
   } else if (item.type === 'narration') {
-    // Show narration and wait for user input — no auto-advance
+    // Show narration and wait for user input
 
   } else if (item.type === 'response') {
-    // Do nothing. Wait for user or auto-advance to trigger mic manually.
+    // Wait for user input
+  }
+
+  // ✅ Display final score if this is the last item
+  const nextItem = conversation[currentIndex + 1];
+  if (!nextItem) {
+    displayFinalScore();
+
+    const micIcon = document.querySelector('#micButton img');
+    micIcon.src = 'assets/svg/1F504.svg';
+
+    const micButton = document.getElementById('micButton');
+    micButton.onclick = () => {
+      location.reload();
+    };
   }
 }
 
@@ -506,6 +538,7 @@ function renderCurrentLine(item) {
   }
 
   bubble.innerText = item.text || '...';
+  patchFrenchPunctuationSpaces(bubble);
 
   if (item.type === 'response') {
     msgDiv.appendChild(bubble);

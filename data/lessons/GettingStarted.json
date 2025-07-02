@@ -1,0 +1,309 @@
+{
+    "svgLibrary": {
+    "1": "assets/svg/1F64B-1F3FB-200D-2642-FE0F.svg",
+    "2": "assets/svg/1F9D1-200D-1F393.svg",
+    "3": "assets/svg/1F466-1F3FB.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "You",
+    "svg": "hint"
+  },
+  "languages": {
+    "en": {
+  "language": "en",
+  "languageName": "English",
+  "lessonName": "Getting Started",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "Welcome to CueTalker! Please select 'Practice Mode' to preview the dialogue. When you're ready to say the answers yourself, please select 'Test Mode'."
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "Guide",
+        "svg": 1
+      },
+      "text": "Hi! Use the hint and always try to answer the question with a complete sentence. If your answer is wrong, you'll see incorrect words in red, and you'll have to try it again. Give it a shot! Do you understand what I mean?",
+      "hint": "Yes, ...",
+      "expectedAnswers": [
+        "Yes, I understand what you mean."
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "You",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "Guide",
+        "svg": 3
+      },
+      "text": "Well done! By the way, if you're ever unsure about how to answer, just say 'I don't know'. This reveals the answer. Give this tricky question a try... or just say 'I don't know'! Why is the sky blue?",
+      "hint": "... blue light ... Earth's atmosphere",
+      "expectedAnswers": [
+        "The sky is blue because blue light scatters more than light of other colors in Earth's atmosphere."
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "You",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "narration",
+      "text": "Well done! You can see your score for the lesson at the bottom of the page. Click the button at the bottom of the page to try this lesson again. Click the 'CueTalker' text at the top of the page to go back."
+    }
+  ]
+},
+  "fr": {
+  "language": "fr",
+  "languageName": "Français",
+  "lessonName": "Commencer",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "Bienvenue sur CueTalker ! Veuillez sélectionner 'Mode Pratique' pour prévisualiser le dialogue. Quand vous êtes prêt à dire les réponses vous-même, sélectionnez 'Mode Test'."
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "Guide",
+        "svg": 1
+      },
+      "text": "Salut ! Utilisez l'indice et essayez toujours de répondre avec une phrase complète. Si votre réponse est incorrecte, les mots incorrects apparaîtront en rouge et vous devrez réessayer. Allez-y ! Est-ce que vous comprenez ce que je veux dire ?",
+      "hint": "Oui, ...",
+      "expectedAnswers": [
+        "Oui, je comprends ce que vous voulez dire."
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "Vous",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "Guide",
+        "svg": 3
+      },
+      "text": "Bien joué ! D'ailleurs, si vous n'êtes pas sûr de la réponse, dites simplement 'je ne sais pas'. Cela révèlera la réponse. Essayez cette question difficile... ou dites simplement 'je ne sais pas' ! Pourquoi le ciel est-il bleu ?",
+      "hint": "... la lumière bleue ... l'atmosphère terrestre",
+      "expectedAnswers": [
+        "Le ciel est bleu parce que la lumière bleue se disperse plus que les autres couleurs dans l'atmosphère terrestre."
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "Vous",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "narration",
+      "text": "Bien joué ! Vous pouvez voir votre score pour la leçon en bas de la page. Cliquez sur le bouton en bas de la page pour refaire cette leçon. Cliquez sur le texte 'CueTalker' en haut de la page pour revenir."
+    }
+  ]
+},
+  "es": {
+  "language": "es",
+  "languageName": "Español",
+  "lessonName": "Empezar",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "¡Bienvenido a CueTalker! Por favor, selecciona 'Modo de práctica' para previsualizar el diálogo. Cuando estés listo para decir las respuestas tú mismo, selecciona 'Modo de prueba'."
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "Guía",
+        "svg": 1
+      },
+      "text": "¡Hola! Usa la pista e intenta siempre responder con una frase completa. Si tu respuesta es incorrecta, las palabras incorrectas aparecerán en rojo y tendrás que intentarlo de nuevo. ¡Inténtalo! ¿Entiendes lo que quiero decir?",
+      "hint": "Sí, ...",
+      "expectedAnswers": [
+        "Sí, entiendo lo que quieres decir."
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "Guía",
+        "svg": 3
+      },
+      "text": "¡Bien hecho! Por cierto, si alguna vez no sabes cómo responder, solo di 'no lo sé'. Esto revelará la respuesta. Intenta responder a esta pregunta difícil... o simplemente di 'no lo sé'. ¿Por qué el cielo es azul?",
+      "hint": "... luz azul ... atmósfera de la Tierra",
+      "expectedAnswers": [
+        "El cielo es azul porque la luz azul se dispersa más que la de otros colores en la atmósfera de la Tierra."
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "narration",
+      "text": "¡Bien hecho! Puedes ver tu puntuación de la lección en la parte inferior de la página. Haz clic en el botón en la parte inferior para intentar esta lección nuevamente. Haz clic en el texto 'CueTalker' en la parte superior de la página para regresar."
+    }
+  ]
+},
+  "zh-CN": {
+  "language": "zh-CN",
+  "languageName": "简体中文",
+  "lessonName": "入门",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "欢迎使用 CueTalker！请选择“练习模式”来预览对话。当你准备好自己说出答案时，请选择“测试模式”。"
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "引导员",
+        "svg": 1
+      },
+      "text": "你好！使用提示，并且尽量用完整的句子回答。如果你的回答有错误，错误的单词会显示为红色，你需要重新尝试。试试看！你明白我的意思吗？",
+      "hint": "是的，...",
+      "expectedAnswers": [
+        "是的，我明白你的意思。"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "引导员",
+        "svg": 3
+      },
+      "text": "干得好！顺便说一下，如果你不知道怎么回答，可以说“我不知道”。这样会显示答案。试试看这个有点难的问题……或者直接说“我不知道”！为什么天空是蓝色的？",
+      "hint": "... 蓝光 ... 地球的大气层",
+      "expectedAnswers": [
+        "天空是蓝色的，因为蓝光在地球大气层中比其他颜色的光散射得更多。"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "narration",
+      "text": "干得好！你可以在页面底部查看本课的分数。点击页面底部的按钮可以重新开始本课。点击页面顶部的 'CueTalker' 文本可以返回。"
+    }
+  ]
+},
+  "zh-TW": {
+  "language": "zh-TW",
+  "languageName": "繁體中文",
+  "lessonName": "入門",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "歡迎使用 CueTalker！請選擇「練習模式」來預覽對話。當你準備好自己說出答案時，請選擇「測驗模式」。"
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "引導員",
+        "svg": 1
+      },
+      "text": "你好！使用提示，並且盡量用完整的句子來回答。如果你的回答有錯誤，錯誤的單字會顯示為紅色，你需要重新嘗試。試試看！你明白我的意思嗎？",
+      "hint": "是的，...",
+      "expectedAnswers": [
+        "是的，我明白你的意思。"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "引導員",
+        "svg": 3
+      },
+      "text": "做得好！順便說一下，如果你不知道怎麼回答，可以說「我不知道」。這樣會顯示答案。試試看這個有點難的問題……或者直接說「我不知道」！為什麼天空是藍色的？",
+      "hint": "... 藍光 ... 地球的大氣層",
+      "expectedAnswers": [
+        "天空是藍色的，因為藍光在地球大氣層中比其他顏色的光散射得更多。"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "narration",
+      "text": "做得好！你可以在頁面底部查看本課的分數。點擊頁面底部的按鈕可以重新開始本課。點擊頁面頂部的『CueTalker』文字可以返回。"
+    }
+  ]
+}
+  }
+}

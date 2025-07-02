@@ -1,4 +1,15 @@
 {
+    "svgLibrary": {
+    "1": "assets/svg/1F935-200D-2640-FE0F.svg",
+    "2": "assets/svg/1F9D1-200D-1F393.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "You",
+    "svg": "hint"
+  },
+    "languages": {
+    "en": {
   "language": "en",
   "languageName": "English",
   "lessonName": "A Trip to France",
@@ -80,14 +91,7 @@
       "type": "narration",
       "text": "Well done! Your friend is happy that you've shared your experience with her."
     }
-  ],
-  "svgLibrary": {
-    "1": "assets/svg/1F935-200D-2640-FE0F.svg",
-    "2": "assets/svg/1F9D1-200D-1F393.svg",
-    "hint": "assets/svg/1F914.svg"
-  },
-  "hintAvatar": {
-    "name": "You",
-    "svg": "hint"
-  }
+  ]
+}
+}
 }
