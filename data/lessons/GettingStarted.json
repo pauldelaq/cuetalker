@@ -10,8 +10,8 @@
     "svg": "hint"
   },
   "languages": {
-    "en": {
-  "language": "en",
+    "en-US": {
+  "language": "en-US",
   "languageName": "English",
   "lessonName": "Getting Started",
   "exercises": [
@@ -69,8 +69,8 @@
     }
   ]
 },
-  "fr": {
-  "language": "fr",
+  "fr-FR": {
+  "language": "fr-FR",
   "languageName": "Français",
   "lessonName": "Commencer",
   "exercises": [
@@ -128,8 +128,8 @@
     }
   ]
 },
-  "es": {
-  "language": "es",
+  "es-ES": {
+  "language": "es-ES",
   "languageName": "Español",
   "lessonName": "Empezar",
   "exercises": [

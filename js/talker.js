@@ -25,8 +25,13 @@ let graceTimeout = null;
 // Enable :active on mobile
 document.addEventListener('touchstart', () => {}, true);
 
-function getLangKey(lang) {
-  return (lang === 'zh-CN' || lang === 'zh-TW') ? lang : (lang || 'en').split('-')[0];
+function getLangKey(code) {
+  // Ensure consistent language keys using full xx-XX format
+  const knownLangs = ['en-US', 'fr-FR', 'es-ES', 'zh-CN', 'zh-TW'];
+  if (knownLangs.includes(code)) return code;
+
+  const base = (code || '').split('-')[0];
+  return knownLangs.find(k => k.startsWith(base)) || 'en-US';
 }
 
 function t(key) {
@@ -127,12 +132,11 @@ function wordLevelDistance(a, b) {
 }
 
 const fallbackTriggersByLang = {
-  'en': ["i don't know", "i dont know"],
-  'fr': ["je ne sais pas"],
-  'es': ["no lo sé"],
+  'en-US': ["i don't know", "i dont know"],
+  'fr-FR': ["je ne sais pas"],
+  'es-ES': ["no lo sé"],
   'zh-TW': ["我不知道"],
   'zh-CN': ["我不知道"],
-  // ➕ Add more as needed
 };
 
 // ✅ Normalize fallback trigger phrases at load time
@@ -141,8 +145,8 @@ for (const lang in fallbackTriggersByLang) {
 }
 
 function isFallbackTrigger(spokenText) {
-  const normalized = normalize(spokenText);
-  const triggers = fallbackTriggersByLang[getLangKey(selectedLang)] || [];
+  const normalized = normalize(spokenText, lessonLang);
+  const triggers = fallbackTriggersByLang[lessonLang] || [];
   return triggers.includes(normalized);
 }
 
@@ -219,25 +223,32 @@ function populateVoiceList() {
   const voiceSelect = document.getElementById('ctvoice');
   voiceSelect.innerHTML = '';
 
-  const filtered = availableVoices.filter(v => v.lang.startsWith(lessonLang));
+  const storedVoices = JSON.parse(localStorage.getItem('ctvoice')) || {};
+  const storedVoice = storedVoices[selectedLang] || '';
 
-  const storedVoice = localStorage.getItem(`ctvoice_${lessonLang}`);
-  let selectedVoice = storedVoice || '';
+  const baseLang = selectedLang.split('-')[0].toLowerCase();
+
+  // ✅ Allow all voices that match the base language (en → en-US, en-GB, etc)
+  const filtered = availableVoices.filter(v =>
+    v.lang && v.lang.toLowerCase().startsWith(baseLang)
+  );
 
   filtered.forEach(voice => {
     const opt = document.createElement('option');
     opt.value = voice.name;
     opt.textContent = `${voice.name} (${voice.lang})${voice.default ? ' — DEFAULT' : ''}`;
-    if (voice.name === selectedVoice) opt.selected = true;
+    if (voice.name === storedVoice) opt.selected = true;
     voiceSelect.appendChild(opt);
   });
 
-  // Fallback if the stored voice isn't valid anymore
-  if (filtered.length > 0 && !filtered.find(v => v.name === selectedVoice)) {
-    selectedVoiceName = filtered[0].name;
-    localStorage.setItem(`ctvoice_${lessonLang}`, selectedVoiceName);
+  // ✅ Store fallback voice if none selected
+  if (filtered.length > 0 && !filtered.find(v => v.name === storedVoice)) {
+    const fallback = filtered[0].name;
+    storedVoices[selectedLang] = fallback;
+    localStorage.setItem('ctvoice', JSON.stringify(storedVoices));
+    selectedVoiceName = fallback;
   } else {
-    selectedVoiceName = selectedVoice;
+    selectedVoiceName = storedVoice;
   }
 }
 
@@ -379,8 +390,7 @@ async function loadLesson() {
     // ✅ Update localStorage if needed
     localStorage.setItem('ctlanguage', lessonLang);
     selectedLang = lessonLang;
-    selectedLang = getLangKey(lessonLang);
-    localStorage.setItem('ctlanguage', selectedLang); // ✅ Keep stored lang normalized
+    localStorage.setItem('ctlanguage', selectedLang); // full format
 
     initializeVoiceMenu();
     updateMicIcon();
@@ -637,19 +647,7 @@ function startSpeechRecognition() {
   fullTranscript = '';
 
   recognition = new webkitSpeechRecognition();
-  const langBase = (lessonLang || 'en').split('-')[0]; 
-  const langMap = {
-    'en': 'en-US',
-    'fr': 'fr-FR',
-    'es': 'es-ES',
-    'zh-CN': 'zh-CN',
-    'zh-TW': 'zh-TW',
-    'ja': 'ja-JP',
-    'de': 'de-DE',
-    'ko': 'ko-KR'
-  };
-
-  recognition.lang = langMap[lessonLang] || 'en-US';
+  recognition.lang = lessonLang || 'en-US';
   recognition.interimResults = true;
   recognition.maxAlternatives = 1;
 
@@ -794,9 +792,6 @@ function stopSpeechRecognition() {
 function normalize(text, langHint) {
   if (!text) return '';
 
-  // Get the base language code
-  const langBase = (langHint || lessonLang || 'en').split('-')[0];
-
   let normalized = text.trim().toLowerCase();
 
   // 🔥 Remove accents/diacritics globally
@@ -805,12 +800,13 @@ function normalize(text, langHint) {
   // 🔥 Remove punctuation
   normalized = normalized.replace(/[.,!?;:"'’“”()\[\]{}¿¡，。！？；：「」『』（）【】]/g, '');
 
-  // 🔥 If Asian language, remove spaces entirely
+  // 🔥 Extract base language from langHint (e.g., 'zh-TW' → 'zh')
+  const baseLang = (langHint || lessonLang || 'en-US').split('-')[0];
+
   const asianLangs = ['zh', 'ja', 'ko', 'th'];
-  if (asianLangs.includes(langBase)) {
+  if (asianLangs.includes(baseLang)) {
     normalized = normalized.replace(/\s+/g, '');
   } else {
-    // For space-based languages, collapse multiple spaces to single
     normalized = normalized.replace(/\s+/g, ' ');
   }
 
@@ -909,36 +905,6 @@ function setupVoiceMenuListener() {
       storedVoices[selectedLang] = selectedVoiceName;
       localStorage.setItem('ctvoice', JSON.stringify(storedVoices));
     });
-  }
-}
-
-function populateVoiceList() {
-  availableVoices = speechSynthesis.getVoices();
-  const voiceSelect = document.getElementById('ctvoice');
-  voiceSelect.innerHTML = '';
-
-  const storedVoices = JSON.parse(localStorage.getItem('ctvoice')) || {};
-  const storedVoice = storedVoices[selectedLang] || '';
-
-  const langKey = getLangKey(selectedLang);
-  const filtered = availableVoices.filter(v => v.lang.startsWith(langKey));
-
-  filtered.forEach(voice => {
-    const opt = document.createElement('option');
-    opt.value = voice.name;
-    opt.textContent = `${voice.name} (${voice.lang})${voice.default ? ' — DEFAULT' : ''}`;
-    if (voice.name === storedVoice) opt.selected = true;
-    voiceSelect.appendChild(opt);
-  });
-
-  // Fallback if stored voice doesn't exist anymore
-  if (filtered.length > 0 && !filtered.find(v => v.name === storedVoice)) {
-    const fallback = filtered[0].name;
-    storedVoices[selectedLang] = fallback;
-    localStorage.setItem('ctvoice', JSON.stringify(storedVoices));
-    selectedVoiceName = fallback;
-  } else {
-    selectedVoiceName = storedVoice;
   }
 }
 

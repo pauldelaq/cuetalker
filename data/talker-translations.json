@@ -1,5 +1,5 @@
 {
-  "en": {
+  "en-US": {
     "settings": "Settings",
     "voice": "Voice:",
     "volume": "Volume:",
@@ -12,7 +12,7 @@
     "listening": "[Listening...]",
     "recordingDisabled": "[Recording is disabled in Practice Mode]"
   },
-  "fr": {
+  "fr-FR": {
     "settings": "Paramètres",
     "voice": "Voix :",
     "volume": "Volume :",
@@ -25,7 +25,7 @@
     "listening": "[Écoute...]",
     "recordingDisabled": "[L'enregistrement est désactivé en mode Pratique]"
   },
-  "es": {
+  "es-ES": {
     "settings": "Configuración",
     "voice": "Voz:",
     "volume": "Volumen:",

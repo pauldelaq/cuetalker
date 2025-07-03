@@ -9,8 +9,8 @@
     "svg": "hint"
   },
   "languages": {
-    "en": {
-      "language": "en",
+    "en-US": {
+      "language": "en-US",
       "languageName": "English",
       "lessonName": "A Trip to France",
       "exercises": [
@@ -182,8 +182,8 @@
         }
       ]
     },
-    "fr": {
-      "language": "fr",
+    "fr-FR": {
+      "language": "fr-FR",
       "languageName": "Français",
       "lessonName": "Un voyage en France",
       "exercises": [
@@ -357,8 +357,8 @@
         }
       ]
     },
-    "es": {
-      "language": "es",
+    "es-ES": {
+      "language": "es-ES",
       "languageName": "Español",
       "lessonName": "Un viaje a Francia",
       "exercises": [

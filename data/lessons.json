@@ -3,9 +3,9 @@
     {
       "id": "GettingStarted",
       "name": {
-        "en": "Getting Started",
-        "fr": "Commencer",
-        "es": "Empezar",
+        "en-US": "Getting Started",
+        "fr-FR": "Commencer",
+        "es-ES": "Empezar",
         "zh-CN": "入门",
         "zh-TW": "入門"
       }
@@ -13,9 +13,9 @@
     {
       "id": "France",
       "name": {
-        "en": "Chatting About a Trip to France",
-        "fr": "Parler d'un voyage en France",
-        "es": "Conversando sobre un viaje a Francia",
+        "en-US": "Chatting About a Trip to France",
+        "fr-FR": "Parler d'un voyage en France",
+        "es-ES": "Conversando sobre un viaje a Francia",
         "zh-CN": "谈论一次法国之旅",
         "zh-TW": "談論一次法國之旅"
       }
@@ -23,9 +23,9 @@
     {
       "id": "Cafe",
       "name": {
-        "en": "At the Cafe",
-        "fr": "Au café",
-        "es": "En el café",
+        "en-US": "At the Cafe",
+        "fr-FR": "Au café",
+        "es-ES": "En el café",
         "zh-CN": "在咖啡馆",
         "zh-TW": "在咖啡館"
       }

@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const lessonList = document.getElementById('lesson-list');
 
   const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'fr', name: 'Français' },
-    { code: 'es', name: 'Español' },
+    { code: 'en-US', name: 'English' },
+    { code: 'fr-FR', name: 'Français' },
+    { code: 'es-ES', name: 'Español' },
     { code: 'zh-TW', name: '中文 (繁體)' },
     { code: 'zh-CN', name: '中文 (简体)' }
   ];
@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function applyTranslations() {
-    const lang = localStorage.getItem('ctlanguage') || 'en';
-    const t = translations[lang] || translations['en'];
+    const lang = localStorage.getItem('ctlanguage') || 'en-US';
+    const t = translations[lang] || translations['en-US'];
 
     document.getElementById('header-title').textContent = t.title;
     document.getElementById('intro-text').textContent = t.intro;
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('data/lessons.json')
       .then(res => res.json())
       .then(data => {
-        const lang = localStorage.getItem('ctlanguage') || 'en';
+        const lang = localStorage.getItem('ctlanguage') || 'en-US';
 
         lessonList.innerHTML = '';
         data.lessons.forEach(lesson => {
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
           li.className = 'lesson-item';
 
           // 🔥 Grab the title in the current language, fallback to English
-          const title = lesson.name[lang] || lesson.name['en'] || lesson.id;
+          const title = lesson.name[lang] || lesson.name['en-US'] || lesson.id;
           li.textContent = title;
 
           li.addEventListener('click', () => {
