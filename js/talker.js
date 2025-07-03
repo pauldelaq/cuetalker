@@ -958,7 +958,9 @@ function initializeVoiceMenu() {
   if (voiceSelect) {
     voiceSelect.addEventListener('change', (e) => {
       selectedVoiceName = e.target.value;
-      localStorage.setItem(`ctvoice_${lessonLang}`, selectedVoiceName);
+      const storedVoices = JSON.parse(localStorage.getItem('ctvoice')) || {};
+      storedVoices[selectedLang] = selectedVoiceName;
+      localStorage.setItem('ctvoice', JSON.stringify(storedVoices));
     });
   }
 }
