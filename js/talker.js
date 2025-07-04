@@ -139,14 +139,9 @@ const fallbackTriggersByLang = {
   'zh-CN': ["我不知道"],
 };
 
-// ✅ Normalize fallback trigger phrases at load time
-for (const lang in fallbackTriggersByLang) {
-  fallbackTriggersByLang[lang] = fallbackTriggersByLang[lang].map(t => normalize(t, lang));
-}
-
 function isFallbackTrigger(spokenText) {
   const normalized = normalize(spokenText, lessonLang);
-  const triggers = fallbackTriggersByLang[lessonLang] || [];
+  const triggers = (fallbackTriggersByLang[lessonLang] || []).map(t => normalize(t, lessonLang));
   return triggers.includes(normalized);
 }
 
