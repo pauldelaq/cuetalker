@@ -674,15 +674,14 @@ function startSpeechRecognition() {
       }
     }
 
-    // ✅ Always append finalized chunks
+    // ✅ Always preserve the most recent full transcript, even if not finalized
+    // in onresult
     if (finalTranscript) {
       fullTranscript += ' ' + finalTranscript;
     }
 
-    // ✅ Build the current transcript (final + interim together)
     const currentTranscript = (fullTranscript + ' ' + interimTranscript).trim();
 
-    // ✅ Update the transcript display in real time
     const transcriptEl = document.getElementById('liveTranscript');
     if (transcriptEl) {
       transcriptEl.innerText = currentTranscript;
