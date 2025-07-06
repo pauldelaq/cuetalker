@@ -61,6 +61,7 @@ main#cue-content {
   position: absolute;
   top: 100%;
   margin-top: 2px;
+  text-align: center;
 }
 
 .bubble {
