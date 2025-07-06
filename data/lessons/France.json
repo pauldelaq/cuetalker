@@ -514,8 +514,7 @@
           "text": "¿Puedo ir contigo la próxima vez?",
           "hint": "Por supuesto, ...",
           "expectedAnswers": [
-            "Por supuesto, puedes venir conmigo la próxima vez.",
-            "Por supuesto, puedes venir conmigo."
+            "Por supuesto, puedes venir conmigo la próxima vez."
           ]
         },
         {

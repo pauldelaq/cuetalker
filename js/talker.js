@@ -62,6 +62,10 @@ function clearGraceTimer() {
   }
 }
 
+function findOriginalAnswer(normalizedTarget, validAnswers) {
+  return validAnswers.find(answer => normalize(answer) === normalizedTarget);
+}
+
 function patchFrenchPunctuationSpaces(container) {
   if (!lessonLang || !lessonLang.startsWith('fr')) return;
 
@@ -117,6 +121,25 @@ function applyTalkerTranslations() {
     modeLabels[1].lastChild.nodeValue = ` ${t.modePractice}`;
   }
 }
+
+function applyMisheardMap(text, lang) {
+  const words = text.split(/\s+/);
+  const langMap = misheardMap[lang] || {};
+  return words.map(word => langMap[word] || word).join(' ');
+}
+
+const misheardMap = {
+  'en-US': {
+    'know': 'no',
+    'there': 'their',
+    'to': 'too',
+    'see': 'sea'
+  },
+  'es-ES': {
+    'di': 'vi',
+    'muy': 'fui'
+  }
+};
 
 function wordLevelDistance(a, b) {
   const wordsA = a.trim().split(/\s+/);
@@ -811,14 +834,12 @@ function handleUserResponse(spokenText) {
   const promptItem = conversation[currentIndex - 1];
   const validAnswers = promptItem?.expectedAnswers || [];
 
-  const normalizedSpoken = normalize(spokenText);
+  totalResponses++;
 
-  totalResponses++; // ✅ Always increment
-
-  // ✅ Handle fallback trigger ("I don't know")
+  // ✅ Fallback: "I don't know"
   if (isFallbackTrigger(spokenText)) {
     incorrectResponses++;
-    item.wasIncorrect = true; // 🔥 Mark as incorrect permanently for this item
+    item.wasIncorrect = true;
 
     const fallbackAnswer = validAnswers[0] || '...';
 
@@ -835,9 +856,74 @@ function handleUserResponse(spokenText) {
     return;
   }
 
-  // ✅ Check for exact or normalized match
-  let matched = validAnswers.find(answer => answer === spokenText)
-    || validAnswers.find(answer => normalize(answer) === normalizedSpoken);
+  // Step 1: Exact match
+  let matched = validAnswers.find(answer => answer === spokenText);
+
+  const normalizedSpoken = normalize(spokenText);
+  const normalizedAnswers = validAnswers.map(answer => normalize(answer));
+
+  // Step 2: Normalized match
+  if (!matched) {
+    for (let i = 0; i < validAnswers.length; i++) {
+      if (normalize(validAnswers[i]) === normalizedSpoken) {
+        matched = validAnswers[i];
+        break;
+      }
+    }
+  }
+
+  // Step 3: Global misheard correction
+  if (!matched) {
+    const correctedText = applyMisheardMap(spokenText, lessonLang);
+    const normalizedCorrected = normalize(correctedText);
+
+    for (let i = 0; i < validAnswers.length; i++) {
+      if (normalize(validAnswers[i]) === normalizedCorrected) {
+        matched = validAnswers[i];
+        console.log(`✅ Matched after global misheard correction: "${correctedText}"`);
+        break;
+      }
+    }
+  }
+
+  // Step 4: Per-word misheard justification
+  if (!matched) {
+    const langMap = misheardMap[lessonLang] || {};
+
+    for (let i = 0; i < normalizedAnswers.length; i++) {
+      const normExpected = normalizedAnswers[i];
+      const expectedWords = normExpected.split(/\s+/);
+      const spokenWords = normalizedSpoken.split(/\s+/);
+      if (spokenWords.length !== expectedWords.length) continue;
+
+      let allJustified = true;
+
+      for (let j = 0; j < spokenWords.length; j++) {
+        const spoken = spokenWords[j];
+        const expected = expectedWords[j];
+
+        if (spoken === expected) continue;
+
+        const corrected = langMap[spoken];
+        if (corrected !== expected) {
+          allJustified = false;
+          break;
+        }
+      }
+
+      if (allJustified) {
+        matched = validAnswers[i]; // ✅ use original string
+        spokenText = validAnswers[i]; // ✅ update transcript display
+        console.log("✅ Accepted via per-word misheard justification.");
+
+        const transcriptEl = document.getElementById('liveTranscript');
+        if (transcriptEl) {
+          transcriptEl.textContent = spokenText;
+        }
+        break;
+      }
+    }
+  }
 
   if (matched) {
     // ✅ CORRECT
@@ -852,10 +938,9 @@ function handleUserResponse(spokenText) {
     currentIndex++;
     showNextMessage();
   } else {
-    // ❌ INCORRECT — do not advance
-
+    // ❌ INCORRECT
     incorrectResponses++;
-    item.wasIncorrect = true; // 🔥 Once incorrect, always red for this item
+    item.wasIncorrect = true;
 
     let bestMatch = '';
     let lowestDistance = Infinity;
@@ -882,8 +967,6 @@ function handleUserResponse(spokenText) {
         lastEmoji.classList.remove('shake');
       }, { once: true });
     }
-
-    // ❌ Do NOT advance — wait for user to try again
   }
 }
 
