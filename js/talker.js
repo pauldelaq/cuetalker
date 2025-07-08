@@ -6,6 +6,7 @@ let svgLibrary = {};
 let hintAvatar = {};
 let recognition;
 let isRecording = false;
+let isSpeaking = false;
 let audioContext, analyser, dataArray, volumeInterval;
 let micStream;
 let micIsMuted = true;
@@ -198,6 +199,20 @@ function isFallbackTrigger(spokenText) {
   return triggers.includes(normalized);
 }
 
+function skipCurrentSpeechAndShowHint() {
+  const currentItem = conversation[currentIndex];
+
+  speechSynthesis.cancel();
+  isSpeaking = false;
+
+  if (currentItem?.type === 'prompt' && currentItem.hint) {
+    renderHintBubble(currentItem.hint);
+  }
+
+  updateMicIcon();
+  tryAutoAdvance();
+}
+
 async function startMicSession() {
   if (micStream) return; // ✅ Mic is already running
 
@@ -375,15 +390,16 @@ function animateMicPulse(volume) {
 
 function speakText(text, onend) {
   const utterance = new SpeechSynthesisUtterance(text);
-
   const matchedVoice = availableVoices.find(v => v.name === selectedVoiceName);
   if (matchedVoice) utterance.voice = matchedVoice;
 
-  // ✅ Apply volume and speed settings
   utterance.volume = parseFloat(localStorage.getItem('ctvolume') ?? '1');
   utterance.rate = parseFloat(localStorage.getItem('ctspeed') ?? '1.0');
 
+  isSpeaking = true;
+
   utterance.onend = () => {
+    isSpeaking = false;
     if (typeof onend === 'function') onend();
   };
 
@@ -478,6 +494,11 @@ function updateMicIcon() {
     } else {
     micButton.classList.remove('recording');
 
+    if (isSpeaking && currentItem?.type === 'prompt') {
+    micIcon.src = 'assets/svg/25B6.svg'; // "next" icon
+    return;
+  }
+
     if (practiceMode) {
         // ✅ Keep static icon in practice mode
         micIcon.src = 'assets/svg/25B6.svg'; // mic
@@ -494,7 +515,6 @@ function showNextMessage() {
   if (!item) return;
 
   renderCurrentLine(item);
-  updateMicIcon(); // always show the correct icon before anything else
 
   if (item.type === 'prompt' && item.text) {
     const container = document.getElementById('cue-content');
@@ -513,21 +533,24 @@ function showNextMessage() {
             svgEl.classList.remove('rotate-shake');
             speakText(item.text, () => {
               if (item.hint) renderHintBubble(item.hint);
+              updateMicIcon();
               tryAutoAdvance();
             });
           }, { once: true });
 
         } else {
           // Fallback
-          speakText(item.text, () => {
-            if (item.hint) renderHintBubble(item.hint);
-            tryAutoAdvance();
-          });
+        speakText(item.text, () => {
+          if (item.hint) renderHintBubble(item.hint);
+          updateMicIcon(); // ✅ mic appears after hint
+          tryAutoAdvance();
+        });
         }
       }, { once: true });
     } else {
       speakText(item.text, () => {
         if (item.hint) renderHintBubble(item.hint);
+        updateMicIcon(); // ✅ mic appears after hint
         tryAutoAdvance();
       });
     }
@@ -1162,6 +1185,12 @@ micButton.addEventListener('click', () => {
   speechSynthesis.cancel();
   speechSynthesis.speak(new SpeechSynthesisUtterance(''));
 
+  // 🔥 NEW: Skip TTS if user clicks during playback
+  if (isSpeaking) {
+    skipCurrentSpeechAndShowHint();
+    return;
+  }
+
   if (!modeLocked) {
     const selected = document.querySelector('input[name="mode"]:checked')?.value;
     practiceMode = (selected === 'practice');
@@ -1239,8 +1268,8 @@ micButton.addEventListener('click', () => {
       currentIndex++;
       showNextMessage();
     } else {
-      startMicSession().then(() => { // ✅ Make sure mic hardware is on
-        startSpeechRecognition();     // 🔥 Soft unmute
+      startMicSession().then(() => {
+        startSpeechRecognition();
       });
     }
   } else if (currentItem.type === 'narration') {
@@ -1273,6 +1302,8 @@ document.addEventListener('click', (e) => {
       svg.classList.remove('rotate-shake');
     }, { once: true });
   }
+
+  if (isSpeaking) skipCurrentSpeechAndShowHint(); // ✅ new
 
   speakText(item.text);
 });
