@@ -30,17 +30,20 @@
     <div id="settingsMenu" class="hidden">
         <h2>Settings</h2>
 
-        <div class="setting-row">
-            <label for="ctvoice">Voice:</label>
-            <select id="ctvoice"></select>
-        </div>
+    <div class="setting-row">
+      <label>Voice:</label>
+      <div class="custom-dropdown" id="voiceDropdown">
+        <button class="dropdown-toggle" id="dropdownToggle">Select a voice</button>
+        <ul class="dropdown-list" id="dropdownList"></ul>
+      </div>
+    </div>
 
     <div class="setting-row">
       <label id="volumeLevelLabel">Volume:</label>
       <div class="volume-slider-container">
-        <img src="assets/svg/1F508.svg" alt="Quiet" width="24" height="24" id="volumeMinIcon">
+        <img src="assets/svg/1F508.svg" alt="Quiet" width="36" height="36" id="volumeMinIcon">
         <input type="range" id="volumeLevelSlider" min="0" max="1" step="0.1" value="1">
-        <img src="assets/svg/1F50A.svg" alt="Loud" width="24" height="24">
+        <img src="assets/svg/1F50A.svg" alt="Loud" width="36" height="36">
       </div>
     </div>
 

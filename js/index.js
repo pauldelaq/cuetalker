@@ -59,6 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('choose-text').textContent = t.choose;
     document.querySelector('#languageMenu h2').textContent = t.languageMenuTitle;
     document.querySelector('footer p').textContent = t.footer;
+
+
+  // ✅ Fix spacing if French is selected
+  if (lang.startsWith('fr')) {
+    patchFrenchPunctuationSpaces(document.body);
+  }
   }
 
   function updateLanguageHighlight() {
@@ -101,3 +107,28 @@ document.addEventListener('DOMContentLoaded', () => {
   loadTranslations();
   loadLessons();
 });
+
+function patchFrenchPunctuationSpaces(container) {
+  const lessonLang = localStorage.getItem('ctlanguage');
+  if (!lessonLang || !lessonLang.startsWith('fr')) return;
+
+  const walker = document.createTreeWalker(
+    container,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    const oldText = node.textContent;
+
+    const newText = oldText
+      .replace(/(«)(\s)/g, '$1\u00A0')          // « + nbsp
+      .replace(/(\s)([»!?;:%$€])/g, '\u00A0$2'); // nbsp + punctuation
+
+    if (oldText !== newText) {
+      node.textContent = newText;
+    }
+  }
+}

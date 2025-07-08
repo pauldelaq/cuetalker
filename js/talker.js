@@ -15,6 +15,7 @@ let finalizedTranscript = '';
 let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
+let voicesInitialized = false;
 let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
 let totalResponses = 0;
 let incorrectResponses = 0;
@@ -98,7 +99,7 @@ function loadTalkerTranslations() {
     .then(res => res.json())
     .then(data => {
       talkerTranslations = data;
-      applyTalkerTranslations();
+      applyTalkerTranslations(); // ✅ This is fine now, because initializeSettingsMenu already ran
     });
 }
 
@@ -108,7 +109,7 @@ function applyTalkerTranslations() {
 
   // Settings menu
   document.querySelector('#settingsMenu h2').textContent = t.settings;
-  document.querySelector('label[for="ctvoice"]').textContent = t.voice;
+  document.querySelector('#voiceDropdown').previousElementSibling.textContent = t.voice;
   document.getElementById('volumeLevelLabel').textContent = t.volume;
   document.getElementById('TTSSpeedLabel').textContent = t.speed;
   document.querySelector('label[for="autoAdvanceToggle"]').lastChild.nodeValue = ` ${t.autoAdvance}`;
@@ -281,38 +282,63 @@ function updateSpeakerIcon(volume) {
   }
 }
 
-function populateVoiceList() {
-  availableVoices = speechSynthesis.getVoices();
-  const voiceSelect = document.getElementById('ctvoice');
-  voiceSelect.innerHTML = '';
+function populateCustomVoiceList() {
+  const voices = speechSynthesis.getVoices();
+  if (!voices.length) {
+    setTimeout(populateCustomVoiceList, 200);
+    return;
+  }
 
-  const storedVoices = JSON.parse(localStorage.getItem('ctvoice')) || {};
-  const storedVoice = storedVoices[selectedLang] || '';
+  const fullLang = localStorage.getItem('ctlanguage') || 'en-US';
+  const langKey = fullLang.split('-')[0];
 
-  const baseLang = selectedLang.split('-')[0].toLowerCase();
+  const dropdownList = document.getElementById('dropdownList');
+  const dropdownToggle = document.getElementById('dropdownToggle');
+  dropdownList.innerHTML = '';
 
-  // ✅ Allow all voices that match the base language (en → en-US, en-GB, etc)
-  const filtered = availableVoices.filter(v =>
-    v.lang && v.lang.toLowerCase().startsWith(baseLang)
-  );
-
-  filtered.forEach(voice => {
-    const opt = document.createElement('option');
-    opt.value = voice.name;
-    opt.textContent = `${voice.name} (${voice.lang})${voice.default ? ' — DEFAULT' : ''}`;
-    if (voice.name === storedVoice) opt.selected = true;
-    voiceSelect.appendChild(opt);
+  const filtered = voices.filter(v => {
+    const [root, region] = v.lang.split('-');
+    if (root !== langKey) return false;
+    if (root === 'zh' && region?.toUpperCase() === 'HK') return false;
+    return true;
   });
 
-  // ✅ Store fallback voice if none selected
-  if (filtered.length > 0 && !filtered.find(v => v.name === storedVoice)) {
-    const fallback = filtered[0].name;
-    storedVoices[selectedLang] = fallback;
-    localStorage.setItem('ctvoice', JSON.stringify(storedVoices));
-    selectedVoiceName = fallback;
-  } else {
-    selectedVoiceName = storedVoice;
+  filtered.forEach(voice => {
+    const li = document.createElement('li');
+    li.textContent = `${voice.name} (${voice.lang})`;
+    li.dataset.voiceName = voice.name;
+    dropdownList.appendChild(li);
+  });
+
+  // Load stored voice for this language
+  const stored = JSON.parse(localStorage.getItem('ctvoice') || '{}');
+  const savedVoiceName = stored[langKey];
+  const defaultVoice = filtered.find(v => v.name === savedVoiceName) || filtered[0];
+
+  if (defaultVoice) {
+    dropdownToggle.textContent = `${defaultVoice.name} (${defaultVoice.lang})`;
+    selectedVoiceName = defaultVoice.name; // ✅ THIS IS WHAT YOU WERE MISSING
+    stored[langKey] = defaultVoice.name;
+    localStorage.setItem('ctvoice', JSON.stringify(stored));
   }
+
+  dropdownList.addEventListener('click', e => {
+    if (e.target.tagName === 'LI') {
+      const selected = e.target.dataset.voiceName;
+      dropdownToggle.textContent = e.target.textContent;
+      dropdownList.style.display = 'none';
+
+      selectedVoiceName = selected; // ✅ Update global when user selects manually
+      const updated = JSON.parse(localStorage.getItem('ctvoice') || '{}');
+      updated[langKey] = selected;
+      localStorage.setItem('ctvoice', JSON.stringify(updated));
+    }
+  });
+
+  dropdownToggle.addEventListener('click', () => {
+    dropdownList.style.display =
+      dropdownList.style.display === 'block' ? 'none' : 'block';
+  });
 }
 
 function highlightDifferences(userText, expectedText) {
@@ -1077,11 +1103,11 @@ function initializeVoiceMenu() {
   availableVoices = speechSynthesis.getVoices();
 
   if (availableVoices.length) {
-    populateVoiceList();
+    populateCustomVoiceList();
   } else {
     speechSynthesis.onvoiceschanged = () => {
       availableVoices = speechSynthesis.getVoices();
-      populateVoiceList();
+      populateCustomVoiceList();
     };
   }
 
@@ -1168,119 +1194,107 @@ function initializeSettingsMenu() {
   }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  loadLesson();
-  initializeVoiceMenu();
-  setupVoiceMenuListener();
-  initializeSettingsMenu();
-  loadTalkerTranslations();
+document.addEventListener('DOMContentLoaded', () => {
+  requestAnimationFrame(() => {
+    initializeSettingsMenu();
+    loadTalkerTranslations(); // This will apply translations *later*, safely
+    populateCustomVoiceList();
+    loadLesson();
+    initializeVoiceMenu();
+    setupVoiceMenuListener();
 
-  const micButton = document.getElementById('micButton');
-  const settingsButton = document.getElementById('settingsButton');
+    speechSynthesis.onvoiceschanged = populateCustomVoiceList;
 
-micButton.addEventListener('click', () => {
-  micButton.blur(); // ✅ Clear focus so :active doesn't stick on mobile
+    const micButton = document.getElementById('micButton');
+    const settingsButton = document.getElementById('settingsButton');
 
-  // ✅ Unlock TTS on iPhone (safari autoplay workaround)
-  speechSynthesis.cancel();
-  speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+    micButton.addEventListener('click', () => {
+      micButton.blur(); // ✅ mobile fix
+      speechSynthesis.cancel();
+      speechSynthesis.speak(new SpeechSynthesisUtterance(''));
 
-  // 🔥 NEW: Skip TTS if user clicks during playback
-  if (isSpeaking) {
-    skipCurrentSpeechAndShowHint();
-    return;
-  }
-
-  if (!modeLocked) {
-    const selected = document.querySelector('input[name="mode"]:checked')?.value;
-    practiceMode = (selected === 'practice');
-
-    if (practiceMode) {
-      autoAdvance = false;
-    }
-
-    modeLocked = true;
-    document.getElementById('cue-footer').classList.add('locked');
-
-    updateAutoAdvanceToggle();
-  }
-
-  let currentItem = conversation[currentIndex];
-  if (!currentItem) return;
-
-  // 🔥 ✅ Check if recognition is running — toggle it (soft mute model)
-  if (isRecording) {
-    stopSpeechRecognition();
-    return;
-  }
-
-  // 🔥 ✅ Practice Mode
-  if (practiceMode) {
-    if (
-      currentItem.type === 'prompt' &&
-      currentItem.hint &&
-      conversation[currentIndex + 1]?.type === 'response'
-    ) {
-      currentIndex++;
-      currentItem = conversation[currentIndex];
-    } else if (currentItem.type === 'narration' || currentItem.type === 'response') {
-      currentIndex++;
-      currentItem = conversation[currentIndex];
-    }
-
-    // ✅ Auto-fill for empty response
-    if (currentItem?.type === 'response' && !currentItem.text) {
-      const prevItem = conversation[currentIndex - 1];
-      const fallbackAnswer = prevItem?.expectedAnswers?.[0];
-      if (fallbackAnswer) {
-        currentItem.text = fallbackAnswer;
-        currentItem.autoFilled = true;
+      if (isSpeaking) {
+        skipCurrentSpeechAndShowHint();
+        return;
       }
-    }
 
-    // ✅ Remove current hint (if any)
-    const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
-    if (hintWrapper?.parentElement) {
-      hintWrapper.parentElement.remove();
-    }
+      if (!modeLocked) {
+        const selected = document.querySelector('input[name="mode"]:checked')?.value;
+        practiceMode = (selected === 'practice');
+        if (practiceMode) autoAdvance = false;
+        modeLocked = true;
+        document.getElementById('cue-footer').classList.add('locked');
+        updateAutoAdvanceToggle();
+      }
 
-    const transcriptEl = document.getElementById('liveTranscript');
-    if (transcriptEl) {
-      transcriptEl.textContent = '';
-    }
+      let currentItem = conversation[currentIndex];
+      if (!currentItem) return;
 
-    showNextMessage();
-    return;
-  }
+      if (isRecording) {
+        stopSpeechRecognition();
+        return;
+      }
 
-  // 🔁 Regular Mode
-  if (
-    currentItem.type === 'prompt' &&
-    currentItem.hint &&
-    conversation[currentIndex + 1]?.type === 'response'
-  ) {
-    currentIndex++;
-    currentItem = conversation[currentIndex];
-  }
+      if (practiceMode) {
+        if (
+          currentItem.type === 'prompt' &&
+          currentItem.hint &&
+          conversation[currentIndex + 1]?.type === 'response'
+        ) {
+          currentIndex++;
+          currentItem = conversation[currentIndex];
+        } else if (currentItem.type === 'narration' || currentItem.type === 'response') {
+          currentIndex++;
+          currentItem = conversation[currentIndex];
+        }
 
-  if (currentItem.type === 'response') {
-    if (currentItem.autoFilled) {
-      currentIndex++;
-      showNextMessage();
-    } else {
-      startMicSession().then(() => {
-        startSpeechRecognition();
-      });
-    }
-  } else if (currentItem.type === 'narration') {
-    currentIndex++;
-    showNextMessage();
-  }
-});
+        if (currentItem?.type === 'response' && !currentItem.text) {
+          const prevItem = conversation[currentIndex - 1];
+          const fallbackAnswer = prevItem?.expectedAnswers?.[0];
+          if (fallbackAnswer) {
+            currentItem.text = fallbackAnswer;
+            currentItem.autoFilled = true;
+          }
+        }
 
-  settingsButton.addEventListener('click', () => {
-    settingsButton.blur(); // ✅ Prevent sticky focus
-    document.getElementById('settingsMenu')?.classList.toggle('show');
+        const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
+        if (hintWrapper?.parentElement) hintWrapper.parentElement.remove();
+
+        const transcriptEl = document.getElementById('liveTranscript');
+        if (transcriptEl) transcriptEl.textContent = '';
+
+        showNextMessage();
+        return;
+      }
+
+      if (
+        currentItem.type === 'prompt' &&
+        currentItem.hint &&
+        conversation[currentIndex + 1]?.type === 'response'
+      ) {
+        currentIndex++;
+        currentItem = conversation[currentIndex];
+      }
+
+      if (currentItem.type === 'response') {
+        if (currentItem.autoFilled) {
+          currentIndex++;
+          showNextMessage();
+        } else {
+          startMicSession().then(() => {
+            startSpeechRecognition();
+          });
+        }
+      } else if (currentItem.type === 'narration') {
+        currentIndex++;
+        showNextMessage();
+      }
+    });
+
+    settingsButton.addEventListener('click', () => {
+      settingsButton.blur();
+      document.getElementById('settingsMenu')?.classList.toggle('show');
+    });
   });
 });
 
