@@ -13,9 +13,9 @@
     {
       "id": "France",
       "name": {
-        "en-US": "Chatting About a Trip to France",
-        "fr-FR": "Parler d'un voyage en France",
-        "es-ES": "Conversando sobre un viaje a Francia",
+        "en-US": "Chatting About a Trip",
+        "fr-FR": "Parler d'un voyage",
+        "es-ES": "Conversando sobre un viaje",
         "zh-CN": "谈论一次法国之旅",
         "zh-TW": "談論一次法國之旅"
       }

@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function loadTranslations() {
-    fetch('data/index-translations.json')
+    return fetch('data/index-translations.json')
       .then(res => res.json())
       .then(data => {
         translations = data;
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load Lessons
   function loadLessons() {
-    fetch('data/lessons.json')
+    return fetch('data/lessons.json')
       .then(res => res.json())
       .then(data => {
         const lang = localStorage.getItem('ctlanguage') || 'en-US';
@@ -88,15 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
         data.lessons.forEach(lesson => {
           const li = document.createElement('li');
           li.className = 'lesson-item';
-
-          // 🔥 Grab the title in the current language, fallback to English
           const title = lesson.name[lang] || lesson.name['en-US'] || lesson.id;
           li.textContent = title;
-
           li.addEventListener('click', () => {
             window.location.href = `talker.html?lesson=${encodeURIComponent(lesson.id)}`;
           });
-
           lessonList.appendChild(li);
         });
       });
@@ -104,8 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   populateLanguageMenu();
   updateLanguageHighlight();
-  loadTranslations();
-  loadLessons();
+
+  Promise.all([loadTranslations(), loadLessons()]).then(() => {
+    document.body.classList.remove('preload'); // ✅ Show content once ready
+  });
 });
 
 function patchFrenchPunctuationSpaces(container) {

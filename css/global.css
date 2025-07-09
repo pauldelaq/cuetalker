@@ -40,6 +40,10 @@ content: "";
     border-radius: 50%;
 }
 
+body.preload {
+  visibility: hidden;
+}
+
 body {
   margin: 0;
   font-family: 'Noto Sans', sans-serif;

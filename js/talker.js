@@ -484,7 +484,6 @@ async function loadLesson() {
 
     initializeVoiceMenu();
     updateMicIcon();
-    showNextMessage();
   } catch (error) {
     console.error('Failed to load lesson:', error);
     alert(`Could not load lesson: ${lessonId}`);
@@ -807,12 +806,12 @@ function startSpeechRecognition() {
     const validAnswers = promptItem?.expectedAnswers || [];
     const normalizedTranscript = normalize(currentTranscript);
 
-    const matched = validAnswers.find(answer =>
+    let matched = validAnswers.find(answer =>
       normalize(answer) === normalizedTranscript
     );
 
-    if (matched) {
-      console.log('✅ Instant match — stopping recognition early');
+    if (matched || isFallbackTrigger(currentTranscript)) {
+      console.log('✅ Instant match (including fallback) — stopping recognition early');
       stopSpeechRecognition();
       handleUserResponse(currentTranscript);
     }
@@ -1197,12 +1196,22 @@ function initializeSettingsMenu() {
 document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(() => {
     initializeSettingsMenu();
-    loadTalkerTranslations(); // This will apply translations *later*, safely
     populateCustomVoiceList();
-    loadLesson();
     initializeVoiceMenu();
     setupVoiceMenuListener();
 
+    Promise.all([
+      loadTalkerTranslations(),
+      loadLesson()
+    ]).then(() => {
+      document.body.classList.remove('preload');
+
+      // ✅ Wait until page is visible, then render first message
+      requestAnimationFrame(() => {
+        showNextMessage();
+      });
+    });
+    
     speechSynthesis.onvoiceschanged = populateCustomVoiceList;
 
     const micButton = document.getElementById('micButton');
