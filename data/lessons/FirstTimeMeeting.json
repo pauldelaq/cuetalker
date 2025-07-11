@@ -1,0 +1,1165 @@
+{
+    "svgLibrary": {
+    "1": "assets/svg/1F469-200D-1F373.svg",
+    "2": "assets/svg/1F9D1.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "You",
+    "svg": "hint"
+  },
+    "languages": {
+            "en-US": {
+        "language": "en-US",
+        "languageName": "English",
+        "lessonName": "First Time Meeting",
+        "exercises": [
+            {
+            "id": 0,
+            "type": "narration",
+            "text": "You have just met a new friend. Introduce yourself and ask some questions about her, too."
+            },
+            {
+            "id": 1,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "Hello there! I don't believe we've met before. What's your name?",
+            "hint": "... Sam",
+            "expectedAnswers": [
+                "My name is Sam.",
+                "My name's Sam."
+            ]
+            },
+            {
+            "id": 2,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 3,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "Hey Sam! Nice to meet you.",
+            "hint": "... you, too",
+            "expectedAnswers": [
+                "It's nice to meet you, too.",
+                "Nice to meet you, too."
+            ]
+            },
+            {
+            "id": 4,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 5,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "So, where are you from?",
+            "hint": "... Canada",
+            "expectedAnswers": [
+                "I am from Canada.",
+                "I'm from Canada."
+            ]
+            },
+            {
+            "id": 6,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 7,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "Cool! I have friends from Canada. It looks like a great place! How long have you lived here?",
+            "hint": "... eight years",
+            "expectedAnswers": [
+                "I have lived here for eight years.",
+                "I've lived here for eight years."
+            ]
+            },
+            {
+            "id": 8,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 9,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "Eight years? Wow! That's a long time. So, what do you do?",
+            "hint": "... teacher",
+            "expectedAnswers": [
+                "I am a teacher.",
+                "I'm a teacher.",
+                "I work as a teacher."
+            ]
+            },
+            {
+            "id": 10,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 11,
+            "type": "narration",
+            "text": "Now, your new friend knows a lot about you. Don't forget to ask some questions about her, too. Go ahead.",
+            "hint": "How... you? ... name?",
+            "expectedAnswers": [
+                "How about you? What is your name?",
+                "How about you? What's your name?"
+            ]
+            },
+            {
+            "id": 12,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+                {
+            "id": 13,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "Me? My name's Lisa. Thanks for asking!",
+            "hint": "So, where... from, Lisa?",
+            "expectedAnswers": [
+                "So, where are you from, Lisa?"
+            ]
+            },
+            {
+            "id": 14,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 15,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "I'm from England, or the UK, if you prefer.",
+            "hint": "And how long... here?",
+            "expectedAnswers": [
+                "And how long have you lived here?"
+            ]
+            },
+            {
+            "id": 16,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 17,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "Actually, same as you. I've lived here for about eight years now, too!",
+            "hint": "Cool. So what... do here?",
+            "expectedAnswers": [
+                "Cool. So what do you do here?"
+            ]
+            },
+            {
+            "id": 18,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 19,
+            "type": "prompt",
+            "character": {
+                "name": "New Friend",
+                "svg": 1
+            },
+            "text": "I work as a chef here. Come by my restaurant and I'll cook you a delicious meal sometime! Anyway, I've got to run. See you later, Sam!",
+            "hint": "Bye Lisa... later!",
+            "expectedAnswers": [
+                "Bye Lisa, see you later!"
+            ]
+            },
+            {
+            "id": 20,
+            "type": "response",
+            "character": {
+                "name": "You",
+                "svg": 2
+            }
+            },
+            {
+            "id": 21,
+            "type": "narration",
+            "text": "Well done! It looks like you've made a new friend. Lisa was happy to meet you."
+            }
+        ]
+        },
+            "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Première Rencontre",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Tu viens de rencontrer un nouvel ami. Présente-toi et pose-lui aussi quelques questions."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "Bonjour ! Je ne crois pas que nous nous soyons déjà rencontrés. Comment tu t’appelles ?",
+          "hint": "... Sam",
+          "expectedAnswers": [
+            "Je m'appelle Sam.",
+            "Mon nom est Sam."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "Salut Sam ! Ravi de te rencontrer.",
+          "hint": "... te rencontrer aussi",
+          "expectedAnswers": [
+            "Ravi de te rencontrer aussi.",
+            "C’est un plaisir de te rencontrer aussi."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "Alors, d'où viens-tu ?",
+          "hint": "... du Canada",
+          "expectedAnswers": [
+            "Je viens du Canada.",
+            "Je suis du Canada."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "Cool ! J’ai des amis du Canada. Ça a l’air d’un super endroit ! Depuis combien de temps vis-tu ici ?",
+          "hint": "... huit ans",
+          "expectedAnswers": [
+            "Je vis ici depuis huit ans.",
+            "Ça fait huit ans que je vis ici."
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "Huit ans ? Waouh ! C’est long. Alors, que fais-tu dans la vie ?",
+          "hint": "... enseignant",
+          "expectedAnswers": [
+            "Je suis enseignant.",
+            "Je travaille comme enseignant."
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 11,
+          "type": "narration",
+          "text": "Maintenant, ton nouvel ami en sait beaucoup sur toi. N’oublie pas de lui poser quelques questions aussi. Vas-y.",
+          "hint": "Et toi ... Comment... t'appelles ?",
+          "expectedAnswers": [
+            "Et toi ? Comment tu t’appelles ?"
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "Moi ? Je m'appelle Lisa. Merci d’avoir demandé !",
+          "hint": "Alors, ... viens-tu, Lisa ?",
+          "expectedAnswers": [
+            "Alors, d’où viens-tu, Lisa ?"
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "Je viens d’Angleterre, ou du Royaume-Uni si tu préfères.",
+          "hint": "Et ... de temps ... ici ?",
+          "expectedAnswers": [
+            "Et depuis combien de temps vis-tu ici ?"
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "En fait, pareil que toi. Je vis ici depuis environ huit ans aussi !",
+          "hint": "Alors... fais-tu ici ?",
+          "expectedAnswers": [
+            "Alors que fais-tu ici ?"
+          ]
+        },
+        {
+          "id": 18,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": {
+            "name": "Nouvel Ami",
+            "svg": 1
+          },
+          "text": "Je travaille comme chef ici. Passe à mon restaurant et je te cuisinerai un délicieux repas un de ces jours ! Bon, je dois y aller. À plus tard, Sam !",
+          "hint": "... , Lisa !",
+          "expectedAnswers": [
+            "À plus tard, Lisa !"
+          ]
+        },
+        {
+          "id": 20,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 2
+          }
+        },
+        {
+          "id": 21,
+          "type": "narration",
+          "text": "Bien joué ! Il semble que tu te sois fait une nouvelle amie. Lisa était contente de te rencontrer."
+        }
+      ]
+    },
+    "es-ES": {
+        "language": "es-ES",
+        "languageName": "Español",
+        "lessonName": "Primera Reunión",
+        "exercises": [
+            {
+            "id": 0,
+            "type": "narration",
+            "text": "Acabas de conocer a una nueva amiga. Preséntate y hazle algunas preguntas también."
+            },
+            {
+            "id": 1,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "¡Hola! No creo que nos hayamos conocido antes. ¿Cómo te llamas?",
+            "hint": "... Sam",
+            "expectedAnswers": [
+                "Me llamo Sam.",
+                "Mi nombre es Sam."
+            ]
+            },
+            {
+            "id": 2,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 3,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "¡Hola Sam! Encantada de conocerte.",
+            "hint": "... conocerte",
+            "expectedAnswers": [
+                "Encantado de conocerte.",
+                "Encantada de conocerte."
+            ]
+            },
+            {
+            "id": 4,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 5,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "Entonces, ¿de dónde eres?",
+            "hint": "... Canadá",
+            "expectedAnswers": [
+                "Soy de Canadá.",
+                "Vengo de Canadá."
+            ]
+            },
+            {
+            "id": 6,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 7,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "¡Qué bien! Tengo amigos de Canadá. ¡Parece un gran lugar! ¿Cuánto tiempo llevas viviendo aquí?",
+            "hint": "... ocho años",
+            "expectedAnswers": [
+                "He vivido aquí durante ocho años.",
+                "Llevo ocho años viviendo aquí."
+            ]
+            },
+            {
+            "id": 8,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 9,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "¿Ocho años? ¡Vaya! Es mucho tiempo. Entonces, ¿a qué te dedicas?",
+            "hint": "... profesor",
+            "expectedAnswers": [
+                "Soy profesor.",
+                "Soy profesora.",
+                "Trabajo como profesor.",
+                "Trabajo como profesora."
+            ]
+            },
+            {
+            "id": 10,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 11,
+            "type": "narration",
+            "text": "Ahora, tu nueva amiga sabe mucho sobre ti. No olvides hacerle algunas preguntas también. Adelante.",
+            "hint": "¿Y tú? ... llamas?",
+            "expectedAnswers": [
+                "¿Y tú? ¿Cómo te llamas?",
+                "¿Y tú? ¿Cuál es tu nombre?"
+            ]
+            },
+            {
+            "id": 12,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 13,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "¿Yo? Me llamo Lisa. ¡Gracias por preguntar!",
+            "hint": "¿De... eres, Lisa?",
+            "expectedAnswers": [
+                "¿De dónde eres, Lisa?"
+            ]
+            },
+            {
+            "id": 14,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 15,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "Soy de Inglaterra, o del Reino Unido, si lo prefieres.",
+            "hint": "¿Cuánto tiempo... aquí?",
+            "expectedAnswers": [
+                "¿Cuánto tiempo llevas viviendo aquí?"
+            ]
+            },
+            {
+            "id": 16,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 17,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "En realidad, igual que tú. ¡Llevo unos ocho años viviendo aquí también!",
+            "hint": "¿Y... haces aquí?",
+            "expectedAnswers": [
+                "¿Y qué haces aquí?"
+            ]
+            },
+            {
+            "id": 18,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 19,
+            "type": "prompt",
+            "character": {
+                "name": "Nueva Amiga",
+                "svg": 1
+            },
+            "text": "Trabajo como chef aquí. ¡Pasa por mi restaurante y te prepararé una comida deliciosa algún día! Bueno, me tengo que ir. ¡Hasta luego, Sam!",
+            "hint": "Adiós Lisa... luego",
+            "expectedAnswers": [
+                "Adiós Lisa, hasta luego."
+            ]
+            },
+            {
+            "id": 20,
+            "type": "response",
+            "character": {
+                "name": "Tú",
+                "svg": 2
+            }
+            },
+            {
+            "id": 21,
+            "type": "narration",
+            "text": "¡Buen trabajo! Parece que has hecho una nueva amiga. Lisa estaba feliz de conocerte."
+            }
+        ]
+        },
+        "zh-CN": {
+  "language": "zh-CN",
+  "languageName": "简体中文",
+  "lessonName": "第一次见面",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "你刚认识一个新朋友。请做一下自我介绍，也问她几个问题。"
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "你好！我们好像还没见过。你叫什么名字？",
+      "hint": "... 山姆",
+      "expectedAnswers": [
+        "我叫山姆。",
+        "我的名字是山姆。"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "你好，山姆！很高兴认识你。",
+      "hint": "... 认识你",
+      "expectedAnswers": [
+        "很高兴认识你。",
+        "认识你很高兴。"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "你是哪里人？",
+      "hint": "... 加拿大 ...",
+      "expectedAnswers": [
+        "我是加拿大人。",
+        "我来自加拿大。",
+        "我从加拿大来。"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 7,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "太棒了！我也有来自加拿大的朋友。那地方看起来真不错！你来这边住多久了？",
+      "hint": "... 八年",
+      "expectedAnswers": [
+        "我来这边住八年了。",
+        "我已经在这边住八年了。"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 9,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "八年？哇，挺久的呀。那你是做什么工作的？",
+      "hint": "... 老师",
+      "expectedAnswers": [
+        "我是老师。",
+        "我当老师。",
+        "我是一位老师。"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 11,
+      "type": "narration",
+      "text": "现在你的新朋友已经了解你不少了。别忘了也问问她一些问题吧。开始吧！",
+      "hint": "你呢... 名字？",
+      "expectedAnswers": [
+        "你呢？你叫什么名字？",
+        "你呢？你的名字是什么？"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 13,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "我吗？我叫丽莎。谢谢你问我！",
+      "hint": "... 哪里人, 丽莎？",
+      "expectedAnswers": [
+        "你是哪里人？，丽莎？",
+        "你从哪里来的，丽莎？"
+      ]
+    },
+    {
+      "id": 14,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 15,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "我来自英国，或者你可以说是联合王国。",
+      "hint": "你在这边住...？",
+      "expectedAnswers": [
+        "你在这边住多久了？"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 17,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "其实跟你一样，我也在这儿差不多住了八年了！",
+      "hint": "你在... 做什么的？",
+      "expectedAnswers": [
+        "你在这儿是做什么的？",
+        "你在这边是做什么的？"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 19,
+      "type": "prompt",
+      "character": {
+        "name": "新朋友",
+        "svg": 1
+      },
+      "text": "我在这边当厨师。有空来我餐厅，我请你吃顿好吃的！好了，我得走啦。再见，山姆！",
+      "hint": "... 丽莎... 回头见！",
+      "expectedAnswers": [
+        "再见丽莎，回头见！"
+      ]
+    },
+    {
+      "id": 20,
+      "type": "response",
+      "character": {
+        "name": "你",
+        "svg": 2
+      }
+    },
+    {
+      "id": 21,
+      "type": "narration",
+      "text": "干得不错！看起来你交了个新朋友。丽莎很高兴认识你。"
+    }
+  ]
+},
+        "zh-TW": {
+        "language": "zh-TW",
+        "languageName": "繁體中文",
+        "lessonName": "第一次見面",
+        "exercises": [
+            {
+            "id": 0,
+            "type": "narration",
+            "text": "你剛認識了一位新朋友。請自我介紹，並問問對方一些問題。"
+            },
+            {
+            "id": 1,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "嗨！我們之前好像沒見過。你叫什麼名字？",
+            "hint": "... 山姆",
+            "expectedAnswers": [
+                "我叫山姆。",
+                "我的名字是山姆。"
+            ]
+            },
+            {
+            "id": 2,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 3,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "嗨山姆！很高興認識你。",
+            "hint": "... 認識你",
+            "expectedAnswers": [
+                "很高興認識你。",
+                "認識你很高興。"
+            ]
+            },
+            {
+            "id": 4,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 5,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "你從哪裡來？",
+            "hint": "... 加拿大",
+            "expectedAnswers": [
+                "我來自加拿大。",
+                "我從加拿大來。"
+            ]
+            },
+            {
+            "id": 6,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 7,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "酷！我有一些來自加拿大的朋友。那裡看起來很棒！你在這裡住多久了？",
+            "hint": "... 八年",
+            "expectedAnswers": [
+                "我在這裡住八年了。",
+                "我已經在這裡住八年了。"
+            ]
+            },
+            {
+            "id": 8,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 9,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "八年？哇！好久了。那你是做什麼的？",
+            "hint": "... 老師",
+            "expectedAnswers": [
+                "我是老師。",
+                "我當老師。",
+                "我是一位老師。"
+            ]
+            },
+            {
+            "id": 10,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 11,
+            "type": "narration",
+            "text": "現在你的新朋友對你有不少了解。別忘了也問她一些問題。請開始吧。",
+            "hint": "你呢... 名字？",
+            "expectedAnswers": [
+                "你呢？你叫什麼名字？",
+                "你呢？你的名字是什麼？"
+            ]
+            },
+            {
+            "id": 12,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 13,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "我嗎？我叫麗莎。謝謝你問我！",
+            "hint": "... 來的, 麗莎？",
+            "expectedAnswers": [
+                "你從哪裡來的, 麗莎？"
+            ]
+            },
+            {
+            "id": 14,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 15,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "我來自英國，或你也可以說是英國聯合王國。",
+            "hint": "你在這裡住...？",
+            "expectedAnswers": [
+                "你在這裡住多久了？"
+            ]
+            },
+            {
+            "id": 16,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 17,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "其實，和你一樣。我也在這裡住大約八年了！",
+            "hint": "你在... 是做... 的？",
+            "expectedAnswers": [
+                "你在這裡是做什麼的？"
+            ]
+            },
+            {
+            "id": 18,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 19,
+            "type": "prompt",
+            "character": {
+                "name": "新朋友",
+                "svg": 1
+            },
+            "text": "我在這裡當廚師。有空來我的餐廳，我煮好吃的給你！好了，我得走了。再見，山姆！",
+            "hint": "... 麗莎... 待會見！",
+            "expectedAnswers": [
+                "再見麗莎，待會見！"
+            ]
+            },
+            {
+            "id": 20,
+            "type": "response",
+            "character": {
+                "name": "你",
+                "svg": 2
+            }
+            },
+            {
+            "id": 21,
+            "type": "narration",
+            "text": "做得好！看來你交到了一位新朋友。麗莎很高興認識你。"
+            }
+        ]
+        }
+    }
+  }

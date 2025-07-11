@@ -29,6 +29,16 @@
         "zh-CN": "错过火车",
         "zh-TW": "錯過火車"
       }
+    },
+        {
+      "id": "FirstTimeMeeting",
+      "name": {
+        "en-US": "First Time Meeting",
+        "fr-FR": "Première Rencontre",
+        "es-ES": "Primera Reunión",
+        "zh-CN": "第一次见面",
+        "zh-TW": "第一次見面"
+      }
     }
   ]
 }

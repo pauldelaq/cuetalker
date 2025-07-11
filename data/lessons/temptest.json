@@ -1,0 +1,69 @@
+{
+    "svgLibrary": {
+    "1": "assets/svg/1F935-200D-2640-FE0F.svg",
+    "2": "assets/svg/1F9D1-200D-1F393.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "You",
+    "svg": "hint"
+  },
+    "languages": {
+    "en-US": {
+  "language": "en-US",
+  "languageName": "English",
+  "lessonName": "A Trip to France",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "Your friend is asking you some questions about your trip to France."
+    },
+        {
+      "id": 1,
+      "type": "narration",
+      "text": "Now, your new friend knows a lot about you. Don't forget to ask some questions about her, too. Go ahead.",
+      "hint": "How... you? ... name?",
+      "expectedAnswers": [
+        "How about you? What is your name?",
+        "How about you? What's your name?"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "You",
+        "svg": 2
+      }
+    },
+        {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "New Friend",
+        "svg": 1
+      },
+      "text": "Me? My name's Lisa. Thanks for asking!",
+      "hint": "So, where... from, Lisa?",
+      "expectedAnswers": [
+        "So, where are you from, Lisa?"
+      ]
+    },
+        {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "You",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "narration",
+      "text": "Well done! Your friend is happy that you've shared your experience with her."
+    }
+  ]
+}
+}
+}

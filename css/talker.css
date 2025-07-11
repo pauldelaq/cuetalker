@@ -228,7 +228,7 @@ footer#cue-footer {
 #settingsMenu {
   position: fixed;
   top: 60px;
-  height: 100vh;
+  bottom: 0;
   left: 0;
   right: 0;
   background: #f9f9f9;
@@ -236,6 +236,7 @@ footer#cue-footer {
   padding: 20px;
   display: none;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /* Adjust its scope to only occupy <main>, not the whole page */

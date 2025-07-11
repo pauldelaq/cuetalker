@@ -508,31 +508,60 @@ function tryAutoAdvance() {
 }
 
 function updateMicIcon() {
-  const micIcon = document.querySelector('#micButton img');
+  const micIcon   = document.querySelector('#micButton img');
   const micButton = document.getElementById('micButton');
   const currentItem = conversation[currentIndex];
+  const nextItem    = conversation[currentIndex + 1];
+  const atFinalMessage = currentIndex === conversation.length - 1;
 
-  // 🔁 Toggle recording visual
-    if (isRecording) {
-    micIcon.src = 'assets/svg/23FA.svg';
-    micButton.classList.add('recording');
-    } else {
+  if (atFinalMessage) {
     micButton.classList.remove('recording');
-
-    if (isSpeaking && currentItem?.type === 'prompt') {
-    micIcon.src = 'assets/svg/25B6.svg'; // "next" icon
+    micIcon.src = 'assets/svg/1F504.svg'; // 🔁 Replay
     return;
   }
 
-    if (practiceMode) {
-        // ✅ Keep static icon in practice mode
-        micIcon.src = 'assets/svg/25B6.svg'; // mic
-    } else if (!currentItem || currentItem.type === 'narration') {
-        micIcon.src = 'assets/svg/25B6.svg'; // narration
-    } else {
-        micIcon.src = 'assets/svg/1F3A4.svg'; // mic
-    }
-    }
+  if (isRecording) {
+    micIcon.src = 'assets/svg/23FA.svg';
+    micButton.classList.add('recording');
+    return;
+  }
+
+  micButton.classList.remove('recording');
+
+  if (isSpeaking && currentItem?.type === 'prompt') {
+    micIcon.src = 'assets/svg/25B6.svg';
+    return;
+  }
+
+  if (practiceMode) {
+    micIcon.src = 'assets/svg/25B6.svg';
+    return;
+  }
+
+  // 🛑 NEW: prevent mic icon until hint bubble is present
+  if (
+    currentItem?.type === 'prompt' &&
+    currentItem.hint &&
+    !document.querySelector('.hint-bubble')
+  ) {
+    micIcon.src = 'assets/svg/25B6.svg';
+    return;
+  }
+
+  if (
+    currentItem?.type === 'narration' &&
+    currentItem.hint &&
+    conversation[currentIndex + 1]?.type === 'response'
+  ) {
+    micIcon.src = 'assets/svg/1F3A4.svg';
+    return;
+  }
+
+  if (!currentItem || currentItem.type === 'narration') {
+    micIcon.src = 'assets/svg/25B6.svg';
+  } else {
+    micIcon.src = 'assets/svg/1F3A4.svg';
+  }
 }
 
 function showNextMessage() {
@@ -584,26 +613,19 @@ function showNextMessage() {
     renderHintBubble(item.hint);
     tryAutoAdvance();
 
-  } else if (item.type === 'narration') {
-    // Show narration and wait for user input
+} else if (item.type === 'narration') {
+  // new: if this narration has a hint + expectedAnswers, show the hint like a prompt
+  if (item.hint && item.expectedAnswers) {
+    renderHintBubble(item.hint);
+    updateMicIcon();
+    tryAutoAdvance();
+  }
 
   } else if (item.type === 'response') {
     // Wait for user input
   }
 
-  // ✅ Display final score if this is the last item
-  const nextItem = conversation[currentIndex + 1];
-  if (!nextItem) {
-    displayFinalScore();
-
-    const micIcon = document.querySelector('#micButton img');
-    micIcon.src = 'assets/svg/1F504.svg';
-
-    const micButton = document.getElementById('micButton');
-    micButton.onclick = () => {
-      location.reload();
-    };
-  }
+  updateMicIcon();
 }
 
 function renderCurrentLine(item) {
@@ -1051,10 +1073,22 @@ function handleUserResponse(spokenText) {
     item.text = matched;
     renderCurrentLine(item);
 
+    // ── NEW: if there is no next item, we're done ──
+    const nextItem = conversation[currentIndex + 1];
+    if (!nextItem) {
+      displayFinalScore();
+
+      // 🛑 Without this call, updateMicIcon never runs here
+      updateMicIcon();
+      return;
+    }
+
+    // ── otherwise keep going ──
     currentIndex++;
     showNextMessage();
+    return;
   } else {
-    // ❌ INCORRECT
+    // ❌ INCORRECT (unchanged)
     incorrectResponses++;
     item.wasIncorrect = true;
 
@@ -1062,7 +1096,7 @@ function handleUserResponse(spokenText) {
     let lowestDistance = Infinity;
 
     for (const expected of validAnswers) {
-      const dist = wordLevelDistance(normalizedSpoken, normalize(expected));
+      const dist = wordLevelDistance(normalize(spokenText), normalize(expected));
       if (dist < lowestDistance) {
         lowestDistance = dist;
         bestMatch = expected;
@@ -1218,6 +1252,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsButton = document.getElementById('settingsButton');
 
     micButton.addEventListener('click', () => {
+        if (!conversation[currentIndex + 1]) {
+        return location.reload();
+        }
       micButton.blur(); // ✅ mobile fix
       speechSynthesis.cancel();
       speechSynthesis.speak(new SpeechSynthesisUtterance(''));
@@ -1244,6 +1281,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // practice-mode logic stays the same
       if (practiceMode) {
         if (
           currentItem.type === 'prompt' &&
@@ -1276,9 +1314,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // ── NEW: treat narration-with-hint just like prompt-with-hint ──
       if (
-        currentItem.type === 'prompt' &&
-        currentItem.hint &&
+        (
+          currentItem.type === 'prompt' ||
+          (currentItem.type === 'narration' && currentItem.hint && conversation[currentIndex + 1]?.type === 'response')
+        ) &&
         conversation[currentIndex + 1]?.type === 'response'
       ) {
         currentIndex++;
@@ -1295,6 +1336,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }
       } else if (currentItem.type === 'narration') {
+        // pure narration (no hint/expectedAnswers) still just advances
         currentIndex++;
         showNextMessage();
       }
