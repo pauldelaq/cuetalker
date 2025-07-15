@@ -152,11 +152,10 @@
       "id": 1,
       "type": "prompt",
       "character": { "name": "Compagnon de Voyage", "svg": 1 },
-      "text": "Oh non ! Le train part dans cinq minutes. Si on court maintenant, tu penses qu'on peut encore l'attraper à temps ?",
+      "text": "Oh non ! Le train part dans cinq minutes. Tu penses qu'on peut encore l'attraper ?",
       "hint": "Oui, ...",
       "expectedAnswers": [
-        "Oui, si on court maintenant, je pense qu'on peut encore l'attraper à temps.",
-        "Oui, je pense qu'on peut encore l'attraper à temps si on court maintenant."
+        "Oui, je pense qu'on peut encore l'attraper."
       ]
     },
     {

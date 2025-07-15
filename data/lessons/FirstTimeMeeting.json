@@ -95,6 +95,8 @@
             "text": "Cool! I have friends from Canada. It looks like a great place! How long have you lived here?",
             "hint": "... eight years",
             "expectedAnswers": [
+                "I have lived here for 8 years.",
+                "I've lived here for 8 years.",
                 "I have lived here for eight years.",
                 "I've lived here for eight years."
             ]
@@ -325,6 +327,8 @@
           "text": "Cool ! J’ai des amis du Canada. Ça a l’air d’un super endroit ! Depuis combien de temps vis-tu ici ?",
           "hint": "... huit ans",
           "expectedAnswers": [
+            "Je vis ici depuis 8 ans.",
+            "Ça fait 8 ans que je vis ici.",
             "Je vis ici depuis huit ans.",
             "Ça fait huit ans que je vis ici."
           ]
@@ -553,6 +557,8 @@
             "text": "¡Qué bien! Tengo amigos de Canadá. ¡Parece un gran lugar! ¿Cuánto tiempo llevas viviendo aquí?",
             "hint": "... ocho años",
             "expectedAnswers": [
+                "He vivido aquí durante 8 años.",
+                "Llevo 8 años viviendo aquí.",
                 "He vivido aquí durante ocho años.",
                 "Llevo ocho años viviendo aquí."
             ]

@@ -9,61 +9,39 @@
     "svg": "hint"
   },
     "languages": {
-    "en-US": {
-  "language": "en-US",
-  "languageName": "English",
+    "fr-FR": {
+  "language": "fr-FR",
+  "languageName": "Français",
   "lessonName": "A Trip to France",
   "exercises": [
     {
-      "id": 0,
-      "type": "narration",
-      "text": "Your friend is asking you some questions about your trip to France."
-    },
-        {
       "id": 1,
-      "type": "narration",
-      "text": "Now, your new friend knows a lot about you. Don't forget to ask some questions about her, too. Go ahead.",
-      "hint": "How... you? ... name?",
+      "type": "prompt",
+      "character": { "name": "Compagnon de Voyage", "svg": 1 },
+      "text": "Très bien, voyager en bus devrait aller. Combien de temps penses-tu que ça prendra si on y va en bus ?",
+      "hint": "... 9 heures ...",
       "expectedAnswers": [
-        "How about you? What is your name?",
-        "How about you? What's your name?"
+        "Je pense que ça prendra 9 heures si on y va en bus.",
+        "Je pense que si on y va en bus, ça prendra 9 heures."
       ]
     },
     {
       "id": 2,
       "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
-    },
-        {
-      "id": 3,
-      "type": "prompt",
-      "character": {
-        "name": "New Friend",
-        "svg": 1
-      },
-      "text": "Me? My name's Lisa. Thanks for asking!",
-      "hint": "So, where... from, Lisa?",
-      "expectedAnswers": [
-        "So, where are you from, Lisa?"
-      ]
-    },
-        {
-      "id": 4,
-      "type": "response",
-      "character": {
-        "name": "You",
-        "svg": 2
-      }
+      "character": { "name": "Toi", "svg": 2 }
     },
     {
-      "id": 5,
-      "type": "narration",
-      "text": "Well done! Your friend is happy that you've shared your experience with her."
+      "id": 3,
+      "type": "prompt",
+      "character": { "name": "Compagnon de Voyage", "svg": 1 },
+      "text": "Neuf heures ? C’est beaucoup trop long ! Ce voyage est un désastre. Que devrait-on faire différemment si on voyage encore ensemble la prochaine fois ?",
+      "hint": "... régler nos réveils ...",
+      "expectedAnswers": [
+        "On devrait régler nos réveils si on voyage encore ensemble la prochaine fois.",
+        "Si on voyage encore ensemble la prochaine fois, on devrait régler nos réveils."
+      ]
     }
-  ]
-}
-}
+      ]
+    }
+  }
 }

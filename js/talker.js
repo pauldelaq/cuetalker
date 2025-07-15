@@ -140,6 +140,9 @@ const misheardMap = {
   'es-ES': {
     'di': 'vi',
     'muy': 'fui'
+  },
+  'fr-FR': {
+    '9h': 'neuf heures'
   }
 };
 
@@ -914,17 +917,20 @@ function normalize(text, langHint) {
   // 🔥 Remove punctuation
   normalized = normalized.replace(/[.,!?;:"'’“”()\[\]{}¿¡，。！？；：「」『』（）【】]/g, '');
 
-  // 🔥 Extract base language from langHint (e.g., 'zh-TW' → 'zh')
-  const baseLang = (langHint || lessonLang || 'en-US').split('-')[0];
+  // 🔥 Fix non-breaking spaces
+  normalized = normalized.replace(/\u00A0/g, ' ');
 
+  // 🔥 Collapse all whitespace into single spaces — IMPORTANT
+  normalized = normalized.replace(/\s+/g, ' ');
+
+  // 🔥 Remove all spaces for Asian languages
+  const baseLang = (langHint || lessonLang || 'en-US').split('-')[0];
   const asianLangs = ['zh', 'ja', 'ko', 'th'];
   if (asianLangs.includes(baseLang)) {
-    normalized = normalized.replace(/\s+/g, '');
-  } else {
-    normalized = normalized.replace(/\s+/g, ' ');
+    normalized = normalized.replace(/ /g, '');  // spaces already collapsed above
   }
 
-  return normalized;
+  return normalized.trim();
 }
 
 function handleUserResponse(spokenText) {
