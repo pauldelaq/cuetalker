@@ -629,6 +629,13 @@ function showNextMessage() {
   }
 
   updateMicIcon();
+
+    // ✅ New: if this was the final message, show score now
+  const isLastItem = currentIndex === conversation.length - 1;
+  if (isLastItem && item.type === 'narration') {
+    displayFinalScore();
+  }
+
 }
 
 function renderCurrentLine(item) {
@@ -679,7 +686,9 @@ function renderCurrentLine(item) {
     msgDiv.classList.add('swipe-in-left');
   }
 
-  bubble.innerText = item.text || '...';
+  // Clean alias syntax from displayed text
+  const cleanText = item.text?.includes('((') ? extractDisplayAndVariants(item.text).display : item.text;
+  bubble.innerText = cleanText || '...';
   patchFrenchPunctuationSpaces(bubble);
 
   if (item.type === 'response') {

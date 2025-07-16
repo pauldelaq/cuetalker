@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const langButton = document.getElementById('languageButton');
   const langMenu = document.getElementById('languageMenu');
   const langList = document.querySelector('.language-list');
-  const lessonList = document.getElementById('lesson-list');
 
   const languages = [
     { code: 'en-US', name: 'English' },
@@ -15,12 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentLang = localStorage.getItem('ctlanguage') || '';
   let translations = {};
 
-  // Open language menu
   langButton.addEventListener('click', () => {
     langMenu.classList.toggle('hidden');
   });
 
-  // Populate Language Menu
   function populateLanguageMenu() {
     langList.innerHTML = '';
     languages.forEach(lang => {
@@ -29,13 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = lang.name;
       if (lang.code === currentLang) btn.classList.add('selected');
 
-  btn.addEventListener('click', () => {
-    localStorage.setItem('ctlanguage', lang.code);
-    langMenu.classList.add('hidden');
-    updateLanguageHighlight();
-    applyTranslations();
-    loadLessons(); // 🔥 Reload lesson titles
-  });
+      btn.addEventListener('click', () => {
+        localStorage.setItem('ctlanguage', lang.code);
+        langMenu.classList.add('hidden');
+        updateLanguageHighlight();
+        applyTranslations();
+      });
 
       langList.appendChild(btn);
     });
@@ -54,15 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const lang = localStorage.getItem('ctlanguage') || 'en-US';
     const t = translations[lang] || translations['en-US'];
 
-    document.getElementById('choose-text').textContent = t.choose;
+    document.getElementById('intro-text').textContent = t.intro;
     document.querySelector('#languageMenu h2').textContent = t.languageMenuTitle;
     document.querySelector('footer p').textContent = t.footer;
 
-
-  // ✅ Fix spacing if French is selected
-  if (lang.startsWith('fr')) {
-    patchFrenchPunctuationSpaces(document.body);
-  }
+    if (lang.startsWith('fr')) {
+      patchFrenchPunctuationSpaces(document.body);
+    }
   }
 
   function updateLanguageHighlight() {
@@ -75,41 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Load Lessons
-  function loadLessons() {
-    return fetch('data/lessons.json')
-      .then(res => res.json())
-      .then(data => {
-        const lang = localStorage.getItem('ctlanguage') || 'en-US';
-
-        lessonList.innerHTML = '';
-        data.lessons.forEach(lesson => {
-          const li = document.createElement('li');
-          li.className = 'lesson-item';
-          const title = lesson.name[lang] || lesson.name['en-US'] || lesson.id;
-          li.textContent = title;
-          li.addEventListener('click', () => {
-            window.location.href = `talker.html?lesson=${encodeURIComponent(lesson.id)}`;
-          });
-          lessonList.appendChild(li);
-        });
-      });
-  }
-
   populateLanguageMenu();
   updateLanguageHighlight();
 
-  Promise.all([loadTranslations(), loadLessons()]).then(() => {
-    document.body.classList.remove('preload'); // ✅ Show content once ready
-  });
-
-    const infoButton = document.getElementById('infoButton');
-  if (infoButton) {
-    infoButton.addEventListener('click', () => {
-      window.location.href = 'info.html';
+    loadTranslations()
+    .catch(err => {
+        console.error('Translation loading failed:', err);
+    })
+    .finally(() => {
+        document.body.classList.remove('preload');
     });
-  }
-
 });
 
 function patchFrenchPunctuationSpaces(container) {
@@ -128,8 +97,8 @@ function patchFrenchPunctuationSpaces(container) {
     const oldText = node.textContent;
 
     const newText = oldText
-      .replace(/(«)(\s)/g, '$1\u00A0')          // « + nbsp
-      .replace(/(\s)([»!?;:%$€])/g, '\u00A0$2'); // nbsp + punctuation
+      .replace(/(«)(\s)/g, '$1\u00A0')
+      .replace(/(\s)([»!?;:%$€])/g, '\u00A0$2');
 
     if (oldText !== newText) {
       node.textContent = newText;
