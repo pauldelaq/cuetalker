@@ -106,8 +106,8 @@
           "text": "Alright then, traveling by bus should be fine. How long do you think it will take if we get there by bus?",
           "hint": "... 9 hours ...",
           "expectedAnswers": [
-            "I think it will take 9 hours if we get there by bus.",
-            "I think if we get there by bus, it will take 9 hours."
+            "I think it will take ((9)nine) hours if we get there by bus.",
+            "I think if we get there by bus, it will take ((9)nine) hours."
           ]
         },
         {
@@ -186,8 +186,8 @@
       "text": "Zut ! Le train est déjà parti. C’est terrible ! Si on était partis plus tôt de l'hôtel, tu penses qu'on serait arrivés à temps ?",
       "hint": "Oui, ...",
       "expectedAnswers": [
-        "Oui, si on était partis plus tôt de l'hôtel, je pense qu'on serait arrivés à temps.",
-        "Oui, je pense qu'on serait arrivés à temps si on était partis plus tôt de l'hôtel."
+        "Oui, si on était partis ((plus tôt)plutôt) de l'hôtel, je pense qu'on serait arrivés à temps.",
+        "Oui, je pense qu'on serait arrivés à temps si on était partis ((plus tôt)plutôt) de l'hôtel."
       ]
     },
     {
@@ -234,8 +234,8 @@
       "text": "Très bien, voyager en bus devrait aller. Combien de temps penses-tu que ça prendra si on y va en bus ?",
       "hint": "... 9 heures ...",
       "expectedAnswers": [
-        "Je pense que ça prendra 9 heures si on y va en bus.",
-        "Je pense que si on y va en bus, ça prendra 9 heures."
+        "Je pense que ça prendra ((9 heures)9h) si on y va en bus.",
+        "Je pense que si on y va en bus, ça prendra ((9 heures)9h)."
       ]
     },
     {

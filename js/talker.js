@@ -828,12 +828,15 @@ function startSpeechRecognition() {
 
     // ✅ Instant match logic
     const promptItem = conversation[currentIndex - 1];
-    const validAnswers = promptItem?.expectedAnswers || [];
+    const processedAnswers = (promptItem?.expectedAnswers || []).map(extractDisplayAndVariants);
     const normalizedTranscript = normalize(currentTranscript);
 
-    let matched = validAnswers.find(answer =>
-      normalize(answer) === normalizedTranscript
-    );
+    let matched = processedAnswers.find(({ variants }) => variants.includes(normalizedTranscript));
+
+    if (matched || isFallbackTrigger(currentTranscript)) {
+      stopSpeechRecognition();
+      handleUserResponse(currentTranscript);
+    }
 
     if (matched || isFallbackTrigger(currentTranscript)) {
       console.log('✅ Instant match (including fallback) — stopping recognition early');
@@ -906,6 +909,36 @@ function stopSpeechRecognition() {
   updateMicIcon();
 }
 
+function extractDisplayAndVariants(rawAnswer) {
+  const regex = /\(\(([^()]+?)\)([^()]+?)\)/g;
+
+  const displayText = rawAnswer.replace(regex, (_, canonical) => canonical);
+
+  let variants = [rawAnswer];
+  let match;
+
+  while ((match = regex.exec(rawAnswer)) !== null) {
+    const [full, canonical, alias] = match;
+    const newVariants = [];
+
+    for (const variant of variants) {
+      newVariants.push(variant.replace(full, canonical));
+      newVariants.push(variant.replace(full, alias));
+    }
+
+    variants = newVariants;
+  }
+
+  const normalizedVariants = Array.from(new Set(variants.map(a => normalize(
+    a.replace(regex, (_, canonical) => canonical) // strip alias syntax before display
+  ))));
+
+  return {
+    display: displayText,
+    variants: normalizedVariants
+  };
+}
+
 function normalize(text, langHint) {
   if (!text) return '';
 
@@ -938,7 +971,8 @@ function handleUserResponse(spokenText) {
   if (!item || item.type !== 'response') return;
 
   const promptItem = conversation[currentIndex - 1];
-  const validAnswers = promptItem?.expectedAnswers || [];
+  const processedAnswers = (promptItem?.expectedAnswers || []).map(extractDisplayAndVariants);
+  const allCanonicalAnswers = processedAnswers.map(p => p.display);
 
   totalResponses++;
 
@@ -947,7 +981,7 @@ function handleUserResponse(spokenText) {
     incorrectResponses++;
     item.wasIncorrect = true;
 
-    const fallbackAnswer = validAnswers[0] || '...';
+    const fallbackAnswer = allCanonicalAnswers[0] || '...';
 
     const hintWrapper = document.querySelector('#cue-content .bubble-wrapper');
     if (hintWrapper?.parentElement) {
@@ -962,43 +996,37 @@ function handleUserResponse(spokenText) {
     return;
   }
 
-  // Step 1: Exact match
-  let matched = validAnswers.find(answer => answer === spokenText);
-
   const normalizedSpoken = normalize(spokenText);
-  const normalizedAnswers = validAnswers.map(answer => normalize(answer));
+  let matched = null;
 
-  // Step 2: Normalized match
-  if (!matched) {
-    for (let i = 0; i < validAnswers.length; i++) {
-      if (normalize(validAnswers[i]) === normalizedSpoken) {
-        matched = validAnswers[i];
-        break;
-      }
+  // ✅ Step 1 & 2: match against any of the variants
+  for (const { display, variants } of processedAnswers) {
+    if (variants.includes(normalizedSpoken)) {
+      matched = display;
+      break;
     }
   }
 
-  // Step 3: Global misheard correction
+  // ✅ Step 3: Global misheard correction
   if (!matched) {
     const correctedText = applyMisheardMap(spokenText, lessonLang);
     const normalizedCorrected = normalize(correctedText);
 
-    for (let i = 0; i < validAnswers.length; i++) {
-      if (normalize(validAnswers[i]) === normalizedCorrected) {
-        matched = validAnswers[i];
+    for (const { display, variants } of processedAnswers) {
+      if (variants.includes(normalizedCorrected)) {
+        matched = display;
         console.log(`✅ Matched after global misheard correction: "${correctedText}"`);
         break;
       }
     }
   }
 
-  // Step 4: Per-word misheard justification
+  // ✅ Step 4: Per-word misheard justification
   if (!matched) {
     const langMap = misheardMap[lessonLang] || {};
 
-    for (let i = 0; i < normalizedAnswers.length; i++) {
-      const normExpected = normalizedAnswers[i];
-      const expectedWords = normExpected.split(/\s+/);
+    for (const { display } of processedAnswers) {
+      const expectedWords = normalize(display).split(/\s+/);
       const spokenWords = normalizedSpoken.split(/\s+/);
       if (spokenWords.length !== expectedWords.length) continue;
 
@@ -1018,8 +1046,8 @@ function handleUserResponse(spokenText) {
       }
 
       if (allJustified) {
-        matched = validAnswers[i]; // ✅ use original string
-        spokenText = validAnswers[i]; // ✅ update transcript display
+        matched = display;
+        spokenText = display;
         console.log("✅ Accepted via per-word misheard justification.");
 
         const transcriptEl = document.getElementById('liveTranscript');
@@ -1031,10 +1059,10 @@ function handleUserResponse(spokenText) {
     }
   }
 
-  // Step 5: Per-word fuzzy match (Levenshtein distance <= 1)
+  // ✅ Step 5: Per-word fuzzy match (Levenshtein distance <= 1)
   if (!matched) {
-    for (let i = 0; i < normalizedAnswers.length; i++) {
-      const expectedWords = normalizedAnswers[i].split(/\s+/);
+    for (const { display } of processedAnswers) {
+      const expectedWords = normalize(display).split(/\s+/);
       const spokenWords = normalizedSpoken.split(/\s+/);
 
       if (expectedWords.length !== spokenWords.length) continue;
@@ -1055,8 +1083,8 @@ function handleUserResponse(spokenText) {
       }
 
       if (allWordsMatch) {
-        matched = validAnswers[i];
-        spokenText = matched;
+        matched = display;
+        spokenText = display;
 
         const transcriptEl = document.getElementById('liveTranscript');
         if (transcriptEl) {
@@ -1079,17 +1107,13 @@ function handleUserResponse(spokenText) {
     item.text = matched;
     renderCurrentLine(item);
 
-    // ── NEW: if there is no next item, we're done ──
     const nextItem = conversation[currentIndex + 1];
     if (!nextItem) {
       displayFinalScore();
-
-      // 🛑 Without this call, updateMicIcon never runs here
       updateMicIcon();
       return;
     }
 
-    // ── otherwise keep going ──
     currentIndex++;
     showNextMessage();
     return;
@@ -1101,11 +1125,11 @@ function handleUserResponse(spokenText) {
     let bestMatch = '';
     let lowestDistance = Infinity;
 
-    for (const expected of validAnswers) {
-      const dist = wordLevelDistance(normalize(spokenText), normalize(expected));
+    for (const { display } of processedAnswers) {
+      const dist = wordLevelDistance(normalize(spokenText), normalize(display));
       if (dist < lowestDistance) {
         lowestDistance = dist;
-        bestMatch = expected;
+        bestMatch = display;
       }
     }
 

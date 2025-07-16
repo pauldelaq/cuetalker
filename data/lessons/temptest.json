@@ -21,8 +21,8 @@
       "text": "Très bien, voyager en bus devrait aller. Combien de temps penses-tu que ça prendra si on y va en bus ?",
       "hint": "... 9 heures ...",
       "expectedAnswers": [
-        "Je pense que ça prendra 9 heures si on y va en bus.",
-        "Je pense que si on y va en bus, ça prendra 9 heures."
+        "Je pense que ça prendra ((9 heures)9h) si on y va en bus.",
+        "Je pense que si on y va en bus, ça prendra ((9 heures)9h)."
       ]
     },
     {
