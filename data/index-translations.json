@@ -1,37 +1,47 @@
 {
   "en-US": {
-    "title": "CueTalker",
+    "welcome": "Welcome to CueTalker!",
     "intro": "Use this dialogue-based interface to practice speaking in your target language. Over time, you’ll respond more fluently and naturally, and your confidence will grow.",
     "choose": "Choose a lesson below:",
     "languageMenuTitle": "Select a Language",
-    "footer": "© 2025 CueTalker"
+    "creditsLabel": "Credits",
+    "createdBy": "CueTalker was created by Paul Delaquis. For contact information or to check out his other projects, please visit <a href='https://pauldelaq.github.io/portfolio/'>this link</a>.",
+    "openMoji": "All icons designed by <a href='https://openmoji.org/'>OpenMoji</a> – the open-source emoji and icon project. License: <a href='https://creativecommons.org/licenses/by-sa/4.0/#'>CC BY-SA 4.0</a>"
   },
   "fr-FR": {
-    "title": "CueTalker",
+    "welcome": "Bienvenue sur CueTalker !",
     "intro": "Utilisez cette interface basée sur des dialogues pour pratiquer votre langue cible. Avec le temps, vous répondrez plus facilement et plus naturellement, et votre confiance grandira.",
     "choose": "Choisissez une leçon ci-dessous :",
     "languageMenuTitle": "Choisissez une langue",
-    "footer": "© 2025 CueTalker"
+    "creditsLabel": "Crédits",
+    "createdBy": "CueTalker a été créé par Paul Delaquis. Pour ses coordonnées ou pour découvrir ses autres projets, veuillez consulter <a href='https://pauldelaq.github.io/portfolio/'>ce lien</a>.",
+    "openMoji": "Tous les icônes sont conçus par <a href='https://openmoji.org/'>OpenMoji</a> – un projet open source d’émojis et d’icônes. Licence : <a href='https://creativecommons.org/licenses/by-sa/4.0/#'>CC BY-SA 4.0</a>"
   },
   "es-ES": {
-    "title": "CueTalker",
+    "welcome": "¡Bienvenido a CueTalker!",
     "intro": "Usa esta interfaz basada en diálogos para practicar tu idioma objetivo. Con el tiempo, responderás con mayor fluidez y naturalidad, y ganarás confianza.",
     "choose": "Elige una lección a continuación:",
     "languageMenuTitle": "Selecciona un idioma",
-    "footer": "© 2025 CueTalker"
+    "creditsLabel": "Créditos",
+    "createdBy": "CueTalker fue creado por Paul Delaquis. Para obtener información de contacto o ver otros proyectos suyos, visita <a href='https://pauldelaq.github.io/portfolio/'>este enlace</a>.",
+    "openMoji": "Todos los iconos fueron diseñados por <a href='https://openmoji.org/'>OpenMoji</a>, un proyecto de emojis e íconos de código abierto. Licencia: <a href='https://creativecommons.org/licenses/by-sa/4.0/#'>CC BY-SA 4.0</a>"
   },
   "zh-TW": {
-    "title": "CueTalker",
+    "welcome": "歡迎使用 CueTalker！",
     "intro": "使用這個對話式介面來練習你的目標語言。隨著時間累積，你將能更流利自然地回應，也會變得更有自信。",
     "choose": "請選擇一個課程：",
     "languageMenuTitle": "選擇語言",
-    "footer": "© 2025 CueTalker"
+    "creditsLabel": "製作團隊",
+    "createdBy": "CueTalker 由 Paul Delaquis 開發。如需聯絡資訊或查看其他作品，請造訪<a href='https://pauldelaq.github.io/portfolio/'>此連結</a>。",
+    "openMoji": "所有圖示皆由 <a href='https://openmoji.org/'>OpenMoji</a> 設計——一個開源的表情符號與圖示計畫。授權條款：<a href='https://creativecommons.org/licenses/by-sa/4.0/#'>CC BY-SA 4.0</a>"
   },
   "zh-CN": {
-    "title": "CueTalker",
+    "welcome": "欢迎使用 CueTalker！",
     "intro": "使用这个对话式界面练习你的目标语言。随着时间的积累，你会更流利自然地回应，也会变得更有自信。",
     "choose": "请选择一个课程：",
     "languageMenuTitle": "选择语言",
-    "footer": "© 2025 CueTalker"
+    "creditsLabel": "制作团队",
+    "createdBy": "CueTalker 由 Paul Delaquis 开发。如需联系方式或查看其他作品，请访问<a href='https://pauldelaq.github.io/portfolio/'>此链接</a>。",
+    "openMoji": "所有图标由 <a href='https://openmoji.org/'>OpenMoji</a> 设计——一个开源的表情符号与图标项目。许可证：<a href='https://creativecommons.org/licenses/by-sa/4.0/#'>CC BY-SA 4.0</a>"
   }
 }

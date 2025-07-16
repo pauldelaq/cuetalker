@@ -10,24 +10,6 @@ main {
   display: none;
 }
 
-#lesson-list {
-  list-style: none;
-  padding: 0;
-}
-
-.lesson-item {
-  background: white;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.lesson-item:hover {
-  background: #ddd;
-}
-
 /* 🔥 Language menu as a full panel */
 .panel {
   position: fixed;
@@ -77,6 +59,7 @@ footer {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.choose-text {
-  font-weight: bold;
+.underlined {
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }

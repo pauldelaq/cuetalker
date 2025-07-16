@@ -50,9 +50,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const lang = localStorage.getItem('ctlanguage') || 'en-US';
     const t = translations[lang] || translations['en-US'];
 
-    document.getElementById('intro-text').textContent = t.intro;
-    document.querySelector('#languageMenu h2').textContent = t.languageMenuTitle;
-    document.querySelector('footer p').textContent = t.footer;
+    const welcomeEl = document.getElementById('welcome-text');
+    if (welcomeEl) welcomeEl.textContent = t.welcome;
+
+    const introEl = document.getElementById('intro-text');
+    if (introEl) introEl.textContent = t.intro;
+
+    const creditsLabel = document.getElementById('credits-label');
+    if (creditsLabel) creditsLabel.textContent = t.creditsLabel;
+
+    const createdBy = document.getElementById('created-by');
+    if (createdBy) createdBy.innerHTML = t.createdBy;
+
+    const openMoji = document.getElementById('openmoji');
+    if (openMoji) openMoji.innerHTML = t.openMoji;
+
+    const langMenuHeader = document.querySelector('#languageMenu h2');
+    if (langMenuHeader) langMenuHeader.textContent = t.languageMenuTitle;
+
+    const footerEl = document.querySelector('footer p');
+    if (footerEl) footerEl.textContent = t.footer;
 
     if (lang.startsWith('fr')) {
       patchFrenchPunctuationSpaces(document.body);
@@ -79,6 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
     .finally(() => {
         document.body.classList.remove('preload');
     });
+
+    const infoButton = document.getElementById('backButton');
+    if (backButton) {
+      backButton.addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
+    }
+
 });
 
 function patchFrenchPunctuationSpaces(container) {

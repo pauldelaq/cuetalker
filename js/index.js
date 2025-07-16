@@ -56,8 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('choose-text').textContent = t.choose;
     document.querySelector('#languageMenu h2').textContent = t.languageMenuTitle;
-    document.querySelector('footer p').textContent = t.footer;
-
 
   // ✅ Fix spacing if French is selected
   if (lang.startsWith('fr')) {
