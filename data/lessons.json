@@ -39,6 +39,16 @@
         "zh-CN": "第一次见面",
         "zh-TW": "第一次見面"
       }
+    },
+        {
+      "id": "Wishes",
+      "name": {
+        "en-US": "Three Wishes",
+        "fr-FR": "Trois Souhaits",
+        "es-ES": "Tres Deseos",
+        "zh-CN": "三个愿望",
+        "zh-TW": "三個願望"
+      }
     }
   ]
 }

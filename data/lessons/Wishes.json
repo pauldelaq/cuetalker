@@ -1,0 +1,648 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F9DE-200D-2642-FE0F.svg",
+    "2": "assets/svg/1F9D1-200D-1F393.svg",
+    "3": "assets/svg/1F911.svg",
+    "4": "assets/svg/1F3CB.svg",
+    "5": "assets/svg/1F60A.svg",
+    "6": "assets/svg/1F468-200D-1F469-200D-1F467-200D-1F466.svg",
+    "7": "assets/svg/1F932.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "You",
+    "svg": "hint"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Three Wishes",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "You were cleaning a lamp when, suddenly, a genie came out of it! Chat with him about your wishes."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "Genie",
+            "svg": 1
+          },
+          "text": "Greetings! You have released me from my lamp, so I will grant you three wishes. First, how about your financial situation? What do you wish for?",
+          "hint": "... a billion dollars",
+          "expectedAnswers": [
+            "I wish I had a billion dollars.",
+            "I wish I could have a billion dollars."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 3
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "Genie",
+            "svg": 1
+          },
+          "text": "Your wish is my command! Enjoy your newfound wealth. Next, how about your health? Do you have any wishes in regards to that?",
+          "hint": "... healthier ... stronger",
+          "expectedAnswers": [
+            "I wish I were healthier and stronger.",
+            "I wish I was healthier and stronger.",
+            "I wish I could be healthier and stronger."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 4
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "Genie",
+            "svg": 1
+          },
+          "text": "Very well then. Wow, you look great! So, how many wishes do you have left? I'm afraid I've lost count...",
+          "hint": "... one ...",
+          "expectedAnswers": [
+            "I have one wish left."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 5
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "Genie",
+            "svg": 1
+          },
+          "text": "So you're down to your last one! Then we'd better make it something important. Oh, I know! How's your family? Do you have a wish for them?",
+          "hint": "... happy ... healthy",
+          "expectedAnswers": [
+            "I wish my family were happy and healthy.",
+            "I wish my family was happy and healthy.",
+            "I wish my family could be happy and healthy."
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 6
+          }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": {
+            "name": "Genie",
+            "svg": 1
+          },
+          "text": "Of course! Here you are. Well, my work here is done. Thank you for awakening me! Did you get everything you wished for?",
+          "hint": "Yes, ...",
+          "expectedAnswers": [
+            "Yes, I got everything I wished for.",
+            "Yes, I did. I got everything I wished for."
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 7
+          }
+        },
+        {
+          "id": 11,
+          "type": "narration",
+          "text": "Well done! Thanks to the genie, all of your wishes have come true."
+        }
+      ]
+    },
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Trois Souhaits",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Tu nettoyais une lampe lorsque, soudainement, un génie en est sorti ! Parle avec lui de tes souhaits."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "Génie",
+            "svg": 1
+          },
+          "text": "Salutations ! Tu m’as libéré de ma lampe, alors je vais exaucer trois de tes souhaits. Commençons par ta situation financière : que souhaites-tu ?",
+          "hint": "... un milliard de dollars",
+          "expectedAnswers": [
+            "Je souhaite avoir un milliard de dollars.",
+            "Je voudrais avoir un milliard de dollars."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 3
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "Génie",
+            "svg": 1
+          },
+          "text": "Ton souhait est un ordre ! Profite de ta nouvelle richesse. Maintenant, parlons de ta santé. As-tu un souhait à ce sujet ?",
+          "hint": "... en meilleure santé ... plus fort",
+          "expectedAnswers": [
+            "Je souhaite être en meilleure santé et plus fort.",
+            "Je voudrais être en meilleure santé et plus fort."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 4
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "Génie",
+            "svg": 1
+          },
+          "text": "Très bien. Wow, tu as l’air en pleine forme ! Alors, combien de souhaits te reste-t-il ? J’ai perdu le compte...",
+          "hint": "... un ...",
+          "expectedAnswers": [
+            "Il me reste un souhait."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 5
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "Génie",
+            "svg": 1
+          },
+          "text": "Il ne te reste plus qu’un souhait ! Il faut donc que ce soit quelque chose d’important. Oh, je sais ! Et ta famille ? As-tu un souhait pour elle ?",
+          "hint": "... heureuse ... en bonne santé",
+          "expectedAnswers": [
+            "Je souhaite que ma famille soit heureuse et en bonne santé.",
+            "Je voudrais que ma famille soit heureuse et en bonne santé."
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 6
+          }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": {
+            "name": "Génie",
+            "svg": 1
+          },
+          "text": "Bien sûr ! Voilà. Ma mission est terminée. Merci de m’avoir réveillé ! As-tu obtenu tout ce que tu souhaitais ?",
+          "hint": "Oui, ...",
+          "expectedAnswers": [
+            "Oui, j’ai obtenu tout ce que je souhaitais.",
+            "Oui, je l’ai fait. J’ai obtenu tout ce que je souhaitais."
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": {
+            "name": "Toi",
+            "svg": 7
+          }
+        },
+        {
+          "id": 11,
+          "type": "narration",
+          "text": "Bien joué ! Grâce au génie, tous tes souhaits se sont réalisés."
+        }
+      ]
+    },
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Tres Deseos",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Estabas limpiando una lámpara cuando, de repente, ¡salió un genio! Habla con él sobre tus deseos."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "Genio",
+            "svg": 1
+          },
+          "text": "¡Saludos! Me has liberado de mi lámpara, así que te concederé tres deseos. Primero, ¿qué hay de tu situación financiera? ¿Qué deseas?",
+          "hint": "... mil millones de dólares",
+          "expectedAnswers": [
+            "Deseo tener mil millones de dólares.",
+            "Quisiera tener mil millones de dólares."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 3
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "Genio",
+            "svg": 1
+          },
+          "text": "¡Tus deseos son órdenes! Disfruta tu nueva riqueza. Ahora, ¿qué hay de tu salud? ¿Tienes algún deseo relacionado con eso?",
+          "hint": "... más saludable ... más fuerte",
+          "expectedAnswers": [
+            "Deseo estar más saludable y más fuerte.",
+            "Quisiera estar más saludable y más fuerte."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 4
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "Genio",
+            "svg": 1
+          },
+          "text": "Muy bien. ¡Vaya, te ves genial! Entonces, ¿cuántos deseos te quedan? Me temo que he perdido la cuenta...",
+          "hint": "... uno ...",
+          "expectedAnswers": [
+            "Me queda un deseo."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 5
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "Genio",
+            "svg": 1
+          },
+          "text": "¡Solo te queda uno! Entonces debe ser algo importante. ¡Ah, ya sé! ¿Y tu familia? ¿Tienes algún deseo para ellos?",
+          "hint": "... feliz ... saludable",
+          "expectedAnswers": [
+            "Deseo que mi familia sea feliz y saludable.",
+            "Quisiera que mi familia sea feliz y saludable."
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 6
+          }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": {
+            "name": "Genio",
+            "svg": 1
+          },
+          "text": "¡Por supuesto! Aquí tienes. Mi trabajo aquí ha terminado. ¡Gracias por despertarme! ¿Conseguiste todo lo que deseabas?",
+          "hint": "Sí, ...",
+          "expectedAnswers": [
+            "Sí, conseguí todo lo que deseaba."
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 7
+          }
+        },
+        {
+          "id": 11,
+          "type": "narration",
+          "text": "¡Muy bien hecho! Gracias al genio, todos tus deseos se hicieron realidad."
+        }
+      ]
+    },
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "繁體中文",
+      "lessonName": "三個願望",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "你在清理一盞神燈時，突然有一個精靈跑了出來！和他聊聊你的願望吧。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "精靈",
+            "svg": 1
+          },
+          "text": "你好！你釋放了我，所以我會給你三個願望。首先，關於你的財務狀況，你有什麼願望嗎？",
+          "hint": "... 十億美元",
+          "expectedAnswers": [
+            "我希望我有十億美元。",
+            "我希望我能有十億美元。"
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 3
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "精靈",
+            "svg": 1
+          },
+          "text": "如你所願！享受你新的財富吧。那接下來是你的健康，你有什麼相關的願望嗎？",
+          "hint": "... 更健康 ... 更強壯",
+          "expectedAnswers": [
+            "我希望我更健康、更強壯。",
+            "我希望我能更健康、更強壯。"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 4
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "精靈",
+            "svg": 1
+          },
+          "text": "好吧。哇，你看起來太棒了！那你還剩幾個願望呢？我好像記不清了……",
+          "hint": "... 一個 ...",
+          "expectedAnswers": [
+            "我還有一個願望。",
+            "我還剩一個願望。"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 5
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "精靈",
+            "svg": 1
+          },
+          "text": "你只剩下最後一個願望了！那就必須是很重要的東西。啊，我知道了！你的家人呢？你有什麼想為他們許的願嗎？",
+          "hint": "... 快樂 ... 健康",
+          "expectedAnswers": [
+            "我希望我的家人快樂又健康。",
+            "我希望我的家人能快樂又健康。"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 6
+          }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": {
+            "name": "精靈",
+            "svg": 1
+          },
+          "text": "你如願以償了嗎？",
+          "hint": "是的 ...",
+          "expectedAnswers": [
+            "是的，我如願以償了。"
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 7
+          }
+        },
+        {
+          "id": 11,
+          "type": "narration",
+          "text": "做得好！多虧了精靈，你的所有願望都實現了。"
+        }
+      ]
+    },
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "简体中文",
+      "lessonName": "三个愿望",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "你在擦一盏灯的时候，突然有一个精灵从里面冒出来！跟他聊聊你的愿望吧。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "精灵",
+            "svg": 1
+          },
+          "text": "你好！你释放了我，所以我会满足你三个愿望。首先是你的经济情况，你有什么愿望吗？",
+          "hint": "... 一十亿美元",
+          "expectedAnswers": [
+            "我希望我有一十亿美元。",
+            "我希望我能有一十亿美元。"
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 3
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "精灵",
+            "svg": 1
+          },
+          "text": "如你所愿！享受你新的财富吧。然后是你的健康，你对此有任何愿望吗？",
+          "hint": "... 更健康 ... 更强壮",
+          "expectedAnswers": [
+            "我希望我更健康、更强壮。",
+            "我希望我能更健康、更强壮。"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 4
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "精灵",
+            "svg": 1
+          },
+          "text": "好的。哇，你看起来真不错！那你还剩下几个愿望？我好像记不清了……",
+          "hint": "... 一个 ...",
+          "expectedAnswers": [
+            "我还有一个愿望。"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 5
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "精灵",
+            "svg": 1
+          },
+          "text": "只剩最后一个了！那一定要许个重要的愿望。啊，我知道了！你的家人呢？你有没有什么愿望是为他们的？",
+          "hint": "... 快乐 ... 健康",
+          "expectedAnswers": [
+            "我希望我的家人快乐又健康。",
+            "我希望我的家人能快乐又健康。"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 6
+          }
+        },
+        {
+        "id": 9,
+        "type": "prompt",
+        "character": {
+            "name": "精灵",
+            "svg": 1
+        },
+        "text": "你如愿以偿了吗？",
+        "hint": "是的 ...",
+        "expectedAnswers": [
+            "是的，我如愿以偿了。"
+        ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": {
+            "name": "你",
+            "svg": 7
+          }
+        },
+        {
+          "id": 11,
+          "type": "narration",
+          "text": "干得好！多亏了精灵，你所有的愿望都实现了。"
+        }
+      ]
+    }
+  }
+}
