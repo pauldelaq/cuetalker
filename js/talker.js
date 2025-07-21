@@ -634,6 +634,7 @@ function showNextMessage() {
   const isLastItem = currentIndex === conversation.length - 1;
   if (isLastItem && item.type === 'narration') {
     displayFinalScore();
+    saveFinalScore();
   }
 
 }
@@ -1118,7 +1119,6 @@ function handleUserResponse(spokenText) {
 
     const nextItem = conversation[currentIndex + 1];
     if (!nextItem) {
-      displayFinalScore();
       updateMicIcon();
       return;
     }
@@ -1264,6 +1264,38 @@ function initializeSettingsMenu() {
       }
     });
   }
+}
+
+function saveFinalScore() {
+  if (practiceMode) return; // Don't save scores in Practice Mode
+
+  const correct = totalResponses - incorrectResponses;
+  const percent = totalResponses > 0
+    ? Math.round((correct / totalResponses) * 100)
+    : 100;
+  const scoreString = `${percent}% (${correct}/${totalResponses})`;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const lessonId = urlParams.get('lesson') || 'unknown';
+
+  const today = new Date();
+  const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+  const lang = getLangKey(localStorage.getItem('ctlanguage'));
+
+  const storedScores = JSON.parse(localStorage.getItem('ctscores')) || {};
+
+  if (!storedScores[lang]) {
+    storedScores[lang] = [];
+  }
+
+  storedScores[lang].push({
+    lesson: lessonId,
+    score: scoreString,
+    date: dateStr
+  });
+
+  localStorage.setItem('ctscores', JSON.stringify(storedScores));
 }
 
 document.addEventListener('DOMContentLoaded', () => {

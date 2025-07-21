@@ -34,8 +34,8 @@
           "text": "Greetings! You have released me from my lamp, so I will grant you three wishes. First, how about your financial situation? What do you wish for?",
           "hint": "... a billion dollars",
           "expectedAnswers": [
-            "I wish I had a billion dollars.",
-            "I wish I could have a billion dollars."
+            "I wish I had ((a)$1) billion dollars.",
+            "I wish I could have ((a)$1) billion dollars."
           ]
         },
         {
@@ -162,8 +162,8 @@
           "text": "Salutations ! Tu m’as libéré de ma lampe, alors je vais exaucer trois de tes souhaits. Commençons par ta situation financière : que souhaites-tu ?",
           "hint": "... un milliard de dollars",
           "expectedAnswers": [
-            "Je souhaite avoir un milliard de dollars.",
-            "Je voudrais avoir un milliard de dollars."
+            "Je souhaite avoir ((un)1) milliard de dollars.",
+            "Je voudrais avoir ((un)1) milliard de dollars."
           ]
         },
         {
@@ -288,8 +288,8 @@
           "text": "¡Saludos! Me has liberado de mi lámpara, así que te concederé tres deseos. Primero, ¿qué hay de tu situación financiera? ¿Qué deseas?",
           "hint": "... mil millones de dólares",
           "expectedAnswers": [
-            "Deseo tener mil millones de dólares.",
-            "Quisiera tener mil millones de dólares."
+            "Deseo tener ((mil)1000) millones de dólares.",
+            "Quisiera tener ((mil)1000) millones de dólares."
           ]
         },
         {
@@ -413,8 +413,8 @@
           "text": "你好！你釋放了我，所以我會給你三個願望。首先，關於你的財務狀況，你有什麼願望嗎？",
           "hint": "... 十億美元",
           "expectedAnswers": [
-            "我希望我有十億美元。",
-            "我希望我能有十億美元。"
+            "我希望我有((十億))1,000,000,000)美元。",
+            "我希望我能有((十億))1,000,000,000)美元。"
           ]
         },
         {
@@ -498,7 +498,7 @@
             "name": "精靈",
             "svg": 1
           },
-          "text": "你如願以償了嗎？",
+          "text": "當然可以！來，給你。好了，我的任務完成了。謝謝你喚醒我！你如願以償了嗎？",
           "hint": "是的 ...",
           "expectedAnswers": [
             "是的，我如願以償了。"
@@ -539,8 +539,8 @@
           "text": "你好！你释放了我，所以我会满足你三个愿望。首先是你的经济情况，你有什么愿望吗？",
           "hint": "... 一十亿美元",
           "expectedAnswers": [
-            "我希望我有一十亿美元。",
-            "我希望我能有一十亿美元。"
+            "我希望我有((一十亿)1,000,000,000)美元。",
+            "我希望我能有((一十亿)1,000,000,000)美元。"
           ]
         },
         {
@@ -623,7 +623,7 @@
             "name": "精灵",
             "svg": 1
         },
-        "text": "你如愿以偿了吗？",
+        "text": "当然！给你。好了，我的工作完成了。谢谢你唤醒我！你如愿以偿了吗？",
         "hint": "是的 ...",
         "expectedAnswers": [
             "是的，我如愿以偿了。"

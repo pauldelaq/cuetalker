@@ -80,3 +80,23 @@ footer {
 .choose-text {
   font-weight: bold;
 }
+
+.lesson-title {
+  font-weight: bold;
+}
+
+.lesson-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.lesson-date {
+  text-align: left;
+}
+
+.lesson-score {
+  text-align: right;
+}

@@ -74,25 +74,43 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Load Lessons
-  function loadLessons() {
-    return fetch('data/lessons.json')
-      .then(res => res.json())
-      .then(data => {
-        const lang = localStorage.getItem('ctlanguage') || 'en-US';
+function loadLessons() {
+  return fetch('data/lessons.json')
+    .then(res => res.json())
+    .then(data => {
+      const lang = localStorage.getItem('ctlanguage') || 'en-US';
+      const storedScores = JSON.parse(localStorage.getItem('ctscores')) || {};
+      const scoresForLang = storedScores[lang] || [];
 
-        lessonList.innerHTML = '';
-        data.lessons.forEach(lesson => {
-          const li = document.createElement('li');
-          li.className = 'lesson-item';
-          const title = lesson.name[lang] || lesson.name['en-US'] || lesson.id;
-          li.textContent = title;
-          li.addEventListener('click', () => {
-            window.location.href = `talker.html?lesson=${encodeURIComponent(lesson.id)}`;
-          });
-          lessonList.appendChild(li);
+      lessonList.innerHTML = '';
+      data.lessons.forEach(lesson => {
+        const li = document.createElement('li');
+        li.className = 'lesson-item';
+
+        const title = lesson.name[lang] || lesson.name['en-US'] || lesson.id;
+        const matching = scoresForLang.find(entry => entry.lesson === lesson.id);
+        const date = matching?.date || '';
+        const score = matching?.score || '';
+
+        // 👇 Inject structured HTML
+        li.innerHTML = `
+          <div class="lesson-title">${title}</div>
+          ${matching ? `
+            <div class="lesson-meta">
+              <span class="lesson-date">${date}</span>
+              <span class="lesson-score">${score}</span>
+            </div>
+          ` : ''}
+        `;
+
+        li.addEventListener('click', () => {
+          window.location.href = `talker.html?lesson=${encodeURIComponent(lesson.id)}`;
         });
+
+        lessonList.appendChild(li);
       });
-  }
+    });
+}
 
   populateLanguageMenu();
   updateLanguageHighlight();
