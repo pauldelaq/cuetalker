@@ -29,6 +29,19 @@
   <main>
     <p id="choose-text" class="choose-text">Choose a lesson below:</p>
     <ul id="lesson-list"></ul>
+    <!-- Clear Scores Button -->
+    <button id="clearScoresBtn" class="lesson-item clear-scores-btn interactive-btn">Clear Scores</button>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal hidden">
+      <div class="modal-content">
+        <p id="modalText">Are you sure you want to reset all scores for this language?</p>
+        <div class="modal-buttons">
+          <button id="confirmReset" class="confirm-btn interactive-btn">Yes, Reset</button>
+          <button id="cancelReset" class="cancel-btn interactive-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
 
     <!-- 🔥 Full-page language menu overlay -->
     <div id="languageMenu" class="panel hidden">

@@ -57,6 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('choose-text').textContent = t.choose;
     document.querySelector('#languageMenu h2').textContent = t.languageMenuTitle;
 
+    // 🔁 Update modal button text dynamically when language changes
+    const modalText = document.getElementById('modalText');
+    const confirmBtn = document.getElementById('confirmReset');
+    const cancelBtn = document.getElementById('cancelReset');
+
+    if (modalText && confirmBtn && cancelBtn && t.modal) {
+      modalText.textContent = t.modal.confirmReset;
+      confirmBtn.textContent = t.modal.confirmButton;
+      cancelBtn.textContent = t.modal.cancelButton;
+    }
+
+    const clearBtn = document.getElementById('clearScoresBtn');
+    if (clearBtn && t.clearScores) {
+      clearBtn.textContent = t.clearScores;
+    }
+
   // ✅ Fix spacing if French is selected
   if (lang.startsWith('fr')) {
     patchFrenchPunctuationSpaces(document.body);
@@ -115,9 +131,41 @@ function loadLessons() {
   populateLanguageMenu();
   updateLanguageHighlight();
 
-  Promise.all([loadTranslations(), loadLessons()]).then(() => {
-    document.body.classList.remove('preload'); // ✅ Show content once ready
-  });
+Promise.all([loadTranslations(), loadLessons()]).then(() => {
+  document.body.classList.remove('preload');
+
+  const lang = localStorage.getItem('ctlanguage') || 'en-US';
+  const t = translations[lang] || translations['en-US'];
+
+  const clearBtn = document.getElementById('clearScoresBtn');
+  const modal = document.getElementById('confirmationModal');
+  const modalText = document.getElementById('modalText');
+  const confirmBtn = document.getElementById('confirmReset');
+  const cancelBtn = document.getElementById('cancelReset');
+
+  if (clearBtn && modal && modalText && confirmBtn && cancelBtn) {
+    modalText.textContent = t.modal.confirmReset;
+    confirmBtn.textContent = t.modal.confirmButton;
+    cancelBtn.textContent = t.modal.cancelButton;
+
+    clearBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      const langKey = localStorage.getItem('ctlanguage');
+      const scores = JSON.parse(localStorage.getItem('ctscores') || '{}');
+      delete scores[langKey];
+      localStorage.setItem('ctscores', JSON.stringify(scores));
+      modal.classList.add('hidden');
+      location.reload();
+    });
+  }
+});
 
     const infoButton = document.getElementById('infoButton');
   if (infoButton) {

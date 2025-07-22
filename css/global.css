@@ -147,3 +147,20 @@ color: var(--accent);
   outline: none;
   box-shadow: none;
 }
+
+/* Shared feedback style */
+.interactive-btn {
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .interactive-btn:hover {
+    filter: brightness(1.05);
+  }
+}
+
+.interactive-btn:active {
+  transform: scale(0.95);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
