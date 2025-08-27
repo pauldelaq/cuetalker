@@ -23,6 +23,30 @@ let modeLocked = false;
 let practiceMode = false;
 let talkerTranslations = {};
 let graceTimeout = null;
+// Practice-try mic (no scoring / no advance)
+let practiceTryActive = false;
+let practiceRecognition = null;
+let practiceFinalizedTranscript = '';
+
+// Which button should glow for volume-pulse (defaults to main mic)
+let volumeGlowTargetId = 'micButton';
+
+// Recognition context controls behavior on stop (defaults to Test mode)
+let recogCtx = { mode: 'test', targetBtnId: 'micButton' };
+
+function applyRecordingVisual(targetBtnId, active) {
+  const btn = document.getElementById(targetBtnId);
+  if (!btn) return;
+  const img = btn.querySelector('img');
+  if (active) {
+    btn.classList.add('recording');
+    if (img) img.src = 'assets/svg/23FA.svg'; // ⏺️ stop
+  } else {
+    btn.classList.remove('recording');
+    if (img) img.src = 'assets/svg/1F3A4.svg'; // 🎙️ mic
+    btn.style.boxShadow = 'none';
+  }
+}
 
 // Enable :active on mobile
 document.addEventListener('touchstart', () => {}, true);
@@ -217,12 +241,16 @@ function skipCurrentSpeechAndShowHint() {
   tryAutoAdvance();
 }
 
-async function startMicSession() {
-  if (micStream) return; // ✅ Mic is already running
-
+// was: async function startMicSession() {
+async function startMicSession(targetBtnId = 'micButton') {
+  if (micStream) {
+    // just retarget glow to whichever button we're about to use
+    startVolumeMonitoring(micStream, targetBtnId);
+    return;
+  }
   try {
     micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    startVolumeMonitoring(micStream);
+    startVolumeMonitoring(micStream, targetBtnId);
   } catch (err) {
     console.error('Mic error:', err);
     alert('Could not access the microphone.');
@@ -283,6 +311,48 @@ function updateSpeakerIcon(volume) {
   } else {
     volumeMinIcon.classList.remove('muted');
   }
+}
+
+function ensurePracticeTryButtonVisible() {
+  if (!practiceMode) return;
+  if (document.getElementById('practiceTryButton')) return;
+
+  const footer         = document.getElementById('cue-footer');
+  const liveTranscript = document.getElementById('liveTranscript');
+
+  const btn = document.createElement('button');
+  btn.id = 'practiceTryButton';
+  btn.className = 'circle-btn';
+  btn.title = 'Practice saying the answer';
+  btn.style.marginRight = '8px';
+  btn.innerHTML = `<img src="assets/svg/1F3A4.svg" alt="Practice Mic">`;
+
+  // Put it on the LEFT (before the transcript)
+  footer.insertBefore(btn, liveTranscript);
+
+  // Make it feel like your other circle buttons on touch
+  btn.addEventListener('touchstart', () => btn.classList.add('active'));
+  const rm = () => btn.classList.remove('active');
+  btn.addEventListener('touchend', rm);
+  btn.addEventListener('touchcancel', rm);
+
+  // Use the SAME pipeline, just with a different context/target
+  btn.addEventListener('click', async () => {
+    if (isRecording && recogCtx.mode === 'practiceTry') {
+      stopSpeechRecognition();                  // ⏹ ends glow + restores icon
+      return;
+    }
+    await startMicSession('practiceTryButton');  // glow targets this button
+    startSpeechRecognition({
+      mode: 'practiceTry',
+      targetBtnId: 'practiceTryButton'
+    });
+  });
+}
+
+function removePracticeTryButton() {
+  const btn = document.getElementById('practiceTryButton');
+  if (btn) btn.remove();
 }
 
 function populateCustomVoiceList() {
@@ -370,10 +440,20 @@ function highlightDifferences(userText, expectedText) {
   return highlighted.join(isCJK ? '' : ' ');
 }
 
-function startVolumeMonitoring(stream) {
+function removePracticeTryButton() {
+  const btn = document.getElementById('practiceTryButton');
+  if (btn) btn.remove();
+}
+
+function startVolumeMonitoring(stream, targetId = 'micButton') {
+  volumeGlowTargetId = targetId;
+
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
   }
+
+  // Clear any previous polling loop so we don't stack intervals
+  if (volumeInterval) clearInterval(volumeInterval);
 
   const micSource = audioContext.createMediaStreamSource(stream);
   analyser = audioContext.createAnalyser();
@@ -383,10 +463,14 @@ function startVolumeMonitoring(stream) {
   dataArray = new Uint8Array(analyser.fftSize);
 
   volumeInterval = setInterval(() => {
-    const micButton = document.getElementById('micButton');
+    const targetBtn =
+      document.getElementById(volumeGlowTargetId) ||
+      document.getElementById('micButton');
+
+    if (!targetBtn) return;
 
     if (micIsMuted) {
-      micButton.style.boxShadow = 'none'; // 🔥 Remove any glow entirely
+      targetBtn.style.boxShadow = 'none';
       return;
     }
 
@@ -394,6 +478,18 @@ function startVolumeMonitoring(stream) {
     const volume = Math.max(...dataArray) - 128;
     animateMicPulse(volume);
   }, 100);
+}
+
+function animateMicPulse(volume) {
+  const targetBtn =
+    document.getElementById(volumeGlowTargetId) ||
+    document.getElementById('micButton');
+
+  if (!targetBtn) return;
+
+  const clamped = Math.min(volume, 50);
+  const glowSize = 5 + (clamped * 0.3);
+  targetBtn.style.boxShadow = `0 0 ${glowSize}px red`;
 }
 
 function stopVolumeMonitoring() {
@@ -406,15 +502,6 @@ function stopVolumeMonitoring() {
   const micButton = document.getElementById('micButton');
   micButton.classList.remove('recording');
   micButton.style.boxShadow = 'none'; // ✅ 🔥 Fully removes glow
-}
-
-function animateMicPulse(volume) {
-  const micButton = document.getElementById('micButton');
-
-  const clampedVolume = Math.min(volume, 50); // cap volume
-  const glowSize = 5 + (clampedVolume * 0.3); // range: ~5–20
-
-  micButton.style.boxShadow = `0 0 ${glowSize}px red`;
 }
 
 function speakText(text, onend) {
@@ -524,9 +611,16 @@ function updateMicIcon() {
   }
 
   if (isRecording) {
-    micIcon.src = 'assets/svg/23FA.svg';
-    micButton.classList.add('recording');
-    return;
+    if (recogCtx?.targetBtnId === 'micButton') {
+      // only flip the MAIN button to ⏺️ when the main mic is recording
+      micIcon.src = 'assets/svg/23FA.svg';
+      micButton.classList.add('recording');
+      return;
+    } else {
+      // practice-try is recording → don't force ⏺️ on the main mic
+      micButton.classList.remove('recording');
+      // fall through to the rest of the logic to set a normal icon
+    }
   }
 
   micButton.classList.remove('recording');
@@ -616,7 +710,7 @@ function showNextMessage() {
     renderHintBubble(item.hint);
     tryAutoAdvance();
 
-} else if (item.type === 'narration') {
+  } else if (item.type === 'narration') {
   // new: if this narration has a hint + expectedAnswers, show the hint like a prompt
   if (item.hint && item.expectedAnswers) {
     renderHintBubble(item.hint);
@@ -630,13 +724,31 @@ function showNextMessage() {
 
   updateMicIcon();
 
-    // ✅ New: if this was the final message, show score now
+  // After rendering
+  if (practiceMode) {
+    // Show the try mic only when an answer bubble is on screen
+    if (item.type === 'response' && item.text) {
+      ensurePracticeTryButtonVisible();
+    } else {
+      removePracticeTryButton();
+    }
+  }
+
+  // ✅ New: if this was the final message, show score now
   const isLastItem = currentIndex === conversation.length - 1;
   if (isLastItem && item.type === 'narration') {
     displayFinalScore();
     saveFinalScore();
   }
 
+  // Show practice-try mic only when an answer bubble is on screen in Practice Mode
+  if (practiceMode) {
+    if (item.type === 'response' && item.text) {
+      ensurePracticeTryButtonVisible();
+    } else {
+      removePracticeTryButton();
+    }
+  }
 }
 
 function renderCurrentLine(item) {
@@ -766,7 +878,11 @@ function renderHintBubble(hint) {
   }
 }
 
-function startSpeechRecognition() {
+// was: function startSpeechRecognition() {
+function startSpeechRecognition(ctx = {}) {
+  // merge a context for this run (defaults keep Test behavior)
+  recogCtx = Object.assign({ mode: 'test', targetBtnId: 'micButton' }, ctx);
+
   if (!('webkitSpeechRecognition' in window)) {
     alert('Speech recognition not supported.');
     return;
@@ -777,6 +893,14 @@ function startSpeechRecognition() {
   clearGraceTimer();
   fullTranscript = '';
 
+  // IMPORTANT: pulse the correct button for this run
+  startVolumeMonitoring(micStream, recogCtx.targetBtnId);
+
+  // Show the red "recording" visuals only when we're not on the main mic
+  if (recogCtx.targetBtnId !== 'micButton') {
+    applyRecordingVisual(recogCtx.targetBtnId, true);
+  }
+
   recognition = new webkitSpeechRecognition();
   recognition.lang = lessonLang || 'en-US';
   recognition.interimResults = true;
@@ -784,7 +908,6 @@ function startSpeechRecognition() {
 
   isRecording = true;
   updateMicIcon();
-  startVolumeMonitoring(micStream);
 
   recognition.onstart = () => {
     console.log('Speech recognition started');
@@ -841,28 +964,35 @@ function startSpeechRecognition() {
     const processedAnswers = (promptItem?.expectedAnswers || []).map(extractDisplayAndVariants);
     const normalizedTranscript = normalize(currentTranscript);
 
-    let matched = processedAnswers.find(({ variants }) => variants.includes(normalizedTranscript));
+    const isMatch =
+      processedAnswers.some(({ variants }) => variants.includes(normalizedTranscript)) ||
+      isFallbackTrigger(currentTranscript);
 
-    if (matched || isFallbackTrigger(currentTranscript)) {
+    if (isMatch) {
+      // ⛔ snapshot context BEFORE stopping (stopSpeechRecognition resets it)
+      const ctxAtMatch = { ...recogCtx };
+
       stopSpeechRecognition();
-      handleUserResponse(currentTranscript);
-    }
 
-    if (matched || isFallbackTrigger(currentTranscript)) {
-      console.log('✅ Instant match (including fallback) — stopping recognition early');
-      stopSpeechRecognition();
-      handleUserResponse(currentTranscript);
+      // Only advance in Test mode
+      if (ctxAtMatch.mode !== 'practiceTry') {
+        handleUserResponse(currentTranscript);
+      }
+      return;
     }
-  };
-
+  }
   recognition.onerror = (e) => {
     console.warn('Speech recognition error:', e.error);
 
     if (e.error === 'no-speech' && !speechHasStarted) {
       console.log('No speech detected — restarting recognition');
+
+      // 🔒 keep the same mic target + mode (practiceTry vs test)
+      const restartCtx = { ...recogCtx };
+
       stopSpeechRecognition();
-      startMicSession().then(() => {
-        startSpeechRecognition();
+      startMicSession(restartCtx.targetBtnId).then(() => {
+        startSpeechRecognition(restartCtx);
       });
       return;
     }
@@ -896,27 +1026,49 @@ function stopSpeechRecognition() {
     recognition = null;
   }
 
+  // Turn off visuals for non-main target (main mic visuals are handled by updateMicIcon)
+  if (recogCtx.targetBtnId !== 'micButton') {
+    applyRecordingVisual(recogCtx.targetBtnId, false);
+  }
+
   const transcriptEl = document.getElementById('liveTranscript');
   let finalInput = transcriptEl?.innerText.trim();
 
+  // If the transcript only contains our placeholder (e.g., "[Listening...]"), treat it as empty
   if (finalInput?.startsWith('[') && finalInput.endsWith(']')) {
-    console.warn('⚠️ Skipping placeholder transcript:', finalInput);
     finalInput = '';
-
-    if (transcriptEl) {
-      transcriptEl.textContent = '';  // ✅ Clear the visible transcript
-    }
+    if (transcriptEl) transcriptEl.textContent = '';
   }
 
   if (finalInput) {
-    console.log('[Using visible transcript]:', finalInput);
-    handleUserResponse(finalInput);
+    if (recogCtx.mode === 'practiceTry' || practiceMode) {
+      // ✅ PRACTICE-TRY: just highlight differences
+      const prevItem = conversation[currentIndex - 1];
+      const processed = (prevItem?.expectedAnswers || []).map(extractDisplayAndVariants);
+
+      let best = processed.length ? processed[0].display : '';
+      let bestDist = Infinity;
+      for (const { display } of processed) {
+        const d = wordLevelDistance(normalize(finalInput), normalize(display));
+        if (d < bestDist) { bestDist = d; best = display; }
+      }
+
+      if (transcriptEl) {
+        transcriptEl.innerHTML = best ? highlightDifferences(finalInput, best) : finalInput;
+      }
+    } else {
+      // ✅ TEST MODE (original behavior)
+      handleUserResponse(finalInput);
+    }
   } else {
     console.warn('[Transcript empty — skipping response handling]');
   }
 
   isRecording = false;
   updateMicIcon();
+
+  // reset context so future runs default to Test behavior unless specified
+  recogCtx = { mode: 'test', targetBtnId: 'micButton' };
 }
 
 function extractDisplayAndVariants(rawAnswer) {
@@ -977,6 +1129,9 @@ function normalize(text, langHint) {
 }
 
 function handleUserResponse(spokenText) {
+
+  if (practiceMode) return;
+
   const item = conversation[currentIndex];
   if (!item || item.type !== 'response') return;
 
@@ -1323,10 +1478,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsButton = document.getElementById('settingsButton');
 
     micButton.addEventListener('click', () => {
-        if (!conversation[currentIndex + 1]) {
-        return location.reload();
-        }
+      // NEW: if the small Practice-Try mic is currently recording, stop it first
+      if (isRecording && typeof recogCtx === 'object' && recogCtx.mode === 'practiceTry' && typeof stopSpeechRecognition === 'function') {
+        stopSpeechRecognition(); // also clears the practice mic visuals
+        // then continue with the normal big-mic behavior...
+      }
+
+    if (!conversation[currentIndex + 1]) {
+      return location.reload();
+      }
+
       micButton.blur(); // ✅ mobile fix
+
       speechSynthesis.cancel();
       speechSynthesis.speak(new SpeechSynthesisUtterance(''));
 
@@ -1459,6 +1622,9 @@ document.querySelectorAll('.circle-btn').forEach(button => {
 
 window.addEventListener('beforeunload', () => {
   stopMicSession(); // ✅ First stop mic and volume monitoring
+
+  if (practiceTryActive) stopPracticeTryRecognition();
+  removePracticeTryButton();
 
   if (audioContext) {
     audioContext.close();
