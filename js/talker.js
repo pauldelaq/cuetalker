@@ -51,6 +51,32 @@ function applyRecordingVisual(targetBtnId, active) {
 // Enable :active on mobile
 document.addEventListener('touchstart', () => {}, true);
 
+// For temporarily swapping the practice mic icon to a checkmark
+let practiceIconResetTimer = null;
+
+function flashPracticeMicCheckmark(duration = 5000) {
+  const btn = document.getElementById('practiceTryButton');
+  if (!btn) return;
+  const img = btn.querySelector('img');
+  if (!img) return;
+
+  // show ✅
+  img.src = 'assets/svg/2714.svg';
+
+  // ensure only one timer is active
+  if (practiceIconResetTimer) clearTimeout(practiceIconResetTimer);
+
+  practiceIconResetTimer = setTimeout(() => {
+    // revert to 🎙️ if the button still exists
+    const againBtn = document.getElementById('practiceTryButton');
+    if (againBtn) {
+      const againImg = againBtn.querySelector('img');
+      if (againImg) againImg.src = 'assets/svg/1F3A4.svg';
+    }
+    practiceIconResetTimer = null;
+  }, duration);
+}
+
 function getLangKey(code) {
   // Ensure consistent language keys using full xx-XX format
   const knownLangs = ['en-US', 'fr-FR', 'es-ES', 'zh-CN', 'zh-TW'];
@@ -339,14 +365,24 @@ function ensurePracticeTryButtonVisible() {
   // Use the SAME pipeline, just with a different context/target
   btn.addEventListener('click', async () => {
     if (isRecording && recogCtx.mode === 'practiceTry') {
-      stopSpeechRecognition();                  // ⏹ ends glow + restores icon
+      stopSpeechRecognition();
       return;
     }
-    await startMicSession('practiceTryButton');  // glow targets this button
-    startSpeechRecognition({
-      mode: 'practiceTry',
-      targetBtnId: 'practiceTryButton'
-    });
+
+    // If a previous ✅ revert is pending, cancel it and ensure 🎙️
+    if (practiceIconResetTimer) {
+      clearTimeout(practiceIconResetTimer);
+      practiceIconResetTimer = null;
+      const img = btn.querySelector('img');
+      if (img) img.src = 'assets/svg/1F3A4.svg';
+    }
+
+    // NEW: clear the transcript so it’s ready for the user’s speech
+    const transcriptEl = document.getElementById('liveTranscript');
+    if (transcriptEl) transcriptEl.textContent = '';
+
+    await startMicSession('practiceTryButton');
+    startSpeechRecognition({ mode: 'practiceTry', targetBtnId: 'practiceTryButton' });
   });
 }
 
@@ -745,6 +781,10 @@ function showNextMessage() {
   if (practiceMode) {
     if (item.type === 'response' && item.text) {
       ensurePracticeTryButtonVisible();
+
+      // NEW: show the “click to practice” prompt in the transcript area
+      const transcriptEl = document.getElementById('liveTranscript');
+      if (transcriptEl) transcriptEl.textContent = t('recordingDisabled');
     } else {
       removePracticeTryButton();
     }
@@ -870,12 +910,6 @@ function renderHintBubble(hint) {
   container.appendChild(hintDiv);
   container.scrollTop = container.scrollHeight;
 
-  if (practiceMode) {
-    const transcriptEl = document.getElementById('liveTranscript');
-    if (transcriptEl) {
-      transcriptEl.textContent = t('recordingDisabled');
-    }
-  }
 }
 
 // was: function startSpeechRecognition() {
@@ -1056,6 +1090,23 @@ function stopSpeechRecognition() {
       if (transcriptEl) {
         transcriptEl.innerHTML = best ? highlightDifferences(finalInput, best) : finalInput;
       }
+
+      // Compute “perfect” (no mistakes) using normalized matching against your variants
+      const normalizedFinal = normalize(finalInput);
+      const isPerfectFromVariants =
+        (processed || []).some(({ variants }) => variants.includes(normalizedFinal));
+
+      // Fallback: if you didn’t have variants, exact normalized equality with best display
+      const isPerfectByDistance =
+        (!processed || processed.length === 0) &&
+        best &&
+        wordLevelDistance(normalize(finalInput), normalize(best)) === 0;
+
+      if (isPerfectFromVariants || isPerfectByDistance) {
+        // ✅ briefly show a checkmark on the practice mic, then revert to 🎙️
+        flashPracticeMicCheckmark(1500); // tweak duration as you like
+      }
+
     } else {
       // ✅ TEST MODE (original behavior)
       handleUserResponse(finalInput);

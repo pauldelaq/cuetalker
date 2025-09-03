@@ -1,0 +1,868 @@
+{
+    "svgLibrary": {
+    "1": "assets/svg/laptopwoman.svg",
+    "2": "assets/svg/1F60A.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "You",
+    "svg": "hint"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Checking in at the Hotel",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "You have arrived at your hotel and are getting ready to check in."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "Receptionist",
+            "svg": 1
+          },
+          "text": "Good morning. Are you ready to check in?",
+          "hint": "Yes, ...",
+          "expectedAnswers": [
+            "Yes, I am ready to check in.",
+            "Yes, I'm ready to check in."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 2
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "Receptionist",
+            "svg": 1
+          },
+          "text": "Great! Can you show me some identification?",
+          "hint": "Yes, ... my passport",
+          "expectedAnswers": [
+            "Yes, I can show you my passport.",
+            "Yes, here is my passport."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 2
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "Receptionist",
+            "svg": 1
+          },
+          "text": "Thank you. How many nights will you be staying here?",
+          "hint": "... three nights",
+          "expectedAnswers": [
+            "I will be staying here for three nights.",
+            "I'll be staying here for three nights."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 2
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "Receptionist",
+            "svg": 1
+          },
+          "text": "Very well. Here is your room key. You'll be staying in room 305. Do you have any questions?",
+          "hint": "Yes, what time ... breakfast ... served?",
+          "expectedAnswers": [
+            "Yes, what time will breakfast be served?",
+            "Yes, what time is breakfast served?"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 2
+          }
+        },
+        {
+          "id": 10,
+          "type": "prompt",
+          "character": {
+            "name": "Receptionist",
+            "svg": 1
+          },
+          "text": "Breakfast will be served at 9:00 on the first floor. Anything else?",
+          "hint": "Yes, ... WiFi ... my room?",
+          "expectedAnswers": [
+            "Yes, is WiFi available in my room?",
+            "Yes, is there WiFi available in my room?"
+          ]
+        },
+        {
+          "id": 11,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 2
+          }
+        },
+        {
+          "id": 12,
+          "type": "prompt",
+          "character": {
+            "name": "Receptionist",
+            "svg": 1
+          },
+          "text": "Yes, of course. The WiFi password is written on your room key. Now, how would you like to pay?",
+          "hint": "... Visa",
+          "expectedAnswers": [
+            "I would like to pay by Visa.",
+            "I'd like to pay by Visa."
+          ]
+        },
+        {
+          "id": 13,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 2
+          }
+        },
+        {
+          "id": 14,
+          "type": "prompt",
+          "character": {
+            "name": "Receptionist",
+            "svg": 1
+          },
+          "text": "Perfect, thank you. Your check-in is complete. Enjoy your stay!",
+          "hint": "... very much",
+          "expectedAnswers": [
+            "Thank you very much.",
+            "Thanks very much."
+          ]
+        },
+        {
+          "id": 15,
+          "type": "response",
+          "character": {
+            "name": "You",
+            "svg": 2
+          }
+        },
+        {
+          "id": 16,
+          "type": "narration",
+          "text": "Well done! You have successfully checked in, and are ready to go up to your room now."
+        }
+      ]
+    },
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Enregistrement à l'hôtel",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Vous êtes arrivé à votre hôtel et vous vous apprêtez à vous enregistrer."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "Réceptionniste",
+            "svg": 1
+          },
+          "text": "Bonjour. Êtes-vous prêt à vous enregistrer ?",
+          "hint": "Oui, ... m'enregistrer",
+          "expectedAnswers": [
+            "Oui, je suis prêt à m'enregistrer.",
+            "Oui, je suis prêt pour l'enregistrement."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "Vous",
+            "svg": 2
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "Réceptionniste",
+            "svg": 1
+          },
+          "text": "Très bien ! Pouvez-vous me montrer une pièce d'identité ?",
+          "hint": "Oui, ... mon passeport",
+          "expectedAnswers": [
+            "Oui, je peux vous montrer mon passeport.",
+            "Oui, voici mon passeport."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "Vous",
+            "svg": 2
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "Réceptionniste",
+            "svg": 1
+          },
+          "text": "Merci. Combien de nuits allez-vous rester ici ?",
+          "hint": "... trois nuits",
+          "expectedAnswers": [
+            "Je vais rester ici trois nuits.",
+            "Je resterai ici trois nuits."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "Vous",
+            "svg": 2
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "Réceptionniste",
+            "svg": 1
+          },
+          "text": "Très bien. Voici la clé de votre chambre. Vous serez dans la chambre 305. Avez-vous des questions ?",
+          "hint": "Oui, à quelle heure ... petit-déjeuner ... servi ?",
+          "expectedAnswers": [
+            "Oui, à quelle heure le petit-déjeuner sera-t-il servi ?",
+            "Oui, à quelle heure est servi le petit-déjeuner ?"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "Vous",
+            "svg": 2
+          }
+        },
+        {
+          "id": 10,
+          "type": "prompt",
+          "character": {
+            "name": "Réceptionniste",
+            "svg": 1
+          },
+          "text": "Le petit-déjeuner sera servi à 9h00 au premier étage. Autre chose ?",
+          "hint": "Oui, ... WiFi ... ma chambre ?",
+          "expectedAnswers": [
+            "Oui, le WiFi est-il disponible dans ma chambre ?",
+            "Oui, y a-t-il du WiFi dans ma chambre ?"
+          ]
+        },
+        {
+          "id": 11,
+          "type": "response",
+          "character": {
+            "name": "Vous",
+            "svg": 2
+          }
+        },
+        {
+          "id": 12,
+          "type": "prompt",
+          "character": {
+            "name": "Réceptionniste",
+            "svg": 1
+          },
+          "text": "Oui, bien sûr. Le mot de passe du WiFi est écrit sur votre clé de chambre. Maintenant, comment souhaitez-vous payer ?",
+          "hint": "... Visa",
+          "expectedAnswers": [
+            "Je voudrais payer par Visa.",
+            "Je veux payer avec ma carte Visa."
+          ]
+        },
+        {
+          "id": 13,
+          "type": "response",
+          "character": {
+            "name": "Vous",
+            "svg": 2
+          }
+        },
+        {
+          "id": 14,
+          "type": "prompt",
+          "character": {
+            "name": "Réceptionniste",
+            "svg": 1
+          },
+          "text": "Parfait, merci. Votre enregistrement est terminé. Bon séjour !",
+          "hint": "... beaucoup",
+          "expectedAnswers": [
+            "Merci beaucoup.",
+            "Merci bien."
+          ]
+        },
+        {
+          "id": 15,
+          "type": "response",
+          "character": {
+            "name": "Vous",
+            "svg": 2
+          }
+        },
+        {
+          "id": 16,
+          "type": "narration",
+          "text": "Bravo ! Vous vous êtes enregistré avec succès et êtes prêt à monter dans votre chambre."
+        }
+      ]
+    },
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Registro en el hotel",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Has llegado a tu hotel y te preparas para registrarte."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "Recepcionista",
+            "svg": 1
+          },
+          "text": "Buenos días. ¿Está listo para registrarse?",
+          "hint": "Sí, ... registrarme",
+          "expectedAnswers": [
+            "Sí, estoy listo para registrarme.",
+            "Sí, listo para registrarme."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 2
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "Recepcionista",
+            "svg": 1
+          },
+          "text": "¡Perfecto! ¿Me puede mostrar alguna identificación?",
+          "hint": "Sí, ... mi pasaporte",
+          "expectedAnswers": [
+            "Sí, puedo mostrarle mi pasaporte.",
+            "Sí, aquí está mi pasaporte."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 2
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "Recepcionista",
+            "svg": 1
+          },
+          "text": "Gracias. ¿Cuántas noches se quedará aquí?",
+          "hint": "... tres noches",
+          "expectedAnswers": [
+            "Me quedaré aquí tres noches.",
+            "Voy a quedarme aquí tres noches."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 2
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "Recepcionista",
+            "svg": 1
+          },
+          "text": "Muy bien. Aquí tiene la llave de su habitación. Se quedará en la habitación 305. ¿Tiene alguna pregunta?",
+          "hint": "Sí, ¿a qué hora ... desayuno ... servido?",
+          "expectedAnswers": [
+            "Sí, ¿a qué hora se servirá el desayuno?",
+            "Sí, ¿a qué hora sirven el desayuno?"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 2
+          }
+        },
+        {
+          "id": 10,
+          "type": "prompt",
+          "character": {
+            "name": "Recepcionista",
+            "svg": 1
+          },
+          "text": "El desayuno se servirá a las 9:00 en el primer piso. ¿Algo más?",
+          "hint": "Sí, ... WiFi ... mi habitación?",
+          "expectedAnswers": [
+            "Sí, ¿hay WiFi disponible en mi habitación?",
+            "Sí, ¿tengo WiFi en mi habitación?"
+          ]
+        },
+        {
+          "id": 11,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 2
+          }
+        },
+        {
+          "id": 12,
+          "type": "prompt",
+          "character": {
+            "name": "Recepcionista",
+            "svg": 1
+          },
+          "text": "Sí, por supuesto. La contraseña del WiFi está escrita en su llave. Ahora, ¿cómo desea pagar?",
+          "hint": "... Visa",
+          "expectedAnswers": [
+            "Quiero pagar con Visa.",
+            "Me gustaría pagar con Visa."
+          ]
+        },
+        {
+          "id": 13,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 2
+          }
+        },
+        {
+          "id": 14,
+          "type": "prompt",
+          "character": {
+            "name": "Recepcionista",
+            "svg": 1
+          },
+          "text": "Perfecto, gracias. Su registro está completo. ¡Disfrute su estancia!",
+          "hint": "... mucho",
+          "expectedAnswers": [
+            "Muchas gracias.",
+            "Gracias."
+          ]
+        },
+        {
+          "id": 15,
+          "type": "response",
+          "character": {
+            "name": "Tú",
+            "svg": 2
+          }
+        },
+        {
+          "id": 16,
+          "type": "narration",
+          "text": "¡Bien hecho! Ha completado el registro y está listo para subir a su habitación."
+        }
+      ]
+    },
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "简体中文",
+      "lessonName": "酒店入住登记",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "你已经到达酒店，准备办理入住。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "接待员",
+            "svg": 1
+          },
+          "text": "早上好。您准备好办理入住了吗？",
+          "hint": "是的，... 办理入住",
+          "expectedAnswers": [
+            "是的，我准备好办理入住了。",
+            "是的，我准备办理入住。"
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "接待员",
+            "svg": 1
+          },
+          "text": "很好！可以给我看一下您的身份证件吗？",
+          "hint": "是的，... 我的护照",
+          "expectedAnswers": [
+            "是的，我可以给您看我的护照。",
+            "是的，这是我的护照。"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "接待员",
+            "svg": 1
+          },
+          "text": "谢谢。您要住多少晚？",
+          "hint": "... 三晚",
+          "expectedAnswers": [
+            "我要住三晚。",
+            "我将在这里住三晚。"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "接待员",
+            "svg": 1
+          },
+          "text": "好的。这是您的房卡。您将住在305房间。您有任何问题吗？",
+          "hint": "是的，早餐 ... 几点 ...",
+          "expectedAnswers": [
+            "是的，早餐几点供应？",
+            "是的，早餐几点开始？"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 10,
+          "type": "prompt",
+          "character": {
+            "name": "接待员",
+            "svg": 1
+          },
+          "text": "早餐在一楼，9点供应。还有别的问题吗？",
+          "hint": "是的，... WiFi ... 房间",
+          "expectedAnswers": [
+            "是的，房间里有WiFi吗？",
+            "是的，我的房间可以用WiFi吗？"
+          ]
+        },
+        {
+          "id": 11,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 12,
+          "type": "prompt",
+          "character": {
+            "name": "接待员",
+            "svg": 1
+          },
+          "text": "当然可以。WiFi密码写在您的房卡上。现在，您想怎么付款？",
+          "hint": "... Visa",
+          "expectedAnswers": [
+            "我想用Visa付款。",
+            "我想用Visa卡支付。"
+          ]
+        },
+        {
+          "id": 13,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 14,
+          "type": "prompt",
+          "character": {
+            "name": "接待员",
+            "svg": 1
+          },
+          "text": "很好，谢谢。您的入住手续已完成。祝您入住愉快！",
+          "hint": "... 非常感谢",
+          "expectedAnswers": [
+            "非常感谢。",
+            "谢谢您。"
+          ]
+        },
+        {
+          "id": 15,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 16,
+          "type": "narration",
+          "text": "做得好！您已经成功办理入住，现在可以上楼去您的房间了。"
+        }
+      ]
+    },
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "繁體中文",
+      "lessonName": "飯店入住登記",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "你已經到達飯店，準備辦理入住。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": {
+            "name": "接待員",
+            "svg": 1
+          },
+          "text": "早安。您準備好辦理入住了嗎？",
+          "hint": "是的，... 辦理入住",
+          "expectedAnswers": [
+            "是的，我準備好辦理入住了。",
+            "是的，我準備辦理入住。"
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": {
+            "name": "接待員",
+            "svg": 1
+          },
+          "text": "很好！可以給我看一下您的證件嗎？",
+          "hint": "是的，... 我的護照",
+          "expectedAnswers": [
+            "是的，我可以給您看我的護照。",
+            "是的，這是我的護照。"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": {
+            "name": "接待員",
+            "svg": 1
+          },
+          "text": "謝謝。您要住幾晚？",
+          "hint": "... 三晚",
+          "expectedAnswers": [
+            "我要住三晚。",
+            "我會在這裡住三晚。"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": {
+            "name": "接待員",
+            "svg": 1
+          },
+          "text": "好的。這是您的房卡。您將住在305號房間。您有任何問題嗎？",
+          "hint": "是的，早餐 ... 幾點 ...",
+          "expectedAnswers": [
+            "是的，早餐幾點供應？",
+            "是的，早餐幾點開始？"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 10,
+          "type": "prompt",
+          "character": {
+            "name": "接待員",
+            "svg": 1
+          },
+          "text": "早餐在一樓，九點供應。還有其他問題嗎？",
+          "hint": "是的，... WiFi ... 房間",
+          "expectedAnswers": [
+            "是的，房間裡有WiFi嗎？",
+            "是的，我的房間可以用WiFi嗎？"
+          ]
+        },
+        {
+          "id": 11,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 12,
+          "type": "prompt",
+          "character": {
+            "name": "接待員",
+            "svg": 1
+          },
+          "text": "當然可以。WiFi密碼寫在您的房卡上。現在，您想怎麼付款？",
+          "hint": "... Visa",
+          "expectedAnswers": [
+            "我想用Visa付款。",
+            "我想用Visa卡支付。"
+          ]
+        },
+        {
+          "id": 13,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 14,
+          "type": "prompt",
+          "character": {
+            "name": "接待員",
+            "svg": 1
+          },
+          "text": "很好，謝謝。您的入住手續已完成。祝您入住愉快！",
+          "hint": "... 非常感謝",
+          "expectedAnswers": [
+            "非常感謝。",
+            "謝謝您。"
+          ]
+        },
+        {
+          "id": 15,
+          "type": "response",
+          "character": {
+            "name": "您",
+            "svg": 2
+          }
+        },
+        {
+          "id": 16,
+          "type": "narration",
+          "text": "做得好！您已經成功辦理入住，現在可以上樓去您的房間了。"
+        }
+      ]
+    }
+  }
+}

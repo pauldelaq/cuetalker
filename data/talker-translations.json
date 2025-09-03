@@ -10,7 +10,7 @@
     "modeTest": "Test Mode",
     "modePractice": "Practice Mode",
     "listening": "[Listening...]",
-    "recordingDisabled": "[Recording is disabled in Practice Mode]"
+    "recordingDisabled": "[Click the microphone to practice]"
   },
   "fr-FR": {
     "settings": "Paramètres",
@@ -23,7 +23,7 @@
     "modeTest": "Mode Test",
     "modePractice": "Mode Pratique",
     "listening": "[Écoute...]",
-    "recordingDisabled": "[L'enregistrement est désactivé en mode Pratique]"
+    "recordingDisabled": "[Cliquez sur le micro pour pratiquer]"
   },
   "es-ES": {
     "settings": "Configuración",
@@ -36,8 +36,7 @@
     "modeTest": "Modo de prueba",
     "modePractice": "Modo de práctica",
     "listening": "[Escuchando...]",
-    "recordingDisabled": "[La grabación está desactivada en el Modo de práctica]"
-  },
+    "recordingDisabled": "[Haz clic en el micrófono para practicar]"  },
   "zh-TW": {
     "settings": "設定",
     "voice": "語音：",
@@ -49,8 +48,8 @@
     "modeTest": "測驗模式",
     "modePractice": "練習模式",
     "listening": "[正在聆聽...]",
-    "recordingDisabled": "[練習模式下無法錄音]"
-  },
+    "recordingDisabled": "[點擊麥克風來練習]"
+    },
   "zh-CN": {
     "settings": "设置",
     "voice": "语音：",
@@ -62,6 +61,6 @@
     "modeTest": "测试模式",
     "modePractice": "练习模式",
     "listening": "[正在聆听...]",
-    "recordingDisabled": "[练习模式下无法录音]"
-  }
+    "recordingDisabled": "[点击麦克风练习]"
+    }
 }

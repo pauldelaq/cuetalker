@@ -49,6 +49,16 @@
         "zh-CN": "三个愿望",
         "zh-TW": "三個願望"
       }
+    },
+    {
+      "id": "HotelCheckIn",
+      "name": {
+        "en-US": "Checking in at the Hotel",
+        "fr-FR": "Enregistrement à l'hôtel",
+        "es-ES": "Registro en el hotel",
+        "zh-CN": "酒店入住登记",
+        "zh-TW": "飯店入住登記"
+      }
     }
   ]
 }
