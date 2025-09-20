@@ -1,7 +1,8 @@
 {
-    "svgLibrary": {
-    "1": "assets/svg/laptopwoman.svg",
+  "svgLibrary": {
+    "1": "assets/svg/animegirl.svg",
     "2": "assets/svg/1F60A.svg",
+    "3": "assets/svg/1F615.svg",
     "hint": "assets/svg/1F914.svg"
   },
   "hintAvatar": {
@@ -12,25 +13,25 @@
     "en-US": {
       "language": "en-US",
       "languageName": "English",
-      "lessonName": "Checking in at the Hotel",
+      "lessonName": "Services",
       "exercises": [
         {
           "id": 0,
           "type": "narration",
-          "text": "You have arrived at your hotel and are getting ready to check in."
+          "text": "You're chatting with your friend about services you've recently had done."
         },
         {
           "id": 1,
           "type": "prompt",
           "character": {
-            "name": "Receptionist",
+            "name": "Friend",
             "svg": 1
           },
-          "text": "Good morning. Are you ready to check in?",
-          "hint": "Yes, ...",
+          "text": "Wow, nice haircut! Where did you get that done?",
+          "hint": "... hair... cut... hair salon",
           "expectedAnswers": [
-            "Yes, I am ready to check in.",
-            "Yes, I'm ready to check in."
+            "I had my hair cut at the hair salon.",
+            "I got my hair cut at the hair salon."
           ]
         },
         {
@@ -45,14 +46,14 @@
           "id": 3,
           "type": "prompt",
           "character": {
-            "name": "Receptionist",
+            "name": "Friend",
             "svg": 1
           },
-          "text": "Great! Can you show me some identification?",
-          "hint": "Yes, ... my passport",
+          "text": "It looks great! By the way, your car was broken last week, right? Did the mechanic help you fix it?",
+          "hint": "Yes, ... my car ... fixed ... the mechanic",
           "expectedAnswers": [
-            "Yes, I can show you my passport.",
-            "Yes, here is my passport."
+            "Yes, I had my car fixed by the mechanic.",
+            "Yes, I got my car fixed by the mechanic."
           ]
         },
         {
@@ -67,14 +68,14 @@
           "id": 5,
           "type": "prompt",
           "character": {
-            "name": "Receptionist",
+            "name": "Friend",
             "svg": 1
           },
-          "text": "Thank you. How many nights will you be staying here?",
-          "hint": "... three nights",
+          "text": "That's good to hear. You also lost your car key, didn't you? What did you do about that?",
+          "hint": "... another car key ... made",
           "expectedAnswers": [
-            "I will be staying here for three nights.",
-            "I'll be staying here for three nights."
+            "I had another car key made.",
+            "I got another car key made."
           ]
         },
         {
@@ -89,14 +90,14 @@
           "id": 7,
           "type": "prompt",
           "character": {
-            "name": "Receptionist",
+            "name": "Friend",
             "svg": 1
           },
-          "text": "Very well. Here is your room key. You'll be staying in room 305. Do you have any questions?",
-          "hint": "Yes, what time ... breakfast ... served?",
+          "text": "Good idea. By the way, I remember that your car was really dirty before. Did the mechanic help you with that?",
+          "hint": "Yes, ... my car ... washed ... the mechanic",
           "expectedAnswers": [
-            "Yes, what time will breakfast be served?",
-            "Yes, what time is breakfast served?"
+            "Yes, I had my car washed by the mechanic.",
+            "Yes, I got my car washed by the mechanic."
           ]
         },
         {
@@ -111,14 +112,13 @@
           "id": 10,
           "type": "prompt",
           "character": {
-            "name": "Receptionist",
+            "name": "Friend",
             "svg": 1
           },
-          "text": "Breakfast will be served at 9:00 on the first floor. Anything else?",
-          "hint": "Yes, ... WiFi ... my room?",
+          "text": "Great! That means you can drive us to the beach tomorrow. Did your boss say that you can take the day off?",
+          "hint": "Yes, my boss... letting me ... day off",
           "expectedAnswers": [
-            "Yes, is WiFi available in my room?",
-            "Yes, is there WiFi available in my room?"
+            "Yes, my boss is letting me take the day off."
           ]
         },
         {
@@ -133,14 +133,13 @@
           "id": 12,
           "type": "prompt",
           "character": {
-            "name": "Receptionist",
+            "name": "Friend",
             "svg": 1
           },
-          "text": "Yes, of course. The WiFi password is written on your room key. Now, how would you like to pay?",
-          "hint": "... Visa",
+          "text": "Wow! What a nice boss. And how about Thursday? Will you have that day off, too?",
+          "hint": "No, my boss... making me ... work...",
           "expectedAnswers": [
-            "I would like to pay by Visa.",
-            "I'd like to pay by Visa."
+            "No, my boss is making me work on Thursday."
           ]
         },
         {
@@ -148,21 +147,21 @@
           "type": "response",
           "character": {
             "name": "You",
-            "svg": 2
+            "svg": 3
           }
         },
         {
           "id": 14,
           "type": "prompt",
           "character": {
-            "name": "Receptionist",
+            "name": "Friend",
             "svg": 1
           },
-          "text": "Perfect, thank you. Your check-in is complete. Enjoy your stay!",
-          "hint": "... very much",
+          "text": "Too bad. How do you feel about working on Thursday?",
+          "hint": "Working on Thursday... makes ... sad",
           "expectedAnswers": [
-            "Thank you very much.",
-            "Thanks very much."
+            "Working on Thursday makes me sad.",
+            "Working on Thursday makes me feel sad."
           ]
         },
         {
@@ -170,45 +169,45 @@
           "type": "response",
           "character": {
             "name": "You",
-            "svg": 2
+            "svg": 3
           }
         },
         {
           "id": 16,
           "type": "narration",
-          "text": "Well done! You have successfully checked in, and are ready to go up to your room now."
+          "text": "Well done! Now you know how to discuss basic services."
         }
       ]
     },
     "fr-FR": {
       "language": "fr-FR",
       "languageName": "Français",
-      "lessonName": "Enregistrement à l'hôtel",
+      "lessonName": "Services",
       "exercises": [
         {
           "id": 0,
           "type": "narration",
-          "text": "Vous êtes arrivé à votre hôtel et vous vous apprêtez à vous enregistrer."
+          "text": "Tu discutes avec ton ami des services que tu as récemment utilisés."
         },
         {
           "id": 1,
           "type": "prompt",
           "character": {
-            "name": "Réceptionniste",
+            "name": "Ami",
             "svg": 1
           },
-          "text": "Bonjour. Êtes-vous prêt à vous enregistrer ?",
-          "hint": "Oui, ... m'enregistrer",
+          "text": "Waouh, belle coupe de cheveux ! Où as-tu fait ça ?",
+          "hint": "... cheveux ... coupés ... salon de coiffure",
           "expectedAnswers": [
-            "Oui, je suis prêt à m'enregistrer.",
-            "Oui, je suis prêt pour l'enregistrement."
+            "J'ai fait couper mes cheveux au salon de coiffure.",
+            "Je me suis fait couper les cheveux au salon de coiffure."
           ]
         },
         {
           "id": 2,
           "type": "response",
           "character": {
-            "name": "Vous",
+            "name": "Toi",
             "svg": 2
           }
         },
@@ -216,21 +215,21 @@
           "id": 3,
           "type": "prompt",
           "character": {
-            "name": "Réceptionniste",
+            "name": "Ami",
             "svg": 1
           },
-          "text": "Très bien ! Pouvez-vous me montrer une pièce d'identité ?",
-          "hint": "Oui, ... mon passeport",
+          "text": "Ça te va bien ! Au fait, ta voiture était en panne la semaine dernière, non ? Le mécanicien t’a aidé à la réparer ?",
+          "hint": "Oui, ... voiture ... réparée ... mécanicien",
           "expectedAnswers": [
-            "Oui, je peux vous montrer mon passeport.",
-            "Oui, voici mon passeport."
+            "Oui, j'ai fait réparer ma voiture par le mécanicien.",
+            "Oui, je me suis fait réparer ma voiture par le mécanicien."
           ]
         },
         {
           "id": 4,
           "type": "response",
           "character": {
-            "name": "Vous",
+            "name": "Toi",
             "svg": 2
           }
         },
@@ -238,21 +237,21 @@
           "id": 5,
           "type": "prompt",
           "character": {
-            "name": "Réceptionniste",
+            "name": "Ami",
             "svg": 1
           },
-          "text": "Merci. Combien de nuits allez-vous rester ici ?",
-          "hint": "... trois nuits",
+          "text": "Bonne nouvelle. Tu as aussi perdu ta clé de voiture, non ? Qu'as-tu fait pour ça ?",
+          "hint": "... une autre clé ... faite",
           "expectedAnswers": [
-            "Je vais rester ici ((trois)3) nuits.",
-            "Je resterai ici ((trois)3) nuits."
+            "J'ai fait faire une autre clé de voiture.",
+            "Je me suis fait faire une autre clé de voiture."
           ]
         },
         {
           "id": 6,
           "type": "response",
           "character": {
-            "name": "Vous",
+            "name": "Toi",
             "svg": 2
           }
         },
@@ -260,21 +259,21 @@
           "id": 7,
           "type": "prompt",
           "character": {
-            "name": "Réceptionniste",
+            "name": "Ami",
             "svg": 1
           },
-          "text": "Très bien. Voici la clé de votre chambre. Vous serez dans la chambre 305. Avez-vous des questions ?",
-          "hint": "Oui, à quelle heure ... petit-déjeuner ... servi ?",
+          "text": "Bonne idée. Au fait, je me souviens que ta voiture était vraiment sale avant. Le mécanicien t’a aidé avec ça ?",
+          "hint": "Oui, ... voiture ... lavée ... mécanicien",
           "expectedAnswers": [
-            "Oui, à quelle heure le petit-déjeuner sera-t-il servi ?",
-            "Oui, à quelle heure est servi le petit-déjeuner ?"
+            "Oui, j'ai fait laver ma voiture par le mécanicien.",
+            "Oui, je me suis fait laver ma voiture par le mécanicien."
           ]
         },
         {
           "id": 8,
           "type": "response",
           "character": {
-            "name": "Vous",
+            "name": "Toi",
             "svg": 2
           }
         },
@@ -282,21 +281,20 @@
           "id": 10,
           "type": "prompt",
           "character": {
-            "name": "Réceptionniste",
+            "name": "Ami",
             "svg": 1
           },
-          "text": "Le petit-déjeuner sera servi à 9h00 au premier étage. Autre chose ?",
-          "hint": "Oui, ... WiFi ... ma chambre ?",
+          "text": "Super ! Ça veut dire que tu peux nous conduire à la plage demain. Ton patron t’a dit que tu pouvais prendre congé ?",
+          "hint": "Oui, mon patron... me laisse ... congé",
           "expectedAnswers": [
-            "Oui, le WiFi est-il disponible dans ma chambre ?",
-            "Oui, y a-t-il du WiFi dans ma chambre ?"
+            "Oui, mon patron me laisse prendre congé."
           ]
         },
         {
           "id": 11,
           "type": "response",
           "character": {
-            "name": "Vous",
+            "name": "Toi",
             "svg": 2
           }
         },
@@ -304,75 +302,74 @@
           "id": 12,
           "type": "prompt",
           "character": {
-            "name": "Réceptionniste",
+            "name": "Ami",
             "svg": 1
           },
-          "text": "Oui, bien sûr. Le mot de passe du WiFi est écrit sur votre clé de chambre. Maintenant, comment souhaitez-vous payer ?",
-          "hint": "... Visa",
+          "text": "Waouh ! Quel gentil patron. Et jeudi ? Tu auras aussi ce jour-là de congé ?",
+          "hint": "Non, mon patron... m'oblige ... travailler",
           "expectedAnswers": [
-            "Je voudrais payer par Visa.",
-            "Je veux payer avec ma carte Visa."
+            "Non, mon patron m'oblige à travailler jeudi."
           ]
         },
         {
           "id": 13,
           "type": "response",
           "character": {
-            "name": "Vous",
-            "svg": 2
+            "name": "Toi",
+            "svg": 3
           }
         },
         {
           "id": 14,
           "type": "prompt",
           "character": {
-            "name": "Réceptionniste",
+            "name": "Ami",
             "svg": 1
           },
-          "text": "Parfait, merci. Votre enregistrement est terminé. Bon séjour !",
-          "hint": "... beaucoup",
+          "text": "Dommage. Que ressens-tu à propos de travailler jeudi ?",
+          "hint": "Travailler jeudi... me rend ... triste",
           "expectedAnswers": [
-            "Merci beaucoup.",
-            "Merci bien."
+            "Travailler jeudi me rend triste.",
+            "Travailler jeudi me fait me sentir triste."
           ]
         },
         {
           "id": 15,
           "type": "response",
           "character": {
-            "name": "Vous",
-            "svg": 2
+            "name": "Toi",
+            "svg": 3
           }
         },
         {
           "id": 16,
           "type": "narration",
-          "text": "Bravo ! Vous vous êtes enregistré avec succès et êtes prêt à monter dans votre chambre."
+          "text": "Bravo ! Maintenant tu sais comment parler de services de base."
         }
       ]
     },
     "es-ES": {
       "language": "es-ES",
       "languageName": "Español",
-      "lessonName": "Registro en el hotel",
+      "lessonName": "Servicios",
       "exercises": [
         {
           "id": 0,
           "type": "narration",
-          "text": "Has llegado a tu hotel y te preparas para registrarte."
+          "text": "Estás hablando con tu amigo sobre los servicios que has usado recientemente."
         },
         {
           "id": 1,
           "type": "prompt",
           "character": {
-            "name": "Recepcionista",
+            "name": "Amigo",
             "svg": 1
           },
-          "text": "Buenos días. ¿Está listo para registrarse?",
-          "hint": "Sí, ... registrarme",
+          "text": "¡Guau, qué buen corte de pelo! ¿Dónde te lo hiciste?",
+          "hint": "... pelo ... cortado ... peluquería",
           "expectedAnswers": [
-            "Sí, estoy listo para registrarme.",
-            "Sí, listo para registrarme."
+            "Me corté el pelo en la peluquería.",
+            "Me hice cortar el pelo en la peluquería."
           ]
         },
         {
@@ -387,14 +384,14 @@
           "id": 3,
           "type": "prompt",
           "character": {
-            "name": "Recepcionista",
+            "name": "Amigo",
             "svg": 1
           },
-          "text": "¡Perfecto! ¿Me puede mostrar alguna identificación?",
-          "hint": "Sí, ... mi pasaporte",
+          "text": "¡Se ve genial! Por cierto, tu coche estaba roto la semana pasada, ¿verdad? ¿El mecánico te ayudó a arreglarlo?",
+          "hint": "Sí, ... coche ... arreglado ... mecánico",
           "expectedAnswers": [
-            "Sí, puedo mostrarle mi pasaporte.",
-            "Sí, aquí está mi pasaporte."
+            "Sí, hice arreglar mi coche con el mecánico.",
+            "Sí, el mecánico me arregló el coche."
           ]
         },
         {
@@ -409,14 +406,14 @@
           "id": 5,
           "type": "prompt",
           "character": {
-            "name": "Recepcionista",
+            "name": "Amigo",
             "svg": 1
           },
-          "text": "Gracias. ¿Cuántas noches se quedará aquí?",
-          "hint": "... tres noches",
+          "text": "Qué bien. También perdiste la llave del coche, ¿no? ¿Qué hiciste con eso?",
+          "hint": "... otra llave ... hecha",
           "expectedAnswers": [
-            "Me quedaré aquí tres noches.",
-            "Voy a quedarme aquí tres noches."
+            "Hice hacer otra llave de coche.",
+            "Me hice hacer otra llave de coche."
           ]
         },
         {
@@ -431,14 +428,14 @@
           "id": 7,
           "type": "prompt",
           "character": {
-            "name": "Recepcionista",
+            "name": "Amigo",
             "svg": 1
           },
-          "text": "Muy bien. Aquí tiene la llave de su habitación. Se quedará en la habitación 305. ¿Tiene alguna pregunta?",
-          "hint": "Sí, ¿a qué hora ... desayuno ... servido?",
+          "text": "Buena idea. Por cierto, recuerdo que tu coche estaba muy sucio antes. ¿El mecánico te ayudó con eso?",
+          "hint": "Sí, ... coche ... lavado ... mecánico",
           "expectedAnswers": [
-            "Sí, ¿a qué hora se servirá el desayuno?",
-            "Sí, ¿a qué hora sirven el desayuno?"
+            "Sí, hice lavar mi coche con el mecánico.",
+            "Sí, el mecánico me lavó el coche."
           ]
         },
         {
@@ -453,14 +450,13 @@
           "id": 10,
           "type": "prompt",
           "character": {
-            "name": "Recepcionista",
+            "name": "Amigo",
             "svg": 1
           },
-          "text": "El desayuno se servirá a las 9:00 en el primer piso. ¿Algo más?",
-          "hint": "Sí, ... WiFi ... mi habitación?",
+          "text": "¡Genial! Eso significa que puedes llevarnos a la playa mañana. ¿Tu jefe dijo que puedes tomarte el día libre?",
+          "hint": "Sí, mi jefe... dejándome ... día libre",
           "expectedAnswers": [
-            "Sí, ¿hay ((Wi-Fi)WiFi) disponible en mi habitación?",
-            "Sí, ¿tengo ((Wi-Fi)WiFi) en mi habitación?"
+            "Sí, mi jefe me deja tomarme el día libre."
           ]
         },
         {
@@ -475,14 +471,13 @@
           "id": 12,
           "type": "prompt",
           "character": {
-            "name": "Recepcionista",
+            "name": "Amigo",
             "svg": 1
           },
-          "text": "Sí, por supuesto. La contraseña del WiFi está escrita en su llave. Ahora, ¿cómo desea pagar?",
-          "hint": "... Visa",
+          "text": "¡Vaya! Qué buen jefe. ¿Y el jueves? ¿Tendrás ese día libre también?",
+          "hint": "No, mi jefe... obligándome ... trabajar",
           "expectedAnswers": [
-            "Quiero pagar con Visa.",
-            "Me gustaría pagar con Visa."
+            "No, mi jefe me obliga a trabajar el jueves."
           ]
         },
         {
@@ -490,21 +485,21 @@
           "type": "response",
           "character": {
             "name": "Tú",
-            "svg": 2
+            "svg": 3
           }
         },
         {
           "id": 14,
           "type": "prompt",
           "character": {
-            "name": "Recepcionista",
+            "name": "Amigo",
             "svg": 1
           },
-          "text": "Perfecto, gracias. Su registro está completo. ¡Disfrute su estancia!",
-          "hint": "... mucho",
+          "text": "Qué pena. ¿Cómo te sientes acerca de trabajar el jueves?",
+          "hint": "Trabajar ... hace ... triste",
           "expectedAnswers": [
-            "Muchas gracias.",
-            "Gracias."
+            "Trabajar el jueves me hace sentir triste.",
+            "Trabajar el jueves me entristece."
           ]
         },
         {
@@ -512,45 +507,45 @@
           "type": "response",
           "character": {
             "name": "Tú",
-            "svg": 2
+            "svg": 3
           }
         },
         {
           "id": 16,
           "type": "narration",
-          "text": "¡Bien hecho! Ha completado el registro y está listo para subir a su habitación."
+          "text": "¡Bien hecho! Ahora sabes cómo hablar de servicios básicos."
         }
       ]
     },
     "zh-CN": {
       "language": "zh-CN",
       "languageName": "简体中文",
-      "lessonName": "酒店入住登记",
+      "lessonName": "服务",
       "exercises": [
         {
           "id": 0,
           "type": "narration",
-          "text": "你已经到达酒店，准备办理入住。"
+          "text": "你正在和朋友聊你最近接受过的服务。"
         },
         {
           "id": 1,
           "type": "prompt",
           "character": {
-            "name": "接待员",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "早上好。您准备好办理入住了吗？",
-          "hint": "是的，... 办理入住",
+          "text": "哇，新发型很好看！你是在哪儿剪的？",
+          "hint": "... 发廊 ... 剪 ... 头发 ...",
           "expectedAnswers": [
-            "是的，我准备好办理入住了。",
-            "是的，我准备办理入住。"
+            "我在发廊剪的头发。",
+            "我是在发廊剪的头发。"
           ]
         },
         {
           "id": 2,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -558,21 +553,21 @@
           "id": 3,
           "type": "prompt",
           "character": {
-            "name": "接待员",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "很好！可以给我看一下您的身份证件吗？",
-          "hint": "是的，... 我的护照",
+          "text": "看起来很不错！对了，你的车上周坏了，对吧？修理工帮你修好了吗？",
+          "hint": "是的，... 修理工 ... 修好 ... 我的车",
           "expectedAnswers": [
-            "是的，我可以给您看我的护照。",
-            "是的，这是我的护照。"
+            "是的，我请修理工修好了我的车。",
+            "是的，修理工帮我修好了我的车。"
           ]
         },
         {
           "id": 4,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -580,21 +575,21 @@
           "id": 5,
           "type": "prompt",
           "character": {
-            "name": "接待员",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "谢谢。您要住多少晚？",
-          "hint": "... 三晚",
+          "text": "太好了。你还丢了车钥匙，对吗？你怎么解决的？",
+          "hint": "... 配 ... 新的车钥匙 ... ",
           "expectedAnswers": [
-            "我要住三晚。",
-            "我将在这里住三晚。"
+            "我配了一把新的车钥匙。",
+            "我请人配了一把新的车钥匙。"
           ]
         },
         {
           "id": 6,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -602,21 +597,21 @@
           "id": 7,
           "type": "prompt",
           "character": {
-            "name": "接待员",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "好的。这是您的房卡。您将住在305房间。您有任何问题吗？",
-          "hint": "是的，早餐 ... 几点 ...",
+          "text": "好主意。对了，我记得你的车之前很脏。修理工帮你洗了吗？",
+          "hint": "是的，... 修理工 ... 洗 ... 我的车 ...",
           "expectedAnswers": [
-            "是的，早餐几点供应？",
-            "是的，早餐几点开始？"
+            "是的，我请修理工洗了我的车。",
+            "是的，修理工帮我洗了我的车。"
           ]
         },
         {
           "id": 8,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -624,21 +619,20 @@
           "id": 10,
           "type": "prompt",
           "character": {
-            "name": "接待员",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "早餐在一楼，9点供应。还有别的问题吗？",
-          "hint": "是的，... WiFi ... 房间",
+          "text": "太好了！那意味着你明天可以开车带我们去海边。你的老板说你可以请假吗？",
+          "hint": "是的，我的老板... 让 ... 请假",
           "expectedAnswers": [
-            "是的，房间里有WiFi吗？",
-            "是的，我的房间可以用WiFi吗？"
+            "是的，我的老板让我请一天假。"
           ]
         },
         {
           "id": 11,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -646,82 +640,81 @@
           "id": 12,
           "type": "prompt",
           "character": {
-            "name": "接待员",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "当然可以。WiFi密码写在您的房卡上。现在，您想怎么付款？",
-          "hint": "... Visa",
+          "text": "哇！真是个好老板。那周四呢？你那天也能休假吗？",
+          "hint": "不，我的老板... 让 ... 工作",
           "expectedAnswers": [
-            "我想用Visa付款。",
-            "我想用Visa卡支付。"
+            "不，我的老板让我周四工作。"
           ]
         },
         {
           "id": 13,
           "type": "response",
           "character": {
-            "name": "您",
-            "svg": 2
+            "name": "你",
+            "svg": 3
           }
         },
         {
           "id": 14,
           "type": "prompt",
           "character": {
-            "name": "接待员",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "很好，谢谢。您的入住手续已完成。祝您入住愉快！",
-          "hint": "... 非常感谢",
+          "text": "真可惜。你对周四工作感觉如何？",
+          "hint": "周四工作... 让 ... 难过",
           "expectedAnswers": [
-            "非常感谢。",
-            "谢谢您。"
+            "周四工作让我难过。",
+            "周四工作让我觉得难过。"
           ]
         },
         {
           "id": 15,
           "type": "response",
           "character": {
-            "name": "您",
-            "svg": 2
+            "name": "你",
+            "svg": 3
           }
         },
         {
           "id": 16,
           "type": "narration",
-          "text": "做得好！您已经成功办理入住，现在可以上楼去您的房间了。"
+          "text": "做得好！现在你知道如何讨论基本的服务了。"
         }
       ]
     },
     "zh-TW": {
       "language": "zh-TW",
       "languageName": "繁體中文",
-      "lessonName": "飯店入住登記",
+      "lessonName": "服務",
       "exercises": [
         {
           "id": 0,
           "type": "narration",
-          "text": "你已經到達飯店，準備辦理入住。"
+          "text": "你正在和朋友聊你最近接受過的服務。"
         },
         {
           "id": 1,
           "type": "prompt",
           "character": {
-            "name": "接待員",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "早安。您準備好辦理入住了嗎？",
-          "hint": "是的，... 辦理入住",
+          "text": "哇，新髮型很好看！你是在哪裡剪的？",
+          "hint": "... 髮廊 ... 剪 ... 頭髮 ...",
           "expectedAnswers": [
-            "是的，我準備好辦理入住了。",
-            "是的，我準備辦理入住。"
+            "我在髮廊剪的頭髮。",
+            "我是在髮廊剪的頭髮。"
           ]
         },
         {
           "id": 2,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -729,21 +722,21 @@
           "id": 3,
           "type": "prompt",
           "character": {
-            "name": "接待員",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "很好！可以給我看一下您的證件嗎？",
-          "hint": "是的，... 我的護照",
+          "text": "看起來很不錯！對了，你的車上週壞了，對吧？修理工幫你修好了嗎？",
+          "hint": "是的，... 我的車 ... 修好 ... 修理工",
           "expectedAnswers": [
-            "是的，我可以給您看我的護照。",
-            "是的，這是我的護照。"
+            "是的，我請修理工修好了我的車。",
+            "是的，修理工幫我修好了車。"
           ]
         },
         {
           "id": 4,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -751,21 +744,21 @@
           "id": 5,
           "type": "prompt",
           "character": {
-            "name": "接待員",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "謝謝。您要住幾晚？",
-          "hint": "... 三晚",
+          "text": "太好了。你還丟了車鑰匙，對嗎？你怎麼解決的？",
+          "hint": "... 配 ... 新的車鑰匙",
           "expectedAnswers": [
-            "我要住三晚。",
-            "我會在這裡住三晚。"
+            "我配了一把新的車鑰匙。",
+            "我請人配了一把新的車鑰匙。"
           ]
         },
         {
           "id": 6,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -773,21 +766,21 @@
           "id": 7,
           "type": "prompt",
           "character": {
-            "name": "接待員",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "好的。這是您的房卡。您將住在305號房間。您有任何問題嗎？",
-          "hint": "是的，早餐 ... 幾點 ...",
+          "text": "好主意。對了，我記得你的車之前很髒。修理工幫你洗了嗎？",
+          "hint": "是的，... 修理工 ... 洗 ... 我的車",
           "expectedAnswers": [
-            "是的，早餐幾點供應？",
-            "是的，早餐幾點開始？"
+            "是的，我請修理工洗了我的車。",
+            "是的，修理工幫我洗了我的車。"
           ]
         },
         {
           "id": 8,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -795,21 +788,20 @@
           "id": 10,
           "type": "prompt",
           "character": {
-            "name": "接待員",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "早餐在一樓，九點供應。還有其他問題嗎？",
-          "hint": "是的，... WiFi ... 房間",
+          "text": "太好了！那意味著你明天可以開車帶我們去海邊。你的老闆說你可以請假嗎？",
+          "hint": "是的，我的老闆... 讓 ... 請假",
           "expectedAnswers": [
-            "是的，房間裡有WiFi嗎？",
-            "是的，我的房間可以用WiFi嗎？"
+            "是的，我的老闆讓我請一天假。"
           ]
         },
         {
           "id": 11,
           "type": "response",
           "character": {
-            "name": "您",
+            "name": "你",
             "svg": 2
           }
         },
@@ -817,50 +809,49 @@
           "id": 12,
           "type": "prompt",
           "character": {
-            "name": "接待員",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "當然可以。WiFi密碼寫在您的房卡上。現在，您想怎麼付款？",
-          "hint": "... Visa",
+          "text": "哇！真是個好老闆。那週四呢？你那天也能休假嗎？",
+          "hint": "不，我的老闆... 讓 ... 工作",
           "expectedAnswers": [
-            "我想用Visa付款。",
-            "我想用Visa卡支付。"
+            "不，我的老闆讓我週四工作。"
           ]
         },
         {
           "id": 13,
           "type": "response",
           "character": {
-            "name": "您",
-            "svg": 2
+            "name": "你",
+            "svg": 3
           }
         },
         {
           "id": 14,
           "type": "prompt",
           "character": {
-            "name": "接待員",
+            "name": "朋友",
             "svg": 1
           },
-          "text": "很好，謝謝。您的入住手續已完成。祝您入住愉快！",
-          "hint": "... 非常感謝",
+          "text": "真可惜。你對週四工作感覺如何？",
+          "hint": "週四工作... 讓 ... 難過",
           "expectedAnswers": [
-            "非常感謝。",
-            "謝謝您。"
+            "週四工作讓我難過。",
+            "週四工作讓我覺得難過。"
           ]
         },
         {
           "id": 15,
           "type": "response",
           "character": {
-            "name": "您",
-            "svg": 2
+            "name": "你",
+            "svg": 3
           }
         },
         {
           "id": 16,
           "type": "narration",
-          "text": "做得好！您已經成功辦理入住，現在可以上樓去您的房間了。"
+          "text": "做得好！現在你知道如何討論基本的服務了。"
         }
       ]
     }

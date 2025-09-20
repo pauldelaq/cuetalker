@@ -132,9 +132,13 @@ footer#cue-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1em 1em;
+  padding: 1em;
   background: white;
   box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
+
+  /* 🔒 Prevent resizing */
+  height: 106px;          /* pick a size that feels good */
+  box-sizing: border-box;
 }
 
 #liveTranscript {
@@ -142,6 +146,11 @@ footer#cue-footer {
   margin-right: 1em;
   font-style: italic;
   color: #666;
+
+  /* Ensure text wraps or ellipsizes instead of stretching footer */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .bubble.thought {
