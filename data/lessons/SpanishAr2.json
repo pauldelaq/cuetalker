@@ -1,0 +1,240 @@
+{
+    "svgLibrary": {
+    "1": "assets/svg/1F468-1F3FB-200D-1F4BB.svg",
+    "2": "assets/svg/1F9D1-200D-1F393.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "Tú",
+    "svg": "hint"
+  },
+    "languages": {
+    "es-ES": {
+  "language": "es-ES",
+  "languageName": "Español",
+  "lessonName": "Verbos -ar",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "Vamos a practicar los verbos -ar. Esta lección se centra en las conjugaciones de los pronombres plurales (nosotros, vosotros, ellos)."
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "¡Bienvenidos, amigos! ¿Habláis español?",
+      "hint": "Sí, ...",
+      "expectedAnswers": [
+        "Sí, hablamos español."
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "Excelente. ¿Viajabais mucho a países hispanohablantes en el pasado?",
+      "hint": "No ... en el pasado.",
+      "expectedAnswers": [
+        "No viajábamos a países hispanohablantes en el pasado."
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "¿Es la primera vez para vosotros? ¡Qué bien! Entonces, ¿por qué habláis español?",
+      "hint": "Porque lo (estudiar) en nuestra escuela.",
+      "expectedAnswers": [
+        "Porque lo estudiamos en nuestra escuela."
+      ]
+    },
+        {
+      "id": 6,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 7,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "¿Y tomaréis clases de español una vez más ahora que estáis aquí?",
+      "hint": "Sí, las ... una vez más, ya que estamos aquí.",
+      "expectedAnswers": [
+        "Sí, las tomaremos una vez más, ya que estamos aquí."
+      ]
+    },
+    {
+      "id": 8,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+        {
+      "id": 9,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "Excelente. Si tomarais clases de español, platicaríais con muchos nuevos amigos, ¿no?",
+      "hint": "Sí, ... con muchos nuevos amigos.",
+      "expectedAnswers": [
+        "Sí, platicaríamos con muchos nuevos amigos."
+      ]
+    },
+    {
+      "id": 10,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+        {
+      "id": 11,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+        "text": "¿Y tus padres? ¿Cuándo hablan español con vosotros?",
+      "hint": "(Hablar) español cuando nos (llamar).",
+      "expectedAnswers": [
+        "Hablan español cuando nos llaman."
+      ]
+    },
+    {
+      "id": 12,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 13,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "¡Qué bien! Si no entendierais algo en español, ¿qué harían?",
+      "hint": "Nos (ayudar) si no (entender) algo en español.",
+      "expectedAnswers": [
+        "Nos ayudarían si no entendiéramos algo en español."
+      ]
+    },
+    {
+      "id": 14,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 15,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "¿Y qué hacían para enseñaros cuando erais niños?",
+      "hint": "Nos (contar) historias cuando éramos niños.",
+      "expectedAnswers": [
+        "Nos contaban historias cuando éramos niños."
+      ]
+    },
+        {
+      "id": 16,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 17,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "Es una buena manera de practicar español. ¿Viajarán aquí para visitaros?",
+      "hint": "Sí, (llegar) aquí en tres semanas.",
+      "expectedAnswers": [
+        "Sí, llegarán aquí en tres semanas."
+      ]
+    },
+    {
+      "id": 18,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+        {
+      "id": 19,
+      "type": "prompt",
+      "character": {
+        "name": "Pablo",
+        "svg": 1
+      },
+      "text": "¡Qué bien! ¿Ya compraron sus billetes de avión?",
+      "hint": "Sí, ya (pagar) sus billetes de avión.",
+      "expectedAnswers": [
+        "Sí, ya pagaron sus billetes de avión."
+      ]
+    },
+    {
+      "id": 20,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 21,
+      "type": "narration",
+      "text": "¡Bien hecho! Ya dominas los verbos -ar."
+    }
+  ]
+}
+}
+}

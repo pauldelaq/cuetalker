@@ -59,6 +59,18 @@
         "zh-CN": "酒店入住登记",
         "zh-TW": "飯店入住登記"
       }
+    },
+      {
+      "id": "SpanishAr1",
+      "name": {
+        "es-ES": "Verbos -ar, parte 1"
+      }
+    },
+          {
+      "id": "SpanishAr2",
+      "name": {
+        "es-ES": "Verbos -ar, parte 2"
+      }
     }
   ]
 }

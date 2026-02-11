@@ -103,7 +103,12 @@ function loadLessons() {
         const li = document.createElement('li');
         li.className = 'lesson-item';
 
-        const title = lesson.name[lang] || lesson.name['en-US'] || lesson.id;
+        // ✅ Only show lessons that have a title for this language (or an en-US fallback)
+        const title = (lesson.name && (lesson.name[lang] || lesson.name['en-US'])) || '';
+
+        // If no title exists for this language (and no en-US fallback), hide this lesson
+        if (!title) return;
+
         const matching = scoresForLang.find(entry => entry.lesson === lesson.id);
         const date = matching?.date || '';
         const score = matching?.score || '';

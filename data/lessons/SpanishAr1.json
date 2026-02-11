@@ -1,0 +1,240 @@
+{
+    "svgLibrary": {
+    "1": "assets/svg/animegrayhair.svg",
+    "2": "assets/svg/1F9D1-200D-1F393.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "Tú",
+    "svg": "hint"
+  },
+    "languages": {
+    "es-ES": {
+  "language": "es-ES",
+  "languageName": "Español",
+  "lessonName": "Verbos -ar",
+  "exercises": [
+    {
+      "id": 0,
+      "type": "narration",
+      "text": "Vamos a practicar los verbos -ar. Esta lección se centra en las conjugaciones de los pronombres singulares (yo, tú, él)."
+    },
+    {
+      "id": 1,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "¡Hola, amigo! ¿Trabajas mucho?",
+      "hint": "Sí, ...",
+      "expectedAnswers": [
+        "Sí, trabajo mucho."
+      ]
+    },
+    {
+      "id": 2,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 3,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "Entonces, estás muy cansado. ¿Cuándo comenzaste este trabajo?",
+      "hint": "... el año pasado.",
+      "expectedAnswers": [
+        "Lo comencé el año pasado."
+      ]
+    },
+    {
+      "id": 4,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 5,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "Claro. Pero cambiarás de trabajo en el futuro, ¿sí? ¿Cuándo terminarás este trabajo?",
+      "hint": "Lo ... el año siguiente.",
+      "expectedAnswers": [
+        "Lo terminaré el año siguiente."
+      ]
+    },
+        {
+      "id": 6,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 7,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "Bueno. ¿Dónde buscabas nuevos trabajos antes?",
+      "hint": "Los ... por internet antes.",
+      "expectedAnswers": [
+        "Los buscaba por internet antes."
+      ]
+    },
+    {
+      "id": 8,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+        {
+      "id": 9,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "Entonces buscarás por internet una vez más, ¿no? Si ves algo interesante, ¿postularías pronto?",
+      "hint": "Sí, ... pronto.",
+      "expectedAnswers": [
+        "Sí, postularía pronto."
+      ]
+    },
+    {
+      "id": 10,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+        {
+      "id": 11,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "¡Qué bien! ¿Y tu amigo Pablo? ¿Qué hace?",
+      "hint": "(Estudiar) en la universidad actualmente.",
+      "expectedAnswers": [
+        "Estudia en la universidad actualmente."
+      ]
+    },
+    {
+      "id": 12,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 13,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "¡Qué bien! ¿Qué hará después de graduarse?",
+      "hint": "(Comprar) una casa después de graduarse.",
+      "expectedAnswers": [
+        "Comprará una casa después de graduarse."
+      ]
+    },
+    {
+      "id": 14,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 15,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "¿De verdad? ¿Cuándo te dijo eso?",
+      "hint": "Me (llamar) y (explicar) la semana pasada.",
+      "expectedAnswers": [
+        "Me llamó y explicó la semana pasada."
+      ]
+    },
+        {
+      "id": 16,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 17,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "¡Guau! Pero necesitaría mucho dinero para eso. ¿Hacía mucho trabajo desde que era niño?",
+      "hint": "Sí, (trabajar) mucho desde que era niño.",
+      "expectedAnswers": [
+        "Sí, trabajaba mucho desde que era niño."
+      ]
+    },
+    {
+      "id": 18,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+        {
+      "id": 19,
+      "type": "prompt",
+      "character": {
+        "name": "Amigo",
+        "svg": 1
+      },
+      "text": "Es un buen tipo. Si tuvieras un problema, ¿qué haría él?",
+      "hint": "Me (ayudar) rápidamente.",
+      "expectedAnswers": [
+        "Me ayudaría rápidamente."
+      ]
+    },
+    {
+      "id": 20,
+      "type": "response",
+      "character": {
+        "name": "Tú",
+        "svg": 2
+      }
+    },
+    {
+      "id": 21,
+      "type": "narration",
+      "text": "¡Bien hecho! Ya dominas los verbos -ar."
+    }
+  ]
+}
+}
+}
