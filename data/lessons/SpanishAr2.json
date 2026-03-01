@@ -71,7 +71,7 @@
       "text": "¿Es la primera vez para vosotros? ¡Qué bien! Entonces, ¿por qué habláis español?",
       "hint": "Porque lo (estudiar) en nuestra escuela.",
       "expectedAnswers": [
-        "Porque lo estudiamos en nuestra escuela."
+        "((Porque)por qué) lo estudiamos en nuestra escuela."
       ]
     },
         {

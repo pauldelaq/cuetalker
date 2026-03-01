@@ -1,0 +1,39 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F64B-1F3FB-200D-2642-FE0F.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Intro to FreeTalk Mode",
+      "lessonPrompt":
+        {
+          "text": "Welcome to FreeTalker! When you're ready, click the microphone button and try to talk about the topic requested by the character. Use all the words provided. Click the words to hear them and receive suggestions on their use.",
+          "character": {
+            "name": "Jackson",
+            "svg": "1"
+          }
+        },
+      "wordList":
+        [
+          {
+            "word": "talk",
+            "phrases": 
+            [
+              "{word} to someone",
+              "{word} about something"
+            ]
+          },
+          {
+            "word": "ride",
+            "forms": ["ride", "rode", "ridden", "riding"],
+            "phrases": [
+              "{word} the train",
+              "go for a {word}"
+            ]
+          }
+        ]
+  }
+}
+}
