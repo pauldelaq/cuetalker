@@ -9,7 +9,7 @@
       "lessonName": "Intro to FreeTalk Mode",
       "lessonPrompt":
         {
-          "text": "Welcome to FreeTalker! When you're ready, click the microphone button and try to talk about the topic requested by the character. Use all the words provided. Click the words to hear them and receive suggestions on their use.",
+          "text": "Welcome to FreeTalker! When you're ready, click the microphone button and try to talk about the topic requested by the character. Use all the words provided. In Test Mode, you have one minute to use all the words. Click the words to hear them and receive suggestions on their use.",
           "character": {
             "name": "Jackson",
             "svg": "1"

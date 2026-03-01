@@ -139,6 +139,7 @@ footer#cue-footer {
   /* 🔒 Prevent resizing */
   height: 106px;          /* pick a size that feels good */
   box-sizing: border-box;
+  position: relative; /* added */
 }
 
 #liveTranscript {
@@ -645,4 +646,13 @@ input#autoAdvanceToggle {
 .phrase-word {
   font-weight: 700;
   text-decoration: underline; /* or background highlight, up to you */
+}
+
+.test-timer-display {
+  position: absolute;
+  right: 30px;          /* align with mic button */
+  bottom: 82px;          /* place above mic button */
+  font-size: 20px;
+  font-weight: bold;
+  pointer-events: none;
 }

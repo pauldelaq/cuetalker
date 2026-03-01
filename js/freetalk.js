@@ -3,8 +3,19 @@ let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
 let voicesInitialized = false;
 let svgLibrary = {};
+
+// ---- Mode state (FreeTalk) ----
 let practiceMode = false;
+let currentMode = 'test';          // 'test' | 'practice'
+let modeLocked = false;            // lock mode selection after session begins
+const TEST_DURATION_SEC = 60;
+let testTimerId = null;
+let testTimeLeft = TEST_DURATION_SEC;
 let volumeGlowTargetId = 'micButton';
+
+// ---- FreeTalk mic/tts state ----
+let isSessionActive = false; // FreeTalk session (mic) state
+let isTtsSpeaking = false;   // Track TTS speaking for UI icon
 
 // ---- FreeTalk lesson state ----
 let freetalkLesson = null;
@@ -18,6 +29,132 @@ let lessonLangName = '';
 // Keep a single shared instance across pages/scripts
 window.talkerTranslations = window.talkerTranslations || {};
 let talkerTranslations = window.talkerTranslations;
+
+function ensureTimerDisplay() {
+  let el = document.getElementById('testTimerDisplay');
+  if (el) return el;
+
+  const footer = document.getElementById('cue-footer') || document.querySelector('footer');
+  if (!footer) return null;
+
+  el = document.createElement('div');
+  el.id = 'testTimerDisplay';
+  el.className = 'test-timer-display';
+  el.style.display = 'none';
+  el.style.userSelect = 'none';
+  el.style.webkitUserSelect = 'none';
+
+  // Put timer between mode selector and transcript (so it won't cover transcript)
+  const transcript = footer.querySelector('#liveTranscript');
+  if (transcript) footer.insertBefore(el, transcript);
+  else footer.appendChild(el);
+
+  return el;
+}
+
+function formatTime(sec) {
+  const s = Math.max(0, Math.floor(sec));
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${m}:${String(r).padStart(2, '0')}`;
+}
+
+function updateTimerUI() {
+  const el = ensureTimerDisplay();
+  if (!el) return;
+
+  if (currentMode !== 'test') {
+    el.style.display = 'none';
+    return;
+  }
+
+  el.style.display = 'block';
+  el.textContent = `${formatTime(testTimeLeft)}`;
+}
+
+function stopTestTimer() {
+  if (testTimerId) {
+    clearInterval(testTimerId);
+    testTimerId = null;
+  }
+  updateTimerUI();
+}
+
+function startTestTimer() {
+  stopTestTimer();
+  testTimeLeft = TEST_DURATION_SEC;
+  updateTimerUI();
+
+  testTimerId = setInterval(() => {
+    testTimeLeft -= 1;
+    updateTimerUI();
+
+    if (testTimeLeft <= 0) {
+      stopTestTimer();
+      console.log('[FreeTalk] Test timer finished.');
+
+      // Later: when speech recognition is wired, stop it here.
+      // stopSpeechRecognition?.();
+    }
+  }, 1000);
+}
+
+function lockModeSelector(lock) {
+  modeLocked = !!lock;
+  document.querySelectorAll('#modeSelector input[name="mode"]').forEach(inp => {
+    inp.disabled = modeLocked;
+  });
+}
+
+function initializeModeSelector() {
+  const modeSelector = document.getElementById('modeSelector');
+  if (!modeSelector) return;
+
+  const inputs = modeSelector.querySelectorAll('input[name="mode"]');
+  if (!inputs.length) return;
+
+  // Initial mode from HTML checked radio
+  const checked = modeSelector.querySelector('input[name="mode"]:checked');
+  currentMode = checked?.value === 'practice' ? 'practice' : 'test';
+  practiceMode = (currentMode === 'practice');
+  updateTimerUI();
+
+  modeSelector.addEventListener('change', (e) => {
+    const target = e.target;
+    if (!target || target.name !== 'mode') return;
+
+    if (modeLocked) {
+      // Revert changes if locked
+      inputs.forEach(inp => (inp.checked = (inp.value === currentMode)));
+      return;
+    }
+
+    currentMode = target.value === 'practice' ? 'practice' : 'test';
+    practiceMode = (currentMode === 'practice');
+
+    // Reset timer whenever mode changes
+    stopTestTimer();
+    testTimeLeft = TEST_DURATION_SEC;
+    updateTimerUI();
+  });
+}
+
+function beginFreeTalkSession() {
+  isSessionActive = true;
+  updateMicIcon();
+  lockModeSelector(true);
+  if (currentMode === 'test') startTestTimer();
+  else stopTestTimer();
+}
+
+function endFreeTalkSession() {
+  isSessionActive = false;
+  updateMicIcon();
+  lockModeSelector(false);
+  stopTestTimer();
+  testTimeLeft = TEST_DURATION_SEC;
+  updateTimerUI();
+}
 
 function initializeSettingsMenu() {
 
@@ -118,6 +255,11 @@ function speakText(text, langCode) {
   utter.volume = Number.isFinite(vol) ? Math.max(0, Math.min(1, vol)) : 1;
   utter.rate = Number.isFinite(rate) ? Math.max(0.1, Math.min(10, rate)) : 1;
   utter.pitch = 1;
+
+  // No mic icon changes during TTS in FreeTalk mode
+  utter.onstart = () => { isTtsSpeaking = true; };
+  utter.onend = () => { isTtsSpeaking = false; };
+  utter.onerror = () => { isTtsSpeaking = false; };
 
   speechSynthesis.speak(utter);
 }
@@ -313,13 +455,8 @@ function buildPhraseListItem(phraseText, word) {
     if (part) li.appendChild(document.createTextNode(part));
     if (i < parts.length - 1) {
       const span = document.createElement('span');
-      span.className = 'phrase-word tts-clickable';
+      span.className = 'phrase-word';
       span.textContent = word;
-      span.style.cursor = 'pointer';
-      span.addEventListener('click', (e) => {
-        e.stopPropagation();
-        speakText(word, selectedLang || lessonLang || localStorage.getItem('ctlanguage') || 'en-US');
-      });
       li.appendChild(span);
     }
   });
@@ -572,12 +709,33 @@ function setupVoiceMenuListener() {
   }
 }
 
+function updateMicIcon() {
+  const micIcon = document.querySelector('#micButton img');
+  const micButton = document.getElementById('micButton');
+  if (!micIcon || !micButton) return;
+
+  // Session active (recognition running / user speaking)
+  if (isSessionActive || micButton.classList.contains('active')) {
+    micIcon.src = 'assets/svg/23FA.svg'; // ⏺️ / stop-style icon while recording
+    micButton.classList.add('recording');
+    return;
+  }
+
+  micButton.classList.remove('recording');
+
+
+  // Default idle state
+  micIcon.src = 'assets/svg/1F3A4.svg'; // 🎤 mic
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(() => {
     initializeSettingsMenu();
     loadTalkerTranslations();
     initializeVoiceMenu();
     setupVoiceMenuListener();
+    initializeModeSelector();
+    updateMicIcon();
 
     Promise.all([
       loadLesson()
@@ -591,7 +749,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsButton = document.getElementById('settingsButton');
 
     micButton.addEventListener('click', () => {
-    })
+      // Temporary session toggle until speech recognition is wired in
+      const active = micButton.classList.toggle('active');
+      isSessionActive = active;
+
+      if (active) beginFreeTalkSession();
+      else endFreeTalkSession();
+
+      updateMicIcon();
+    });
 
     settingsButton.addEventListener('click', () => {
       settingsButton.blur();
