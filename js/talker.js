@@ -34,6 +34,21 @@ let volumeGlowTargetId = 'micButton';
 // Recognition context controls behavior on stop (defaults to Test mode)
 let recogCtx = { mode: 'test', targetBtnId: 'micButton' };
 
+let transcriptController = null;
+let transcriber = null;
+
+function initTranscriptController() {
+  const el = document.getElementById('liveTranscript');
+  if (!el) return;
+
+  if (!window.TranscriptController) {
+    console.warn('[Talker] TranscriptController not found. Did you load js/engine/transcript-controller.js before talker.js?');
+    return;
+  }
+
+  transcriptController = new window.TranscriptController({ el });
+}
+
 function applyRecordingVisual(targetBtnId, active) {
   const btn = document.getElementById(targetBtnId);
   if (!btn) return;
@@ -917,15 +932,20 @@ function startSpeechRecognition(ctx = {}) {
   // merge a context for this run (defaults keep Test behavior)
   recogCtx = Object.assign({ mode: 'test', targetBtnId: 'micButton' }, ctx);
 
-  if (!('webkitSpeechRecognition' in window)) {
-    alert('Speech recognition not supported.');
+  if (!window.WebSpeechTranscriber) {
+    alert('Speech recognition engine not loaded. Make sure js/engine/transcriber-webspeech.js is included before talker.js');
     return;
   }
 
   micIsMuted = false;
   speechHasStarted = false;
   clearGraceTimer();
-  fullTranscript = '';
+
+  // ✅ NEW: clear any previous transcript BEFORE starting a new answer attempt
+  finalizedTranscript = '';
+  const transcriptEl = document.getElementById('liveTranscript');
+  if (transcriptEl) transcriptEl.textContent = '';
+  if (transcriptController) transcriptController.reset();
 
   // IMPORTANT: pulse the correct button for this run
   startVolumeMonitoring(micStream, recogCtx.targetBtnId);
@@ -935,51 +955,41 @@ function startSpeechRecognition(ctx = {}) {
     applyRecordingVisual(recogCtx.targetBtnId, true);
   }
 
-  recognition = new webkitSpeechRecognition();
-  recognition.lang = lessonLang || 'en-US';
-  recognition.interimResults = true;
-  recognition.maxAlternatives = 1;
+  // Create a new transcriber per run so handlers are always fresh
+  transcriber = new window.WebSpeechTranscriber({
+    lang: lessonLang || 'en-US',
+    interimResults: true,
+    continuousRestart: false
+  });
 
   isRecording = true;
   updateMicIcon();
 
-  recognition.onstart = () => {
+  transcriber.onStart = () => {
     console.log('Speech recognition started');
 
-    if (!speechHasStarted && !fullTranscript.trim()) {
-      const transcriptEl = document.getElementById('liveTranscript');
-      if (transcriptEl) {
-        transcriptEl.innerText = t('listening');
-      }
+    const transcriptEl = document.getElementById('liveTranscript');
+    // Only show placeholder if we have nothing yet
+    if (!speechHasStarted && !finalizedTranscript.trim()) {
+      if (transcriptEl) transcriptEl.innerText = t('listening');
     }
   };
 
-  recognition.onresult = (event) => {
-    let interimTranscript = '';
-    let finalTranscript = '';
+  // Mirror the old onresult behavior: interim updates UI and keeps grace timer fresh
+  transcriber.onInterim = (interimText) => {
+    const interimTranscript = interimText || '';
 
-    for (let i = event.resultIndex; i < event.results.length; ++i) {
-      const result = event.results[i];
-      if (result.isFinal) {
-        finalTranscript += result[0].transcript;
-      } else {
-        interimTranscript += result[0].transcript;
-      }
+    if (transcriptController) {
+      transcriptController.setInterim(interimTranscript);
+    } else {
+      const transcriptEl = document.getElementById('liveTranscript');
+      const currentTranscript = (finalizedTranscript + ' ' + interimTranscript).trim();
+      if (transcriptEl) transcriptEl.innerText = currentTranscript;
     }
 
-    // ✅ Accumulate finalized parts across result events
-    if (finalTranscript) {
-      finalizedTranscript += ' ' + finalTranscript;
-      finalizedTranscript = finalizedTranscript.trim();
-    }
-
-    // ✅ Display = finalized + interim
-    const currentTranscript = (finalizedTranscript + ' ' + interimTranscript).trim();
-
-    const transcriptEl = document.getElementById('liveTranscript');
-    if (transcriptEl) {
-      transcriptEl.innerText = currentTranscript;
-    }
+    const currentTranscript = transcriptController
+      ? transcriptController.getFullText()
+      : (finalizedTranscript + ' ' + interimTranscript).trim();
 
     // ✅ Grace timer
     if (currentTranscript) {
@@ -992,8 +1002,43 @@ function startSpeechRecognition(ctx = {}) {
         startGraceTimer();
       }
     }
+  };
 
-    // ✅ Instant match logic
+  // Final chunks: append to finalized transcript, update UI, then run instant match
+  transcriber.onFinal = (finalText) => {
+    const finalTranscript = finalText || '';
+
+    // ✅ Accumulate finalized parts across result events
+    if (finalTranscript) {
+      finalizedTranscript += ' ' + finalTranscript;
+      finalizedTranscript = finalizedTranscript.trim();
+    }
+
+    if (transcriptController) {
+      if (finalTranscript) transcriptController.appendFinal(finalTranscript);
+      // clear interim when a final arrives
+      transcriptController.setInterim('');
+    } else {
+      const transcriptEl = document.getElementById('liveTranscript');
+      if (transcriptEl) transcriptEl.innerText = finalizedTranscript;
+    }
+
+    const currentTranscript = transcriptController
+      ? transcriptController.getFullText()
+      : finalizedTranscript;
+
+    // ✅ Grace timer refresh on final too
+    if (currentTranscript) {
+      if (!speechHasStarted) {
+        speechHasStarted = true;
+        startGraceTimer();
+      } else {
+        clearGraceTimer();
+        startGraceTimer();
+      }
+    }
+
+    // ✅ Instant match logic (unchanged)
     const promptItem = conversation[currentIndex - 1];
     const processedAnswers = (promptItem?.expectedAnswers || []).map(extractDisplayAndVariants);
     const normalizedTranscript = normalize(currentTranscript);
@@ -1003,25 +1048,24 @@ function startSpeechRecognition(ctx = {}) {
       isFallbackTrigger(currentTranscript);
 
     if (isMatch) {
-      // ⛔ snapshot context BEFORE stopping (stopSpeechRecognition resets it)
       const ctxAtMatch = { ...recogCtx };
 
       stopSpeechRecognition();
 
-      // Only advance in Test mode
       if (ctxAtMatch.mode !== 'practiceTry') {
         handleUserResponse(currentTranscript);
       }
       return;
     }
-  }
-  recognition.onerror = (e) => {
-    console.warn('Speech recognition error:', e.error);
+  };
 
-    if (e.error === 'no-speech' && !speechHasStarted) {
+  transcriber.onError = (e) => {
+    const errCode = e?.error || e?.name || e?.message;
+    console.warn('Speech recognition error:', errCode, e);
+
+    if ((errCode === 'no-speech' || errCode === 'no_speech') && !speechHasStarted) {
       console.log('No speech detected — restarting recognition');
 
-      // 🔒 keep the same mic target + mode (practiceTry vs test)
       const restartCtx = { ...recogCtx };
 
       stopSpeechRecognition();
@@ -1031,23 +1075,22 @@ function startSpeechRecognition(ctx = {}) {
       return;
     }
 
-    // On other errors, stop cleanly
     clearGraceTimer();
     stopSpeechRecognition();
   };
 
-  recognition.onend = () => {
+  transcriber.onEnd = () => {
     if (isRecording) {
       console.log('Recognition ended — restarting');
       try {
-        recognition.start();
+        transcriber.start();
       } catch (err) {
         console.warn('Failed to restart recognition:', err);
       }
     }
   };
 
-  recognition.start();
+  transcriber.start();
 }
 
 function stopSpeechRecognition() {
@@ -1055,10 +1098,13 @@ function stopSpeechRecognition() {
   micIsMuted = true;
   clearGraceTimer();
 
-  if (recognition) {
-    recognition.abort();
-    recognition = null;
+  if (transcriber) {
+    try { transcriber.abort(); } catch (_) {}
+    transcriber = null;
   }
+
+  // legacy var safety
+  recognition = null;
 
   // Turn off visuals for non-main target (main mic visuals are handled by updateMicIcon)
   if (recogCtx.targetBtnId !== 'micButton') {
@@ -1067,6 +1113,7 @@ function stopSpeechRecognition() {
 
   const transcriptEl = document.getElementById('liveTranscript');
   let finalInput = transcriptEl?.innerText.trim();
+  if (transcriptController) transcriptController.setInterim('');
 
   // If the transcript only contains our placeholder (e.g., "[Listening...]"), treat it as empty
   if (finalInput?.startsWith('[') && finalInput.endsWith(']')) {
@@ -1510,6 +1557,7 @@ document.addEventListener('DOMContentLoaded', () => {
     populateCustomVoiceList();
     initializeVoiceMenu();
     setupVoiceMenuListener();
+    initTranscriptController();
 
     Promise.all([
       loadTalkerTranslations(),

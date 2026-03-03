@@ -1,6 +1,6 @@
 // js/engine/transcript-controller.js
-export class TranscriptController {
-  constructor({ el }) {
+class TranscriptController {
+    constructor({ el }) {
     this.el = el;
     this.finalText = '';
     this.interimText = '';
@@ -37,3 +37,6 @@ export class TranscriptController {
     this.el.textContent = full;
   }
 }
+
+// ... class TranscriptController { ... }
+window.TranscriptController = TranscriptController;

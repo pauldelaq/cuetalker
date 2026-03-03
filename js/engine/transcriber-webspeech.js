@@ -1,5 +1,5 @@
 // js/engine/transcriber-webspeech.js
-export class WebSpeechTranscriber {
+class WebSpeechTranscriber {
   constructor({
     lang = 'en-US',
     onStart = () => {},
@@ -100,3 +100,6 @@ export class WebSpeechTranscriber {
     try { this.recognition?.abort(); } catch (_) {}
   }
 }
+
+// ... class WebSpeechTranscriber { ... }
+window.WebSpeechTranscriber = WebSpeechTranscriber;
