@@ -16,6 +16,14 @@ let volumeGlowTargetId = 'micButton';
 // ---- FreeTalk mic/tts state ----
 let isSessionActive = false; // FreeTalk session (mic) state
 let isTtsSpeaking = false;   // Track TTS speaking for UI icon
+let micStream = null;
+
+// ---- Mic visual feedback (ported from classic mode) ----
+let audioContext = null;
+let analyser = null;
+let dataArray = null;
+let volumeInterval = null;
+let micIsMuted = true; // when true, glow is off
 
 // ---- FreeTalk lesson state ----
 let freetalkLesson = null;
@@ -25,17 +33,279 @@ let wordListData = [];
 let lessonLang = '';
 let lessonLangName = '';
 
+// ---- Universal transcript / speech recognition (FreeTalk) ----
+let transcriptController = null;
+let transcriber = null;
+let finalizedTranscript = '';
+let matchers = []; // compiled matchers from wordListData
+
 // Shared UI translations loaded from data/talker-translations.json
 // Keep a single shared instance across pages/scripts
 window.talkerTranslations = window.talkerTranslations || {};
 let talkerTranslations = window.talkerTranslations;
 
+function initTranscriptController() {
+  const el = document.getElementById('liveTranscript');
+  if (!el) return;
+
+  if (!window.TranscriptController) {
+    console.warn('[FreeTalk] TranscriptController not found. Ensure js/engine/transcript-controller.js is loaded before freetalk.js');
+    return;
+  }
+
+  transcriptController = new window.TranscriptController({ el });
+}
+
+function normalizeText(s) {
+  return String(s || '')
+    .toLowerCase()
+    // normalize apostrophes
+    .replace(/[’‘´`]/g, "'")
+    // strip most punctuation (keep apostrophes for contractions)
+    .replace(/[^\p{L}\p{N}\s']/gu, ' ')
+    // collapse whitespace
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function clearTranscriptUI() {
+  finalizedTranscript = '';
+  if (transcriptController) transcriptController.reset();
+  const el = document.getElementById('liveTranscript');
+  if (el) el.textContent = '';
+}
+
+function resetWordMatchesUI() {
+  document.querySelectorAll('.wordBubble.matched').forEach(b => b.classList.remove('matched'));
+  document.querySelectorAll('.wordBubble .wordBubbleCheck').forEach(el => el.remove());
+}
+
+function ensureCheckmark(bubbleEl) {
+  if (!bubbleEl) return;
+  if (bubbleEl.querySelector('.wordBubbleCheck')) return;
+
+  const header = bubbleEl.querySelector('.wordBubbleHeader');
+  if (!header) return;
+
+  const check = document.createElement('span');
+  check.className = 'wordBubbleCheck';
+  check.textContent = '✓';
+  header.appendChild(check);
+}
+
+function compileMatchers() {
+  matchers = [];
+
+  (wordListData || []).forEach((item) => {
+    const base = (item.word || '').trim();
+    if (!base) return;
+
+    const variants = [base]
+      .concat(Array.isArray(item.forms) ? item.forms : [])
+      .map(v => normalizeText(v))
+      .filter(Boolean);
+
+    const uniq = Array.from(new Set(variants));
+
+    matchers.push({
+      key: base,          // used to find bubble via data-word
+      variants: uniq      // normalized variants
+    });
+  });
+}
+
+function updateMatchesFromTranscript(fullTextRaw) {
+  const fullNorm = ' ' + normalizeText(fullTextRaw) + ' ';
+
+  matchers.forEach(m => {
+    const bubble = document.querySelector(`.wordBubble[data-word="${CSS.escape(m.key)}"]`);
+    if (!bubble) return;
+
+    if (bubble.classList.contains('matched')) return;
+
+    // Space-padded includes reduces substring false positives for Latin scripts.
+    // (For CJK later, we can do a different strategy.)
+    const hit = m.variants.some(v => fullNorm.includes(' ' + v + ' '));
+
+    if (hit) {
+      bubble.classList.add('matched');
+      ensureCheckmark(bubble);
+    }
+  });
+}
+
+async function startMicSession() {
+  if (micStream) return;
+
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    startVolumeMonitoring(micStream, 'micButton');
+  } catch (err) {
+    console.error('[FreeTalk] Mic error:', err);
+    alert('Could not access the microphone.');
+    micStream = null;
+  }
+}
+
+function stopMicSession() {
+  stopVolumeMonitoring();
+  if (!micStream) return;
+  micStream.getTracks().forEach(t => t.stop());
+  micStream = null;
+}
+
+function startVolumeMonitoring(stream, targetId = 'micButton') {
+  volumeGlowTargetId = targetId;
+
+  if (!stream) return;
+
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  // Clear any previous polling loop so we don't stack intervals
+  if (volumeInterval) clearInterval(volumeInterval);
+
+  try {
+    const micSource = audioContext.createMediaStreamSource(stream);
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
+    micSource.connect(analyser);
+
+    dataArray = new Uint8Array(analyser.fftSize);
+
+    volumeInterval = setInterval(() => {
+      const targetBtn =
+        document.getElementById(volumeGlowTargetId) ||
+        document.getElementById('micButton');
+
+      if (!targetBtn || !analyser || !dataArray) return;
+
+      if (micIsMuted) {
+        targetBtn.style.boxShadow = 'none';
+        return;
+      }
+
+      analyser.getByteTimeDomainData(dataArray);
+      const volume = Math.max(...dataArray) - 128;
+      animateMicPulse(volume);
+    }, 100);
+  } catch (e) {
+    console.warn('[FreeTalk] Volume monitoring unavailable:', e);
+  }
+}
+
+function animateMicPulse(volume) {
+  const targetBtn =
+    document.getElementById(volumeGlowTargetId) ||
+    document.getElementById('micButton');
+
+  if (!targetBtn) return;
+
+  const clamped = Math.min(volume, 50);
+  const glowSize = 5 + (clamped * 0.3);
+  targetBtn.style.boxShadow = `0 0 ${glowSize}px red`;
+}
+
+function stopVolumeMonitoring() {
+  if (volumeInterval) {
+    clearInterval(volumeInterval);
+    volumeInterval = null;
+  }
+
+  analyser = null;
+  dataArray = null;
+
+  const micButton = document.getElementById('micButton');
+  if (micButton) micButton.style.boxShadow = 'none';
+}
+
+function startFreeTalkRecognition() {
+  if (!window.WebSpeechTranscriber) {
+    alert('Speech recognition engine not loaded. Make sure js/engine/transcriber-webspeech.js is included before freetalk.js');
+    return;
+  }
+
+  if (!transcriptController) initTranscriptController();
+
+  // Reset transcript + matches at start of a session
+  clearTranscriptUI();
+  resetWordMatchesUI();
+  compileMatchers();
+
+  transcriber = new window.WebSpeechTranscriber({
+    lang: selectedLang || lessonLang || localStorage.getItem('ctlanguage') || 'en-US',
+    interimResults: true,
+    continuousRestart: true
+  });
+
+  transcriber.onInterim = (interimText) => {
+    const interim = interimText || '';
+
+    if (transcriptController) {
+      transcriptController.setInterim(interim);
+    } else {
+      const el = document.getElementById('liveTranscript');
+      if (el) el.textContent = (finalizedTranscript + ' ' + interim).trim();
+    }
+
+    const full = transcriptController
+      ? transcriptController.getFullText()
+      : (finalizedTranscript + ' ' + interim).trim();
+
+    updateMatchesFromTranscript(full);
+  };
+
+  transcriber.onFinal = (finalChunk) => {
+    const chunk = (finalChunk || '').trim();
+    if (chunk) finalizedTranscript = (finalizedTranscript + ' ' + chunk).trim();
+
+    if (transcriptController) {
+      transcriptController.appendFinal(chunk);
+      transcriptController.setInterim('');
+    } else {
+      const el = document.getElementById('liveTranscript');
+      if (el) el.textContent = finalizedTranscript;
+    }
+
+    const full = transcriptController ? transcriptController.getFullText() : finalizedTranscript;
+    updateMatchesFromTranscript(full);
+  };
+
+  transcriber.onError = (e) => {
+    const errCode = e?.error || e?.name || e?.message;
+    console.warn('[FreeTalk] Speech recognition error:', errCode, e);
+
+    // Keep it always-on while session is active
+    if (isSessionActive) {
+      try { transcriber.start(); } catch (_) {}
+    }
+  };
+
+  transcriber.onEnd = () => {
+    // Keep it alive while session is active
+    if (isSessionActive) {
+      try { transcriber.start(); } catch (_) {}
+    }
+  };
+
+  transcriber.start();
+}
+
+function stopFreeTalkRecognition() {
+  if (transcriber) {
+    try { transcriber.abort(); } catch (_) {}
+    transcriber = null;
+  }
+  if (transcriptController) transcriptController.setInterim('');
+}
+
 function ensureTimerDisplay() {
   let el = document.getElementById('testTimerDisplay');
   if (el) return el;
 
-  const footer = document.getElementById('cue-footer') || document.querySelector('footer');
-  if (!footer) return null;
+  const header = document.querySelector('header');
+  if (!header) return null;
 
   el = document.createElement('div');
   el.id = 'testTimerDisplay';
@@ -44,10 +314,15 @@ function ensureTimerDisplay() {
   el.style.userSelect = 'none';
   el.style.webkitUserSelect = 'none';
 
-  // Put timer between mode selector and transcript (so it won't cover transcript)
-  const transcript = footer.querySelector('#liveTranscript');
-  if (transcript) footer.insertBefore(el, transcript);
-  else footer.appendChild(el);
+  // Insert between the header title and the settings menu
+  const title = header.querySelector('#header-title');
+  const menu = header.querySelector('.menu');
+
+  if (title && menu) {
+    header.insertBefore(el, menu);
+  } else {
+    header.appendChild(el);
+  }
 
   return el;
 }
@@ -93,8 +368,8 @@ function startTestTimer() {
       stopTestTimer();
       console.log('[FreeTalk] Test timer finished.');
 
-      // Later: when speech recognition is wired, stop it here.
-      // stopSpeechRecognition?.();
+      stopFreeTalkRecognition();
+      endFreeTalkSession();
     }
   }, 1000);
 }
@@ -141,16 +416,28 @@ function initializeModeSelector() {
 
 function beginFreeTalkSession() {
   isSessionActive = true;
+  micIsMuted = false;
   updateMicIcon();
   lockModeSelector(true);
+
+  startMicSession().then(() => {
+    if (!isSessionActive) return; // user may have stopped quickly
+    startFreeTalkRecognition();
+  });
+
   if (currentMode === 'test') startTestTimer();
   else stopTestTimer();
 }
 
 function endFreeTalkSession() {
   isSessionActive = false;
+  micIsMuted = true;
   updateMicIcon();
   lockModeSelector(false);
+
+  stopFreeTalkRecognition();
+  stopMicSession();
+
   stopTestTimer();
   testTimeLeft = TEST_DURATION_SEC;
   updateTimerUI();
@@ -736,6 +1023,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupVoiceMenuListener();
     initializeModeSelector();
     updateMicIcon();
+    initTranscriptController();
 
     Promise.all([
       loadLesson()
@@ -751,7 +1039,6 @@ document.addEventListener('DOMContentLoaded', () => {
     micButton.addEventListener('click', () => {
       // Temporary session toggle until speech recognition is wired in
       const active = micButton.classList.toggle('active');
-      isSessionActive = active;
 
       if (active) beginFreeTalkSession();
       else endFreeTalkSession();
@@ -764,4 +1051,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('settingsMenu')?.classList.toggle('show');
     });
   });
+});
+
+window.addEventListener('beforeunload', () => {
+  micIsMuted = true;
+  stopVolumeMonitoring();
+  if (audioContext) {
+    try { audioContext.close(); } catch (_) {}
+    audioContext = null;
+  }
 });

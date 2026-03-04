@@ -3,7 +3,7 @@
 main#cue-content {
   flex: 1;
   overflow-y: auto;
-  padding: 1em;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 2em;
@@ -132,7 +132,7 @@ footer#cue-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1em;
+  padding: 20px;
   background: white;
   box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
 
@@ -150,7 +150,6 @@ footer#cue-footer {
 
   /* Ensure text wraps or ellipsizes instead of stretching footer */
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
@@ -438,6 +437,7 @@ label.disabled {
   height: 90px;
   display: block;
   margin: 0 auto;
+  cursor: pointer;
 }
 
 .font-preview {
@@ -600,21 +600,42 @@ input#autoAdvanceToggle {
 }
 
 .wordBubbleHeader {
-  display: flex;
-  align-items: center;
+  display: grid;
   gap: 10px;
+  grid-template-columns: 34px auto 34px;
+  align-items: center;
+}
+
+.wordBubbleHeader:hover {
+  color: orange;
 }
 
 .wordBubbleToggle {
+  /* visual */
   background: transparent;
   border: none;
   color: white;
-  font-size: 18px;
+  font-size: 30px;
   line-height: 1;
   cursor: pointer;
+
+  /* bigger hit area (tap target) */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
   padding: 0;
+  margin: 0;
+
+  /* animation */
   transform: rotate(0deg);
   transition: transform 160ms ease;
+
+  /* snappier taps on mobile */
+  touch-action: manipulation;
 }
 
 .wordBubble.expanded .wordBubbleToggle {
@@ -643,16 +664,50 @@ input#autoAdvanceToggle {
   margin: 6px 0;
 }
 
+.phrase-item:hover {
+  color: orange;
+}
+
 .phrase-word {
   font-weight: 700;
   text-decoration: underline; /* or background highlight, up to you */
 }
 
 .test-timer-display {
-  position: absolute;
-  right: 30px;          /* align with mic button */
-  bottom: 82px;          /* place above mic button */
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   pointer-events: none;
+  outline: auto;
+  outline-offset: 4px;
+  outline-color: var(--accent);
+}
+
+@media (min-width: 585px) {
+  .test-timer-display {
+        position: absolute;
+        right: calc(50% - 32px);
+  }
+}
+
+.wordBubble.matched {
+  background-color: var(--bubble-user-correct);
+}
+
+.wordBubbleCheck {
+  margin-left: 10px;
+  font-weight: 700;
+}
+
+.wordListContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 480px) {
+  .wordListContainer {
+    display: block;
+  }
 }
