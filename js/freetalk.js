@@ -17,6 +17,12 @@ let volumeGlowTargetId = 'micButton';
 let isSessionActive = false; // FreeTalk session (mic) state
 let isTtsSpeaking = false;   // Track TTS speaking for UI icon
 let micStream = null;
+let isRecording = false;
+
+const SESSION_BUTTON_ID = 'micButton';     // existing footer button
+const RECORD_BUTTON_ID  = 'recordMicButton'; // new button we create
+// Default glow target during sessions is the record mic button
+volumeGlowTargetId = RECORD_BUTTON_ID;
 
 // ---- Mic visual feedback (ported from classic mode) ----
 let audioContext = null;
@@ -36,8 +42,41 @@ let lessonLangName = '';
 // ---- Universal transcript / speech recognition (FreeTalk) ----
 let transcriptController = null;
 let transcriber = null;
-let finalizedTranscript = '';
+let finalizedTranscript = '';      // full session transcript for matching
+let displayTranscript = '';        // visible transcript window only
 let matchers = []; // compiled matchers from wordListData
+
+const TELEPROMPTER_OVERFLOW_TOLERANCE_PX = 1;
+
+function getLiveTranscriptEl() {
+  return document.getElementById('liveTranscript');
+}
+
+function isTranscriptOverflowing() {
+  const el = getLiveTranscriptEl();
+  if (!el) return false;
+  return el.scrollHeight > (el.clientHeight + TELEPROMPTER_OVERFLOW_TOLERANCE_PX);
+}
+
+function renderTranscriptFallback(interimText = '') {
+  const el = getLiveTranscriptEl();
+  if (!el) return;
+  el.textContent = (displayTranscript + ' ' + (interimText || '')).trim();
+}
+
+function resetTranscriptDisplay(text = '') {
+  displayTranscript = String(text || '').trim();
+
+  if (transcriptController) {
+    transcriptController.reset();
+    if (displayTranscript) {
+      transcriptController.appendFinal(displayTranscript);
+    }
+    transcriptController.setInterim('');
+  } else {
+    renderTranscriptFallback('');
+  }
+}
 
 // Shared UI translations loaded from data/talker-translations.json
 // Keep a single shared instance across pages/scripts
@@ -69,10 +108,7 @@ function normalizeText(s) {
 }
 
 function clearTranscriptUI() {
-  finalizedTranscript = '';
-  if (transcriptController) transcriptController.reset();
-  const el = document.getElementById('liveTranscript');
-  if (el) el.textContent = '';
+  resetTranscriptDisplay('');
 }
 
 function resetWordMatchesUI() {
@@ -132,6 +168,45 @@ function updateMatchesFromTranscript(fullTextRaw) {
       ensureCheckmark(bubble);
     }
   });
+}
+
+function ensureRecordMicButton() {
+  if (document.getElementById(RECORD_BUTTON_ID)) return;
+
+  const footer = document.getElementById('cue-footer');
+  const transcriptEl = document.getElementById('liveTranscript');
+  if (!footer || !transcriptEl) return;
+
+  const btn = document.createElement('button');
+  btn.id = RECORD_BUTTON_ID;
+  btn.className = 'circle-btn';
+  btn.style.display = 'none'; // hidden until session starts
+  btn.innerHTML = `<img src="assets/svg/1F3A4.svg" alt="Mic">`;
+
+  footer.insertBefore(btn, transcriptEl);
+
+  // mic button click = toggle recording only
+  btn.addEventListener('click', async () => {
+    if (!isSessionActive) return;
+
+    if (isRecording) {
+      stopFreeTalkRecognition();
+      isRecording = false;
+      updateFooterIcons();
+      return;
+    }
+
+    await startMicSession();
+    startFreeTalkRecognition({ resetAll: false, targetBtnId: RECORD_BUTTON_ID });
+    isRecording = true;
+    updateFooterIcons();
+  });
+}
+
+function showRecordMicButton(show) {
+  const btn = document.getElementById(RECORD_BUTTON_ID);
+  if (!btn) return;
+  btn.style.display = show ? '' : 'none';
 }
 
 async function startMicSession() {
@@ -220,18 +295,25 @@ function stopVolumeMonitoring() {
   if (micButton) micButton.style.boxShadow = 'none';
 }
 
-function startFreeTalkRecognition() {
+function startFreeTalkRecognition(opts = {}) {
+  const resetAll = opts.resetAll !== false;  // default true
+  const targetBtnId = opts.targetBtnId || RECORD_BUTTON_ID;
+
   if (!window.WebSpeechTranscriber) {
-    alert('Speech recognition engine not loaded. Make sure js/engine/transcriber-webspeech.js is included before freetalk.js');
+    alert('Speech recognition engine not loaded.');
     return;
   }
 
   if (!transcriptController) initTranscriptController();
 
-  // Reset transcript + matches at start of a session
-  clearTranscriptUI();
-  resetWordMatchesUI();
-  compileMatchers();
+  // IMPORTANT: pulse glow on the mic button, not the session button
+  startVolumeMonitoring(micStream, targetBtnId);
+
+  if (resetAll) {
+    clearTranscriptUI();
+    resetWordMatchesUI();
+    compileMatchers();
+  }
 
   transcriber = new window.WebSpeechTranscriber({
     lang: selectedLang || lessonLang || localStorage.getItem('ctlanguage') || 'en-US',
@@ -240,36 +322,46 @@ function startFreeTalkRecognition() {
   });
 
   transcriber.onInterim = (interimText) => {
-    const interim = interimText || '';
+    const interim = (interimText || '').trim();
 
     if (transcriptController) {
       transcriptController.setInterim(interim);
     } else {
-      const el = document.getElementById('liveTranscript');
-      if (el) el.textContent = (finalizedTranscript + ' ' + interim).trim();
+      renderTranscriptFallback(interim);
     }
 
-    const full = transcriptController
-      ? transcriptController.getFullText()
-      : (finalizedTranscript + ' ' + interim).trim();
-
+    const full = (finalizedTranscript + ' ' + interim).trim();
     updateMatchesFromTranscript(full);
   };
 
   transcriber.onFinal = (finalChunk) => {
     const chunk = (finalChunk || '').trim();
-    if (chunk) finalizedTranscript = (finalizedTranscript + ' ' + chunk).trim();
+    if (!chunk) return;
 
+    finalizedTranscript = (finalizedTranscript + ' ' + chunk).trim();
+    const nextDisplayTranscript = (displayTranscript + ' ' + chunk).trim();
+
+    // First, try rendering the new chunk onto the existing visible transcript.
     if (transcriptController) {
-      transcriptController.appendFinal(chunk);
+      transcriptController.reset();
+      if (nextDisplayTranscript) {
+        transcriptController.appendFinal(nextDisplayTranscript);
+      }
       transcriptController.setInterim('');
     } else {
-      const el = document.getElementById('liveTranscript');
-      if (el) el.textContent = finalizedTranscript;
+      displayTranscript = nextDisplayTranscript;
+      renderTranscriptFallback('');
     }
 
-    const full = transcriptController ? transcriptController.getFullText() : finalizedTranscript;
-    updateMatchesFromTranscript(full);
+    // If the newly added chunk pushes us past the available 3-line window,
+    // restart the visible transcript with ONLY that newest chunk.
+    if (isTranscriptOverflowing()) {
+      resetTranscriptDisplay(chunk);
+    } else {
+      displayTranscript = nextDisplayTranscript;
+    }
+
+    updateMatchesFromTranscript(finalizedTranscript);
   };
 
   transcriber.onError = (e) => {
@@ -298,6 +390,13 @@ function stopFreeTalkRecognition() {
     transcriber = null;
   }
   if (transcriptController) transcriptController.setInterim('');
+  if (transcriptController) {
+    transcriptController.reset();
+    if (displayTranscript) {
+      transcriptController.appendFinal(displayTranscript);
+    }
+  }
+  displayTranscript = displayTranscript.trim();
 }
 
 function ensureTimerDisplay() {
@@ -368,7 +467,6 @@ function startTestTimer() {
       stopTestTimer();
       console.log('[FreeTalk] Test timer finished.');
 
-      stopFreeTalkRecognition();
       endFreeTalkSession();
     }
   }, 1000);
@@ -376,6 +474,13 @@ function startTestTimer() {
 
 function lockModeSelector(lock) {
   modeLocked = !!lock;
+
+  const modeSelector = document.getElementById('modeSelector');
+  if (modeSelector) {
+    // Hide the whole selector during a session to keep footer clean
+    modeSelector.style.display = modeLocked ? 'none' : '';
+  }
+
   document.querySelectorAll('#modeSelector input[name="mode"]').forEach(inp => {
     inp.disabled = modeLocked;
   });
@@ -417,12 +522,16 @@ function initializeModeSelector() {
 function beginFreeTalkSession() {
   isSessionActive = true;
   micIsMuted = false;
-  updateMicIcon();
+
+  showRecordMicButton(true);
+  updateFooterIcons();
   lockModeSelector(true);
 
   startMicSession().then(() => {
-    if (!isSessionActive) return; // user may have stopped quickly
-    startFreeTalkRecognition();
+    if (!isSessionActive) return;
+    startFreeTalkRecognition({ resetAll: true, targetBtnId: RECORD_BUTTON_ID });
+    isRecording = true;
+    updateFooterIcons();
   });
 
   if (currentMode === 'test') startTestTimer();
@@ -430,17 +539,27 @@ function beginFreeTalkSession() {
 }
 
 function endFreeTalkSession() {
+  // stop recording but session stop is the boss
+  if (isRecording) {
+    stopFreeTalkRecognition();
+    isRecording = false;
+  }
+
+  clearTranscriptUI();
+
   isSessionActive = false;
   micIsMuted = true;
-  updateMicIcon();
+
+  showRecordMicButton(false);
   lockModeSelector(false);
 
-  stopFreeTalkRecognition();
   stopMicSession();
 
   stopTestTimer();
   testTimeLeft = TEST_DURATION_SEC;
   updateTimerUI();
+
+  updateFooterIcons();
 }
 
 function initializeSettingsMenu() {
@@ -877,7 +996,7 @@ async function loadLesson() {
 
     // Voice list depends on current language
     initializeVoiceMenu();
-    updateMicIcon?.();
+    updateFooterIcons();
 
     console.log('[FreeTalk] Lesson loaded:', lessonId, { lang: storedLang, words: wordListData.length });
   } catch (error) {
@@ -996,23 +1115,24 @@ function setupVoiceMenuListener() {
   }
 }
 
-function updateMicIcon() {
-  const micIcon = document.querySelector('#micButton img');
-  const micButton = document.getElementById('micButton');
-  if (!micIcon || !micButton) return;
+function updateFooterIcons() {
+  const sessionBtn = document.getElementById(SESSION_BUTTON_ID);
+  const sessionImg = sessionBtn?.querySelector('img');
 
-  // Session active (recognition running / user speaking)
-  if (isSessionActive || micButton.classList.contains('active')) {
-    micIcon.src = 'assets/svg/23FA.svg'; // ⏺️ / stop-style icon while recording
-    micButton.classList.add('recording');
-    return;
+  if (sessionImg) {
+    sessionImg.src = isSessionActive
+      ? 'assets/svg/23F9.svg'   // ⏹ stop session
+      : 'assets/svg/25B6.svg';  // ▶ play
   }
 
-  micButton.classList.remove('recording');
+  const recordBtn = document.getElementById(RECORD_BUTTON_ID);
+  const recordImg = recordBtn?.querySelector('img');
 
-
-  // Default idle state
-  micIcon.src = 'assets/svg/1F3A4.svg'; // 🎤 mic
+  if (recordImg) {
+    recordImg.src = isRecording
+      ? 'assets/svg/23FA.svg'   // ⏺ recording icon
+      : 'assets/svg/1F3A4.svg'; // 🎤
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1022,8 +1142,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeVoiceMenu();
     setupVoiceMenuListener();
     initializeModeSelector();
-    updateMicIcon();
+    updateFooterIcons();
     initTranscriptController();
+    clearTranscriptUI();
+    ensureRecordMicButton();
+    showRecordMicButton(false);
+    updateFooterIcons();
 
     Promise.all([
       loadLesson()
@@ -1033,18 +1157,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     speechSynthesis.onvoiceschanged = populateCustomVoiceList;
 
-    const micButton = document.getElementById('micButton');
-    const settingsButton = document.getElementById('settingsButton');
-
-    micButton.addEventListener('click', () => {
-      // Temporary session toggle until speech recognition is wired in
-      const active = micButton.classList.toggle('active');
-
-      if (active) beginFreeTalkSession();
+    const sessionBtn = document.getElementById('micButton');
+    sessionBtn.addEventListener('click', () => {
+      if (!isSessionActive) beginFreeTalkSession();
       else endFreeTalkSession();
-
-      updateMicIcon();
+      updateFooterIcons();
     });
+    const settingsButton = document.getElementById('settingsButton');
 
     settingsButton.addEventListener('click', () => {
       settingsButton.blur();

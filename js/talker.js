@@ -36,6 +36,8 @@ let recogCtx = { mode: 'test', targetBtnId: 'micButton' };
 
 let transcriptController = null;
 let transcriber = null;
+let suppressStopResponseHandling = false;
+let intentionallyStoppingRecognition = false;
 
 function initTranscriptController() {
   const el = document.getElementById('liveTranscript');
@@ -326,6 +328,7 @@ function displayFinalScore() {
     ? Math.round((correct / totalResponses) * 100)
     : 100;
 
+  if (transcriptController) transcriptController.reset();
   transcriptEl.textContent = `${percent}% (${correct}/${totalResponses})`;
 }
 
@@ -717,6 +720,27 @@ function showNextMessage() {
   if (!item) return;
 
   renderCurrentLine(item);
+  const isLastItem = currentIndex === conversation.length - 1;
+  if (isLastItem && item.type === 'narration') {
+    console.log('[final-score] final narration reached', {
+      currentIndex,
+      totalItems: conversation.length,
+      practiceMode,
+      totalResponses,
+      incorrectResponses
+    });
+
+    try {
+      displayFinalScore();
+      saveFinalScore();
+      console.log('[final-score] display/save completed', {
+        liveTranscript: document.getElementById('liveTranscript')?.innerText,
+        ctscores: localStorage.getItem('ctscores')
+      });
+    } catch (err) {
+      console.error('[final-score] display/save failed', err);
+    }
+  }
 
   if (item.type === 'prompt' && item.text) {
     const container = document.getElementById('cue-content');
@@ -785,12 +809,6 @@ function showNextMessage() {
     }
   }
 
-  // ✅ New: if this was the final message, show score now
-  const isLastItem = currentIndex === conversation.length - 1;
-  if (isLastItem && item.type === 'narration') {
-    displayFinalScore();
-    saveFinalScore();
-  }
 
   // Show practice-try mic only when an answer bubble is on screen in Practice Mode
   if (practiceMode) {
@@ -967,6 +985,7 @@ function startSpeechRecognition(ctx = {}) {
 
   transcriber.onStart = () => {
     console.log('Speech recognition started');
+    intentionallyStoppingRecognition = false;
 
     const transcriptEl = document.getElementById('liveTranscript');
     // Only show placeholder if we have nothing yet
@@ -1049,11 +1068,14 @@ function startSpeechRecognition(ctx = {}) {
 
     if (isMatch) {
       const ctxAtMatch = { ...recogCtx };
+      const matchedTranscript = currentTranscript;
 
+      suppressStopResponseHandling = true;
       stopSpeechRecognition();
+      suppressStopResponseHandling = false;
 
       if (ctxAtMatch.mode !== 'practiceTry') {
-        handleUserResponse(currentTranscript);
+        handleUserResponse(matchedTranscript);
       }
       return;
     }
@@ -1061,6 +1083,12 @@ function startSpeechRecognition(ctx = {}) {
 
   transcriber.onError = (e) => {
     const errCode = e?.error || e?.name || e?.message;
+
+    if ((errCode === 'aborted' || errCode === 'AbortError') && intentionallyStoppingRecognition) {
+      console.log('Ignoring expected aborted error after intentional stop');
+      return;
+    }
+
     console.warn('Speech recognition error:', errCode, e);
 
     if ((errCode === 'no-speech' || errCode === 'no_speech') && !speechHasStarted) {
@@ -1080,7 +1108,12 @@ function startSpeechRecognition(ctx = {}) {
   };
 
   transcriber.onEnd = () => {
-    if (isRecording) {
+    if (intentionallyStoppingRecognition) {
+      console.log('Recognition ended after intentional stop');
+      return;
+    }
+
+    if (isRecording && transcriber) {
       console.log('Recognition ended — restarting');
       try {
         transcriber.start();
@@ -1094,7 +1127,8 @@ function startSpeechRecognition(ctx = {}) {
 }
 
 function stopSpeechRecognition() {
-  finalizedTranscript = '';
+  intentionallyStoppingRecognition = true;
+  isRecording = false;
   micIsMuted = true;
   clearGraceTimer();
 
@@ -1121,7 +1155,9 @@ function stopSpeechRecognition() {
     if (transcriptEl) transcriptEl.textContent = '';
   }
 
-  if (finalInput) {
+  if (suppressStopResponseHandling) {
+    // The caller will handle the matched response directly.
+  } else if (finalInput) {
     if (recogCtx.mode === 'practiceTry' || practiceMode) {
       // ✅ PRACTICE-TRY: just highlight differences
       const prevItem = conversation[currentIndex - 1];
@@ -1162,9 +1198,9 @@ function stopSpeechRecognition() {
     console.warn('[Transcript empty — skipping response handling]');
   }
 
-  isRecording = false;
   updateMicIcon();
 
+  finalizedTranscript = '';
   // reset context so future runs default to Test behavior unless specified
   recogCtx = { mode: 'test', targetBtnId: 'micButton' };
 }
@@ -1542,11 +1578,18 @@ function saveFinalScore() {
     storedScores[lang] = [];
   }
 
-  storedScores[lang].push({
+  const existingIndex = storedScores[lang].findIndex(entry => entry.lesson === lessonId);
+  const newEntry = {
     lesson: lessonId,
     score: scoreString,
     date: dateStr
-  });
+  };
+
+  if (existingIndex >= 0) {
+    storedScores[lang][existingIndex] = newEntry;
+  } else {
+    storedScores[lang].push(newEntry);
+  }
 
   localStorage.setItem('ctscores', JSON.stringify(storedScores));
 }

@@ -145,12 +145,20 @@ footer#cue-footer {
 #liveTranscript {
   flex: 1;
   margin-right: 1em;
+  margin-left: 1em;
   font-style: italic;
   color: #666;
 
-  /* Ensure text wraps or ellipsizes instead of stretching footer */
+  /* fixed teleprompter window */
+  height: 3.6em;
+  min-height: 3.6em;
+  max-height: 3.6em;
+  line-height: 1.2;
   overflow: hidden;
-  text-overflow: ellipsis;
+  box-sizing: border-box;
+  display: block;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .bubble.thought {
