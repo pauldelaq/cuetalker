@@ -6,7 +6,7 @@
     "en-US": {
       "language": "en-US",
       "languageName": "English",
-      "lessonName": "Intro to FreeTalk Mode",
+      "lessonName": "Intro to Free Talk Mode",
       "lessonPrompt":
         {
           "text": "Welcome to FreeTalker! Talk about the topic requested by the character. In Test Mode, you have one minute to use all the words. Click the words to hear them and receive suggestions.",

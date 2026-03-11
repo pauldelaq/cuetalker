@@ -73,4 +73,17 @@
       }
     }
   ]
+  ,
+  "freetalkLessons": [
+    {
+      "id": "IntroToFreeTalk",
+      "name": {
+        "en-US": "Intro to Free Talk Mode",
+        "fr-FR": "Introduction au mode discussion libre",
+        "es-ES": "Introducción al modo conversación libre",
+        "zh-CN": "自由对话模式简介",
+        "zh-TW": "自由對話模式簡介"
+      }
+    }
+  ]
 }

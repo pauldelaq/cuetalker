@@ -10,7 +10,7 @@ main {
   display: none;
 }
 
-#lesson-list {
+#lesson-list, #freetalk-lesson-list {
   list-style: none;
   padding: 0;
 }

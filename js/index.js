@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const langMenu = document.getElementById('languageMenu');
   const langList = document.querySelector('.language-list');
   const lessonList = document.getElementById('lesson-list');
+  const freeTalkList = document.getElementById('freetalk-lesson-list');
 
   const languages = [
     { code: 'en-US', name: 'English' },
@@ -54,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const lang = localStorage.getItem('ctlanguage') || 'en-US';
     const t = translations[lang] || translations['en-US'];
 
-    document.getElementById('choose-text').textContent = t.choose;
+    document.getElementById('conversation-mode-text').textContent = t.conversationMode;
+    document.getElementById('freetalk-mode-text').textContent = t.freetalkMode;
     document.querySelector('#languageMenu h2').textContent = t.languageMenuTitle;
 
     // 🔁 Update modal button text dynamically when language changes
@@ -99,6 +101,8 @@ function loadLessons() {
       const scoresForLang = storedScores[lang] || [];
 
       lessonList.innerHTML = '';
+      if (freeTalkList) freeTalkList.innerHTML = '';
+
       data.lessons.forEach(lesson => {
         const li = document.createElement('li');
         li.className = 'lesson-item';
@@ -130,6 +134,27 @@ function loadLessons() {
 
         lessonList.appendChild(li);
       });
+
+      // Render Free Talk lessons
+      if (freeTalkList && data.freetalkLessons) {
+        data.freetalkLessons.forEach(lesson => {
+          const li = document.createElement('li');
+          li.className = 'lesson-item';
+
+          const title = (lesson.name && (lesson.name[lang] || lesson.name['en-US'])) || '';
+          if (!title) return;
+
+          li.innerHTML = `
+            <div class="lesson-title">${title}</div>
+          `;
+
+          li.addEventListener('click', () => {
+            window.location.href = `freetalk.html?lesson=${encodeURIComponent(lesson.id)}`;
+          });
+
+          freeTalkList.appendChild(li);
+        });
+      }
     });
 }
 
