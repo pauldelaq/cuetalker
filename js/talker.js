@@ -1578,9 +1578,14 @@ function saveFinalScore() {
     storedScores[lang] = [];
   }
 
-  const existingIndex = storedScores[lang].findIndex(entry => entry.lesson === lessonId);
+  const mode = 'conversation';
+
+  const existingIndex = storedScores[lang].findIndex(entry =>
+    entry.lesson === lessonId && (entry.mode || 'conversation') === mode
+  );
   const newEntry = {
     lesson: lessonId,
+    mode,
     score: scoreString,
     date: dateStr
   };

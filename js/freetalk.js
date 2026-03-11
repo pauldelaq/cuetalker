@@ -8,6 +8,7 @@ let svgLibrary = {};
 let practiceMode = false;
 let currentMode = 'test';          // 'test' | 'practice'
 let modeLocked = false;            // lock mode selection after session begins
+let showingFinalScore = false;     // true after a Test Mode session ends and score is shown
 const TEST_DURATION_SEC = 60;
 let testTimerId = null;
 let testTimeLeft = TEST_DURATION_SEC;
@@ -148,6 +149,79 @@ function compileMatchers() {
       variants: uniq      // normalized variants
     });
   });
+}
+
+function getMatchedWordCount() {
+  const fullNorm = ' ' + normalizeText(finalizedTranscript) + ' ';
+
+  return matchers.reduce((count, matcher) => {
+    const hit = matcher.variants.some(v => fullNorm.includes(' ' + v + ' '));
+    return count + (hit ? 1 : 0);
+  }, 0);
+}
+
+function getFreeTalkScoreSummary() {
+  const total = Array.isArray(wordListData) ? wordListData.length : 0;
+  const matched = getMatchedWordCount();
+  const percent = total > 0
+    ? Math.round((matched / total) * 100)
+    : 100;
+
+  return {
+    matched,
+    total,
+    percent,
+    scoreString: `${percent}% (${matched}/${total})`
+  };
+}
+
+function displayFinalScore() {
+  const transcriptEl = document.getElementById('liveTranscript');
+  if (!transcriptEl) return;
+
+  const { scoreString } = getFreeTalkScoreSummary();
+
+  if (transcriptController) transcriptController.reset();
+  transcriptEl.textContent = scoreString;
+}
+
+function saveFinalScore() {
+  if (practiceMode) return;
+
+  const { scoreString } = getFreeTalkScoreSummary();
+  const urlParams = new URLSearchParams(window.location.search);
+  const lessonId = urlParams.get('lesson') || 'unknown';
+
+  const today = new Date();
+  const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+  const lang = getLangKey(localStorage.getItem('ctlanguage'));
+  const mode = 'freetalk';
+
+  const storedScores = JSON.parse(localStorage.getItem('ctscores')) || {};
+
+  if (!storedScores[lang]) {
+    storedScores[lang] = [];
+  }
+
+  const existingIndex = storedScores[lang].findIndex(entry =>
+    entry.lesson === lessonId && entry.mode === mode
+  );
+
+  const newEntry = {
+    lesson: lessonId,
+    mode,
+    score: scoreString,
+    date: dateStr
+  };
+
+  if (existingIndex >= 0) {
+    storedScores[lang][existingIndex] = newEntry;
+  } else {
+    storedScores[lang].push(newEntry);
+  }
+
+  localStorage.setItem('ctscores', JSON.stringify(storedScores));
 }
 
 function updateMatchesFromTranscript(fullTextRaw) {
@@ -521,15 +595,20 @@ function initializeModeSelector() {
 
 function beginFreeTalkSession() {
   isSessionActive = true;
+  showingFinalScore = false;
   micIsMuted = false;
 
   showRecordMicButton(true);
   updateFooterIcons();
   lockModeSelector(true);
 
+  finalizedTranscript = '';
+  clearTranscriptUI();
+  resetWordMatchesUI();
+  compileMatchers();
   startMicSession().then(() => {
     if (!isSessionActive) return;
-    startFreeTalkRecognition({ resetAll: true, targetBtnId: RECORD_BUTTON_ID });
+    startFreeTalkRecognition({ resetAll: false, targetBtnId: RECORD_BUTTON_ID });
     isRecording = true;
     updateFooterIcons();
   });
@@ -545,13 +624,19 @@ function endFreeTalkSession() {
     isRecording = false;
   }
 
-  clearTranscriptUI();
+  showingFinalScore = true;
+
+  if (currentMode === 'test') {
+    displayFinalScore();
+    saveFinalScore();
+  } else {
+    clearTranscriptUI();
+  }
 
   isSessionActive = false;
   micIsMuted = true;
 
   showRecordMicButton(false);
-  lockModeSelector(false);
 
   stopMicSession();
 
@@ -1120,9 +1205,11 @@ function updateFooterIcons() {
   const sessionImg = sessionBtn?.querySelector('img');
 
   if (sessionImg) {
-    sessionImg.src = isSessionActive
-      ? 'assets/svg/23F9.svg'   // ⏹ stop session
-      : 'assets/svg/25B6.svg';  // ▶ play
+    sessionImg.src = showingFinalScore
+      ? 'assets/svg/1F504.svg'  // 🔁 restart
+      : isSessionActive
+        ? 'assets/svg/23F9.svg' // ⏹ stop session
+        : 'assets/svg/25B6.svg'; // ▶ play
   }
 
   const recordBtn = document.getElementById(RECORD_BUTTON_ID);
@@ -1159,6 +1246,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sessionBtn = document.getElementById('micButton');
     sessionBtn.addEventListener('click', () => {
+      if (showingFinalScore) {
+        window.location.reload();
+        return;
+      }
+
       if (!isSessionActive) beginFreeTalkSession();
       else endFreeTalkSession();
       updateFooterIcons();

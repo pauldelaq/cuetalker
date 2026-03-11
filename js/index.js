@@ -113,7 +113,9 @@ function loadLessons() {
         // If no title exists for this language (and no en-US fallback), hide this lesson
         if (!title) return;
 
-        const matching = scoresForLang.find(entry => entry.lesson === lesson.id);
+        const matching = scoresForLang.find(entry =>
+          entry.lesson === lesson.id && (entry.mode || 'conversation') === 'conversation'
+        );
         const date = matching?.date || '';
         const score = matching?.score || '';
 
@@ -144,8 +146,20 @@ function loadLessons() {
           const title = (lesson.name && (lesson.name[lang] || lesson.name['en-US'])) || '';
           if (!title) return;
 
+          const matching = scoresForLang.find(entry =>
+            entry.lesson === lesson.id && entry.mode === 'freetalk'
+          );
+          const date = matching?.date || '';
+          const score = matching?.score || '';
+
           li.innerHTML = `
             <div class="lesson-title">${title}</div>
+            ${matching ? `
+              <div class="lesson-meta">
+                <span class="lesson-date">${date}</span>
+                <span class="lesson-score">${score}</span>
+              </div>
+            ` : ''}
           `;
 
           li.addEventListener('click', () => {
