@@ -84,6 +84,17 @@
         "zh-CN": "自由对话模式简介",
         "zh-TW": "自由對話模式簡介"
       }
+    },
+        {
+      "id": "PrepareForATrip",
+      "name": {
+        "en-US": "Preparing For a Trip",
+        "fr-FR": "Préparer un voyage",
+        "es-ES": "Prepararse para un viaje",
+        "zh-CN": "为旅行做准备",
+        "zh-TW": "為旅行做準備"
+      }
     }
+
   ]
 }

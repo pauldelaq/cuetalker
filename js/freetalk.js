@@ -137,16 +137,19 @@ function compileMatchers() {
     const base = (item.word || '').trim();
     if (!base) return;
 
-    const variants = [base]
-      .concat(Array.isArray(item.forms) ? item.forms : [])
+    // IMPORTANT: forms is the only source of truth for transcript matching.
+    // The displayed word can later be a hint/prompt, while forms contains the
+    // actual acceptable spoken answers (including conjugated forms, etc.).
+    const variants = (Array.isArray(item.forms) ? item.forms : [])
       .map(v => normalizeText(v))
       .filter(Boolean);
 
     const uniq = Array.from(new Set(variants));
+    if (!uniq.length) return;
 
     matchers.push({
       key: base,          // used to find bubble via data-word
-      variants: uniq      // normalized variants
+      variants: uniq      // normalized acceptable matches from forms only
     });
   });
 }

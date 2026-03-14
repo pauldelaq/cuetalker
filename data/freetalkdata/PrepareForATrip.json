@@ -1,0 +1,420 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F468-1F3FB-200D-2708-FE0F.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Preparing for a Trip",
+      "lessonPrompt": {
+        "text": "Tell me about the last trip you took. How did you prepare for it? Remember to use the past tense in your answer.",
+        "character": {
+          "name": "David",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+                {
+          "word": "trip",
+          "forms": ["trip"],
+          "phrases": [
+            "prepare for a {word}",
+            "plan a {word}",
+            "go on a {word}",
+            "take a {word}"
+          ]
+        },
+        {
+          "word": "destination",
+          "forms": ["destination"],
+          "phrases": [
+            "choose a {word}",
+            "arrive at a {word}"
+          ]
+        },
+        {
+          "word": "plane ticket",
+          "forms": ["plane ticket"],
+          "phrases": [
+            "book a {word}",
+            "order a {word}",
+            "buy a {word}"
+          ]
+        },
+        {
+          "word": "hotel",
+          "forms": ["hotel"],
+          "phrases": [
+            "book a {word} room",
+            "reserve a {word} room",
+            "make a {word} reservation"
+          ]
+        },
+        {
+          "word": "itinerary",
+          "forms": ["itinerary"],
+          "phrases": [
+            "a travel {word}",
+            "plan an {word}",
+            "create an {word}"
+          ]
+        },
+        {
+          "word": "pack",
+          "forms": ["packed", "packing"],
+          "phrases": [
+            "{word} luggage",
+            "{word} a suitcase",
+            "{word} / packed / packing"
+          ]
+        },
+        {
+          "word": "luggage",
+          "forms": ["luggage"],
+          "phrases": [
+            "pack {word}"
+          ]
+        },
+        {
+          "word": "passport",
+          "forms": ["passport"],
+          "phrases": [
+            "pack a {word}",
+            "apply for a {word}"
+          ]
+        }
+      ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Préparer un voyage",
+      "lessonPrompt": {
+        "text": "Parlez-moi du dernier voyage que vous avez fait. Comment vous êtes-vous préparé pour ce voyage ? Essayez d'utiliser le passé dans votre réponse.",
+        "character": {
+          "name": "David",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "voyage",
+          "forms": ["voyage"],
+          "phrases": [
+            "préparer un {word}",
+            "planifier un {word}",
+            "faire un {word}",
+            "partir en {word}"
+          ]
+        },
+        {
+          "word": "destination",
+          "forms": ["destination"],
+          "phrases": [
+            "choisir une {word}",
+            "arriver à une {word}"
+          ]
+        },
+        {
+          "word": "billet d'avion",
+          "forms": ["billet d'avion"],
+          "phrases": [
+            "réserver un {word}",
+            "acheter un {word}"
+          ]
+        },
+        {
+          "word": "hôtel",
+          "forms": ["hôtel"],
+          "phrases": [
+            "réserver une chambre d'{word}",
+            "réserver un {word}",
+            "faire une réservation d'{word}"
+          ]
+        },
+        {
+          "word": "itinéraire",
+          "forms": ["itinéraire"],
+          "phrases": [
+            "un {word} de voyage",
+            "planifier un {word}",
+            "créer un {word}"
+          ]
+        },
+        {
+          "word": "préparer",
+          "forms": ["préparé"],
+          "phrases": [
+            "{word} ses bagages",
+            "{word} une valise",
+            "{word} / préparé"
+          ]
+        },
+        {
+          "word": "bagages",
+          "forms": ["bagages"],
+          "phrases": [
+            "préparer ses {word}"
+          ]
+        },
+        {
+          "word": "passeport",
+          "forms": ["passeport"],
+          "phrases": [
+            "préparer un {word}",
+            "demander un {word}"
+          ]
+        }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Prepararse para un viaje",
+      "lessonPrompt": {
+        "text": "Cuéntame sobre el último viaje que hiciste. ¿Cómo te preparaste para ese viaje? Intenta usar el pasado en tu respuesta.",
+        "character": {
+          "name": "David",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "viaje",
+          "forms": ["viaje"],
+          "phrases": [
+            "preparar un {word}",
+            "planear un {word}",
+            "hacer un {word}",
+            "ir de {word}"
+          ]
+        },
+        {
+          "word": "destino",
+          "forms": ["destino"],
+          "phrases": [
+            "elegir un {word}",
+            "llegar a un {word}"
+          ]
+        },
+        {
+          "word": "billete de avión",
+          "forms": ["billete de avión"],
+          "phrases": [
+            "reservar un {word}",
+            "comprar un {word}"
+          ]
+        },
+        {
+          "word": "hotel",
+          "forms": ["hotel"],
+          "phrases": [
+            "reservar una habitación de {word}",
+            "reservar un {word}",
+            "hacer una reserva de {word}"
+          ]
+        },
+        {
+          "word": "itinerario",
+          "forms": ["itinerario"],
+          "phrases": [
+            "un {word} de viaje",
+            "planear un {word}",
+            "crear un {word}"
+          ]
+        },
+        {
+          "word": "empacar",
+          "forms": ["empaqué"],
+          "phrases": [
+            "{word} el equipaje",
+            "{word} una maleta",
+            "{word} / empaqué"
+          ]
+        },
+        {
+          "word": "equipaje",
+          "forms": ["equipaje"],
+          "phrases": [
+            "empacar {word}"
+          ]
+        },
+        {
+          "word": "pasaporte",
+          "forms": ["pasaporte"],
+          "phrases": [
+            "empacar un {word}",
+            "solicitar un {word}"
+          ]
+        }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "为旅行做准备",
+      "lessonPrompt": {
+        "text": "请告诉我你最近一次旅行的经历。你是怎么为这次旅行做准备的？在回答中尽量用表示过去的表达方式。",
+        "character": {
+          "name": "David",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "旅行",
+          "forms": ["旅行"],
+          "phrases": [
+            "准备一次{word}",
+            "计划一次{word}",
+            "去{word}",
+            "进行一次{word}"
+          ]
+        },
+        {
+          "word": "目的地",
+          "forms": ["目的地"],
+          "phrases": [
+            "选择一个{word}",
+            "到达{word}"
+          ]
+        },
+        {
+          "word": "机票",
+          "forms": ["机票"],
+          "phrases": [
+            "预订{word}",
+            "购买{word}"
+          ]
+        },
+        {
+          "word": "酒店",
+          "forms": ["酒店"],
+          "phrases": [
+            "预订{word}房间",
+            "在{word}订房",
+            "预订{word}"
+          ]
+        },
+        {
+          "word": "行程",
+          "forms": ["行程"],
+          "phrases": [
+            "旅行{word}",
+            "计划{word}",
+            "制定{word}"
+          ]
+        },
+        {
+          "word": "收拾",
+          "forms": ["收拾"],
+          "phrases": [
+            "{word}行李",
+            "{word}行李箱"
+          ]
+        },
+        {
+          "word": "行李",
+          "forms": ["行李"],
+          "phrases": [
+            "收拾{word}"
+          ]
+        },
+        {
+          "word": "护照",
+          "forms": ["护照"],
+          "phrases": [
+            "带上{word}",
+            "申请{word}"
+          ]
+        }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "為旅行做準備",
+      "lessonPrompt": {
+        "text": "請告訴我你最近一次旅行的經驗。你是怎麼為這次旅行做準備的？在回答中盡量使用表示過去的表達方式。",
+        "character": {
+          "name": "David",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "旅行",
+          "forms": ["旅行"],
+          "phrases": [
+            "準備一次{word}",
+            "計畫一次{word}",
+            "去{word}",
+            "進行一次{word}"
+          ]
+        },
+        {
+          "word": "目的地",
+          "forms": ["目的地"],
+          "phrases": [
+            "選擇一個{word}",
+            "到達{word}"
+          ]
+        },
+        {
+          "word": "機票",
+          "forms": ["機票"],
+          "phrases": [
+            "預訂{word}",
+            "購買{word}"
+          ]
+        },
+        {
+          "word": "飯店",
+          "forms": ["飯店"],
+          "phrases": [
+            "預訂{word}房間",
+            "在{word}訂房",
+            "預訂{word}"
+          ]
+        },
+        {
+          "word": "行程",
+          "forms": ["行程"],
+          "phrases": [
+            "旅行{word}",
+            "計畫{word}",
+            "制定{word}"
+          ]
+        },
+        {
+          "word": "收拾",
+          "forms": ["收拾"],
+          "phrases": [
+            "{word}行李",
+            "{word}行李箱"
+          ]
+        },
+        {
+          "word": "行李",
+          "forms": ["行李"],
+          "phrases": [
+            "收拾{word}"
+          ]
+        },
+        {
+          "word": "護照",
+          "forms": ["護照"],
+          "phrases": [
+            "帶上{word}",
+            "申請{word}"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -7,33 +7,157 @@
       "language": "en-US",
       "languageName": "English",
       "lessonName": "Intro to Free Talk Mode",
-      "lessonPrompt":
+      "lessonPrompt": {
+        "text": "Welcome to FreeTalker! Talk about the topic requested by the character. In Test Mode, you have one minute to use all the words. Click the words to hear them and receive suggestions.",
+        "character": {
+          "name": "Jackson",
+          "svg": "1"
+        }
+      },
+      "wordList": [
         {
-          "text": "Welcome to FreeTalker! Talk about the topic requested by the character. In Test Mode, you have one minute to use all the words. Click the words to hear them and receive suggestions.",
-          "character": {
-            "name": "Jackson",
-            "svg": "1"
-          }
+          "word": "speak",
+          "forms": ["speak", "spoke", "spoken", "speaking"],
+          "phrases": [
+            "{word} to someone",
+            "{word} about something",
+            "{word} / spoke / spoken / speaking"
+          ]
         },
-      "wordList":
-        [
-          {
-            "word": "talk",
-            "phrases": 
-            [
-              "{word} to someone",
-              "{word} about something"
-            ]
-          },
-          {
-            "word": "ride",
-            "forms": ["ride", "rode", "ridden", "riding"],
-            "phrases": [
-              "{word} the train",
-              "go for a {word}"
-            ]
-          }
-        ]
+        {
+          "word": "practice",
+          "forms": ["practice", "practiced", "practicing", "practise", "practised", "practising"],
+          "phrases": [
+            "{word} speaking",
+            "{word} a skill",
+            "{word} / practiced / practicing"
+          ]
+        }
+      ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Introduction au mode discussion libre",
+      "lessonPrompt": {
+        "text": "Bienvenue dans FreeTalker ! Parlez du sujet demandé par le personnage. En mode test, vous avez une minute pour utiliser tous les mots. Cliquez sur les mots pour les entendre et recevoir des suggestions.",
+        "character": {
+          "name": "Jackson",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "parler",
+          "forms": ["parler", "parle", "parlé", "parlant"],
+          "phrases": [
+            "{word} à quelqu’un",
+            "{word} de quelque chose",
+            "{word} / parlé / parlant"
+          ]
+        },
+        {
+          "word": "pratiquer",
+          "phrases": [
+            "{word} l’expression orale",
+            "{word} une compétence",
+            "{word} / pratiqué / pratiquant"
+          ]
+        }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Introducción al modo conversación libre",
+      "lessonPrompt": {
+        "text": "¡Bienvenido a FreeTalker! Habla sobre el tema que pide el personaje. En el modo de prueba tienes un minuto para usar todas las palabras. Haz clic en las palabras para escucharlas y recibir sugerencias.",
+        "character": {
+          "name": "Jackson",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "hablar",
+          "forms": ["hablar", "hablo", "hablé", "hablando"],
+          "phrases": [
+            "{word} con alguien",
+            "{word} sobre algo",
+            "{word} / habló / hablando"
+          ]
+        },
+        {
+          "word": "practicar",
+          "phrases": [
+            "{word} hablar",
+            "{word} una habilidad",
+            "{word} / practicó / practicando"
+          ]
+        }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "自由对话模式简介",
+      "lessonPrompt": {
+        "text": "欢迎使用 FreeTalker！请围绕角色提出的话题进行表达。在测试模式中，你有一分钟时间使用所有单词。点击单词可以听发音并获得提示。",
+        "character": {
+          "name": "Jackson",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "说",
+          "forms": ["说"],
+          "phrases": [
+            "和某人{word}",
+            "{word}某件事"
+          ]
+        },
+        {
+          "word": "练习",
+          "phrases": [
+            "{word}说话",
+            "{word}一项技能"
+          ]
+        }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "自由對話模式簡介",
+      "lessonPrompt": {
+        "text": "歡迎使用 FreeTalker！請圍繞角色提出的主題進行表達。在測試模式中，你有一分鐘時間使用所有單字。點擊單字可以聽發音並獲得提示。",
+        "character": {
+          "name": "Jackson",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "說",
+          "forms": ["說"],
+          "phrases": [
+            "和某人{word}",
+            "{word}某件事"
+          ]
+        },
+        {
+          "word": "練習",
+          "phrases": [
+            "{word}說話",
+            "{word}一項技能"
+          ]
+        }
+      ]
+    }
   }
-}
 }
