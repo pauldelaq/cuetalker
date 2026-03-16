@@ -62,7 +62,7 @@
         },
         {
           "word": "pack",
-          "forms": ["packed", "packing"],
+          "forms": ["pack", "packed", "packing"],
           "phrases": [
             "{word} luggage",
             "{word} a suitcase",
@@ -145,7 +145,7 @@
         },
         {
           "word": "préparer",
-          "forms": ["préparé"],
+          "forms": ["préparé", "préparer"],
           "phrases": [
             "{word} ses bagages",
             "{word} une valise",
@@ -228,7 +228,7 @@
         },
         {
           "word": "empacar",
-          "forms": ["empaqué"],
+          "forms": ["empaqué", "empacar"],
           "phrases": [
             "{word} el equipaje",
             "{word} una maleta",

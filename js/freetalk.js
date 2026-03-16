@@ -101,11 +101,19 @@ function normalizeText(s) {
     .toLowerCase()
     // normalize apostrophes
     .replace(/[’‘´`]/g, "'")
+    // normalize accented Latin characters so transcript text like
+    // "empaque" can match forms like "empaqué"
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     // strip most punctuation (keep apostrophes for contractions)
     .replace(/[^\p{L}\p{N}\s']/gu, ' ')
     // collapse whitespace
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+function normalizeLooseMatchText(s) {
+  return normalizeText(s).replace(/\s+/g, '');
 }
 
 function clearTranscriptUI() {
@@ -155,10 +163,13 @@ function compileMatchers() {
 }
 
 function getMatchedWordCount() {
-  const fullNorm = ' ' + normalizeText(finalizedTranscript) + ' ';
+  const fullNorm = normalizeLooseMatchText(finalizedTranscript);
 
   return matchers.reduce((count, matcher) => {
-    const hit = matcher.variants.some(v => fullNorm.includes(' ' + v + ' '));
+    const hit = matcher.variants.some(v => {
+      const variantNorm = normalizeLooseMatchText(v);
+      return variantNorm && fullNorm.includes(variantNorm);
+    });
     return count + (hit ? 1 : 0);
   }, 0);
 }
@@ -228,7 +239,7 @@ function saveFinalScore() {
 }
 
 function updateMatchesFromTranscript(fullTextRaw) {
-  const fullNorm = ' ' + normalizeText(fullTextRaw) + ' ';
+  const fullNorm = normalizeLooseMatchText(fullTextRaw);
 
   matchers.forEach(m => {
     const bubble = document.querySelector(`.wordBubble[data-word="${CSS.escape(m.key)}"]`);
@@ -236,9 +247,14 @@ function updateMatchesFromTranscript(fullTextRaw) {
 
     if (bubble.classList.contains('matched')) return;
 
-    // Space-padded includes reduces substring false positives for Latin scripts.
-    // (For CJK later, we can do a different strategy.)
-    const hit = m.variants.some(v => fullNorm.includes(' ' + v + ' '));
+    // FreeTalk matching is intentionally loose:
+    // - ignore spaces so CJK text matches naturally
+    // - allow substring-style matches so forms inside contractions
+    //   (for example "m'avais" containing "avais") can still count
+    const hit = m.variants.some(v => {
+      const variantNorm = normalizeLooseMatchText(v);
+      return variantNorm && fullNorm.includes(variantNorm);
+    });
 
     if (hit) {
       bubble.classList.add('matched');
