@@ -80,6 +80,10 @@ html, body {
   height: 100dvh;
 }
 
+html {
+  background: white;
+}
+
 #header-title {
   font-size: 30px;
   margin: 0;

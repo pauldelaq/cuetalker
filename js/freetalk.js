@@ -1073,7 +1073,7 @@ async function loadLesson() {
 
     // 🌍 Pick the correct language block
     const storedLang = getLangKey(localStorage.getItem('ctlanguage'));
-    freetalkLangData = (data.languages && (data.languages[storedLang] || data.languages['en'])) || null;
+    freetalkLangData = (data.languages && (data.languages[storedLang] || data.languages['en-US'])) || null;
 
     if (!freetalkLangData) {
       throw new Error(`No languages block found for ${storedLang} (and no 'en' fallback).`);
