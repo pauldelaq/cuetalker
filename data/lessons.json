@@ -85,7 +85,7 @@
         "zh-TW": "自由對話模式簡介"
       }
     },
-        {
+    {
       "id": "PrepareForATrip",
       "name": {
         "en-US": "Preparing For a Trip",
@@ -93,6 +93,16 @@
         "es-ES": "Prepararse para un viaje",
         "zh-CN": "为旅行做准备",
         "zh-TW": "為旅行做準備"
+      }
+    },
+    {
+      "id": "SelfIntroduction",
+      "name": {
+        "en-US": "Self-Introduction",
+        "fr-FR": "Se présenter",
+        "es-ES": "Presentación personal",
+        "zh-CN": "自我介绍",
+        "zh-TW": "自我介紹"
       }
     }
 

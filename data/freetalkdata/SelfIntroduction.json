@@ -1,0 +1,183 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F9D1-1F3FC-200D-1F680.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Self-Introduction",
+      "lessonPrompt": {
+        "text": "Welcome! Nice to meet you. Please introduce yourself. Make sure to tell me about each of the topics below.",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+                {
+          "word": "name",
+          "forms": ["name"],
+          "phrases": [
+            "My {word} is..."
+          ]
+        },
+        {
+          "word": "age",
+          "forms": ["years old"],
+          "phrases": [
+            "I am ... years old",
+            "I just turned ... old"
+          ]
+        },
+        {
+          "word": "home country",
+          "forms": ["home country", "I'm from", "I am from"],
+          "phrases": [
+            "My {word} is ...",
+            "I'm from ...",
+            "I am from ..."
+          ]
+        },
+        {
+          "word": "work",
+          "forms": ["work"],
+          "phrases": [
+            "I {word} as a ...",
+            "I {word} at a ...",
+            "I'm not currently {word}ing"
+          ]
+        },
+        {
+          "word": "languages",
+          "forms": ["speak"],
+          "phrases": [
+            "I can speak ...",
+            "I'm fluent in ...",
+            "I'm learning to speak ..."
+          ]
+        },
+        {
+          "word": "hobbies",
+          "forms": ["free time", "hobby"],
+          "phrases": [
+            "In my free time, I like to ...",
+            "My hobby is ...ing",
+            "I enjoy ...ing in my free time."
+          ]
+        },
+        {
+          "word": "food",
+          "forms": ["eat", "food"],
+          "phrases": [
+            "My favorite {word} is ...",
+            "I like to eat ..."
+          ]
+        },
+        {
+          "word": "relationship",
+          "forms": ["relationship", "partner", "girlfriend", "boyfriend", "husband", "wife", "wives", "single", "widow"],
+          "phrases": [
+            "I'm single.",
+            "I'm married.",
+            "I'm in a {word} with ...",
+            "I have a ...",
+            "I'm a widow."
+          ]
+        }
+      ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Se présenter",
+      "lessonPrompt": {
+        "text": "Bienvenue ! Ravi de vous rencontrer. Veuillez vous présenter. Assurez-vous de parler de chacun des sujets ci-dessous.",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "nom", "forms": ["nom", "je m'appelle"], "phrases": ["Je m'appelle ...", "Mon {word} est ..."] },
+        { "word": "âge", "forms": ["ans"], "phrases": ["J'ai ... ans", "Je viens d'avoir ... ans"] },
+        { "word": "pays d'origine", "forms": ["je viens de", "je suis de", "pays d'origine"], "phrases": ["Mon {word} est ...", "Je viens de ...", "Je suis de ..."] },
+        { "word": "travail", "forms": ["travaille", "travail"], "phrases": ["Je {word} comme ...", "Je {word} dans ...", "Je ne {word} pas actuellement"] },
+        { "word": "langues", "forms": ["parle"], "phrases": ["Je peux parler ...", "Je parle couramment ...", "J'apprends à parler ..."] },
+        { "word": "loisirs", "forms": ["temps libre", "loisir"], "phrases": ["Pendant mon temps libre, j'aime ...", "Mon loisir est de ...", "J'aime ... pendant mon temps libre"] },
+        { "word": "nourriture", "forms": ["manger", "nourriture"], "phrases": ["Ma {word} préférée est ...", "J'aime manger ..."] },
+        { "word": "situation amoureuse", "forms": ["en couple", "partenaire", "petit ami", "petite amie", "mari", "femme", "célibataire", "veuf", "veuve"], "phrases": ["Je suis célibataire.", "Je suis marié(e).", "Je suis en {word} avec ...", "J'ai un/une ...", "Je suis veuf/veuve."] }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Presentación personal",
+      "lessonPrompt": {
+        "text": "¡Bienvenido! Encantado de conocerte. Preséntate, por favor. Asegúrate de hablar de cada uno de los temas a continuación.",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "nombre", "forms": ["nombre", "me llamo"], "phrases": ["Me llamo ...", "Mi {word} es ..."] },
+        { "word": "edad", "forms": ["años"], "phrases": ["Tengo ... años", "Acabo de cumplir ... años"] },
+        { "word": "país de origen", "forms": ["soy de", "vengo de", "país de origen"], "phrases": ["Mi {word} es ...", "Soy de ...", "Vengo de ..."] },
+        { "word": "trabajo", "forms": ["trabajo", "trabajar", "trabajando"], "phrases": ["Trabajo como ...", "Trabajo en ...", "No estoy trabajando actualmente"] },
+        { "word": "idiomas", "forms": ["hablo", "hablar"], "phrases": ["Puedo hablar ...", "Hablo con fluidez ...", "Estoy aprendiendo a hablar ..."] },
+        { "word": "aficiones", "forms": ["tiempo libre", "afición"], "phrases": ["En mi tiempo libre me gusta ...", "Mi afición es ...", "Disfruto ... en mi tiempo libre"] },
+        { "word": "comida", "forms": ["comer", "comida"], "phrases": ["Mi {word} favorita es ...", "Me gusta comer ..."] },
+        { "word": "relación", "forms": ["relación", "pareja", "casado", "novio", "novia", "marido", "esposa", "soltero", "viudo", "viuda"], "phrases": ["Estoy soltero.", "Estoy casado.", "Estoy en una {word} con ...", "Tengo un/una ...", "Soy viudo/viuda."] }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "自我介绍",
+      "lessonPrompt": {
+        "text": "欢迎！很高兴认识你。请做一个自我介绍，并确保介绍下面每个方面。",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "名字", "forms": ["名字", "叫"], "phrases": ["我叫...", "我的{word}是..."] },
+        { "word": "年龄", "forms": ["岁"], "phrases": ["我...岁", "我刚满...岁"] },
+        { "word": "国家", "forms": ["来自"], "phrases": ["我的{word}是...", "我来自..."] },
+        { "word": "工作", "forms": ["工作"], "phrases": ["我在...{word}", "我在...工作", "我现在没有{word}"] },
+        { "word": "语言", "forms": ["说"], "phrases": ["我会说...", "我能说...", "我正在学习说..."] },
+        { "word": "爱好", "forms": ["爱好", "空闲时间"], "phrases": ["我的{word}是...", "我的{word}包括...", "我在空闲时间喜欢..."] },
+        { "word": "食物", "forms": ["吃", "食物"], "phrases": ["我最喜欢的{word}是...", "我喜欢吃..."] },
+        { "word": "感情状况", "forms": ["对象", "已婚", "男朋友", "女朋友", "丈夫", "妻子", "单身", "丧偶"], "phrases": ["我单身。", "我已婚。", "我和...在一起", "我有一个...", "我丧偶。"] }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "自我介紹",
+      "lessonPrompt": {
+        "text": "歡迎！很高興認識你。請做一個自我介紹，並確保介紹下面每個方面。",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "名字", "forms": ["名字", "叫"], "phrases": ["我叫...", "我的{word}是..."] },
+        { "word": "年齡", "forms": ["歲"], "phrases": ["我...歲", "我剛滿...歲"] },
+        { "word": "國家", "forms": ["來自"], "phrases": ["我的{word}是...", "我來自..."] },
+        { "word": "工作", "forms": ["工作"], "phrases": ["我在...{word}", "我在...工作", "我現在沒有{word}"] },
+        { "word": "語言", "forms": ["說"], "phrases": ["我會說...", "我能說...", "我正在學習說..."] },
+        { "word": "愛好", "forms": ["愛好", "空閒時間"], "phrases": ["我的{word}是...", "我的{word}包括...", "我在空閒時間喜歡..."] },
+        { "word": "食物", "forms": ["吃", "食物"], "phrases": ["我最喜歡的{word}是...", "我喜歡吃..."] },
+        { "word": "感情狀況", "forms": ["對象", "已婚", "男朋友", "女朋友", "丈夫", "妻子", "單身", "喪偶"], "phrases": ["我單身。", "我已婚。", "我和...在一起", "我有一個...", "我喪偶。"] }
+      ]
+    }
+  }
+}
