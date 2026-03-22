@@ -126,9 +126,9 @@
         { "word": "nombre", "forms": ["nombre", "me llamo"], "phrases": ["Me llamo ...", "Mi {word} es ..."] },
         { "word": "edad", "forms": ["años"], "phrases": ["Tengo ... años", "Acabo de cumplir ... años"] },
         { "word": "país de origen", "forms": ["soy de", "vengo de", "país de origen"], "phrases": ["Mi {word} es ...", "Soy de ...", "Vengo de ..."] },
-        { "word": "trabajo", "forms": ["trabajo", "trabajar", "trabajando"], "phrases": ["Trabajo como ...", "Trabajo en ...", "No estoy trabajando actualmente"] },
+        { "word": "trabajo", "forms": ["trabajo", "trabajar", "trabajando"], "phrases": ["{Trabajo} como ...", "{Trabajo} en ...", "No estoy {trabajando} actualmente"] },
         { "word": "idiomas", "forms": ["hablo", "hablar"], "phrases": ["Puedo hablar ...", "Hablo con fluidez ...", "Estoy aprendiendo a hablar ..."] },
-        { "word": "aficiones", "forms": ["tiempo libre", "afición"], "phrases": ["En mi tiempo libre me gusta ...", "Mi afición es ...", "Disfruto ... en mi tiempo libre"] },
+        { "word": "aficiones", "forms": ["tiempo libre", "afición"], "phrases": ["En mi tiempo libre me gusta ...", "Mi {afición} es ...", "Disfruto ... en mi tiempo libre"] },
         { "word": "comida", "forms": ["comer", "comida"], "phrases": ["Mi {word} favorita es ...", "Me gusta comer ..."] },
         { "word": "relación", "forms": ["relación", "pareja", "casado", "novio", "novia", "marido", "esposa", "soltero", "viudo", "viuda"], "phrases": ["Estoy soltero.", "Estoy casado.", "Estoy en una {word} con ...", "Tengo un/una ...", "Soy viudo/viuda."] }
       ]

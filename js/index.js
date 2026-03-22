@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('conversation-mode-text').textContent = t.conversationMode;
     document.getElementById('freetalk-mode-text').textContent = t.freetalkMode;
-    document.querySelector('#languageMenu h2').textContent = t.languageMenuTitle;
+    document.querySelector('#languageMenu div').textContent = t.languageMenuTitle;
 
     // 🔁 Update modal button text dynamically when language changes
     const modalText = document.getElementById('modalText');

@@ -135,7 +135,7 @@ footer#cue-footer {
   justify-content: space-between;
   padding: 20px;
   background: white;
-  box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
+  border-top: 1px solid #ccc;
 
   /* 🔒 Prevent resizing */
   height: 106px;          /* pick a size that feels good */
