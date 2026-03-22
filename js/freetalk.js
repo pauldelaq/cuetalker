@@ -157,21 +157,53 @@ function compileMatchers() {
 
     matchers.push({
       key: base,          // used to find bubble via data-word
-      variants: uniq      // normalized acceptable matches from forms only
+      variants: uniq,     // normalized acceptable matches from forms only
+      maxVariantLength: Math.max(...uniq.map(v => normalizeLooseMatchText(v).length), 0)
     });
   });
 }
 
-function getMatchedWordCount() {
-  const fullNorm = normalizeLooseMatchText(finalizedTranscript);
+function getMatchedKeysFromTranscript(fullTextRaw) {
+  let remaining = normalizeLooseMatchText(fullTextRaw);
+  if (!remaining) return new Set();
 
-  return matchers.reduce((count, matcher) => {
-    const hit = matcher.variants.some(v => {
+  const matchedKeys = new Set();
+
+  // Longest match first so something like "petit-dejeuner" matches
+  // before the smaller "dejeuner" inside it. Each successful match
+  // consumes that text once, so one spoken chunk only counts once.
+  const sortedMatchers = [...matchers].sort((a, b) => {
+    if (b.maxVariantLength !== a.maxVariantLength) {
+      return b.maxVariantLength - a.maxVariantLength;
+    }
+    return a.key.localeCompare(b.key);
+  });
+
+  sortedMatchers.forEach(matcher => {
+    if (matchedKeys.has(matcher.key)) return;
+
+    const sortedVariants = [...matcher.variants].sort(
+      (a, b) => normalizeLooseMatchText(b).length - normalizeLooseMatchText(a).length
+    );
+
+    for (const v of sortedVariants) {
       const variantNorm = normalizeLooseMatchText(v);
-      return variantNorm && fullNorm.includes(variantNorm);
-    });
-    return count + (hit ? 1 : 0);
-  }, 0);
+      if (!variantNorm) continue;
+
+      const idx = remaining.indexOf(variantNorm);
+      if (idx === -1) continue;
+
+      matchedKeys.add(matcher.key);
+      remaining = remaining.slice(0, idx) + ' '.repeat(variantNorm.length) + remaining.slice(idx + variantNorm.length);
+      break;
+    }
+  });
+
+  return matchedKeys;
+}
+
+function getMatchedWordCount() {
+  return getMatchedKeysFromTranscript(finalizedTranscript).size;
 }
 
 function getFreeTalkScoreSummary() {
@@ -239,27 +271,17 @@ function saveFinalScore() {
 }
 
 function updateMatchesFromTranscript(fullTextRaw) {
-  const fullNorm = normalizeLooseMatchText(fullTextRaw);
+  const matchedKeys = getMatchedKeysFromTranscript(fullTextRaw);
 
   matchers.forEach(m => {
     const bubble = document.querySelector(`.wordBubble[data-word="${CSS.escape(m.key)}"]`);
     if (!bubble) return;
 
+    if (!matchedKeys.has(m.key)) return;
     if (bubble.classList.contains('matched')) return;
 
-    // FreeTalk matching is intentionally loose:
-    // - ignore spaces so CJK text matches naturally
-    // - allow substring-style matches so forms inside contractions
-    //   (for example "m'avais" containing "avais") can still count
-    const hit = m.variants.some(v => {
-      const variantNorm = normalizeLooseMatchText(v);
-      return variantNorm && fullNorm.includes(variantNorm);
-    });
-
-    if (hit) {
-      bubble.classList.add('matched');
-      ensureCheckmark(bubble);
-    }
+    bubble.classList.add('matched');
+    ensureCheckmark(bubble);
   });
 }
 
@@ -943,33 +965,45 @@ function renderLessonPrompt() {
 
 }
 
-// Helper: Build phrase list item with {word} substitution
 function buildPhraseListItem(phraseText, word) {
   const li = document.createElement('li');
   li.className = 'phrase-item tts-clickable';
 
   const phrase = String(phraseText || '');
-  // Store the full phrase for TTS (replace placeholder)
-  const fullPhraseForTTS = phrase.split('{word}').join(word);
+
+  // Support both:
+  // - {word} => insert the current topic word
+  // - {anythingElse} => underline that literal text without the braces
+  const fullPhraseForTTS = phrase.replace(/\{([^}]+)\}/g, (_, token) => {
+    return token === 'word' ? word : token;
+  });
+
   li.dataset.tts = fullPhraseForTTS;
   li.style.cursor = 'pointer';
 
-  // Click phrase to speak the full phrase
   li.addEventListener('click', () => {
     speakText(fullPhraseForTTS, selectedLang || lessonLang || localStorage.getItem('ctlanguage') || 'en-US');
   });
 
-  const parts = phrase.split('{word}');
+  let lastIndex = 0;
+  const tokenRegex = /\{([^}]+)\}/g;
+  let match;
 
-  parts.forEach((part, i) => {
-    if (part) li.appendChild(document.createTextNode(part));
-    if (i < parts.length - 1) {
-      const span = document.createElement('span');
-      span.className = 'phrase-word';
-      span.textContent = word;
-      li.appendChild(span);
-    }
-  });
+  while ((match = tokenRegex.exec(phrase)) !== null) {
+    const before = phrase.slice(lastIndex, match.index);
+    if (before) li.appendChild(document.createTextNode(before));
+
+    const token = match[1];
+    const span = document.createElement('span');
+    span.className = 'phrase-word';
+    span.textContent = token === 'word' ? word : token;
+    li.appendChild(span);
+
+    lastIndex = tokenRegex.lastIndex;
+  }
+
+  const after = phrase.slice(lastIndex);
+  if (after) li.appendChild(document.createTextNode(after));
 
   return li;
 }

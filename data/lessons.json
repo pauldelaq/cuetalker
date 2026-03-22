@@ -104,6 +104,16 @@
         "zh-CN": "自我介绍",
         "zh-TW": "自我介紹"
       }
+    },
+        {
+      "id": "DailyRoutine",
+      "name": {
+        "en-US": "Daily Routine",
+        "fr-FR": "Routine quotidienne",
+        "es-ES": "Rutina diaria",
+        "zh-CN": "日常生活",
+        "zh-TW": "日常生活"
+      }
     }
 
   ]

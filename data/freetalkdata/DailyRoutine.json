@@ -1,0 +1,200 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F9D1-1F3FC-200D-1F33E.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Daily Routine",
+      "lessonPrompt": {
+        "text": "What does a typical weekday look like for you? Please mention each of the topics below. Remember to use the present tense in your answer.",
+        "character": {
+          "name": "Ronald",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+            "word": "morning",
+            "forms": ["morning"],
+            "phrases": [
+                "in the {word}"
+            ]
+        },
+                {
+          "word": "wake up",
+          "forms": ["wake up"],
+          "phrases": [
+            "{word} at ...",
+            "{word} around ..."
+          ]
+        },
+        {
+          "word": "breakfast",
+          "forms": ["breakfast"],
+          "phrases": [
+            "eat {word}",
+            "have {word}"
+          ]
+        },
+        {
+          "word": "school / work",
+          "forms": ["school", "work"],
+          "phrases": [
+            "go to {word}",
+            "start {word}"
+          ]
+        },
+                {
+            "word": "afternoon",
+            "forms": ["afternoon"],
+            "phrases": [
+                "in the {word}"
+            ]
+        },
+        {
+          "word": "lunch",
+          "forms": ["lunch"],
+          "phrases": [
+            "eat {word}",
+            "have {word}",
+            "go out for {word}"
+          ]
+        },
+        {
+          "word": "home",
+          "forms": ["home"],
+          "phrases": [
+            "go {word}",
+            "return {word}",
+            "head {word}"
+          ]
+        },
+                {
+            "word": "evening",
+            "forms": ["evening"],
+            "phrases": [
+                "in the {word}"
+            ]
+        },
+        {
+          "word": "dinner",
+          "forms": ["dinner", "supper"],
+          "phrases": [
+            "have {word}",
+            "eat {word}"
+            ]
+        },
+        {
+          "word": "bed",
+          "forms": ["bed"],
+          "phrases": [
+            "go to {word}",
+            "{word}time"
+          ]
+        }
+      ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Routine quotidienne",
+      "lessonPrompt": {
+        "text": "À quoi ressemble une journée typique pour vous en semaine ? Veuillez mentionner chacun des éléments ci-dessous. Essayez d'utiliser le présent dans votre réponse.",
+        "character": {
+          "name": "Ronald",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "matin", "forms": ["matin"], "phrases": ["le {word}"] },
+        { "word": "se réveiller", "forms": ["réveille", "réveiller"], "phrases": ["je me {réveille} à ...", "je me {réveille} vers ..."] },
+        { "word": "petit-déjeuner", "forms": ["petit-déjeuner"], "phrases": ["prendre le {word}", "manger le {word}"] },
+        { "word": "travail / école", "forms": ["travail", "école"], "phrases": ["aller au {travail}", "commencer le {travail}", "aller a l'{école}", "commencer l'{école}"] },
+        { "word": "après-midi", "forms": ["après-midi"], "phrases": ["l'{word}"] },
+        { "word": "déjeuner", "forms": ["déjeuner"], "phrases": ["prendre le {word}", "manger le {word}"] },
+        { "word": "maison", "forms": ["maison"], "phrases": ["rentrer à la {word}", "retourner à la {word}"] },
+        { "word": "soir", "forms": ["soir"], "phrases": ["le {word}"] },
+        { "word": "dîner", "forms": ["dîner"], "phrases": ["prendre le {word}", "manger le {word}"] },
+        { "word": "lit", "forms": ["lit"], "phrases": ["aller au {word}"] }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Rutina diaria",
+      "lessonPrompt": {
+        "text": "¿Cómo es un día típico entre semana para ti? Por favor, menciona cada uno de los temas a continuación. Intenta usar el presente en tu respuesta.",
+        "character": {
+          "name": "Ronald",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "mañana", "forms": ["mañana"], "phrases": ["por la {word}"] },
+        { "word": "despertarse", "forms": ["despierto", "despertar"], "phrases": ["me {despierto} a las ...", "me {despierto} sobre las ..."] },
+        { "word": "desayuno", "forms": ["desayuno", "desayunar"], "phrases": ["tomar {word}", "desayunar"] },
+        { "word": "trabajo / escuela", "forms": ["trabajo", "escuela", "clases"], "phrases": ["ir al {trabajo}", "ir a la {escuela}", "empezar el {trabajo}", "empezar las {clases}"] },
+        { "word": "tarde", "forms": ["tarde"], "phrases": ["por la {word}"] },
+        { "word": "almuerzo", "forms": ["almuerzo", "almorzar"], "phrases": ["comer {word}", "almorzar"] },
+        { "word": "casa", "forms": ["casa"], "phrases": ["ir a {word}", "volver a {word}"] },
+        { "word": "noche", "forms": ["noche"], "phrases": ["por la {word}"] },
+        { "word": "cena", "forms": ["cena", "cenar"], "phrases": ["cenar", "comer {word}"] },
+        { "word": "cama", "forms": ["cama", "acuesto"], "phrases": ["ir a la {word}", "acuestar"] }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "日常生活",
+      "lessonPrompt": {
+        "text": "你平常的工作日是怎么度过的？请尽量提到下面每个方面。",
+        "character": {
+          "name": "Ronald",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "早上", "forms": ["早上"], "phrases": ["{word}"] },
+        { "word": "起床", "forms": ["起床"], "phrases": ["我...{word}", "我在...{word}"] },
+        { "word": "早餐", "forms": ["早餐"], "phrases": ["吃{word}", "吃{word}"] },
+        { "word": "工作 / 学校", "forms": ["工作", "学校", "上班", "上学"], "phrases": ["去{word}", "上班", "上学"] },
+        { "word": "下午", "forms": ["下午"], "phrases": ["{word}"] },
+        { "word": "午餐", "forms": ["午餐"], "phrases": ["吃{word}"] },
+        { "word": "家", "forms": ["家"], "phrases": ["回{word}", "回到{word}"] },
+        { "word": "晚上", "forms": ["晚上"], "phrases": ["{word}"] },
+        { "word": "晚餐", "forms": ["晚餐"], "phrases": ["吃{word}"] },
+        { "word": "睡觉", "forms": ["睡觉", "睡"], "phrases": ["去{word}"] }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "日常生活",
+      "lessonPrompt": {
+        "text": "你平常的工作日是怎麼度過的？請盡量提到下面每個方面。",
+        "character": {
+          "name": "Ronald",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "早上", "forms": ["早上"], "phrases": ["{word}"] },
+        { "word": "起床", "forms": ["起床"], "phrases": ["我...{word}", "我在...{word}"] },
+        { "word": "早餐", "forms": ["早餐"], "phrases": ["吃{word}"] },
+        { "word": "工作 / 學校", "forms": ["工作", "學校", "上班", "上學"], "phrases": ["去{word}", "上班", "上學"] },
+        { "word": "下午", "forms": ["下午"], "phrases": ["{word}"] },
+        { "word": "午餐", "forms": ["午餐"], "phrases": ["吃{word}"] },
+        { "word": "家", "forms": ["家"], "phrases": ["回{word}", "回到{word}"] },
+        { "word": "晚上", "forms": ["晚上"], "phrases": ["{word}"] },
+        { "word": "晚餐", "forms": ["晚餐"], "phrases": ["吃{word}"] },
+        { "word": "睡覺", "forms": ["睡覺", "睡"], "phrases": ["去{word}"] }
+      ]
+    }
+  }
+}
