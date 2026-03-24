@@ -46,11 +46,174 @@ let transcriber = null;
 let finalizedTranscript = '';      // full session transcript for matching
 let displayTranscript = '';        // visible transcript window only
 let matchers = []; // compiled matchers from wordListData
+let recordedAudioUrl = null;
+let recordedAudioFilename = '';
+let mediaRecorder = null;
+let recordedChunks = [];
+let recordingMimeType = '';
 
 const TELEPROMPTER_OVERFLOW_TOLERANCE_PX = 1;
 
 function getLiveTranscriptEl() {
   return document.getElementById('liveTranscript');
+}
+
+function getRecordingDownloadContainer() {
+  return document.getElementById('recordingDownloadContainer');
+}
+
+function clearRecordingDownloadLink() {
+  const container = getRecordingDownloadContainer();
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  if (recordedAudioUrl) {
+    try { URL.revokeObjectURL(recordedAudioUrl); } catch (_) {}
+    recordedAudioUrl = null;
+  }
+
+  recordedAudioFilename = '';
+}
+
+function getRecordingExtensionForMimeType(mimeType = '') {
+  const mime = String(mimeType || '').toLowerCase();
+  if (mime.includes('ogg')) return 'ogg';
+  if (mime.includes('mp4')) return 'mp4';
+  if (mime.includes('mpeg')) return 'mp3';
+  return 'webm';
+}
+
+function buildRecordingFilename() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const lessonId = urlParams.get('lesson') || 'freetalk';
+  const now = new Date();
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+  const ext = getRecordingExtensionForMimeType(recordingMimeType);
+
+  return `${lessonId}-test-recording-${stamp}.${ext}`;
+}
+
+function showRecordingDownloadLink(url, filename) {
+  const container = getRecordingDownloadContainer();
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename || 'freetalk-recording.webm';
+  link.textContent = 'Download recording';
+  link.className = 'recording-download-link';
+
+  container.appendChild(link);
+}
+
+function setRecordingDownloadLinkFromBlob(blob) {
+  if (!blob) return;
+
+  clearRecordingDownloadLink();
+
+  recordedAudioFilename = buildRecordingFilename();
+  recordedAudioUrl = URL.createObjectURL(blob);
+  showRecordingDownloadLink(recordedAudioUrl, recordedAudioFilename);
+}
+
+function getSupportedRecordingMimeType() {
+  if (typeof MediaRecorder === 'undefined') return '';
+
+  const candidates = [
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/ogg;codecs=opus',
+    'audio/ogg',
+    'audio/mp4'
+  ];
+
+  for (const type of candidates) {
+    try {
+      if (MediaRecorder.isTypeSupported(type)) return type;
+    } catch (_) {}
+  }
+
+  return '';
+}
+
+function startTestModeRecording() {
+  if (currentMode !== 'test') return;
+  if (!micStream) return;
+  if (typeof MediaRecorder === 'undefined') {
+    console.warn('[FreeTalk] MediaRecorder is not available in this browser.');
+    return;
+  }
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') return;
+
+  recordedChunks = [];
+  recordingMimeType = getSupportedRecordingMimeType();
+
+  let recorder;
+  try {
+    recorder = recordingMimeType
+      ? new MediaRecorder(micStream, { mimeType: recordingMimeType })
+      : new MediaRecorder(micStream);
+  } catch (err) {
+    console.warn('[FreeTalk] Could not start test-mode recording:', err);
+    mediaRecorder = null;
+    recordedChunks = [];
+    recordingMimeType = '';
+    return;
+  }
+
+  mediaRecorder = recorder;
+  recordingMimeType = recorder.mimeType || recordingMimeType || '';
+
+  recorder.ondataavailable = (event) => {
+    if (event.data && event.data.size > 0) {
+      recordedChunks.push(event.data);
+    }
+  };
+
+  recorder.onstop = () => {
+    const chunks = recordedChunks.slice();
+    const mimeType = recordingMimeType || recorder.mimeType || 'audio/webm';
+
+    mediaRecorder = null;
+    recordedChunks = [];
+    recordingMimeType = mimeType;
+
+    if (!chunks.length) return;
+
+    const blob = new Blob(chunks, { type: mimeType });
+    setRecordingDownloadLinkFromBlob(blob);
+  };
+
+  recorder.onerror = (event) => {
+    console.warn('[FreeTalk] Recording error:', event);
+  };
+
+  try {
+    recorder.start();
+    console.log('[FreeTalk] Test-mode recording started:', recordingMimeType || '(browser default)');
+  } catch (err) {
+    console.warn('[FreeTalk] Recorder.start() failed:', err);
+    mediaRecorder = null;
+    recordedChunks = [];
+    recordingMimeType = '';
+  }
+}
+
+function stopTestModeRecording() {
+  if (!mediaRecorder) return;
+  if (mediaRecorder.state === 'inactive') return;
+
+  try {
+    mediaRecorder.stop();
+    console.log('[FreeTalk] Test-mode recording stopped.');
+  } catch (err) {
+    console.warn('[FreeTalk] Recorder.stop() failed:', err);
+  }
 }
 
 function isTranscriptOverflowing() {
@@ -224,6 +387,7 @@ function getFreeTalkScoreSummary() {
 function displayFinalScore() {
   const transcriptEl = document.getElementById('liveTranscript');
   if (!transcriptEl) return;
+  clearRecordingDownloadLink();
 
   const { scoreString } = getFreeTalkScoreSummary();
 
@@ -650,11 +814,13 @@ function beginFreeTalkSession() {
   lockModeSelector(true);
 
   finalizedTranscript = '';
+  clearRecordingDownloadLink();
   clearTranscriptUI();
   resetWordMatchesUI();
   compileMatchers();
   startMicSession().then(() => {
     if (!isSessionActive) return;
+    if (currentMode === 'test') startTestModeRecording();
     startFreeTalkRecognition({ resetAll: false, targetBtnId: RECORD_BUTTON_ID });
     isRecording = true;
     updateFooterIcons();
@@ -676,7 +842,10 @@ function endFreeTalkSession() {
   if (currentMode === 'test') {
     displayFinalScore();
     saveFinalScore();
+    stopTestModeRecording();
   } else {
+    stopTestModeRecording();
+    clearRecordingDownloadLink();
     clearTranscriptUI();
   }
 
@@ -1324,6 +1493,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('beforeunload', () => {
+  clearRecordingDownloadLink();
   micIsMuted = true;
   stopVolumeMonitoring();
   if (audioContext) {
