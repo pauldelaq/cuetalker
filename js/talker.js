@@ -1741,6 +1741,10 @@ document.addEventListener('click', (e) => {
   const item = conversation.find(entry => entry.id === id);
   if (!item || !item.text) return;
 
+  const spokenText = item.text.includes('((')
+    ? extractDisplayAndVariants(item.text).display
+    : item.text;
+
   const svg = avatar.querySelector('.svg-avatar');
   if (svg) {
     svg.classList.add('rotate-shake');
@@ -1751,7 +1755,7 @@ document.addEventListener('click', (e) => {
 
   if (isSpeaking) skipCurrentSpeechAndShowHint(); // ✅ new
 
-  speakText(item.text);
+  speakText(spokenText);
 });
 
 document.querySelectorAll('.circle-btn').forEach(button => {
