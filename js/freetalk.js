@@ -51,6 +51,10 @@ let recordedAudioFilename = '';
 let mediaRecorder = null;
 let recordedChunks = [];
 let recordingMimeType = '';
+let recordingAudioContext = null;
+let recordingSourceNode = null;
+let recordingGainNode = null;
+let recordingDestination = null;
 
 const TELEPROMPTER_OVERFLOW_TOLERANCE_PX = 1;
 
@@ -62,11 +66,17 @@ function getRecordingDownloadContainer() {
   return document.getElementById('recordingDownloadContainer');
 }
 
-function clearRecordingDownloadLink() {
-  const container = getRecordingDownloadContainer();
-  if (!container) return;
+function getRecordingDownloadLinkEl() {
+  return document.getElementById('recordingDownloadLink');
+}
 
-  container.innerHTML = '';
+function clearRecordingDownloadLink() {
+  const link = getRecordingDownloadLinkEl();
+  if (link) {
+    link.style.display = 'none';
+    link.removeAttribute('href');
+    link.removeAttribute('download');
+  }
 
   if (recordedAudioUrl) {
     try { URL.revokeObjectURL(recordedAudioUrl); } catch (_) {}
@@ -97,18 +107,12 @@ function buildRecordingFilename() {
 }
 
 function showRecordingDownloadLink(url, filename) {
-  const container = getRecordingDownloadContainer();
-  if (!container) return;
+  const link = getRecordingDownloadLinkEl();
+  if (!link) return;
 
-  container.innerHTML = '';
-
-  const link = document.createElement('a');
   link.href = url;
   link.download = filename || 'freetalk-recording.webm';
-  link.textContent = 'Download recording';
-  link.className = 'recording-download-link';
-
-  container.appendChild(link);
+  link.style.display = '';
 }
 
 function setRecordingDownloadLinkFromBlob(blob) {
@@ -141,6 +145,57 @@ function getSupportedRecordingMimeType() {
   return '';
 }
 
+function teardownTestModeRecordingGraph() {
+  try { recordingSourceNode?.disconnect(); } catch (_) {}
+  try { recordingGainNode?.disconnect(); } catch (_) {}
+
+  recordingSourceNode = null;
+  recordingGainNode = null;
+  recordingDestination = null;
+
+  if (recordingAudioContext) {
+    try { recordingAudioContext.close(); } catch (_) {}
+    recordingAudioContext = null;
+  }
+}
+
+function setupTestModeRecordingGraph() {
+  if (!micStream) return null;
+
+  teardownTestModeRecordingGraph();
+
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) {
+    console.warn('[FreeTalk] AudioContext is not available for processed recording.');
+    return null;
+  }
+
+  try {
+    recordingAudioContext = new Ctx();
+    recordingSourceNode = recordingAudioContext.createMediaStreamSource(micStream);
+    recordingGainNode = recordingAudioContext.createGain();
+    recordingDestination = recordingAudioContext.createMediaStreamDestination();
+
+    recordingGainNode.gain.value = micIsMuted ? 0 : 1;
+
+    recordingSourceNode.connect(recordingGainNode);
+    recordingGainNode.connect(recordingDestination);
+
+    return recordingDestination.stream;
+  } catch (err) {
+    console.warn('[FreeTalk] Could not set up test-mode recording graph:', err);
+    teardownTestModeRecordingGraph();
+    return null;
+  }
+}
+
+function setTestModeRecordingMuted(muted) {
+  if (!recordingGainNode) return;
+  try {
+    recordingGainNode.gain.value = muted ? 0 : 1;
+  } catch (_) {}
+}
+
 function startTestModeRecording() {
   if (currentMode !== 'test') return;
   if (!micStream) return;
@@ -150,24 +205,29 @@ function startTestModeRecording() {
   }
   if (mediaRecorder && mediaRecorder.state !== 'inactive') return;
 
+  const recordingStream = setupTestModeRecordingGraph();
+  if (!recordingStream) return;
+
   recordedChunks = [];
   recordingMimeType = getSupportedRecordingMimeType();
 
   let recorder;
   try {
     recorder = recordingMimeType
-      ? new MediaRecorder(micStream, { mimeType: recordingMimeType })
-      : new MediaRecorder(micStream);
+      ? new MediaRecorder(recordingStream, { mimeType: recordingMimeType })
+      : new MediaRecorder(recordingStream);
   } catch (err) {
     console.warn('[FreeTalk] Could not start test-mode recording:', err);
     mediaRecorder = null;
     recordedChunks = [];
     recordingMimeType = '';
+    teardownTestModeRecordingGraph();
     return;
   }
 
   mediaRecorder = recorder;
   recordingMimeType = recorder.mimeType || recordingMimeType || '';
+  setTestModeRecordingMuted(micIsMuted);
 
   recorder.ondataavailable = (event) => {
     if (event.data && event.data.size > 0) {
@@ -182,6 +242,7 @@ function startTestModeRecording() {
     mediaRecorder = null;
     recordedChunks = [];
     recordingMimeType = mimeType;
+    teardownTestModeRecordingGraph();
 
     if (!chunks.length) return;
 
@@ -201,18 +262,26 @@ function startTestModeRecording() {
     mediaRecorder = null;
     recordedChunks = [];
     recordingMimeType = '';
+    teardownTestModeRecordingGraph();
   }
 }
 
 function stopTestModeRecording() {
-  if (!mediaRecorder) return;
-  if (mediaRecorder.state === 'inactive') return;
+  if (!mediaRecorder) {
+    teardownTestModeRecordingGraph();
+    return;
+  }
+  if (mediaRecorder.state === 'inactive') {
+    teardownTestModeRecordingGraph();
+    return;
+  }
 
   try {
     mediaRecorder.stop();
     console.log('[FreeTalk] Test-mode recording stopped.');
   } catch (err) {
     console.warn('[FreeTalk] Recorder.stop() failed:', err);
+    teardownTestModeRecordingGraph();
   }
 }
 
@@ -472,12 +541,14 @@ function ensureRecordMicButton() {
       stopFreeTalkRecognition();
       isRecording = false;
       micIsMuted = true;
+      setTestModeRecordingMuted(true);
       updateFooterIcons();
       return;
     }
 
     await startMicSession();
     micIsMuted = false;
+    setTestModeRecordingMuted(false);
     startFreeTalkRecognition({ resetAll: false, targetBtnId: RECORD_BUTTON_ID });
     isRecording = true;
     updateFooterIcons();
@@ -851,6 +922,7 @@ function endFreeTalkSession() {
 
   isSessionActive = false;
   micIsMuted = true;
+  setTestModeRecordingMuted(true);
 
   showRecordMicButton(false);
 
@@ -992,7 +1064,7 @@ function loadTalkerTranslations() {
 
 function applyTalkerTranslations() {
   const lang = getLangKey(localStorage.getItem('ctlanguage'));
-  const t = talkerTranslations[lang] || talkerTranslations['en'];
+  const t = talkerTranslations[lang] || talkerTranslations['en-US'];
 
   // Settings menu (guarded for pages that don't include every control)
   const settingsTitle = document.querySelector('#settingsMenu h2');
@@ -1023,6 +1095,11 @@ function applyTalkerTranslations() {
   if (modeLabels.length >= 2) {
     if (modeLabels[0].lastChild) modeLabels[0].lastChild.nodeValue = ` ${t.modeTest}`;
     if (modeLabels[1].lastChild) modeLabels[1].lastChild.nodeValue = ` ${t.modePractice}`;
+  }
+
+  const recordingDownloadLink = getRecordingDownloadLinkEl();
+  if (recordingDownloadLink) {
+    recordingDownloadLink.textContent = t.downloadRecording || 'Download recording';
   }
 }
 
@@ -1496,6 +1573,7 @@ window.addEventListener('beforeunload', () => {
   clearRecordingDownloadLink();
   micIsMuted = true;
   stopVolumeMonitoring();
+  teardownTestModeRecordingGraph();
   if (audioContext) {
     try { audioContext.close(); } catch (_) {}
     audioContext = null;

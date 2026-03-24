@@ -10,7 +10,8 @@
     "modeTest": "Test Mode",
     "modePractice": "Practice Mode",
     "listening": "[Listening...]",
-    "recordingDisabled": "[Click the microphone to practice]"
+    "recordingDisabled": "[Click the microphone to practice]",
+    "downloadRecording": "Download recording"
   },
   "fr-FR": {
     "settings": "Paramètres",
@@ -23,7 +24,8 @@
     "modeTest": "Mode Test",
     "modePractice": "Mode Pratique",
     "listening": "[Écoute...]",
-    "recordingDisabled": "[Cliquez sur le micro pour pratiquer]"
+    "recordingDisabled": "[Cliquez sur le micro pour pratiquer]",
+    "downloadRecording": "Télécharger l'enregistrement"
   },
   "es-ES": {
     "settings": "Configuración",
@@ -36,7 +38,9 @@
     "modeTest": "Modo de prueba",
     "modePractice": "Modo de práctica",
     "listening": "[Escuchando...]",
-    "recordingDisabled": "[Haz clic en el micrófono para practicar]"  },
+    "recordingDisabled": "[Haz clic en el micrófono para practicar]",
+    "downloadRecording": "Descargar grabación"
+  },
   "zh-TW": {
     "settings": "設定",
     "voice": "語音：",
@@ -48,7 +52,8 @@
     "modeTest": "測驗模式",
     "modePractice": "練習模式",
     "listening": "[正在聆聽...]",
-    "recordingDisabled": "[點擊麥克風來練習]"
+    "recordingDisabled": "[點擊麥克風來練習]",
+    "downloadRecording": "下載錄音"
     },
   "zh-CN": {
     "settings": "设置",
@@ -61,6 +66,7 @@
     "modeTest": "测试模式",
     "modePractice": "练习模式",
     "listening": "[正在聆听...]",
-    "recordingDisabled": "[点击麦克风练习]"
+    "recordingDisabled": "[点击麦克风练习]",
+    "downloadRecording": "下载录音"
     }
 }

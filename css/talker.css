@@ -723,6 +723,16 @@ input#autoAdvanceToggle {
 }
 
 .recording-download-link {
-  position: absolute;
-  left: 2em;
+    position: absolute;
+    left: 42px;
+    bottom: 1.25em;
+}
+
+@media (max-width: 480px) {
+  .recording-download-link {
+      position: absolute;
+      left: 42px;
+      width: 14em;
+      bottom: 10px;
+  }
 }
