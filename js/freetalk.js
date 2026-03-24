@@ -307,11 +307,13 @@ function ensureRecordMicButton() {
     if (isRecording) {
       stopFreeTalkRecognition();
       isRecording = false;
+      micIsMuted = true;
       updateFooterIcons();
       return;
     }
 
     await startMicSession();
+    micIsMuted = false;
     startFreeTalkRecognition({ resetAll: false, targetBtnId: RECORD_BUTTON_ID });
     isRecording = true;
     updateFooterIcons();
@@ -512,6 +514,10 @@ function stopFreeTalkRecognition() {
     }
   }
   displayTranscript = displayTranscript.trim();
+  const glowBtn =
+    document.getElementById(volumeGlowTargetId) ||
+    document.getElementById('micButton');
+  if (glowBtn) glowBtn.style.boxShadow = 'none';
 }
 
 function ensureTimerDisplay() {
