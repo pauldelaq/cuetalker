@@ -94,16 +94,23 @@ function getRecordingExtensionForMimeType(mimeType = '') {
   return 'webm';
 }
 
+function sanitizeFilename(str) {
+  return String(str || '')
+    .replace(/[<>:"/\\|?*]+/g, '') // remove illegal filename chars
+    .trim();
+}
+
 function buildRecordingFilename() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const lessonId = urlParams.get('lesson') || 'freetalk';
   const now = new Date();
 
   const pad = (n) => String(n).padStart(2, '0');
-  const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+  const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+
+  const lessonName = sanitizeFilename(freetalkLangData?.lessonName) || 'freetalk';
+
   const ext = getRecordingExtensionForMimeType(recordingMimeType);
 
-  return `${lessonId}-test-recording-${stamp}.${ext}`;
+  return `${lessonName} - ${stamp}.${ext}`;
 }
 
 function showRecordingDownloadLink(url, filename) {

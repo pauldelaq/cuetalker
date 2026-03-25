@@ -1,0 +1,169 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F9D1-1F3FB-200D-1F393.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Personal Experiences",
+      "lessonPrompt": {
+        "text": "Have you had the following experiences? Comment on each experience. If you have, how was it? If not, would you like to try it? Remember to use the present perfect tense in your answer.",
+        "character": {
+          "name": "Noam",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+            "word": "eat an expensive meal",
+            "forms": ["have eaten an expensive meal", "I've eaten an expensive meal","haven't eaten an expensive meal", "have not eaten an expensive meal", "have never eaten an expensive meal", "I've never eaten an expensive meal"],
+            "phrases": [
+                "{eat} / ate / eaten / eating"
+            ]
+        },
+                {
+          "word": "lose something important",
+          "forms": ["have lost something important", "I've lost something important", "have not lost something important", "haven't lost something important", "I have never lost something important", "I've never lost something important"],
+          "phrases": [
+            "{lose} / lost / lost / losing"
+          ]
+        },
+        {
+          "word": "meet a celebrity",
+          "forms": ["have met a celebrity", "haven't met a celebrity", "have not met a celebrity", "have never met a celebrity"],
+          "phrases": [
+            "{meet} / met / met / meeting"
+          ]
+        },
+        {
+          "word": "fly in a helicopter",
+          "forms": ["have flown in a helicopter", "I've flown in a helicopter", "have not flown in a helicopter", "haven't flown in a helicopter", "have never flown in a helicopter", "I've never flown in a helicopter"],
+          "phrases": [
+            "{fly} / flew / flown / flying"
+          ]
+        },
+        {
+            "word": "write a story",
+            "forms": ["have written a story", "have not written a story", "haven't written a story", "have never written a story"],
+            "phrases": [
+                "{write} / wrote / written / writing"
+            ]
+        },
+        {
+          "word": "ride a tiger",
+          "forms": ["have ridden a tiger", "I've ridden a tiger", "have not ridden a tiger", "haven't ridden a tiger", "have never ridden a tiger", "I've never ridden a tiger"],
+          "phrases": [
+            "{ride} / rode / ridden / riding"
+          ]
+        },
+        {
+          "word": "win a prize",
+          "forms": ["have won a prize", "have not won a prize", "haven't won a prize", "have never won a prize"],
+          "phrases": [
+            "{win} / won / won / winning"
+          ]
+        },
+        {
+            "word": "go to a foreign country",
+            "forms": ["I have gone to a foreign country", "I've gone to a foreign country", "I have not gone to a foreign country", "I've not gone to a foreign country", "I have never gone to a foreign country", "I've never gone to a foreign country"],
+            "phrases": [
+                "{go} / went / gone / going"
+            ]
+        }
+      ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Expériences personnelles",
+      "lessonPrompt": {
+        "text": "Avez-vous déjà vécu les expériences suivantes ? Commentez chaque expérience. Si oui, comment c'était ? Sinon, aimeriez-vous essayer ? Essayez d'utiliser le passé composé dans votre réponse.",
+        "character": {
+          "name": "Noam",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "manger un repas cher", "forms": ["ai mangé un repas", "j'ai mangé un repas", "n'ai pas mangé un repas", "je n'ai pas mangé un repas", "n'ai jamais mangé un repas", "je n'ai jamais mangé un repas"], "phrases": ["{manger} / mangé"] },
+        { "word": "perdre quelque chose d'important", "forms": ["ai perdu quelque chose d'important", "j'ai perdu quelque chose d'important", "n'ai pas perdu quelque chose d'important", "je n'ai pas perdu quelque chose d'important", "n'ai jamais perdu quelque chose d'important", "je n'ai jamais perdu quelque chose d'important"], "phrases": ["{perdre} / perdu"] },
+        { "word": "rencontrer une célébrité", "forms": ["ai rencontré une célébrité", "n'ai pas rencontré une célébrité", "je n'ai pas rencontré une célébrité", "n'ai jamais rencontré une célébrité"], "phrases": ["{rencontrer} / rencontré"] },
+        { "word": "voler en hélicoptère", "forms": ["ai volé en hélicoptère", "n'ai pas volé en hélicoptère", "je n'ai pas volé en hélicoptère", "n'ai jamais volé en hélicoptère"], "phrases": ["{voler} / volé"] },
+        { "word": "écrire une histoire", "forms": ["ai écrit une histoire", "n'ai pas écrit une histoire", "je n'ai pas écrit une histoire", "n'ai jamais écrit une histoire"], "phrases": ["{écrire} / écrit"] },
+        { "word": "monter un tigre", "forms": ["ai monté un tigre", "n'ai pas monté un tigre", "je n'ai pas monté un tigre", "n'ai jamais monté un tigre"], "phrases": ["{monter} / monté"] },
+        { "word": "gagner un prix", "forms": ["ai gagné un prix", "n'ai pas gagné un prix", "je n'ai pas gagné un prix", "n'ai jamais gagné un prix"], "phrases": ["{gagner} / gagné"] },
+        { "word": "aller dans un pays étranger", "forms": ["suis allé dans un pays étranger", "je suis allé dans un pays étranger", "ne suis pas allé dans un pays étranger", "je ne suis pas allé dans un pays étranger", "ne suis jamais allé dans un pays étranger", "je ne suis jamais allé dans un pays étranger"], "phrases": ["{aller} / allé"] }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Experiencias personales",
+      "lessonPrompt": {
+        "text": "¿Has tenido las siguientes experiencias? Comenta cada una. Si sí, ¿cómo fue? Si no, ¿te gustaría intentarlo? Intenta usar el pretérito perfecto en tu respuesta.",
+        "character": {
+          "name": "Noam",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "comer una comida cara", "forms": ["he comido una comida cara", "no he comido una comida cara", "nunca he comido una comida cara"], "phrases": ["{comer} / comido"] },
+        { "word": "perder algo importante", "forms": ["he perdido algo importante", "no he perdido algo importante", "nunca he perdido algo importante"], "phrases": ["{perder} / perdido"] },
+        { "word": "conocer a una celebridad", "forms": ["he conocido a una celebridad", "no he conocido a una celebridad", "nunca he conocido a una celebridad"], "phrases": ["{conocer} / conocido"] },
+        { "word": "volar en helicóptero", "forms": ["he volado en helicóptero", "no he volado en helicóptero", "nunca he volado en helicóptero"], "phrases": ["{volar} / volado"] },
+        { "word": "escribir una historia", "forms": ["he escrito una historia", "no he escrito una historia", "nunca he escrito una historia"], "phrases": ["{escribir} / escrito"] },
+        { "word": "montar un tigre", "forms": ["he montado un tigre", "no he montado un tigre", "nunca he montado un tigre"], "phrases": ["{montar} / montado"] },
+        { "word": "ganar un premio", "forms": ["he ganado un premio", "no he ganado un premio", "nunca he ganado un premio"], "phrases": ["{ganar} / ganado"] },
+        { "word": "ir a un país extranjero", "forms": ["he ido a un país extranjero", "no he ido a un país extranjero", "nunca he ido a un país extranjero"], "phrases": ["{ir} / ido"] }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "个人经历",
+      "lessonPrompt": {
+        "text": "你有没有过下面这些经历？请逐一说明。如果有，是怎么样的？如果没有，你想试试吗？",
+        "character": {
+          "name": "Noam",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "吃一顿很贵的饭", "forms": ["吃过一顿很贵的饭", "没吃过一顿很贵的饭", "没有吃过一顿很贵的饭", "从没吃过一顿很贵的饭", "从来没吃过一顿很贵的饭"], "phrases": ["{吃}"] },
+        { "word": "丢了重要的东西", "forms": ["丢过重要的东西", "没丢过重要的东西", "没有丢过重要的东西", "从没丢过重要的东西", "从来没丢过重要的东西"], "phrases": ["{丢}"] },
+        { "word": "见名人", "forms": ["见过名人", "没见过名人", "没有见过名人", "从没见过名人", "从来没见过名人"], "phrases": ["{见}"] },
+        { "word": "坐直升机", "forms": ["坐过直升机", "没坐过直升机", "没有坐过直升机", "从没坐过直升机", "从来没坐过直升机", "做过直升机", "没做过直升机", "没有做过直升机", "从没做过直升机", "从来没做过直升机"], "phrases": ["{坐}"] },
+        { "word": "写故事", "forms": ["写过故事", "没写过故事", "没有写过故事", "从没写过故事", "从来没写过故事"], "phrases": ["{写}"] },
+        { "word": "骑老虎", "forms": ["骑过老虎", "没骑过老虎", "没有骑过老虎", "从没骑过老虎", "从来没骑过老虎"], "phrases": ["{骑}"] },
+        { "word": "赢奖", "forms": ["赢过奖", "没赢过奖", "没有赢过奖", "从没赢过奖", "从来没赢过奖"], "phrases": ["{赢}"] },
+        { "word": "去外国", "forms": ["去过外国", "没去过外国", "没有去过外国", "从没去过外国", "从来没去过外国"], "phrases": ["{去}"] }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "個人經驗",
+      "lessonPrompt": {
+        "text": "你有沒有過下面這些經驗？請逐一說明。如果有，是怎麼樣的？如果沒有，你會想試試嗎？",
+        "character": {
+          "name": "Noam",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "吃一頓很貴的飯", "forms": ["吃過一頓很貴的飯", "沒吃過一頓很貴的飯", "沒有吃過一頓很貴的飯", "從沒吃過一頓很貴的飯", "從來沒吃過一頓很貴的飯"], "phrases": ["{吃}"] },
+        { "word": "弄丟重要的東西", "forms": ["弄丟過重要的東西", "沒弄丟過重要的東西", "沒有弄丟過重要的東西", "從沒弄丟過重要的東西", "從來沒弄丟過重要的東西"], "phrases": ["{弄丟}"] },
+        { "word": "見名人", "forms": ["見過名人", "沒見過名人", "沒有見過名人", "從沒見過名人", "從來沒見過名人"], "phrases": ["{見}"] },
+        { "word": "坐直升機", "forms": ["坐過直升機", "沒坐過直升機", "沒有坐過直升機", "從沒坐過直升機", "從來沒坐過直升機", "做過直升機", "沒做過直升機", "沒有做過直升機", "從沒做過直升機", "從來沒做過直升機"], "phrases": ["{坐}"] },
+        { "word": "寫故事", "forms": ["寫過故事", "沒寫過故事", "沒有寫過故事", "從沒寫過故事", "從來沒寫過故事"], "phrases": ["{寫}"] },
+        { "word": "騎老虎", "forms": ["騎過老虎", "沒騎過老虎", "沒有騎過老虎", "從沒騎過老虎", "從來沒騎過老虎"], "phrases": ["{騎}"] },
+        { "word": "贏獎", "forms": ["贏過獎", "沒贏過獎", "沒有贏過獎", "從沒贏過獎", "從來沒贏過獎"], "phrases": ["{贏}"] },
+        { "word": "去國外", "forms": ["去過國外", "沒去過國外", "沒有去過國外", "從沒去過國外", "從來沒去過國外"], "phrases": ["{去}"] }
+      ]
+    }
+  }
+}

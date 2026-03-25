@@ -24,8 +24,8 @@
       "id": "MissedTrain",
       "name": {
         "en-US": "Missing the Train",
-        "fr-FR": "Rater le Train",
-        "es-ES": "Perdiendo el Tren",
+        "fr-FR": "Rater le train",
+        "es-ES": "Perdiendo el tren",
         "zh-CN": "错过火车",
         "zh-TW": "錯過火車"
       }
@@ -34,8 +34,8 @@
       "id": "FirstTimeMeeting",
       "name": {
         "en-US": "First Time Meeting",
-        "fr-FR": "Première Rencontre",
-        "es-ES": "Primera Reunión",
+        "fr-FR": "Première rencontre",
+        "es-ES": "Primera reunión",
         "zh-CN": "第一次见面",
         "zh-TW": "第一次見面"
       }
@@ -44,8 +44,8 @@
       "id": "Wishes",
       "name": {
         "en-US": "Three Wishes",
-        "fr-FR": "Trois Souhaits",
-        "es-ES": "Tres Deseos",
+        "fr-FR": "Trois souhaits",
+        "es-ES": "Tres deseos",
         "zh-CN": "三个愿望",
         "zh-TW": "三個願望"
       }
@@ -105,7 +105,7 @@
         "zh-TW": "自我介紹"
       }
     },
-        {
+    {
       "id": "DailyRoutine",
       "name": {
         "en-US": "Daily Routine",
@@ -113,6 +113,16 @@
         "es-ES": "Rutina diaria",
         "zh-CN": "日常生活",
         "zh-TW": "日常生活"
+      }
+    },
+        {
+      "id": "PersonalExperiences",
+      "name": {
+        "en-US": "Personal Experiences",
+        "fr-FR": "Expériences personnelles",
+        "es-ES": "Experiencias personales",
+        "zh-CN": "个人经历",
+        "zh-TW": "個人經驗"
       }
     }
 
