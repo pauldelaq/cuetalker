@@ -1,0 +1,195 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F575-1F3FB.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Story for the Detective",
+      "lessonPrompt": {
+        "text": "Excuse me, I need to ask you some questions for a case I'm working on. Please tell me what you were doing yesterday. Use the time words and vocabulary provided. Remember to use the past continuous tense in your answer.",
+        "character": {
+          "name": "Sherlock",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+            "word": "morning",
+            "forms": ["morning"],
+            "phrases": [
+                "in the {word}"
+            ]
+        },
+                {
+          "word": "sleep",
+          "forms": ["was sleeping"],
+          "phrases": [
+            "{word} / slept / slept / sleeping"
+          ]
+        },
+        {
+          "word": "11:00 a.m.",
+          "forms": ["eleven am", "eleven o'clock", "11 am", "11 o'clock"],
+          "phrases": [
+            "... a.m.",
+            "... o'clock"
+          ]
+        },
+        {
+          "word": "noon",
+          "forms": ["at noon"],
+          "phrases": [
+            "at ..."
+          ]
+        },
+        {
+          "word": "lunch",
+          "forms": ["was eating lunch", "was having lunch"],
+          "phrases": [
+            "eat {word}",
+            "have {word}"
+          ]
+        },
+        {
+            "word": "afternoon",
+            "forms": ["afternoon"],
+            "phrases": [
+                "in the {word}"
+            ]
+        },
+        {
+          "word": "2:00 p.m.",
+          "forms": ["two pm", "two o'clock", "2 pm", "2 o'clock"],
+          "phrases": [
+            "... a.m.",
+            "... o'clock"
+            ]
+        },
+        {
+            "word": "tea",
+            "forms": ["was drinking tea", "was having tea"],
+            "phrases": [
+                "drink {word}",
+                "have {word}"
+            ]
+        },
+        {
+          "word": "evening",
+          "forms": ["evening"],
+          "phrases": [
+            "in the {word}"
+            ]
+        },
+        {
+          "word": "visit a friend",
+          "forms": ["was visiting a friend"],
+          "phrases": [
+            "{word} / visited / visited / visiting"
+          ]
+        }
+      ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Histoire pour le détective",
+      "lessonPrompt": {
+        "text": "Excusez-moi, je dois vous poser quelques questions pour une affaire. Dites-moi ce que vous faisiez hier. Utilisez les indications de temps et le vocabulaire fournis. N'oubliez pas d'utiliser l'imparfait dans votre réponse.",
+        "character": {
+          "name": "Sherlock",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "matin", "forms": ["le matin", "du matin"], "phrases": ["le {word}", "... heures ... du {word}"] },
+        { "word": "dormir", "forms": ["je dormais"], "phrases": ["{word} / dormi / dormant"] },
+        { "word": "11h00", "forms": ["onze heures", "11 heures", "11h"], "phrases": ["... heures"] },
+        { "word": "midi", "forms": ["à midi"], "phrases": ["à ..."] },
+        { "word": "déjeuner", "forms": ["je déjeunais"], "phrases": ["prendre le {word}"] },
+        { "word": "après-midi", "forms": ["l'après-midi", "de l'après-midi"], "phrases": ["l'{word}", "de l'{word}"] },
+        { "word": "14h00", "forms": ["quatorze heures", "14h", "2 heures", "2h"], "phrases": ["... heures"] },
+        { "word": "thé", "forms": ["je buvais du thé"], "phrases": ["boire du {word}"] },
+        { "word": "soir", "forms": ["le soir", "du soir"], "phrases": ["le {word}", "du {word}"] },
+        { "word": "rendre visite à un ami", "forms": ["je rendais visite à un ami"], "phrases": ["{word}"] }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Historia para el detective",
+      "lessonPrompt": {
+        "text": "Disculpe, necesito hacerle unas preguntas para un caso en el que estoy trabajando. Dígame qué estaba haciendo ayer. Use las expresiones de tiempo y el vocabulario proporcionados. Recuerde usar el pretérito imperfecto en su respuesta.",
+        "character": {
+          "name": "Sherlock",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "mañana", "forms": ["por la mañana", "de la mañana"], "phrases": ["por la {word}", "a las ... de la {word}"] },
+        { "word": "dormir", "forms": ["estaba durmiendo"], "phrases": ["{word} / dormí / durmiendo"] },
+        { "word": "11:00", "forms": ["once", "once en punto", "11", "11 en punto"], "phrases": ["a las ..."] },
+        { "word": "mediodía", "forms": ["al mediodía"], "phrases": ["a ..."] },
+        { "word": "almuerzo", "forms": ["estaba almorzando"], "phrases": ["comer {word}"] },
+        { "word": "tarde", "forms": ["por la tarde", "de la tarde"], "phrases": ["por la {word}", "a las ... de la {word}"] },
+        { "word": "14:00", "forms": ["dos", "dos en punto", "2", "2 en punto"], "phrases": ["a las ..."] },
+        { "word": "té", "forms": ["estaba tomando té"], "phrases": ["tomar {word}"] },
+        { "word": "noche", "forms": ["por la noche", "de la noche"], "phrases": ["por la {word}", "a las ... de la {word}"] },
+        { "word": "visitar a un amigo", "forms": ["estaba visitando a un amigo"], "phrases": ["{visitar} / visité / visitando"] }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "给侦探的故事",
+      "lessonPrompt": {
+        "text": "不好意思，我需要问你一些问题，这是关于我正在调查的一个案件。请告诉我你昨天在做什么。请使用提供的时间词和词汇。请尽量用“在…做…”来表达。",
+        "character": {
+          "name": "Sherlock",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "早上", "forms": ["早上"], "phrases": ["{word} ... 点"] },
+        { "word": "睡觉", "forms": ["在睡觉"], "phrases": ["在 ...", "还在 ..."] },
+        { "word": "11点", "forms": ["十一点", "11点"], "phrases": ["..."] },
+        { "word": "中午", "forms": ["中午"], "phrases": ["..."] },
+        { "word": "吃午饭", "forms": ["在吃午饭"], "phrases": ["在 ...", "还在 ..."] },
+        { "word": "下午", "forms": ["下午"], "phrases": ["{word} ... 点"] },
+        { "word": "2点", "forms": ["两点", "2点"], "phrases": ["..."] },
+        { "word": "喝茶", "forms": ["在喝茶"], "phrases": ["在 ...", "还在 ..."] },
+        { "word": "晚上", "forms": ["晚上"], "phrases": ["{word} ... 点"] },
+        { "word": "拜访朋友", "forms": ["在拜访朋友"], "phrases": ["在 ...", "还在 ..."] }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "給偵探的故事",
+      "lessonPrompt": {
+        "text": "不好意思，我需要問你一些問題，這是關於我正在調查的一個案件。請告訴我你昨天在做什麼。請使用提供的時間詞和詞彙，並盡量用「在…做…」來表達。",
+        "character": {
+          "name": "Sherlock",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "早上", "forms": ["早上"], "phrases": ["{word} ... 點"] },
+        { "word": "睡覺", "forms": ["在睡覺"], "phrases": ["在 ...", "還在 ..."] },
+        { "word": "11點", "forms": ["十一點", "11點"], "phrases": ["..."] },
+        { "word": "中午", "forms": ["中午"], "phrases": ["..."] },
+        { "word": "吃午餐", "forms": ["在吃午餐"], "phrases": ["在 ...", "還在 ..."] },
+        { "word": "下午", "forms": ["下午"], "phrases": ["{word} ... 點"] },
+        { "word": "2點", "forms": ["兩點", "2點"], "phrases": ["..."] },
+        { "word": "喝茶", "forms": ["在喝茶"], "phrases": ["在 ...", "還在 ..."] },
+        { "word": "晚上", "forms": ["晚上"], "phrases": ["{word} ... 點"] },
+        { "word": "看朋友", "forms": ["在看朋友"], "phrases": ["在 ...", "還在 ..."] }
+      ]
+    }
+  }
+}

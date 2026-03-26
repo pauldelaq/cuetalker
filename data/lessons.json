@@ -115,7 +115,7 @@
         "zh-TW": "日常生活"
       }
     },
-        {
+    {
       "id": "PersonalExperiences",
       "name": {
         "en-US": "Personal Experiences",
@@ -123,6 +123,16 @@
         "es-ES": "Experiencias personales",
         "zh-CN": "个人经历",
         "zh-TW": "個人經驗"
+      }
+    },
+        {
+      "id": "StoryForTheDetective",
+      "name": {
+        "en-US": "Story for the Detective",
+        "fr-FR": "Histoire pour le détective",
+        "es-ES": "Historia para el detective",
+        "zh-CN": "给侦探的故事",
+        "zh-TW": "給偵探的故事"
       }
     }
 
