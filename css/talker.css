@@ -9,7 +9,7 @@ main#cue-content {
   gap: 2em;
   overflow-x: hidden;
   box-sizing: border-box;
-  padding-top: 106px;
+  margin-top: 86px;
 }
 
 .message {

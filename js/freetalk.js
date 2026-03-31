@@ -403,7 +403,7 @@ function compileMatchers() {
 }
 
 function getMatchedKeysFromTranscript(fullTextRaw) {
-  let remaining = normalizeLooseMatchText(fullTextRaw);
+  let remaining = normalizeText(fullTextRaw);
   if (!remaining) return new Set();
 
   const matchedKeys = new Set();
@@ -426,14 +426,52 @@ function getMatchedKeysFromTranscript(fullTextRaw) {
     );
 
     for (const v of sortedVariants) {
-      const variantNorm = normalizeLooseMatchText(v);
+      const variantNorm = normalizeText(v);
       if (!variantNorm) continue;
 
-      const idx = remaining.indexOf(variantNorm);
-      if (idx === -1) continue;
+      let match = null;
+      let start = -1;
+      let length = 0;
+
+      if (variantNorm.includes(' ')) {
+        // Multi-word Latin-script answers should match as full phrase chunks,
+        // not loose substrings. This prevents bad matches like "I talks"
+        // satisfying the form "I talk".
+        const escapedWords = variantNorm
+          .split(' ')
+          .filter(Boolean)
+          .map(part => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+
+        const body = escapedWords.join('\\s+');
+        const strictRegex = new RegExp(`(^|\\s)(${body})(?=\\s|$)`);
+        match = strictRegex.exec(remaining);
+
+        if (match) {
+          start = match.index + match[1].length;
+          length = match[2].length;
+        }
+      } else {
+        // Single-token answers stay flexible:
+        // - allow matches inside contractions (e.g. "m'avais" -> "avais")
+        // - allow CJK matches even when ASR inserts spaces between characters
+        const body = variantNorm
+          .split('')
+          .map(ch => ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+          .join('\\s*');
+
+        const flexibleRegex = new RegExp(body);
+        match = flexibleRegex.exec(remaining);
+
+        if (match) {
+          start = match.index;
+          length = match[0].length;
+        }
+      }
+
+      if (!match || start < 0 || length <= 0) continue;
 
       matchedKeys.add(matcher.key);
-      remaining = remaining.slice(0, idx) + ' '.repeat(variantNorm.length) + remaining.slice(idx + variantNorm.length);
+      remaining = remaining.slice(0, start) + ' '.repeat(length) + remaining.slice(start + length);
       break;
     }
   });
@@ -442,7 +480,7 @@ function getMatchedKeysFromTranscript(fullTextRaw) {
 }
 
 function getMatchedWordCount() {
-  return getMatchedKeysFromTranscript(finalizedTranscript).size;
+  return document.querySelectorAll('.wordBubble.matched').length;
 }
 
 function getFreeTalkScoreSummary() {

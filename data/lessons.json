@@ -134,7 +134,16 @@
         "zh-CN": "给侦探的故事",
         "zh-TW": "給偵探的故事"
       }
+    },
+            {
+      "id": "MixedConjugations",
+      "name": {
+        "en-US": "Mixed Conjugations",
+        "fr-FR": "Conjugaisons mixtes",
+        "es-ES": "Conjugaciones mixtas"
+      }
     }
+
 
   ]
 }

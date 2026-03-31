@@ -1,0 +1,484 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F9D9-200D-2642-FE0F.svg"
+  },
+  "languages": {
+    "es-ES": {
+        "language": "es-ES",
+        "languageName": "Español",
+        "lessonName": "Conjugaciones mixtas",
+        "lessonPrompt": {
+            "text": "¿Puedes conjugar todas las frases de abajo? Usa el tiempo indicado por la pista. Puedes usar cualquier forma (yo, tú, él/ella, nosotros, vosotros, ellos). Para ver las conjugaciones, expande las frases.",
+            "character": {
+            "name": "Ian",
+            "svg": "1"
+            }
+        },
+        "wordList": [
+            {
+            "word": "hablar con vecinos / cada día",
+            "forms": [
+              "hablo",
+              "hablas",
+              "habla",
+              "hablamos",
+              "habláis",
+              "hablan"
+            ],
+            "phrases": [
+                "habl{o}",
+                "habl{as}",
+                "habl{a}",
+                "habl{amos}",
+                "habl{áis}",
+                "habl{an}"
+            ]
+            },
+            {
+            "word": "beber café / por la mañana",
+            "forms": [
+              "bebo",
+              "bebes",
+              "bebe",
+              "bebemos",
+              "bebéis",
+              "beben"
+            ],
+            "phrases": [
+                "beb{o}",
+                "beb{es}",
+                "beb{e}",
+                "beb{emos}",
+                "beb{éis}",
+                "beb{en}"
+            ]
+            },
+            {
+            "word": "abrir la ventana / normalmente",
+            "forms": [
+              "abro",
+              "abres",
+              "abre",
+              "abrimos",
+              "abrís",
+              "abren"
+            ],
+            "phrases": [
+                "abr{o}",
+                "abr{es}",
+                "abr{e}",
+                "abr{imos}",
+                "abr{ís}",
+                "abr{en}"
+            ]
+            },
+            {
+            "word": "viajar a Sevilla / ayer",
+            "forms": [
+              "viajé",
+              "viajaste",
+              "viajó",
+              "viajamos",
+              "viajasteis",
+              "viajaron"
+            ],
+            "phrases": [
+                "viaj{é}",
+                "viaj{aste}",
+                "viaj{ó}",
+                "viaj{amos}",
+                "viaj{asteis}",
+                "viaj{aron}"
+            ]
+            },
+            {
+            "word": "comer churros / anoche",
+            "forms": [
+              "comí",
+              "comiste",
+              "comió",
+              "comimos",
+              "comisteis",
+              "comieron"
+            ],
+            "phrases": [
+                "com{í}",
+                "com{iste}",
+                "com{ió}",
+                "com{imos}",
+                "com{isteis}",
+                "com{ieron}"
+            ]
+            },
+            {
+            "word": "escribir un correo / esta mañana",
+            "forms": [
+              "escribí",
+              "escribiste",
+              "escribió",
+              "escribimos",
+              "escribisteis",
+              "escribieron"
+            ],
+            "phrases": [
+                "escrib{í}",
+                "escrib{iste}",
+                "escrib{ió}",
+                "escrib{imos}",
+                "escrib{isteis}",
+                "escrib{ieron}"
+            ]
+            },
+            {
+            "word": "bailar en la fiesta / mañana",
+            "forms": [
+              "bailaré",
+              "bailarás",
+              "bailará",
+              "bailaremos",
+              "bailaréis",
+              "bailarán"
+            ],
+            "phrases": [
+                "bailar{é}",
+                "bailar{ás}",
+                "bailar{á}",
+                "bailar{emos}",
+                "bailar{éis}",
+                "bailar{án}"
+            ]
+            },
+            {
+            "word": "leer ese libro / el fin de semana que viene",
+            "forms": [
+              "leeré",
+              "leerás",
+              "leerá",
+              "leeremos",
+              "leeréis",
+              "leerán"
+            ],
+            "phrases": [
+                "leer{é}",
+                "leer{ás}",
+                "leer{á}",
+                "leer{emos}",
+                "leer{éis}",
+                "leer{án}"
+            ]
+            },
+            {
+            "word": "subir a la montaña / el próximo mes",
+            "forms": [
+              "subiré",
+              "subirás",
+              "subirá",
+              "subiremos",
+              "subiréis",
+              "subirán"
+            ],
+            "phrases": [
+                "subir{é}",
+                "subir{ás}",
+                "subir{á}",
+                "subir{emos}",
+                "subir{éis}",
+                "subir{án}"
+            ]
+            },
+            {
+            "word": "trabajar en una oficina / en esa época",
+            "forms": [
+              "trabajaba",
+              "trabajabas",
+              "trabajaba",
+              "trabajábamos",
+              "trabajabais",
+              "trabajaban"
+            ],
+            "phrases": [
+                "trabaj{aba}",
+                "trabaj{abas}",
+                "trabaj{aba}",
+                "trabaj{ábamos}",
+                "trabaj{abais}",
+                "trabaj{aban}"
+            ]
+            },
+            {
+            "word": "aprender francés / en la universidad",
+            "forms": [
+              "aprendía",
+              "aprendías",
+              "aprendía",
+              "aprendíamos",
+              "aprendíais",
+              "aprendían"
+            ],
+            "phrases": [
+                "aprend{ía}",
+                "aprend{ías}",
+                "aprend{ía}",
+                "aprend{íamos}",
+                "aprend{íais}",
+                "aprend{ían}"
+            ]
+            },
+            {
+            "word": "compartir juguetes con amigos / antes",
+            "forms": [
+              "compartía",
+              "compartías",
+              "compartía",
+              "compartíamos",
+              "compartíais",
+              "compartían"
+            ],
+            "phrases": [
+                "compart{ía}",
+                "compart{ías}",
+                "compart{ía}",
+                "compart{íamos}",
+                "compart{íais}",
+                "compart{ían}"
+            ]
+            },
+            {
+            "word": "cantar en un concierto / con más confianza",
+            "forms": [
+              "cantaría",
+              "cantarías",
+              "cantaría",
+              "cantaríamos",
+              "cantaríais",
+              "cantarían"
+            ],
+            "phrases": [
+                "cantar{ía}",
+                "cantar{ías}",
+                "cantar{ía}",
+                "cantar{íamos}",
+                "cantar{íais}",
+                "cantar{ían}"
+            ]
+            },
+            {
+            "word": "correr en el parque / con más tiempo libre",
+            "forms": [
+              "correría",
+              "correrías",
+              "correría",
+              "correríamos",
+              "correríais",
+              "correrían"
+            ],
+            "phrases": [
+                "correr{ía}",
+                "correr{ías}",
+                "correr{ía}",
+                "correr{íamos}",
+                "correr{íais}",
+                "correr{ían}"
+            ]
+            },
+            {
+            "word": "asistir a más partidos de fútbol / con más dinero",
+            "forms": [
+              "asistiría",
+              "asistirías",
+              "asistiría",
+              "asistiríamos",
+              "asistiríais",
+              "asistirían"
+            ],
+            "phrases": [
+                "asistir{ía}",
+                "asistir{ías}",
+                "asistir{ía}",
+                "asistir{íamos}",
+                "asistir{íais}",
+                "asistir{ían}"
+            ]
+            }
+        ]
+    },
+    "fr-FR": {
+        "language": "fr-FR",
+        "languageName": "Français",
+        "lessonName": "Conjugaisons mixtes",
+        "lessonPrompt": {
+            "text": "Peux-tu conjuguer toutes les phrases ci-dessous ? Utilise le temps indiqué par l’indice. Tu peux utiliser la forme que tu veux (je, tu, il/elle, nous, vous, ils/elles). Pour voir les conjugaisons, développe les phrases.",
+            "character": {
+            "name": "Ian",
+            "svg": "1"
+            }
+        },
+        "wordList": [
+            {
+            "word": "parler avec des voisins / tous les jours",
+            "forms": ["parle","parles","parle","parlons","parlez","parlent"],
+            "phrases": ["parl{e}","parl{es}","parl{e}","parl{ons}","parl{ez}","parl{ent}"]
+            },
+            {
+            "word": "boire du café / le matin",
+            "forms": ["bois","bois","boit","buvons","buvez","boivent"],
+            "phrases": ["boi{s}","boi{s}","boi{t}","buv{ons}","buv{ez}","boiv{ent}"]
+            },
+            {
+            "word": "ouvrir la fenêtre / normalement",
+            "forms": ["ouvre","ouvres","ouvre","ouvrons","ouvrez","ouvrent"],
+            "phrases": ["ouvr{e}","ouvr{es}","ouvr{e}","ouvr{ons}","ouvr{ez}","ouvr{ent}"]
+            },
+            {
+            "word": "voyager à Paris / hier",
+            "forms": ["j'ai voyagé","as voyagé","a voyagé","avons voyagé","avez voyagé","ont voyagé"],
+            "phrases": ["ai voyag{é}","as voyag{é}","a voyag{é}","avons voyag{é}","avez voyag{é}","ont voyag{é}"]
+            },
+            {
+            "word": "manger des croissants / hier soir",
+            "forms": ["j'ai mangé","as mangé","a mangé","avons mangé","avez mangé","ont mangé"],
+            "phrases": ["ai mang{é}","as mang{é}","a mang{é}","avons mang{é}","avez mang{é}","ont mang{é}"]
+            },
+            {
+            "word": "écrire un email / ce matin",
+            "forms": ["j'ai écrit","as écrit","a écrit","avons écrit","avez écrit","ont écrit"],
+            "phrases": ["ai écr{it}","as écr{it}","a écr{it}","avons écr{it}","avez écr{it}","ont écr{it}"]
+            },
+            {
+            "word": "danser à la fête / demain",
+            "forms": ["danserai","danseras","dansera","danserons","danserez","danseront"],
+            "phrases": ["danser{ai}","danser{as}","danser{a}","danser{ons}","danser{ez}","danser{ont}"]
+            },
+            {
+            "word": "lire ce livre / le week-end prochain",
+            "forms": ["lirai","liras","lira","lirons","lirez","liront"],
+            "phrases": ["lir{ai}","lir{as}","lir{a}","lir{ons}","lir{ez}","lir{ont}"]
+            },
+            {
+            "word": "monter à la montagne / le mois prochain",
+            "forms": ["monterai","monteras","montera","monterons","monterez","monteront"],
+            "phrases": ["monter{ai}","monter{as}","monter{a}","monter{ons}","monter{ez}","monter{ont}"]
+            },
+            {
+            "word": "travailler dans un bureau / à cette époque",
+            "forms": ["travaillais","travaillais","travaillait","travaillions","travailliez","travaillaient", "travaillons", "travaillez"],
+            "phrases": ["travaill{ais}","travaill{ais}","travaill{ait}","travaill{ions}","travaill{iez}","travaill{aient}"]
+            },
+            {
+            "word": "apprendre le français / à l’université",
+            "forms": ["apprenais","apprenais","apprenait","apprenions","appreniez","apprenaient"],
+            "phrases": ["appren{ais}","appren{ais}","appren{ait}","appren{ions}","appren{iez}","appren{aient}"]
+            },
+            {
+            "word": "partager des jouets avec des amis / avant",
+            "forms": ["partageais","partageais","partageait","partagions","partagiez","partageaient"],
+            "phrases": ["partag{eais}","partag{eais}","partag{eait}","partag{ions}","partag{iez}","partag{eaient}"]
+            },
+            {
+            "word": "chanter dans un concert / avec plus de confiance",
+            "forms": ["chanterais","chanterais","chanterait","chanterions","chanteriez","chanteraient"],
+            "phrases": ["chanter{ais}","chanter{ais}","chanter{ait}","chanter{ions}","chanter{iez}","chanter{aient}"]
+            },
+            {
+            "word": "courir dans le parc / avec plus de temps libre",
+            "forms": ["courrais","courrais","courrait","courrions","courriez","courraient", "courais","courais","courait","courions","couriez","couraient", "courrier"],
+            "phrases": ["courr{ais}","courr{ais}","courr{ait}","courr{ions}","courr{iez}","courr{aient}"]
+            },
+            {
+            "word": "assister à plus de matchs de football / avec plus d’argent",
+            "forms": ["assisterais","assisterais","assisterait","assisterions","assisteriez","assisteraient", "assisterons", "assisterez"],
+            "phrases": ["assister{ais}","assister{ais}","assister{ait}","assister{ions}","assister{iez}","assister{aient}"]
+            }
+        ]
+    },
+    "en-US": {
+        "language": "en-US",
+        "languageName": "English",
+        "lessonName": "Mixed Conjugations",
+        "lessonPrompt": {
+            "text": "Can you conjugate all the phrases below? Use the tense indicated by the hint. You can use any form you want (I, you, he/she/it, we, they). To see the conjugations, expand the phrases.",
+            "character": {
+            "name": "Ian",
+            "svg": "1"
+            }
+        },
+        "wordList": [
+            {
+            "word": "talk to neighbors / every day",
+            "forms": ["I talk to", "you talk to", "we talk to", "they talk to", "he talks to", "she talks to", "it talks to"],
+            "phrases": ["I/you/we/they talk", "He/she/it talk{s}"]
+            },
+            {
+            "word": "drink coffee / in the morning",
+            "forms": ["I drink coffee", "you drink coffee", "we drink coffee", "they drink coffee", "he drinks coffee", "she drinks coffee", "it drinks coffee"],
+            "phrases": ["I/you/we/they drink", "He/she/it drink{s}"]
+            },
+            {
+            "word": "open the window / usually",
+            "forms": ["I usually open the window", "you usually open the window", "we usually open the window", "they usually open the window", "he usually opens the window", "she usually opens the window", "it usually opens the window"],
+            "phrases": ["I/you/we/they open", "He/she/it open{s}"]
+            },
+            {
+            "word": "travel to Toronto / yesterday",
+            "forms": ["traveled"],
+            "phrases": ["travel{ed}"]
+            },
+            {
+            "word": "eat potato chips / last night",
+            "forms": ["ate"],
+            "phrases": ["{ate}"]
+            },
+            {
+            "word": "write an email / this morning",
+            "forms": ["wrote"],
+            "phrases": ["wr{o}t{e}"]
+            },
+            {
+            "word": "dance at the party / tomorrow",
+            "forms": ["will dance", "I am going to dance", "I'm going to dance", "you are going to dance", "you're going to dance", "we are going to dance", "we're going to dance", "they are going to dance", "they're going to dance", "he is going to dance", "he's going to dance", "she is going to dance", "she's going to dance", "it is going to dance", "it's going to dance"],
+            "phrases": ["will dance", "I {am} going to dance","you/we/they {are} going to dance", "He/she/it {is} going to dance"]
+            },
+            {
+            "word": "read that book / next weekend",
+            "forms": ["will read", "I am going to read", "I'm going to read", "you are going to read", "you're going to read", "we are going to read", "we're going to read", "they are going to read", "they're going to read", "he is going to read", "he's going to read", "she is going to read", "she's going to read", "it is going to read", "it's going to read"],
+            "phrases": ["will read", "I {am} going to read", "you/we/they {are} going to read", "He/she/it {is} going to read"]
+            },
+            {
+            "word": "go up the mountain / next month",
+            "forms": ["will go", "I am going to go", "I'm going to go", "you are going to go", "you're going to go", "we are going to go", "we're going to go", "they are going to go", "they're going to go", "he is going to go", "he's going to go", "she is going to go", "she's going to go", "it is going to go", "it's going to go"],
+            "phrases": ["will go", "I {am} going to go", "you/we/they {are} going to go", "He/she/it {is} going to go"]
+            },
+            {
+            "word": "work in an office / back then",
+            "forms": ["worked", "used to work"],
+            "phrases": ["work{ed}", "used to work"]
+            },
+            {
+            "word": "study French / back in university",
+            "forms": ["studied", "used to study"],
+            "phrases": ["stud{ied}", "used to study"]
+            },
+            {
+            "word": "share toys with friends / before",
+            "forms": ["shared", "used to share"],
+            "phrases": ["shar{ed}", "used to share"]
+            },
+            {
+            "word": "sing at a concert / had more confidence",
+            "forms": ["would sing"],
+            "phrases": ["would sing"]
+            },
+            {
+            "word": "run in the park / had more free time",
+            "forms": ["would run"],
+            "phrases": ["would run"]
+            },
+            {
+            "word": "attend more sports games / had more money",
+            "forms": ["would attend"],
+            "phrases": ["would attend"]
+            }
+        ]
+    }
+  }
+}
