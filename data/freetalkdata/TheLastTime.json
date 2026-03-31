@@ -1,0 +1,192 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F478-1F3FC.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "The Last Time",
+      "lessonPrompt": {
+        "text": "When was the last time you did the following? Tell me about it. Remember to use the past tense in your answer.",
+        "character": {
+          "name": "Momo",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+            "word": "eat junk food",
+            "forms": ["ate junk food"],
+            "phrases": [
+                "{eat} / ate / eaten / eating"
+            ]
+        },
+                {
+          "word": "make a mistake",
+          "forms": ["made a mistake"],
+          "phrases": [
+            "{make} / made / made / making"
+          ]
+        },
+        {
+          "word": "try a new food",
+          "forms": ["tried a new food"],
+          "phrases": [
+            "{try} / tried / tried / trying"
+          ]
+        },
+        {
+          "word": "feel excited",
+          "forms": ["felt excited"],
+          "phrases": [
+            "{feel} / felt / felt / feeling"
+          ]
+        },
+        {
+            "word": "get sick",
+            "forms": ["got sick"],
+            "phrases": [
+                "{get} / got / got(ten) / getting"
+            ]
+        },
+        {
+          "word": "be confused",
+          "forms": ["was confused"],
+          "phrases": [
+            "{be} / was / been / being"
+          ]
+        },
+        {
+          "word": "go outside",
+          "forms": ["went outside"],
+          "phrases": [
+            "{go} / went / gone / going"
+          ]
+        },
+        {
+            "word": "see a movie",
+            "forms": ["saw a movie"],
+            "phrases": [
+                "{see} / saw / seen / seeing"
+            ]
+        },
+                {
+          "word": "buy something",
+          "forms": ["bought"],
+          "phrases": [
+            "{buy} / bought / bought / buying"
+          ]
+        },
+        {
+            "word": "take a class",
+            "forms": ["took a class"],
+            "phrases": [
+                "{take} / took / taken / taking"
+            ]
+        }
+
+      ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "La dernière fois",
+      "lessonPrompt": {
+        "text": "Quand est-ce que tu as fait les choses suivantes pour la dernière fois ? Parle-moi de ton expérience. Essaie d'utiliser le passé composé dans ta réponse.",
+        "character": {
+          "name": "Momo",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "manger de la malbouffe", "forms": ["ai mangé de la malbouffe", "j'ai mangé de la malbouffe"], "phrases": ["{manger} / mangé"] },
+        { "word": "faire une erreur", "forms": ["ai fait une erreur", "j'ai fait une erreur"], "phrases": ["{faire} / fait"] },
+        { "word": "essayer un nouveau plat", "forms": ["ai essayé un nouveau plat", "j'ai essayé un nouveau plat"], "phrases": ["{essayer} / essayé"] },
+        { "word": "se sentir excité", "forms": ["me suis senti excité", "je me suis senti excité"], "phrases": ["{se sentir} / senti"] },
+        { "word": "tomber malade", "forms": ["suis tombé malade", "je suis tombé malade"], "phrases": ["{tomber} / tombé"] },
+        { "word": "être confus", "forms": ["ai été confus", "j'ai été confus"], "phrases": ["{être} / été"] },
+        { "word": "sortir", "forms": ["suis sorti", "je suis sorti"], "phrases": ["{sortir} / sorti"] },
+        { "word": "voir un film", "forms": ["ai vu un film", "j'ai vu un film"], "phrases": ["{voir} / vu"] },
+        { "word": "acheter quelque chose", "forms": ["ai acheté", "j'ai acheté"], "phrases": ["{acheter} / acheté"] },
+        { "word": "prendre un cours", "forms": ["ai pris un cours", "j'ai pris un cours"], "phrases": ["{prendre} / pris"] }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "La última vez",
+      "lessonPrompt": {
+        "text": "¿Cuándo fue la última vez que hiciste las siguientes cosas? Cuéntame sobre tu experiencia. Usa el pasado en tu respuesta.",
+        "character": {
+          "name": "Momo",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "comer comida chatarra", "forms": ["comí comida chatarra"], "phrases": ["{comer} / comí"] },
+        { "word": "cometer un error", "forms": ["cometí un error"], "phrases": ["{cometer} / cometí"] },
+        { "word": "probar una comida nueva", "forms": ["probé una comida nueva"], "phrases": ["{probar} / probé"] },
+        { "word": "sentirse emocionado", "forms": ["me sentí emocionado"], "phrases": ["{sentirse} / me sentí"] },
+        { "word": "enfermarse", "forms": ["me enfermé"], "phrases": ["{enfermarse} / me enfermé"] },
+        { "word": "estar confundido", "forms": ["estuve confundido"], "phrases": ["{estar} / estuve"] },
+        { "word": "salir", "forms": ["salí"], "phrases": ["{salir} / salí"] },
+        { "word": "ver una película", "forms": ["vi una película"], "phrases": ["{ver} / vi"] },
+        { "word": "comprar algo", "forms": ["compré"], "phrases": ["{comprar} / compré"] },
+        { "word": "tomar una clase", "forms": ["tomé una clase"], "phrases": ["{tomar} / tomé"] }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "上一次",
+      "lessonPrompt": {
+        "text": "你上一次做下面这些事情是什么时候？请描述一下你的经历。",
+        "character": {
+          "name": "Momo",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "吃垃圾食品", "forms": ["吃垃圾食品", "吃了垃圾食品"], "phrases": ["{吃}" ] },
+        { "word": "犯错误", "forms": ["犯错误", "犯了错误"], "phrases": ["{犯}" ] },
+        { "word": "尝试新的食物", "forms": ["尝试新的食物", "尝试了新的食物"], "phrases": ["{尝试}" ] },
+        { "word": "感到兴奋", "forms": ["感到兴奋", "感到兴奋了"], "phrases": ["{感到}" ] },
+        { "word": "生病", "forms": ["生病", "生病了"], "phrases": ["{生病}" ] },
+        { "word": "感到困惑", "forms": ["感到困惑", "感到困惑了"], "phrases": ["{感到}" ] },
+        { "word": "出去", "forms": ["出去", "出去了"], "phrases": ["{出去}" ] },
+        { "word": "看电影", "forms": ["看电影", "看了电影"], "phrases": ["{看}" ] },
+        { "word": "买东西", "forms": ["买东西", "买了东西"], "phrases": ["{买}" ] },
+        { "word": "上课", "forms": ["上课", "上了课"], "phrases": ["{上}" ] }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "上一次",
+      "lessonPrompt": {
+        "text": "你上一次做下面這些事情是什麼時候？請描述一下你的經驗。",
+        "character": {
+          "name": "Momo",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "吃垃圾食物", "forms": ["吃垃圾食物", "吃了垃圾食物"], "phrases": ["{吃}" ] },
+        { "word": "犯錯", "forms": ["犯錯", "犯了錯"], "phrases": ["{犯}" ] },
+        { "word": "嘗試新的食物", "forms": ["嘗試新的食物", "嘗試了新的食物"], "phrases": ["{嘗試}" ] },
+        { "word": "感到興奮", "forms": ["感到興奮", "感到興奮了"], "phrases": ["{感到}" ] },
+        { "word": "生病", "forms": ["生病", "生病了"], "phrases": ["{生病}" ] },
+        { "word": "感到困惑", "forms": ["感到困惑", "感到困惑了"], "phrases": ["{感到}" ] },
+        { "word": "出去", "forms": ["出去", "出去了"], "phrases": ["{出去}" ] },
+        { "word": "看電影", "forms": ["看電影", "看了電影"], "phrases": ["{看}" ] },
+        { "word": "買東西", "forms": ["買東西", "買了東西"], "phrases": ["{買}" ] },
+        { "word": "上課", "forms": ["上課", "上了課"], "phrases": ["{上}" ] }
+      ]
+    }
+  }
+}

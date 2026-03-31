@@ -135,15 +135,24 @@
         "zh-TW": "給偵探的故事"
       }
     },
-            {
+    {
       "id": "MixedConjugations",
       "name": {
         "en-US": "Mixed Conjugations",
         "fr-FR": "Conjugaisons mixtes",
         "es-ES": "Conjugaciones mixtas"
       }
+    },
+        {
+      "id": "TheLastTime",
+      "name": {
+        "en-US": "The Last Time",
+        "fr-FR": "La dernière fois",
+        "es-ES": "La última vez",
+        "zh-CN": "上一次",
+        "zh-TW": "上一次"
+      }
     }
-
 
   ]
 }

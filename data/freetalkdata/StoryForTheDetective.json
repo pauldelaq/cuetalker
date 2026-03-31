@@ -132,7 +132,7 @@
         { "word": "mañana", "forms": ["por la mañana", "de la mañana"], "phrases": ["por la {word}", "a las ... de la {word}"] },
         { "word": "dormir", "forms": ["estaba durmiendo"], "phrases": ["{word} / dormí / durmiendo"] },
         { "word": "11:00", "forms": ["once", "once en punto", "11", "11 en punto"], "phrases": ["a las ..."] },
-        { "word": "mediodía", "forms": ["al mediodía"], "phrases": ["a ..."] },
+        { "word": "mediodía", "forms": ["a mediodía"], "phrases": ["a ..."] },
         { "word": "almuerzo", "forms": ["estaba almorzando"], "phrases": ["comer {word}"] },
         { "word": "tarde", "forms": ["por la tarde", "de la tarde"], "phrases": ["por la {word}", "a las ... de la {word}"] },
         { "word": "14:00", "forms": ["dos", "dos en punto", "2", "2 en punto"], "phrases": ["a las ..."] },
