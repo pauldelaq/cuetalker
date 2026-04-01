@@ -159,14 +159,14 @@
         }
       },
       "wordList": [
-        { "word": "早上", "forms": ["早上"], "phrases": ["{word}"] },
+        { "word": "早上", "forms": ["早上"] },
         { "word": "起床", "forms": ["起床"], "phrases": ["我...{word}", "我在...{word}"] },
         { "word": "早餐", "forms": ["早餐"], "phrases": ["吃{word}", "吃{word}"] },
         { "word": "工作 / 学校", "forms": ["工作", "学校", "上班", "上学"], "phrases": ["去{word}", "上班", "上学"] },
-        { "word": "下午", "forms": ["下午"], "phrases": ["{word}"] },
+        { "word": "下午", "forms": ["下午"] },
         { "word": "午餐", "forms": ["午餐"], "phrases": ["吃{word}"] },
         { "word": "家", "forms": ["家"], "phrases": ["回{word}", "回到{word}"] },
-        { "word": "晚上", "forms": ["晚上"], "phrases": ["{word}"] },
+        { "word": "晚上", "forms": ["晚上"] },
         { "word": "晚餐", "forms": ["晚餐"], "phrases": ["吃{word}"] },
         { "word": "睡觉", "forms": ["睡觉", "睡"], "phrases": ["去{word}"] }
       ]
@@ -184,14 +184,14 @@
         }
       },
       "wordList": [
-        { "word": "早上", "forms": ["早上"], "phrases": ["{word}"] },
+        { "word": "早上", "forms": ["早上"] },
         { "word": "起床", "forms": ["起床"], "phrases": ["我...{word}", "我在...{word}"] },
         { "word": "早餐", "forms": ["早餐"], "phrases": ["吃{word}"] },
         { "word": "工作 / 學校", "forms": ["工作", "學校", "上班", "上學"], "phrases": ["去{word}", "上班", "上學"] },
-        { "word": "下午", "forms": ["下午"], "phrases": ["{word}"] },
+        { "word": "下午", "forms": ["下午"] },
         { "word": "午餐", "forms": ["午餐"], "phrases": ["吃{word}"] },
         { "word": "家", "forms": ["家"], "phrases": ["回{word}", "回到{word}"] },
-        { "word": "晚上", "forms": ["晚上"], "phrases": ["{word}"] },
+        { "word": "晚上", "forms": ["晚上"] },
         { "word": "晚餐", "forms": ["晚餐"], "phrases": ["吃{word}"] },
         { "word": "睡覺", "forms": ["睡覺", "睡"], "phrases": ["去{word}"] }
       ]

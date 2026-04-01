@@ -156,11 +156,11 @@
       "wordList": [
         { "word": "早上", "forms": ["早上"], "phrases": ["{word} ... 点"] },
         { "word": "睡觉", "forms": ["在睡觉"], "phrases": ["在 ...", "还在 ..."] },
-        { "word": "11点", "forms": ["十一点", "11点"], "phrases": ["..."] },
-        { "word": "中午", "forms": ["中午"], "phrases": ["..."] },
+        { "word": "11点", "forms": ["十一点", "11点"], "phrases": [] },
+        { "word": "中午", "forms": ["中午"], "phrases": [] },
         { "word": "吃午饭", "forms": ["在吃午饭"], "phrases": ["在 ...", "还在 ..."] },
         { "word": "下午", "forms": ["下午"], "phrases": ["{word} ... 点"] },
-        { "word": "2点", "forms": ["两点", "2点"], "phrases": ["..."] },
+        { "word": "2点", "forms": ["两点", "2点"], "phrases": [] },
         { "word": "喝茶", "forms": ["在喝茶"], "phrases": ["在 ...", "还在 ..."] },
         { "word": "晚上", "forms": ["晚上"], "phrases": ["{word} ... 点"] },
         { "word": "拜访朋友", "forms": ["在拜访朋友"], "phrases": ["在 ...", "还在 ..."] }
@@ -181,11 +181,11 @@
       "wordList": [
         { "word": "早上", "forms": ["早上"], "phrases": ["{word} ... 點"] },
         { "word": "睡覺", "forms": ["在睡覺"], "phrases": ["在 ...", "還在 ..."] },
-        { "word": "11點", "forms": ["十一點", "11點"], "phrases": ["..."] },
-        { "word": "中午", "forms": ["中午"], "phrases": ["..."] },
+        { "word": "11點", "forms": ["十一點", "11點"], "phrases": [] },
+        { "word": "中午", "forms": ["中午"], "phrases": [] },
         { "word": "吃午餐", "forms": ["在吃午餐"], "phrases": ["在 ...", "還在 ..."] },
         { "word": "下午", "forms": ["下午"], "phrases": ["{word} ... 點"] },
-        { "word": "2點", "forms": ["兩點", "2點"], "phrases": ["..."] },
+        { "word": "2點", "forms": ["兩點", "2點"], "phrases": [] },
         { "word": "喝茶", "forms": ["在喝茶"], "phrases": ["在 ...", "還在 ..."] },
         { "word": "晚上", "forms": ["晚上"], "phrases": ["{word} ... 點"] },
         { "word": "看朋友", "forms": ["在看朋友"], "phrases": ["在 ...", "還在 ..."] }

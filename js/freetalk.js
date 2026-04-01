@@ -1331,12 +1331,22 @@ function renderWordList() {
     const header = document.createElement('div');
     header.className = 'wordBubbleHeader';
 
-    const toggle = document.createElement('button');
-    toggle.type = 'button';
-    toggle.className = 'wordBubbleToggle';
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Show phrases');
-    toggle.textContent = '▸';
+    const phrases = Array.isArray(item.phrases) ? item.phrases : [];
+    const hasPhrases = phrases.length > 0;
+
+    const toggle = document.createElement(hasPhrases ? 'button' : 'span');
+
+    if (hasPhrases) {
+      toggle.type = 'button';
+      toggle.className = 'wordBubbleToggle';
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Show phrases');
+      toggle.textContent = '▸';
+    } else {
+      toggle.className = 'wordBubbleToggle wordBubbleTogglePlaceholder';
+      toggle.setAttribute('aria-hidden', 'true');
+      toggle.textContent = '';
+    }
 
     const wordSpan = document.createElement('span');
     wordSpan.className = 'wordBubbleText tts-clickable';
@@ -1354,24 +1364,22 @@ function renderWordList() {
     const phrasesWrap = document.createElement('div');
     phrasesWrap.className = 'wordBubblePhrases';
 
-    const phrases = Array.isArray(item.phrases) ? item.phrases : [];
-    if (phrases.length) {
+    if (hasPhrases) {
       const ul = document.createElement('ul');
       ul.className = 'phraseList';
       phrases.forEach(p => ul.appendChild(buildPhraseListItem(p, word)));
       phrasesWrap.appendChild(ul);
-    } else {
-      // If no phrases, keep empty container for consistent animation
-      phrasesWrap.innerHTML = '';
     }
 
     // Toggle expand/collapse
-    toggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const expanded = bubble.classList.toggle('expanded');
-      toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      toggle.setAttribute('aria-label', expanded ? 'Hide phrases' : 'Show phrases');
-    });
+    if (hasPhrases) {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const expanded = bubble.classList.toggle('expanded');
+        toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        toggle.setAttribute('aria-label', expanded ? 'Hide phrases' : 'Show phrases');
+      });
+    }
 
     bubble.appendChild(header);
     bubble.appendChild(phrasesWrap);

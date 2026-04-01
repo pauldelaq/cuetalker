@@ -143,7 +143,7 @@
         "es-ES": "Conjugaciones mixtas"
       }
     },
-        {
+    {
       "id": "TheLastTime",
       "name": {
         "en-US": "The Last Time",
@@ -152,7 +152,18 @@
         "zh-CN": "上一次",
         "zh-TW": "上一次"
       }
+    },
+        {
+      "id": "CommonPhrases1",
+      "name": {
+        "en-US": "Common Phrases (Part 1)",
+        "fr-FR": "Expressions courantes (Partie 1)",
+        "es-ES": "Frases comunes (Parte 1)",
+        "zh-CN": "常用表达（第一部分）",
+        "zh-TW": "常用表達（第一部分）"
+      }
     }
+
 
   ]
 }

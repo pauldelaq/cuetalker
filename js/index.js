@@ -143,7 +143,8 @@ function loadLessons() {
           const li = document.createElement('li');
           li.className = 'lesson-item';
 
-          const title = (lesson.name && (lesson.name[lang] || lesson.name['en-US'])) || '';
+          // Only show Free Talk lessons when this exact language exists
+          const title = lesson.name?.[lang] || '';
           if (!title) return;
 
           const matching = scoresForLang.find(entry =>
