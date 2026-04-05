@@ -82,7 +82,9 @@
         "fr-FR": "Introduction au mode discussion libre",
         "es-ES": "Introducción al modo conversación libre",
         "zh-CN": "自由对话模式简介",
-        "zh-TW": "自由對話模式簡介"
+        "zh-TW": "自由對話模式簡介",
+        "ja-JP": "フリートークモード入門",
+        "th-TH": "แนะนำโหมดพูดอิสระ"
       }
     },
     {
@@ -92,7 +94,9 @@
         "fr-FR": "Préparer un voyage",
         "es-ES": "Prepararse para un viaje",
         "zh-CN": "为旅行做准备",
-        "zh-TW": "為旅行做準備"
+        "zh-TW": "為旅行做準備",
+        "ja-JP": "旅行の準備",
+        "th-TH": "การเตรียมตัวสำหรับการเดินทาง"
       }
     },
     {

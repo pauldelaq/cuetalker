@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     { code: 'fr-FR', name: 'Français' },
     { code: 'es-ES', name: 'Español' },
     { code: 'zh-TW', name: '中文 (繁體)' },
-    { code: 'zh-CN', name: '中文 (简体)' }
+    { code: 'zh-CN', name: '中文 (简体)' },
+    { code: 'ja-JP', name: '日本語'},
+    { code: 'th-TH', name: 'ไทย'}
   ];
 
   const currentLang = localStorage.getItem('ctlanguage') || '';
@@ -107,10 +109,8 @@ function loadLessons() {
         const li = document.createElement('li');
         li.className = 'lesson-item';
 
-        // ✅ Only show lessons that have a title for this language (or an en-US fallback)
-        const title = (lesson.name && (lesson.name[lang] || lesson.name['en-US'])) || '';
-
-        // If no title exists for this language (and no en-US fallback), hide this lesson
+        // ✅ Only show conversation lessons when this exact language exists
+        const title = lesson.name?.[lang] || '';
         if (!title) return;
 
         const matching = scoresForLang.find(entry =>

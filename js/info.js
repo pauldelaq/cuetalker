@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     { code: 'fr-FR', name: 'Français' },
     { code: 'es-ES', name: 'Español' },
     { code: 'zh-TW', name: '中文 (繁體)' },
-    { code: 'zh-CN', name: '中文 (简体)' }
+    { code: 'zh-CN', name: '中文 (简体)' },
+    { code: 'ja-JP', name: '日本語'},
+    { code: 'th-TH', name: 'ไทย'}
   ];
 
   const currentLang = localStorage.getItem('ctlanguage') || '';

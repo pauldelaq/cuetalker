@@ -78,5 +78,37 @@
       "confirmButton": "是的，重置",
       "cancelButton": "取消"
     }
+  },
+  "ja-JP": {
+    "welcome": "CueTalkerへようこそ！",
+    "intro": "この対話形式のインターフェースを使って、目標言語のスピーキング練習をしましょう。続けていくうちに、より自然で流暢に答えられるようになり、自信も高まります。",
+    "conversationMode": "会話モード：",
+    "freetalkMode": "フリートークモード：",
+    "languageMenuTitle": "言語を選択：",
+    "creditsLabel": "クレジット",
+    "createdBy": "CueTalkerはPaul Delaquisによって開発されました。連絡先や他のプロジェクトについては、<a href='https://pauldelaq.github.io/portfolio/'>こちら</a>をご覧ください。",
+    "openMoji": "すべてのアイコンは<a href='https://openmoji.org/'>OpenMoji</a>によってデザインされています。オープンソースの絵文字・アイコンプロジェクトです。ライセンス：<a href='https://creativecommons.org/licenses/by-sa/4.0/#'>CC BY-SA 4.0</a>",
+    "clearScores": "スコアをリセット",
+    "modal": {
+      "confirmReset": "この言語のすべてのスコアをリセットしてもよろしいですか？この操作は元に戻せません。",
+      "confirmButton": "はい、リセット",
+      "cancelButton": "キャンセル"
+    }
+  },
+  "th-TH": {
+    "welcome": "ยินดีต้อนรับสู่ CueTalker!",
+    "intro": "ใช้อินเทอร์เฟซแบบบทสนทนานี้เพื่อฝึกการพูดในภาษาที่คุณกำลังเรียน เมื่อเวลาผ่านไป คุณจะตอบได้อย่างคล่องแคล่วและเป็นธรรมชาติมากขึ้น และความมั่นใจก็จะเพิ่มขึ้น",
+    "conversationMode": "โหมดสนทนา:",
+    "freetalkMode": "โหมดพูดอิสระ:",
+    "languageMenuTitle": "เลือกภาษา:",
+    "creditsLabel": "เครดิต",
+    "createdBy": "CueTalker ถูกพัฒนาโดย Paul Delaquis หากต้องการติดต่อหรือดูผลงานอื่น ๆ กรุณาไปที่ <a href='https://pauldelaq.github.io/portfolio/'>ลิงก์นี้</a>",
+    "openMoji": "ไอคอนทั้งหมดออกแบบโดย <a href='https://openmoji.org/'>OpenMoji</a> ซึ่งเป็นโปรเจกต์อีโมจิและไอคอนโอเพนซอร์ส ใบอนุญาต: <a href='https://creativecommons.org/licenses/by-sa/4.0/#'>CC BY-SA 4.0</a>",
+    "clearScores": "ล้างคะแนน",
+    "modal": {
+      "confirmReset": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตคะแนนทั้งหมดสำหรับภาษานี้ การกระทำนี้ไม่สามารถยกเลิกได้",
+      "confirmButton": "ใช่ รีเซ็ต",
+      "cancelButton": "ยกเลิก"
+    }
   }
 }

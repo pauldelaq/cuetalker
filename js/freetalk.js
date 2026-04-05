@@ -1090,7 +1090,7 @@ function speakText(text, langCode) {
 
 function getLangKey(code) {
   // Ensure consistent language keys using full xx-XX format
-  const knownLangs = ['en-US', 'fr-FR', 'es-ES', 'zh-CN', 'zh-TW'];
+  const knownLangs = ['en-US', 'fr-FR', 'es-ES', 'zh-CN', 'zh-TW', 'ja-JP', 'th-TH'];
   if (knownLangs.includes(code)) return code;
 
   const base = (code || '').split('-')[0];

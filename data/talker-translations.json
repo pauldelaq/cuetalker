@@ -68,5 +68,33 @@
     "listening": "[正在聆听...]",
     "recordingDisabled": "[点击麦克风练习]",
     "downloadRecording": "下载录音"
-    }
+    },
+  "ja-JP": {
+    "settings": "設定",
+    "voice": "音声：",
+    "volume": "音量：",
+    "speed": "速度：",
+    "autoAdvance": "自動進行",
+    "fontSize": "フォントサイズ：",
+    "preview": "これはメッセージテキストのプレビューです。",
+    "modeTest": "テストモード",
+    "modePractice": "練習モード",
+    "listening": "[聞き取り中...]",
+    "recordingDisabled": "[マイクをクリックして練習]",
+    "downloadRecording": "録音をダウンロード"
+  },
+  "th-TH": {
+    "settings": "การตั้งค่า",
+    "voice": "เสียง:",
+    "volume": "ระดับเสียง:",
+    "speed": "ความเร็ว:",
+    "autoAdvance": "เล่นต่ออัตโนมัติ",
+    "fontSize": "ขนาดตัวอักษร:",
+    "preview": "นี่คือตัวอย่างข้อความ",
+    "modeTest": "โหมดทดสอบ",
+    "modePractice": "โหมดฝึก",
+    "listening": "[กำลังฟัง...]",
+    "recordingDisabled": "[คลิกไมโครโฟนเพื่อฝึก]",
+    "downloadRecording": "ดาวน์โหลดไฟล์บันทึกเสียง"
+  }
 }
