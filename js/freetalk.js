@@ -46,6 +46,8 @@ let transcriber = null;
 let finalizedTranscript = '';      // full session transcript for matching
 let displayTranscript = '';        // visible transcript window only
 let matchers = []; // compiled matchers from wordListData
+let manuallyResetMatchCounts = new Map(); // practice-mode resets: how many prior matches to ignore per bubble
+let latestTranscriptMatchCounts = new Map(); // most recent match counts found in transcript per bubble
 let recordedAudioUrl = null;
 let recordedAudioFilename = '';
 let mediaRecorder = null;
@@ -351,8 +353,14 @@ function normalizeText(s) {
     .trim();
 }
 
+
 function normalizeLooseMatchText(s) {
   return normalizeText(s).replace(/\s+/g, '');
+}
+
+function shouldUseSpaceInsensitiveMatching() {
+  const lang = (selectedLang || lessonLang || localStorage.getItem('ctlanguage') || '').toLowerCase();
+  return lang.startsWith('zh') || lang.startsWith('ja') || lang.startsWith('th');
 }
 
 function clearTranscriptUI() {
@@ -360,6 +368,8 @@ function clearTranscriptUI() {
 }
 
 function resetWordMatchesUI() {
+  manuallyResetMatchCounts.clear();
+  latestTranscriptMatchCounts.clear();
   document.querySelectorAll('.wordBubble.matched').forEach(b => b.classList.remove('matched'));
   document.querySelectorAll('.wordBubble .wordBubbleCheck').forEach(el => el.remove());
 }
@@ -371,9 +381,28 @@ function ensureCheckmark(bubbleEl) {
   const header = bubbleEl.querySelector('.wordBubbleHeader');
   if (!header) return;
 
-  const check = document.createElement('span');
+  const check = document.createElement('button');
+  check.type = 'button';
   check.className = 'wordBubbleCheck';
   check.textContent = '✓';
+  check.setAttribute('aria-label', 'Reset matched word');
+
+  check.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    // Manual reset is only allowed in Practice Mode
+    if (!practiceMode) return;
+
+    const key = bubbleEl.dataset.word;
+    if (key) {
+      const currentCount = latestTranscriptMatchCounts.get(key) || 0;
+      manuallyResetMatchCounts.set(key, currentCount);
+    }
+
+    bubbleEl.classList.remove('matched');
+    check.remove();
+  });
+
   header.appendChild(check);
 }
 
@@ -402,11 +431,11 @@ function compileMatchers() {
   });
 }
 
-function getMatchedKeysFromTranscript(fullTextRaw) {
+function getTranscriptMatchCounts(fullTextRaw) {
   let remaining = normalizeText(fullTextRaw);
-  if (!remaining) return new Set();
+  if (!remaining) return new Map();
 
-  const matchedKeys = new Set();
+  const matchCounts = new Map();
 
   // Longest match first so something like "petit-dejeuner" matches
   // before the smaller "dejeuner" inside it. Each successful match
@@ -419,64 +448,81 @@ function getMatchedKeysFromTranscript(fullTextRaw) {
   });
 
   sortedMatchers.forEach(matcher => {
-    if (matchedKeys.has(matcher.key)) return;
-
     const sortedVariants = [...matcher.variants].sort(
       (a, b) => normalizeLooseMatchText(b).length - normalizeLooseMatchText(a).length
     );
 
-    for (const v of sortedVariants) {
-      const variantNorm = normalizeText(v);
-      if (!variantNorm) continue;
+    let localCount = 0;
 
-      let match = null;
-      let start = -1;
-      let length = 0;
+    while (true) {
+      let foundThisRound = false;
 
-      if (variantNorm.includes(' ')) {
-        // Multi-word Latin-script answers should match as full phrase chunks,
-        // not loose substrings. This prevents bad matches like "I talks"
-        // satisfying the form "I talk".
-        const escapedWords = variantNorm
-          .split(' ')
-          .filter(Boolean)
-          .map(part => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+      for (const v of sortedVariants) {
+        const variantNorm = normalizeText(v);
+        if (!variantNorm) continue;
 
-        const body = escapedWords.join('\\s+');
-        const strictRegex = new RegExp(`(^|\\s)(${body})(?=\\s|$)`);
-        match = strictRegex.exec(remaining);
+        let match = null;
+        let start = -1;
+        let length = 0;
 
-        if (match) {
-          start = match.index + match[1].length;
-          length = match[2].length;
+        const spaceInsensitive = shouldUseSpaceInsensitiveMatching();
+
+        if (variantNorm.includes(' ') && !spaceInsensitive) {
+          // Multi-word Latin-script answers should match as full phrase chunks,
+          // not loose substrings. This prevents bad matches like "I talks"
+          // satisfying the form "I talk".
+          const escapedWords = variantNorm
+            .split(' ')
+            .filter(Boolean)
+            .map(part => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+
+          const body = escapedWords.join('\\s+');
+          const strictRegex = new RegExp(`(^|\\s)(${body})(?=\\s|$)`);
+          match = strictRegex.exec(remaining);
+
+          if (match) {
+            start = match.index + match[1].length;
+            length = match[2].length;
+          }
+        } else {
+          // Space-insensitive languages (Chinese, Japanese, Thai) should still match
+          // even when ASR inserts spaces unpredictably. For other languages, keep
+          // the existing flexible single-token behavior.
+          const source = spaceInsensitive
+            ? normalizeLooseMatchText(variantNorm)
+            : variantNorm;
+
+          const body = source
+            .split('')
+            .map(ch => ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+            .join('\\s*');
+
+          const flexibleRegex = new RegExp(body);
+          match = flexibleRegex.exec(remaining);
+
+          if (match) {
+            start = match.index;
+            length = match[0].length;
+          }
         }
-      } else {
-        // Single-token answers stay flexible:
-        // - allow matches inside contractions (e.g. "m'avais" -> "avais")
-        // - allow CJK matches even when ASR inserts spaces between characters
-        const body = variantNorm
-          .split('')
-          .map(ch => ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-          .join('\\s*');
 
-        const flexibleRegex = new RegExp(body);
-        match = flexibleRegex.exec(remaining);
+        if (!match || start < 0 || length <= 0) continue;
 
-        if (match) {
-          start = match.index;
-          length = match[0].length;
-        }
+        localCount += 1;
+        remaining = remaining.slice(0, start) + ' '.repeat(length) + remaining.slice(start + length);
+        foundThisRound = true;
+        break;
       }
 
-      if (!match || start < 0 || length <= 0) continue;
+      if (!foundThisRound) break;
+    }
 
-      matchedKeys.add(matcher.key);
-      remaining = remaining.slice(0, start) + ' '.repeat(length) + remaining.slice(start + length);
-      break;
+    if (localCount > 0) {
+      matchCounts.set(matcher.key, localCount);
     }
   });
 
-  return matchedKeys;
+  return matchCounts;
 }
 
 function getMatchedWordCount() {
@@ -549,17 +595,26 @@ function saveFinalScore() {
 }
 
 function updateMatchesFromTranscript(fullTextRaw) {
-  const matchedKeys = getMatchedKeysFromTranscript(fullTextRaw);
+  const transcriptMatchCounts = getTranscriptMatchCounts(fullTextRaw);
+  latestTranscriptMatchCounts = transcriptMatchCounts;
 
   matchers.forEach(m => {
     const bubble = document.querySelector(`.wordBubble[data-word="${CSS.escape(m.key)}"]`);
     if (!bubble) return;
 
-    if (!matchedKeys.has(m.key)) return;
-    if (bubble.classList.contains('matched')) return;
+    const currentCount = transcriptMatchCounts.get(m.key) || 0;
+    const resetCount = practiceMode ? (manuallyResetMatchCounts.get(m.key) || 0) : 0;
+    const shouldBeMatched = currentCount > resetCount;
 
-    bubble.classList.add('matched');
-    ensureCheckmark(bubble);
+    if (shouldBeMatched) {
+      if (!bubble.classList.contains('matched')) {
+        bubble.classList.add('matched');
+      }
+      ensureCheckmark(bubble);
+    } else {
+      bubble.classList.remove('matched');
+      bubble.querySelector('.wordBubbleCheck')?.remove();
+    }
   });
 }
 

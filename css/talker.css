@@ -705,7 +705,14 @@ input#autoAdvanceToggle {
 
 .wordBubbleCheck {
   margin-left: 10px;
-  font-weight: 700;
+  font-weight: bold;
+  font-size: 30px;
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
 }
 
 .wordListContainer {
