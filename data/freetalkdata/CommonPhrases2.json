@@ -1,0 +1,183 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F469-200D-1F3EB.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Common Phrases (Part 2)",
+    "lessonPrompt": {
+        "text": "Can you conjugate all the phrases below? Use the tense indicated by the hint. You can use any form you want (I, you, he/she, we, they). To see the conjugations, expand the phrases. If you can't remember the expressions, please review part 1 again.",
+        "character": {
+        "name": "Miss Mimi",
+        "svg": "1"
+        }
+    },
+    "wordList": [
+        {
+        "word": "... a mistake / yesterday",
+        "forms": ["made a mistake"],
+        "phrases": ["make"]
+        },
+        {
+        "word": "... a decision / tomorrow",
+        "forms": ["will make a decision", "I'll make a decision", "You'll make a decision", "He'll make a decision", "She'll make a decision", "They'll make a decision", "We'll make a decision", "I am going to make a decision", "I'm going to make a decision", "You are going to make a decision", "You're going to make a decision", "He is going to make a decision", "He's going to make a decision", "She is going to make a decision", "She's going to make a decision", "We are going to make a decision", "We're going to make a decision", "They are going to make a decision", "They're going to make a decision"],
+        "phrases": ["make"]
+        },
+        {
+        "word": "... a phone call / every day",
+        "forms": ["I make a phone call", "you make a phone call", "he makes a phone call", "she makes a phone call", "we make a phone call", "they make a phone call"],
+        "phrases": ["make"]
+        },
+        {
+        "word": "... homework / last night",
+        "forms": ["I did homework", "you did homework", "he did homework", "she did homework", "we did homework", "they did homework"],
+        "phrases": ["do"]
+        },
+        {
+        "word": "... the dishes / right now",
+        "forms": ["I am doing the dishes", "I'm doing the dishes", "you are doing the dishes", "you're doing the dishes", "he is doing the dishes", "he's doing the dishes", "she is doing the dishes", "she's doing the dishes", "we are doing the dishes", "we're doing the dishes", "they are doing the dishes", "they're doing the dishes"],
+        "phrases": ["do"]
+        },
+        {
+        "word": "... exercise / every morning",
+        "forms": ["I do exercise", "you do exercise", "he does exercise", "she does exercise", "we do exercise", "they do exercise"],
+        "phrases": ["do"]
+        },
+        {
+        "word": "... a break / now",
+        "forms": ["I am taking a break", "I'm taking a break", "you are taking a break", "you're taking a break", "he is taking a break", "he's taking a break", "she is taking a break", "she's taking a break", "we are taking a break", "we're taking a break", "they are taking a break", "they're taking a break"],
+        "phrases": ["take"]
+        },
+        {
+        "word": "... a shower / this morning",
+        "forms": ["took a shower"],
+        "phrases": ["take"]
+        },
+        {
+        "word": "... a photo / tomorrow",
+        "forms": ["will take a photo", "I'll take a photo", "You'll take a photo", "He'll take a photo", "She'll take a photo", "They'll take a photo", "We'll take a photo", "I am going to take a photo", "I'm going to take a photo", "You are going to take a photo", "You're going to take a photo", "He is going to take a photo", "He's going to take a photo", "She is going to take a photo", "She's going to take a photo", "We are going to take a photo", "We're going to take a photo", "They are going to take a photo", "They're going to take a photo"],
+        "phrases": ["take"]
+        },
+        {
+        "word": "... ready / right now",
+        "forms": ["I am getting ready", "I'm getting ready", "you are getting ready", "you're getting ready", "he is getting ready", "he's getting ready", "she is getting ready", "she's getting ready", "we are getting ready", "we're getting ready", "they are getting ready", "they're getting ready"],
+        "phrases": ["get"]
+        },
+        {
+        "word": "... sick / last week",
+        "forms": ["got sick"],
+        "phrases": ["get"]
+        },
+        {
+        "word": "... better / soon",
+        "forms": ["will get better", "I'll get better", "you'll get better", "he'll get better", "she'll get better", "we'll get better", "they'll get better"],
+        "phrases": ["get"]
+        }
+    ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Expressions courantes (Partie 2)",
+      "lessonPrompt": {
+            "text": "Peux-tu conjuguer toutes les phrases ci-dessous ? Utilise le temps indiqué par l’indice. Tu peux utiliser la forme que tu veux (je, tu, il/elle, nous, vous, ils/elles). Pour voir les conjugaisons, développe les phrases. Si tu ne te souviens plus des expressions, revois d’abord la première partie.",
+        "character": {
+          "name": "Madame Mimi",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "... une erreur / hier", "forms": ["j’ai fait une erreur", "tu as fait une erreur", "il a fait une erreur", "elle a fait une erreur", "nous avons fait une erreur", "ils ont fait une erreur"], "phrases": ["faire"] },
+        { "word": "... une décision / demain", "forms": ["je vais prendre une décision", "tu vas prendre une décision", "il va prendre une décision", "elle va prendre une décision", "nous allons prendre une décision", "ils vont prendre une décision", "je prendrai une décision", "tu prendras une décision", "il prendra une décision", "elle prendra une décision", "nous prendrons une décision", "ils prendront une décision"], "phrases": ["prendre"] },
+        { "word": "... un appel / tous les jours", "forms": ["je passe un appel", "tu passes un appel", "il passe un appel", "elle passe un appel", "nous passons un appel", "ils passent un appel"], "phrases": ["passer"] },
+        { "word": "... ses devoirs / hier soir", "forms": ["j’ai fait mes devoirs", "tu as fait tes devoirs", "il a fait ses devoirs", "elle a fait ses devoirs", "nous avons fait nos devoirs", "ils ont fait leurs devoirs"], "phrases": ["faire"] },
+        { "word": "... la vaisselle / maintenant", "forms": ["je fais la vaisselle", "tu fais la vaisselle", "il fait la vaisselle", "elle fait la vaisselle", "nous faisons la vaisselle", "ils font la vaisselle"], "phrases": ["faire"] },
+        { "word": "... de l’exercice / tous les matins", "forms": ["je fais de l’exercice", "tu fais de l’exercice", "il fait de l’exercice", "elle fait de l’exercice", "nous faisons de l’exercice", "ils font de l’exercice"], "phrases": ["faire"] },
+        { "word": "... une pause / maintenant", "forms": ["je fais une pause", "tu fais une pause", "il fait une pause", "elle fait une pause", "nous faisons une pause", "ils font une pause"], "phrases": ["faire"] },
+        { "word": "... une douche / ce matin", "forms": ["j’ai pris une douche", "tu as pris une douche", "il a pris une douche", "elle a pris une douche", "nous avons pris une douche", "ils ont pris une douche"], "phrases": ["prendre"] },
+        { "word": "... une photo / demain", "forms": ["je vais prendre une photo", "tu vas prendre une photo", "il va prendre une photo", "elle va prendre une photo", "nous allons prendre une photo", "ils vont prendre une photo", "je prendrai une photo", "tu prendras une photo", "il prendra une photo", "elle prendra une photo", "nous prendrons une photo", "ils prendront une photo"], "phrases": ["prendre"] },
+        { "word": "se préparer / maintenant", "forms": ["je me prépare", "tu te prépares", "il se prépare", "elle se prépare", "nous nous préparons", "ils se préparent"], "phrases": ["se préparer"] },
+        { "word": "... malade / la semaine dernière", "forms": ["je suis tombé malade", "tu es tombé malade", "il est tombé malade", "elle est tombée malade", "nous sommes tombés malades", "ils sont tombés malades", "elles sont tombées malades"], "phrases": ["tomber"] },
+        { "word": "... mieux / bientôt", "forms": ["je vais aller mieux", "tu vas aller mieux", "il va aller mieux", "elle va aller mieux", "nous allons aller mieux", "ils vont aller mieux", "j’irai mieux", "tu iras mieux", "il ira mieux", "elle ira mieux", "nous irons mieux", "ils iront mieux"], "phrases": ["aller"] }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Frases comunes (Parte 2)",
+      "lessonPrompt": {
+            "text": "¿Puedes conjugar todas las frases de abajo? Usa el tiempo indicado por la pista. Puedes usar cualquier forma (yo, tú, él/ella, nosotros, vosotros, ellos). Para ver las conjugaciones, expande las frases. Si no recuerdas las expresiones, repasa primero la parte 1.",
+        "character": {
+          "name": "Señorita Mimi",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        { "word": "... un error / ayer", "forms": ["cometí un error", "cometiste un error", "cometió un error", "cometimos un error", "cometieron un error"], "phrases": ["cometer"] },
+        { "word": "... una decisión / mañana", "forms": ["voy a tomar una decisión", "vas a tomar una decisión", "va a tomar una decisión", "vamos a tomar una decisión", "van a tomar una decisión", "tomaré una decisión", "tomarás una decisión", "tomará una decisión", "tomaremos una decisión", "tomarán una decisión"], "phrases": ["tomar"] },
+        { "word": "... una llamada / todos los días", "forms": ["hago una llamada", "haces una llamada", "hace una llamada", "hacemos una llamada", "hacen una llamada"], "phrases": ["hacer"] },
+        { "word": "... la tarea / anoche", "forms": ["hice la tarea", "hiciste la tarea", "hizo la tarea", "hicimos la tarea", "hicieron la tarea"], "phrases": ["hacer"] },
+        { "word": "... los platos / ahora", "forms": ["estoy lavando los platos", "estás lavando los platos", "está lavando los platos", "estamos lavando los platos", "están lavando los platos"], "phrases": ["lavar"] },
+        { "word": "... ejercicio / cada mañana", "forms": ["hago ejercicio", "haces ejercicio", "hace ejercicio", "hacemos ejercicio", "hacen ejercicio"], "phrases": ["hacer"] },
+        { "word": "... un descanso / ahora", "forms": ["estoy tomando un descanso", "estás tomando un descanso", "está tomando un descanso", "estamos tomando un descanso", "están tomando un descanso"], "phrases": ["tomar"] },
+        { "word": "ducharse / esta mañana", "forms": ["me duché", "te duchaste", "se duchó", "nos duchamos", "se ducharon"], "phrases": ["ducharse"] },
+        { "word": "... una foto / mañana", "forms": ["voy a tomar una foto", "vas a tomar una foto", "va a tomar una foto", "vamos a tomar una foto", "van a tomar una foto", "tomaré una foto", "tomarás una foto", "tomará una foto", "tomaremos una foto", "tomarán una foto"], "phrases": ["tomar"] },
+        { "word": "prepararse / ahora", "forms": ["me estoy preparando", "te estás preparando", "se está preparando", "nos estamos preparando", "se están preparando"], "phrases": ["prepararse"] },
+        { "word": "enfermarse / la semana pasada", "forms": ["me enfermé", "te enfermaste", "se enfermó", "nos enfermamos", "se enfermaron"], "phrases": ["enfermarse"] },
+        { "word": "mejorarse / pronto", "forms": ["me voy a mejorar", "te vas a mejorar", "se va a mejorar", "nos vamos a mejorar", "se van a mejorar", "me mejoraré", "te mejorarás", "se mejorará", "nos mejoraremos", "se mejorarán"], "phrases": ["mejorarse"] }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "常用表达（第二部分）",
+      "lessonPrompt": {
+        "text": "你能用下面的提示，说出自然的句子吗？请根据时间提示表达意思。你可以自由选择主语。如果你不记得这些表达，请先复习第一部分。",
+        "character": { "name": "咪咪小姐", "svg": "1" }
+      },
+      "wordList": [
+        { "word": "...错 / 昨天", "forms": ["犯错了", "昨天犯错"], "phrases": ["犯..."] },
+        { "word": "...决定 / 明天", "forms": ["会下决定", "要下决定"], "phrases": ["下..."] },
+        { "word": "...电话 / 每天", "forms": ["每天打电话"], "phrases": ["打..."] },
+        { "word": "...作业 / 昨晚", "forms": ["写作业了", "昨晚写作业"], "phrases": ["写..."] },
+        { "word": "...碗 / 现在", "forms": ["在洗碗"], "phrases": ["洗..."] },
+        { "word": "...运动 / 每天早上", "forms": ["每天早上做运动"], "phrases": ["做..."] },
+        { "word": "休息一下 / 现在", "forms": ["在休息"], "phrases": [] },
+        { "word": "...澡 / 今天早上", "forms": ["洗澡了", "今天早上洗澡"], "phrases": ["洗..."] },
+        { "word": "...照 / 明天", "forms": ["会拍照", "要拍照"], "phrases": ["拍..."] },
+        { "word": "准备 / 现在", "forms": ["在准备"], "phrases": [] },
+        { "word": "...病 / 上周", "forms": ["生病了", "上周生病"], "phrases": ["生..."] },
+        { "word": "变好 / 很快", "forms": ["会变好"], "phrases": [] }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "常用表達（第二部分）",
+      "lessonPrompt": {
+        "text": "你能根據提示說出自然的句子嗎？請依照時間提示表達意思。你可以自由選擇主語。如果你不記得這些表達，請先複習第一部分。",
+        "character": { "name": "咪咪小姐", "svg": "1" }
+      },
+      "wordList": [
+        { "word": "...錯 / 昨天", "forms": ["犯錯了", "昨天犯錯"], "phrases": ["犯..."] },
+        { "word": "...決定 / 明天", "forms": ["會下決定", "要下決定"], "phrases": ["下..."] },
+        { "word": "...電話 / 每天", "forms": ["每天打電話"], "phrases": ["打..."] },
+        { "word": "...作業 / 昨晚", "forms": ["寫作業了", "昨晚寫作業"], "phrases": ["寫..."] },
+        { "word": "...碗 / 現在", "forms": ["在洗碗"], "phrases": ["洗..."] },
+        { "word": "...運動 / 每天早上", "forms": ["每天早上做運動"], "phrases": ["做..."] },
+        { "word": "休息一下 / 現在", "forms": ["在休息"], "phrases": [] },
+        { "word": "...澡 / 今天早上", "forms": ["洗澡了", "今天早上洗澡"], "phrases": ["洗..."] },
+        { "word": "...照 / 明天", "forms": ["會拍照", "要拍照"], "phrases": ["拍..."] },
+        { "word": "準備 / 現在", "forms": ["在準備"], "phrases": [] },
+        { "word": "...病 / 上週", "forms": ["生病了", "上週生病"], "phrases": ["生..."] },
+        { "word": "變好 / 很快", "forms": ["會變好"], "phrases": [] }
+      ]
+    }
+  }
+}

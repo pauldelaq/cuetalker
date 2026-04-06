@@ -118,7 +118,9 @@
         "fr-FR": "Routine quotidienne",
         "es-ES": "Rutina diaria",
         "zh-CN": "日常生活",
-        "zh-TW": "日常生活"
+        "zh-TW": "日常生活",
+        "ja-JP": "日課",
+        "th-TH": "กิจวัตรประจำวัน"
       }
     },
     {
@@ -128,7 +130,9 @@
         "fr-FR": "Expériences personnelles",
         "es-ES": "Experiencias personales",
         "zh-CN": "个人经历",
-        "zh-TW": "個人經驗"
+        "zh-TW": "個人經驗",
+        "ja-JP": "個人的な経験",
+        "th-TH": "ประสบการณ์ส่วนตัว"
       }
     },
         {
@@ -159,7 +163,7 @@
         "zh-TW": "上一次"
       }
     },
-        {
+      {
       "id": "CommonPhrases1",
       "name": {
         "en-US": "Common Phrases (Part 1)",
@@ -167,6 +171,16 @@
         "es-ES": "Frases comunes (Parte 1)",
         "zh-CN": "常用表达（第一部分）",
         "zh-TW": "常用表達（第一部分）"
+      }
+    },
+      {
+      "id": "CommonPhrases2",
+      "name": {
+        "en-US": "Common Phrases (Part 2)",
+        "fr-FR": "Expressions courantes (Partie 2)",
+        "es-ES": "Frases comunes (Parte 2)",
+        "zh-CN": "常用表达（第二部分）",
+        "zh-TW": "常用表達（第二部分）"
       }
     }
 
