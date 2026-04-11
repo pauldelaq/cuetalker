@@ -1442,11 +1442,12 @@ function renderWordList() {
     container.appendChild(bubble);
   });
 
-  // Optional: reduce accidental text selection on mobile
+  /* Optional: reduce accidental text selection on mobile
   container.querySelectorAll('.tts-clickable').forEach(el => {
     el.style.userSelect = 'none';
     el.style.webkitUserSelect = 'none';
   });
+  */
 }
 
 async function loadLesson() {

@@ -1,0 +1,240 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F937-1F3FD-200D-2640-FE0F.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Comparisons",
+      "lessonPrompt": {
+        "text": "Thanks for coming shopping with me! I'm not sure what to buy. Can you help me decide? Please help me compare the following products.",
+        "character": {
+          "name": "Jessie",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+            "word": "watch / clock (size)",
+            "forms": ["the clock is bigger than the watch", "the watch is smaller than the clock", "the watch is not as big as the clock", "the clock is not as small as the watch"],
+            "phrases": [
+                "... bigger than ...",
+                "... smaller than ...",
+                "... not as big as ...",
+                "... not as small as ..."
+            ]
+        },
+                {
+          "word": "lamp / computer (price)",
+          "forms": ["the lamp is cheaper than the computer", "the computer is more expensive than the lamp", "the lamp is not as expensive as the computer", "the computer is not as cheap as the lamp"],
+          "phrases": [
+            "... cheaper than ...",
+            "... more expensive than ...",
+            "... not as cheap as ...",
+            "... not as expensive as ..."
+          ]
+        },
+        {
+          "word": "bed / broom (price)",
+          "forms": ["the bed is more expensive than the broom", "the broom is cheaper than the bed", "the bed is not as cheap as the broom", "the broom is not as expensive as the bed"],
+          "phrases": [
+            "... cheaper than ...",
+            "... more expensive than ...",
+            "... not as cheap as ...",
+            "... not as expensive as ..."
+          ]
+        },
+        {
+          "word": "potato chips / carrots (healthy)",
+          "forms": ["the potato chips are not as healthy as the carrots", "the potato chips aren't as healthy as the carrots", "the carrots are healthier than the potato chips"],
+          "phrases": [
+            "... {healthier} than ...",
+            "... not as {healthy} as ..."
+          ]
+        },
+        {
+            "word": "bike / car (speed)",
+            "forms": ["the bike is slower than the car", "the car is faster than the bike", "the bike is not as fast as the car", "the bike isn't as fast as the car"],
+            "phrases": [
+                "... slower than ...",
+                "... faster than ...",
+                "... not as fast as ..."
+            ]
+        },
+        {
+          "word": "flashlight / washing machine (portable)",
+          "forms": ["the flashlight is more portable than the washing machine", "the washing machine is not as portable as the flashlight"],
+          "phrases": [
+            "... as {portable} as ...",
+            "... not as {portable} as ..."
+          ]
+        },
+        {
+          "word": "pencil / chair / TV (price)",
+          "forms": ["the TV is the most expensive", "the pencil is the least expensive", "the pencil is the cheapest", "the TV is the least cheap"],
+          "phrases": [
+            "... the most expensive",
+            "... the least expensive",
+            "... the cheapest",
+            "... the least cheap"
+          ]
+        },
+                {
+            "word": "pen / book / table (weight)",
+            "forms": ["the pen is the lightest", "the table is the heaviest"],
+            "phrases": [
+                "... the heaviest",
+                "... the lightest"
+            ]
+        },
+        {
+          "word": "cell phone / stereo / vacuum cleaner (volume)",
+          "forms": ["the cell phone is the quietest", "the vacuum cleaner is the loudest"],
+          "phrases": [
+            "... the quietest",
+            "... the loudest"
+            ]
+        },
+        {
+          "word": "ice cream / salad / fried chicken (temperature)",
+          "forms": ["the ice cream is the coldest", "the fried chicken is the hottest"],
+          "phrases": [
+            "... the coldest",
+            "... the hottest"
+          ]
+        }
+      ]
+    },
+
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Comparaisons",
+      "lessonPrompt": {
+        "text": "Merci de faire du shopping avec moi ! Je ne sais pas quoi acheter. Tu peux m'aider à décider ? Compare les produits suivants.",
+        "character": { "name": "Jessie", "svg": "1" }
+      },
+      "wordList": [
+        { "word": "montre / horloge (taille)", "forms": ["l'horloge est plus grande que la montre", "la montre est plus petite que l'horloge", "la montre n'est pas aussi grande que l'horloge", "l'horloge n'est pas aussi petite que la montre"], "phrases": ["... plus grand que ...", "... plus petit que ...", "... pas aussi ... que ..."] },
+        { "word": "lampe / ordinateur (prix)", "forms": ["la lampe est moins chère que l'ordinateur", "l'ordinateur est plus cher que la lampe", "la lampe n'est pas aussi chère que l'ordinateur"], "phrases": ["... moins cher que ...", "... plus cher que ...", "... pas aussi ... que ..."] },
+        { "word": "lit / balai (prix)", "forms": ["le lit est plus cher que le balai", "le balai est moins cher que le lit", "le balai n'est pas aussi cher que le lit"], "phrases": ["... moins cher que ...", "... plus cher que ...", "... pas aussi ... que ..."] },
+        { "word": "chips / carottes (santé)", "forms": ["les chips ne sont pas aussi saines que les carottes", "les carottes sont plus saines que les chips"], "phrases": ["... plus sain que ...", "... pas aussi sain que ..."] },
+        { "word": "vélo / voiture (vitesse)", "forms": ["le vélo est plus lent que la voiture", "la voiture est plus rapide que le vélo", "le vélo n'est pas aussi rapide que la voiture"], "phrases": ["... plus lent que ...", "... plus rapide que ...", "... pas aussi ... que ..."] },
+        { "word": "lampe de poche / machine à laver (portable)", "forms": ["la lampe de poche est plus portable que la machine à laver", "la machine à laver n'est pas aussi portable que la lampe de poche"], "phrases": ["... plus portable que ...", "... pas aussi ... que ..."] },
+        { "word": "crayon / chaise / télévision (prix)", "forms": ["la télévision est la plus chère", "le crayon est le moins cher"], "phrases": ["... le plus cher", "... le moins cher"] },
+        { "word": "stylo / livre / table (poids)", "forms": ["le stylo est le plus léger", "la table est la plus lourde"], "phrases": ["... le plus lourd", "... le plus léger"] },
+        { "word": "téléphone / chaîne stéréo / aspirateur (volume)", "forms": ["le téléphone est le plus silencieux", "l'aspirateur est le plus bruyant"], "phrases": ["... le plus silencieux", "... le plus bruyant"] },
+        { "word": "glace / salade / poulet frit (température)", "forms": ["la glace est la plus froide", "le poulet frit est le plus chaud"], "phrases": ["... le plus froid", "... le plus chaud"] }
+      ]
+    },
+
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Comparaciones",
+      "lessonPrompt": {
+        "text": "¡Gracias por venir de compras conmigo! No sé qué comprar. ¿Puedes ayudarme a decidir? Compara los siguientes productos.",
+        "character": { "name": "Planificador", "svg": "1" }
+      },
+      "wordList": [
+        { "word": "reloj / reloj de pared (tamaño)", "forms": ["el reloj de pared es más grande que el reloj", "el reloj es más pequeño que el reloj de pared", "el reloj no es tan grande como el reloj de pared"], "phrases": ["... más grande que ...", "... más pequeño que ...", "... no tan ... como ..."] },
+        { "word": "lámpara / ordenador (precio)", "forms": ["la lámpara es más barata que el ordenador", "el ordenador es más caro que la lámpara", "la lámpara no es tan cara como el ordenador", "el ordenador no es tan barato como la lámpara"], "phrases": ["... más barato que ...", "... más caro que ...", "... no tan ... como ..."] },
+        { "word": "cama / escoba (precio)", "forms": ["la cama es más cara que la escoba", "la escoba es más barata que la cama", "la cama no es tan barata como la escoba", "la escoba no es tan cara como la cama"], "phrases": ["... más barato que ...", "... más caro que ...", "... no tan ... como ..."] },
+        { "word": "patatas fritas / zanahorias (salud)", "forms": ["las patatas fritas no son tan saludables como las zanahorias", "las zanahorias son más saludables que las patatas fritas"], "phrases": ["... más saludable que ...", "... no tan ... como ..."] },
+        { "word": "bicicleta / coche (velocidad)", "forms": ["la bicicleta es más lenta que el coche", "el coche es más rápido que la bicicleta", "la bicicleta no es tan rápida como el coche"], "phrases": ["... más lento que ...", "... más rápido que ...", "... no tan ... como ..."] },
+        { "word": "linterna / lavadora (portable)", "forms": ["la linterna es más portátil que la lavadora", "la lavadora no es tan portátil como la linterna"], "phrases": ["... más portátil que ...", "... no tan ... como ..."] },
+        { "word": "lápiz / silla / televisor (precio)", "forms": ["el televisor es el más caro", "el lápiz es el más barato"], "phrases": ["... el más caro", "... el más barato"] },
+        { "word": "bolígrafo / libro / mesa (peso)", "forms": ["el bolígrafo es el más ligero", "la mesa es la más pesada"], "phrases": ["... el más pesado", "... el más ligero"] },
+        { "word": "teléfono / estéreo / aspiradora (volumen)", "forms": ["el teléfono es el más silencioso", "la aspiradora es la más ruidosa"], "phrases": ["... el más silencioso", "... el más ruidoso"] },
+        { "word": "helado / ensalada / pollo frito (temperatura)", "forms": ["el helado es el más frío", "el pollo frito es el más caliente"], "phrases": ["... el más frío", "... el más caliente"] }
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "比较",
+      "lessonPrompt": {
+        "text": "谢谢你陪我去购物！我不知道买什么。你可以帮我做决定吗？请比较以下产品。",
+        "character": { "name": "Jessie", "svg": "1" }
+      },
+      "wordList": [
+        { "word": "手表 / 时钟（大小）", "forms": ["时钟比手表大", "手表比时钟小", "手表没有时钟大", "时钟没有手表小"], "phrases": ["... 比 ... 大", "... 比 ... 小", "... 没有 ... 大", "... 没有 ... 小"] },
+        { "word": "台灯 / 电脑（价格）", "forms": ["台灯比电脑便宜", "电脑比台灯贵", "电脑比台灯柜", "台灯没有电脑贵", "台灯没有电脑柜", "电脑没有台灯便宜"], "phrases": ["... 比 ... 便宜", "... 比 ... 贵", "... 没有 ... 贵", "... 没有 ... 便宜"] },
+        { "word": "床 / 扫帚（价格）", "forms": ["床比扫帚贵", "床比扫帚柜", "扫帚比床便宜", "床没有扫帚便宜", "扫帚没有床贵", "扫帚没有床柜"], "phrases": ["... 比 ... 便宜", "... 比 ... 贵", "... 没有 ... 便宜", "... 没有 ... 贵"] },
+        { "word": "薯片 / 胡萝卜（健康）", "forms": ["薯片没有胡萝卜健康", "胡萝卜比薯片健康"], "phrases": ["... 比 ... 健康", "... 没有 ... 健康"] },
+        { "word": "自行车 / 汽车（速度）", "forms": ["自行车比汽车慢", "汽车比自行车快", "自行车没有汽车快"], "phrases": ["... 比 ... 慢", "... 比 ... 快", "... 没有 ... 快"] },
+        { "word": "手电筒 / 洗衣机（便携）", "forms": ["手电筒比洗衣机方便携带", "洗衣机没有手电筒方便携带"], "phrases": ["... 比 ... 方便携带", "... 没有 ... 方便携带"] },
+        { "word": "铅笔 / 椅子 / 电视（价格）", "forms": ["电视最贵", "铅笔最便宜"], "phrases": ["最贵", "最便宜"] },
+        { "word": "笔 / 书 / 桌子（重量）", "forms": ["笔最轻", "桌子最重"], "phrases": ["最轻", "最重"] },
+        { "word": "手机 / 音响 / 吸尘器（音量）", "forms": ["手机最安静", "吸尘器最吵"], "phrases": ["最安静", "最吵"] },
+        { "word": "冰淇淋 / 沙拉 / 炸鸡（温度）", "forms": ["冰淇淋最冷", "炸鸡最热"], "phrases": ["最冷", "最热"] }
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "比較",
+      "lessonPrompt": {
+        "text": "謝謝你陪我去購物！我不知道要買什麼。你可以幫我決定嗎？請比較以下產品。",
+        "character": { "name": "Jessie", "svg": "1" }
+      },
+      "wordList": [
+        { "word": "手錶 / 時鐘（大小）", "forms": ["時鐘比手錶大", "手錶比時鐘小", "手錶沒有時鐘大", "時鐘沒有手錶小"], "phrases": ["... 比 ... 大", "... 比 ... 小", "... 沒有 ... 大", "... 沒有 ... 小"] },
+        { "word": "檯燈 / 電腦（價格）", "forms": ["檯燈比電腦便宜", "電腦比檯燈貴", "電腦比檯燈櫃", "檯燈沒有電腦貴", "電腦沒有檯燈便宜", "檯燈沒有電腦櫃"], "phrases": ["... 比 ... 便宜", "... 比 ... 貴", "... 沒有 ... 貴", "... 沒有 ... 便宜"] },
+        { "word": "床 / 掃把（價格）", "forms": ["床比掃把貴", "床比掃把櫃", "掃把比床便宜", "床沒有掃把便宜", "掃把沒有床貴", "掃把沒有床櫃"], "phrases": ["... 比 ... 便宜", "... 比 ... 貴", "... 沒有 ... 便宜", "... 沒有 ... 貴"] },
+        { "word": "洋芋片 / 胡蘿蔔（健康）", "forms": ["洋芋片沒有胡蘿蔔健康", "胡蘿蔔比洋芋片健康"], "phrases": ["... 比 ... 健康", "... 沒有 ... 健康"] },
+        { "word": "腳踏車 / 汽車（速度）", "forms": ["腳踏車比汽車慢", "汽車比腳踏車快", "腳踏車沒有汽車快"], "phrases": ["... 比 ... 慢", "... 比 ... 快", "... 沒有 ... 快"] },
+        { "word": "手電筒 / 洗衣機（方便攜帶）", "forms": ["手電筒比洗衣機方便攜帶", "洗衣機沒有手電筒方便攜帶"], "phrases": ["... 比 ... 方便攜帶", "... 沒有 ... 方便攜帶"] },
+        { "word": "鉛筆 / 椅子 / 電視（價格）", "forms": ["電視最貴", "鉛筆最便宜"], "phrases": ["最貴", "最便宜"] },
+        { "word": "筆 / 書 / 桌子（重量）", "forms": ["筆最輕", "桌子最重"], "phrases": ["最輕", "最重"] },
+        { "word": "手機 / 音響 / 吸塵器（音量）", "forms": ["手機最安靜", "吸塵器最吵"], "phrases": ["最安靜", "最吵"] },
+        { "word": "冰淇淋 / 沙拉 / 炸雞（溫度）", "forms": ["冰淇淋最冷", "炸雞最熱"], "phrases": ["最冷", "最熱"] }
+      ]
+    },
+    "ja-JP": {
+      "language": "ja-JP",
+      "languageName": "日本語",
+      "lessonName": "比較",
+      "lessonPrompt": {
+        "text": "買い物に付き合ってくれてありがとう！何を買えばいいかわかりません。決めるのを手伝ってくれますか？次のものを比べてください。",
+        "character": { "name": "Jessie", "svg": "1" }
+      },
+      "wordList": [
+        { "word": "腕時計 / 時計（大きさ）", "forms": ["時計は腕時計より大きいです", "腕時計は時計より小さいです", "腕時計は時計ほど大きくないです", "時計は腕時計ほど小さくないです"], "phrases": ["... より大きい", "... より小さい", "... ほど ... ない"] },
+        { "word": "ランプ / パソコン（値段）", "forms": ["ランプはパソコンより安いです", "パソコンはランプより高いです", "ランプはパソコンほど高くないです", "パソコンはランプほど安くないです"], "phrases": ["... より安い", "... より高い", "... ほど ... ない"] },
+        { "word": "ベッド / ほうき（値段）", "forms": ["ベッドはほうきより高いです", "ほうきはベッドより安いです", "ベッドはほうきほど安くないです", "ほうきはベッドほど高くないです"], "phrases": ["... より安い", "... より高い", "... ほど ... ない"] },
+        { "word": "ポテトチップス / にんじん（健康）", "forms": ["ポテトチップスはにんじんほど健康的ではないです", "にんじんはポテトチップスより健康的です"], "phrases": ["... より健康的", "... ほど ... ない"] },
+        { "word": "自転車 / 車（速さ）", "forms": ["自転車は車より遅いです", "車は自転車より速いです", "自転車は車ほど速くないです"], "phrases": ["... より遅い", "... より速い", "... ほど ... ない"] },
+        { "word": "懐中電灯 / 洗濯機（持ち運び）", "forms": ["懐中電灯は洗濯機より持ち運びやすいです", "洗濯機は懐中電灯ほど持ち運びやすくないです"], "phrases": ["... より ... やすい", "... ほど ... ない"] },
+        { "word": "鉛筆 / 椅子 / テレビ（値段）", "forms": ["テレビが一番高いです", "鉛筆が一番安いです"], "phrases": ["一番高い", "一番安い"] },
+        { "word": "ペン / 本 / テーブル（重さ）", "forms": ["ペンが一番軽いです", "テーブルが一番重いです"], "phrases": ["一番軽い", "一番重い"] },
+        { "word": "携帯電話 / ステレオ / 掃除機（音量）", "forms": ["携帯電話が一番静かです", "掃除機が一番うるさいです"], "phrases": ["一番静か", "一番うるさい"] },
+        { "word": "アイスクリーム / サラダ / フライドチキン（温度）", "forms": ["アイスクリームが一番冷たいです", "フライドチキンが一番熱いです"], "phrases": ["一番冷たい", "一番熱い"] }
+      ]
+    },
+    "th-TH": {
+      "language": "th-TH",
+      "languageName": "ไทย",
+      "lessonName": "การเปรียบเทียบ",
+      "lessonPrompt": {
+        "text": "ขอบคุณที่มาช้อปปิ้งกับฉัน! ฉันไม่แน่ใจว่าจะซื้ออะไร คุณช่วยตัดสินใจได้ไหม? กรุณาเปรียบเทียบสิ่งของต่อไปนี้",
+        "character": { "name": "Jessie", "svg": "1" }
+      },
+      "wordList": [
+        { "word": "นาฬิกาข้อมือ / นาฬิกา (ขนาด)", "forms": ["นาฬิกาใหญ่กว่านาฬิกาข้อมือ", "นาฬิกาข้อมือเล็กกว่านาฬิกา", "นาฬิกาข้อมือไม่ใหญ่เท่านาฬิกา", "นาฬิกาไม่เล็กเท่านาฬิกาข้อมือ"], "phrases": ["... ใหญ่กว่า ...", "... เล็กกว่า ...", "... ไม่ ... เท่า ..."] },
+        { "word": "โคมไฟ / คอมพิวเตอร์ (ราคา)", "forms": ["โคมไฟถูกกว่าคอมพิวเตอร์", "คอมพิวเตอร์แพงกว่าโคมไฟ", "โคมไฟไม่แพงเท่าคอมพิวเตอร์", "คอมพิวเตอร์ไม่ถูกเท่าโคมไฟ"], "phrases": ["... ถูกกว่า ...", "... แพงกว่า ...", "... ไม่ ... เท่า ..."] },
+        { "word": "เตียง / ไม้กวาด (ราคา)", "forms": ["เตียงแพงกว่าไม้กวาด", "ไม้กวาดถูกกว่าเตียง", "เตียงไม่ถูกเท่าไม้กวาด", "ไม้กวาดไม่แพงเท่าเตียง"], "phrases": ["... ถูกกว่า ...", "... แพงกว่า ...", "... ไม่ ... เท่า ..."] },
+        { "word": "มันฝรั่งทอด / แครอท (สุขภาพ)", "forms": ["มันฝรั่งทอดไม่ดีต่อสุขภาพเท่าแครอท", "แครอทดีต่อสุขภาพมากกว่ามันฝรั่งทอด"], "phrases": ["... ดีกว่า ...", "... ไม่ ... เท่า ..."] },
+        { "word": "จักรยาน / รถยนต์ (ความเร็ว)", "forms": ["จักรยานช้ากว่ารถยนต์", "รถยนต์เร็วกว่าจักรยาน", "จักรยานไม่เร็วเท่ารถยนต์"], "phrases": ["... ช้ากว่า ...", "... เร็วกว่า ...", "... ไม่ ... เท่า ..."] },
+        { "word": "ไฟฉาย / เครื่องซักผ้า (พกพา)", "forms": ["ไฟฉายพกพาสะดวกกว่าเครื่องซักผ้า", "เครื่องซักผ้าไม่พกพาสะดวกเท่าไฟฉาย"], "phrases": ["... สะดวกกว่า ...", "... ไม่ ... เท่า ..."] },
+        { "word": "ดินสอ / เก้าอี้ / ทีวี (ราคา)", "forms": ["ทีวีแพงที่สุด", "ดินสอถูกที่สุด"], "phrases": ["แพงที่สุด", "ถูกที่สุด"] },
+        { "word": "ปากกา / หนังสือ / โต๊ะ (น้ำหนัก)", "forms": ["ปากกาเบาที่สุด", "โต๊ะหนักที่สุด"], "phrases": ["หนักที่สุด", "เบาที่สุด"] },
+        { "word": "โทรศัพท์ / เครื่องเสียง / เครื่องดูดฝุ่น (เสียง)", "forms": ["โทรศัพท์เงียบที่สุด", "เครื่องดูดฝุ่นดังที่สุด"], "phrases": ["เงียบที่สุด", "ดังที่สุด"] },
+        { "word": "ไอศกรีม / สลัด / ไก่ทอด (อุณหภูมิ)", "forms": ["ไอศกรีมเย็นที่สุด", "ไก่ทอดร้อนที่สุด"], "phrases": ["เย็นที่สุด", "ร้อนที่สุด"] }
+      ]
+    }
+  }
+}

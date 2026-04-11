@@ -183,7 +183,7 @@
         "zh-TW": "常用表達（第二部分）"
       }
     },
-          {
+    {
       "id": "MeasureWords",
       "name": {
         "zh-TW": "量詞：生日派對",
@@ -191,8 +191,19 @@
         "ja-JP": "助数詞：誕生日パーティー",
         "th-TH": "ลักษณนาม: งานวันเกิด"
       }
+    },
+    {
+      "id": "Comparisons",
+      "name": {
+        "en-US": "Comparisons",
+        "fr-FR": "Comparaisons",
+        "es-ES": "Comparaciones",
+        "zh-CN": "比较",
+        "zh-TW": "比較",
+        "ja-JP": "比較",
+        "th-TH": "การเปรียบเทียบ"
+      }
     }
-
 
   ]
 }
