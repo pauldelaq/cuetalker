@@ -701,6 +701,22 @@ input#autoAdvanceToggle {
 
 .wordBubble.matched {
   background-color: var(--bubble-user-correct);
+  animation: matchedSuccess 320ms ease-out;
+}
+
+@keyframes matchedSuccess {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+  40% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 6px rgba(76, 175, 80, 0.28);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
 }
 
 .wordBubbleCheck {

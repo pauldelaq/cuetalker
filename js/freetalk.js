@@ -358,6 +358,55 @@ function normalizeLooseMatchText(s) {
   return normalizeText(s).replace(/\s+/g, '');
 }
 
+function expandVariantPattern(input) {
+  const raw = String(input || '').trim();
+  if (!raw) return [];
+
+  // Treat only parenthesized groups containing a slash as variant syntax.
+  // Example:
+  //   "the watch (is not/isn't) as (big/large) as the clock"
+  // expands to:
+  //   - the watch is not as big as the clock
+  //   - the watch is not as large as the clock
+  //   - the watch isn't as big as the clock
+  //   - the watch isn't as large as the clock
+  //
+  // Parentheses without a slash are left untouched as normal literal text.
+  const groupRegex = /\(([^()]*\/[^()]*)\)/;
+
+  const expandRecursive = (str) => {
+    const match = groupRegex.exec(str);
+    if (!match) return [str];
+
+    const [fullMatch, inner] = match;
+    const options = inner
+      .split('/')
+      .map(part => part.trim())
+      .filter(Boolean);
+
+    if (!options.length) {
+      return [str.replace(fullMatch, '')];
+    }
+
+    const results = [];
+    options.forEach(option => {
+      const replaced = str.replace(fullMatch, option);
+      results.push(...expandRecursive(replaced));
+    });
+    return results;
+  };
+
+  return Array.from(new Set(
+    expandRecursive(raw)
+      .map(s => s.replace(/\s+/g, ' ').trim())
+      .filter(Boolean)
+  ));
+}
+
+function expandFormVariants(forms) {
+  return (Array.isArray(forms) ? forms : []).flatMap(form => expandVariantPattern(form));
+}
+
 function shouldUseSpaceInsensitiveMatching() {
   const lang = (selectedLang || lessonLang || localStorage.getItem('ctlanguage') || '').toLowerCase();
   return lang.startsWith('zh') || lang.startsWith('ja') || lang.startsWith('th');
@@ -394,9 +443,11 @@ function ensureCheckmark(bubbleEl) {
     if (!practiceMode) return;
 
     const key = bubbleEl.dataset.word;
+    
     if (key) {
       const currentCount = latestTranscriptMatchCounts.get(key) || 0;
-      manuallyResetMatchCounts.set(key, currentCount);
+      const existingResetCount = manuallyResetMatchCounts.get(key) || 0;
+      manuallyResetMatchCounts.set(key, Math.max(existingResetCount, currentCount, 1));
     }
 
     bubbleEl.classList.remove('matched');
@@ -416,7 +467,9 @@ function compileMatchers() {
     // IMPORTANT: forms is the only source of truth for transcript matching.
     // The displayed word can later be a hint/prompt, while forms contains the
     // actual acceptable spoken answers (including conjugated forms, etc.).
-    const variants = (Array.isArray(item.forms) ? item.forms : [])
+    // forms also supports simple inline variant groups like:
+    // "the watch (is not/isn't) as (big/large) as the clock"
+    const variants = expandFormVariants(item.forms)
       .map(v => normalizeText(v))
       .filter(Boolean);
 
@@ -604,16 +657,16 @@ function updateMatchesFromTranscript(fullTextRaw) {
 
     const currentCount = transcriptMatchCounts.get(m.key) || 0;
     const resetCount = practiceMode ? (manuallyResetMatchCounts.get(m.key) || 0) : 0;
-    const shouldBeMatched = currentCount > resetCount;
+    const shouldBeMatchedNow = currentCount > resetCount;
+    const alreadyMatched = bubble.classList.contains('matched');
 
-    if (shouldBeMatched) {
-      if (!bubble.classList.contains('matched')) {
+    // Sticky logic:
+    // once matched, stay matched unless manually reset in Practice Mode
+    if (shouldBeMatchedNow || alreadyMatched) {
+      if (!alreadyMatched) {
         bubble.classList.add('matched');
       }
       ensureCheckmark(bubble);
-    } else {
-      bubble.classList.remove('matched');
-      bubble.querySelector('.wordBubbleCheck')?.remove();
     }
   });
 }
