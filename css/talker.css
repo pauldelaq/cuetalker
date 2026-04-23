@@ -615,10 +615,6 @@ input#autoAdvanceToggle {
   align-items: center;
 }
 
-.wordBubbleHeader:hover {
-  color: orange;
-}
-
 .wordBubbleToggle {
   /* visual */
   background: transparent;
@@ -673,8 +669,18 @@ input#autoAdvanceToggle {
   margin: 6px 0;
 }
 
-.phrase-item:hover {
-  color: orange;
+@media (hover: hover) and (pointer: fine) {
+  .wordBubbleHeader:hover,
+  .phrase-item:hover {
+    color: orange;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .wordBubbleHeader:active,
+  .phrase-item:active {
+    color: orange;
+  }
 }
 
 .phrase-word {

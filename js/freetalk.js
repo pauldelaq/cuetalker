@@ -1,4 +1,14 @@
 let selectedLang = localStorage.getItem('ctlanguage') || '';
+
+function applyUrlLanguageOverride() {
+  const params = new URLSearchParams(window.location.search);
+  const langFromUrl = params.get('lang');
+  if (!langFromUrl) return;
+
+  const normalizedLang = getLangKey(langFromUrl);
+  selectedLang = normalizedLang;
+  localStorage.setItem('ctlanguage', normalizedLang);
+}
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
 let voicesInitialized = false;
@@ -1520,7 +1530,7 @@ async function loadLesson() {
     freetalkLesson = data;
 
     // 🌍 Pick the correct language block
-    const storedLang = getLangKey(localStorage.getItem('ctlanguage'));
+    const storedLang = getLangKey(selectedLang || localStorage.getItem('ctlanguage'));
     freetalkLangData = (data.languages && (data.languages[storedLang] || data.languages['en-US'])) || null;
 
     if (!freetalkLangData) {
@@ -1691,6 +1701,7 @@ function updateFooterIcons() {
 
 document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(() => {
+    applyUrlLanguageOverride();
     initializeSettingsMenu();
     loadTalkerTranslations();
     initializeVoiceMenu();

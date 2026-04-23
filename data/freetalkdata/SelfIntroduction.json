@@ -62,7 +62,7 @@
           "forms": ["free time", "hobby"],
           "phrases": [
             "In my free time, I like to ...",
-            "My hobby is ...ing",
+            "My {hobby} is ...ing",
             "I enjoy ...ing in my free time."
           ]
         },
@@ -105,7 +105,7 @@
         { "word": "pays d'origine", "forms": ["je viens de", "je suis de", "pays d'origine"], "phrases": ["Mon {word} est ...", "Je viens de ...", "Je suis de ..."] },
         { "word": "travail", "forms": ["travaille", "travail"], "phrases": ["Je {word} comme ...", "Je {word} dans ...", "Je ne {word} pas actuellement"] },
         { "word": "langues", "forms": ["parle"], "phrases": ["Je peux parler ...", "Je parle couramment ...", "J'apprends à parler ..."] },
-        { "word": "loisirs", "forms": ["temps libre", "loisir"], "phrases": ["Pendant mon temps libre, j'aime ...", "Mon loisir est de ...", "J'aime ... pendant mon temps libre"] },
+        { "word": "loisirs", "forms": ["temps libre", "loisir"], "phrases": ["Pendant mon temps libre, j'aime ...", "Mon {loisir} est de ...", "J'aime ... pendant mon temps libre"] },
         { "word": "nourriture", "forms": ["manger", "nourriture"], "phrases": ["Ma {word} préférée est ...", "J'aime manger ..."] },
         { "word": "situation amoureuse", "forms": ["en couple", "partenaire", "petit ami", "petite amie", "mari", "femme", "célibataire", "veuf", "veuve"], "phrases": ["Je suis célibataire.", "Je suis marié(e).", "Je suis en {word} avec ...", "J'ai un/une ...", "Je suis veuf/veuve."] }
       ]

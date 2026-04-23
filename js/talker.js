@@ -13,6 +13,16 @@ let micIsMuted = true;
 let speechHasStarted = false;
 let finalizedTranscript = '';
 let selectedLang = localStorage.getItem('ctlanguage') || '';
+
+function applyUrlLanguageOverride() {
+  const params = new URLSearchParams(window.location.search);
+  const langFromUrl = params.get('lang');
+  if (!langFromUrl) return;
+
+  const normalizedLang = getLangKey(langFromUrl);
+  selectedLang = normalizedLang;
+  localStorage.setItem('ctlanguage', normalizedLang);
+}
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
 let voicesInitialized = false;
@@ -594,7 +604,7 @@ async function loadLesson() {
     const data = await res.json();
 
     // 🌍 Get the user's selected language
-    const storedLang = getLangKey(localStorage.getItem('ctlanguage'));
+    const storedLang = getLangKey(selectedLang || localStorage.getItem('ctlanguage'));
     const languageData = data.languages[storedLang] || data.languages['en'];
 
     if (!languageData) {
@@ -1601,6 +1611,7 @@ function saveFinalScore() {
 
 document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(() => {
+    applyUrlLanguageOverride();
     initializeSettingsMenu();
     populateCustomVoiceList();
     initializeVoiceMenu();
