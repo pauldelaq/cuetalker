@@ -106,8 +106,8 @@
           "text": "Alright then, traveling by bus should be fine. How long do you think it will take if we get there by bus?",
           "hint": "... 9 hours ...",
           "expectedAnswers": [
-            "I think it will take ((9)nine) hours if we get there by bus.",
-            "I think if we get there by bus, it will take ((9)nine) hours."
+            "I think (it will/it'll) take ((9)nine) hours if we get there by bus.",
+            "I think if we get there by bus, (it will/it'll) take ((9)nine) hours."
           ]
         },
         {

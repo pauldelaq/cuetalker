@@ -26,10 +26,7 @@
           "text": "Have you been to France before?",
           "hint": "Yes, ...",
           "expectedAnswers": [
-            "Yes, I have been to France before.",
-            "Yes, I've been to France before.",
-            "Yes, I have been there before.",
-            "Yes, I've been there before."
+            "Yes, (I have/I've) been (to France/there) before."
           ]
         },
         {

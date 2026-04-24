@@ -1072,19 +1072,24 @@ function startSpeechRecognition(ctx = {}) {
     const processedAnswers = (promptItem?.expectedAnswers || []).map(extractDisplayAndVariants);
     const normalizedTranscript = normalize(currentTranscript);
 
-    const isMatch =
-      processedAnswers.some(({ variants }) => variants.includes(normalizedTranscript)) ||
-      isFallbackTrigger(currentTranscript);
+    const instantMatchedPair = processedAnswers
+      .flatMap(({ pairs }) => pairs || [])
+      .find(({ match }) => match === normalizedTranscript);
+
+    const isMatch = !!instantMatchedPair || isFallbackTrigger(currentTranscript);
 
     if (isMatch) {
       const ctxAtMatch = { ...recogCtx };
       const matchedTranscript = currentTranscript;
 
-      suppressStopResponseHandling = true;
-      stopSpeechRecognition();
-      suppressStopResponseHandling = false;
-
-      if (ctxAtMatch.mode !== 'practiceTry') {
+      if (ctxAtMatch.mode === 'practiceTry') {
+        // Let stopSpeechRecognition() handle practice-mode feedback
+        // (red diff highlighting / ✅ checkmark) using the final transcript.
+        stopSpeechRecognition();
+      } else {
+        suppressStopResponseHandling = true;
+        stopSpeechRecognition();
+        suppressStopResponseHandling = false;
         handleUserResponse(matchedTranscript);
       }
       return;
@@ -1216,32 +1221,78 @@ function stopSpeechRecognition() {
 }
 
 function extractDisplayAndVariants(rawAnswer) {
-  const regex = /\(\(([^()]+?)\)([^()]+?)\)/g;
-
-  const displayText = rawAnswer.replace(regex, (_, canonical) => canonical);
-
-  let variants = [rawAnswer];
-  let match;
-
-  while ((match = regex.exec(rawAnswer)) !== null) {
-    const [full, canonical, alias] = match;
-    const newVariants = [];
-
-    for (const variant of variants) {
-      newVariants.push(variant.replace(full, canonical));
-      newVariants.push(variant.replace(full, alias));
-    }
-
-    variants = newVariants;
+  const raw = String(rawAnswer || '').trim();
+  if (!raw) {
+    return {
+      display: '',
+      variants: [],
+      pairs: []
+    };
   }
 
-  const normalizedVariants = Array.from(new Set(variants.map(a => normalize(
-    a.replace(regex, (_, canonical) => canonical) // strip alias syntax before display
-  ))));
+  const aliasRegexGlobal = /\(\(([^()]+?)\)([^()]+?)\)/g;
+  const variantRegexGlobal = /\(([^()\/]+(?:\/[^()\/]+)+)\)/g;
+
+  // Default display:
+  // - ((canonical)alias) => canonical
+  // - (a/b/c) => first option
+  const displayText = raw
+    .replace(aliasRegexGlobal, (_, canonical) => canonical)
+    .replace(variantRegexGlobal, (_, inner) => {
+      const options = inner.split('/').map(part => part.trim()).filter(Boolean);
+      return options[0] || '';
+    })
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const expandRecursive = (str) => {
+    const aliasMatch = /\(\(([^()]+?)\)([^()]+?)\)/.exec(str);
+    if (aliasMatch) {
+      const [fullMatch, canonical, alias] = aliasMatch;
+
+      return [
+        ...expandRecursive(str.replace(fullMatch, canonical)),
+        ...expandRecursive(str.replace(fullMatch, alias)).map(entry => ({
+          match: entry.match,
+          render: entry.render.replace(alias, canonical)
+        }))
+      ];
+    }
+
+    const variantMatch = /\(([^()\/]+(?:\/[^()\/]+)+)\)/.exec(str);
+    if (variantMatch) {
+      const [fullMatch, inner] = variantMatch;
+      const options = inner.split('/').map(part => part.trim()).filter(Boolean);
+      const results = [];
+
+      options.forEach(option => {
+        results.push(...expandRecursive(str.replace(fullMatch, option)));
+      });
+
+      return results;
+    }
+
+    const cleaned = str.replace(/\s+/g, ' ').trim();
+    if (!cleaned) return [];
+
+    return [{
+      match: normalize(cleaned),
+      render: cleaned
+    }];
+  };
+
+  const pairs = Array.from(new Map(
+    expandRecursive(raw)
+      .filter(entry => entry.match && entry.render)
+      .map(entry => [`${entry.match}|||${entry.render}`, entry])
+  ).values());
+
+  const normalizedVariants = Array.from(new Set(pairs.map(entry => entry.match)));
 
   return {
     display: displayText,
-    variants: normalizedVariants
+    variants: normalizedVariants,
+    pairs
   };
 }
 
@@ -1282,6 +1333,7 @@ function handleUserResponse(spokenText) {
   const promptItem = conversation[currentIndex - 1];
   const processedAnswers = (promptItem?.expectedAnswers || []).map(extractDisplayAndVariants);
   const allCanonicalAnswers = processedAnswers.map(p => p.display);
+  const allPairs = processedAnswers.flatMap(p => p.pairs || []);
 
   totalResponses++;
 
@@ -1308,12 +1360,10 @@ function handleUserResponse(spokenText) {
   const normalizedSpoken = normalize(spokenText);
   let matched = null;
 
-  // ✅ Step 1 & 2: match against any of the variants
-  for (const { display, variants } of processedAnswers) {
-    if (variants.includes(normalizedSpoken)) {
-      matched = display;
-      break;
-    }
+  // ✅ Step 1 & 2: direct pair match
+  const directPair = allPairs.find(({ match }) => match === normalizedSpoken);
+  if (directPair) {
+    matched = directPair.render;
   }
 
   // ✅ Step 3: Global misheard correction
@@ -1321,12 +1371,10 @@ function handleUserResponse(spokenText) {
     const correctedText = applyMisheardMap(spokenText, lessonLang);
     const normalizedCorrected = normalize(correctedText);
 
-    for (const { display, variants } of processedAnswers) {
-      if (variants.includes(normalizedCorrected)) {
-        matched = display;
-        console.log(`✅ Matched after global misheard correction: "${correctedText}"`);
-        break;
-      }
+    const correctedPair = allPairs.find(({ match }) => match === normalizedCorrected);
+    if (correctedPair) {
+      matched = correctedPair.render;
+      console.log(`✅ Matched after global misheard correction: "${correctedText}"`);
     }
   }
 
@@ -1334,8 +1382,8 @@ function handleUserResponse(spokenText) {
   if (!matched) {
     const langMap = misheardMap[lessonLang] || {};
 
-    for (const { display } of processedAnswers) {
-      const expectedWords = normalize(display).split(/\s+/);
+    for (const { match, render } of allPairs) {
+      const expectedWords = match.split(/\s+/);
       const spokenWords = normalizedSpoken.split(/\s+/);
       if (spokenWords.length !== expectedWords.length) continue;
 
@@ -1355,8 +1403,8 @@ function handleUserResponse(spokenText) {
       }
 
       if (allJustified) {
-        matched = display;
-        spokenText = display;
+        matched = render;
+        spokenText = render;
         console.log("✅ Accepted via per-word misheard justification.");
 
         const transcriptEl = document.getElementById('liveTranscript');
@@ -1370,8 +1418,8 @@ function handleUserResponse(spokenText) {
 
   // ✅ Step 5: Per-word fuzzy match (Levenshtein distance <= 1)
   if (!matched) {
-    for (const { display } of processedAnswers) {
-      const expectedWords = normalize(display).split(/\s+/);
+    for (const { match, render } of allPairs) {
+      const expectedWords = match.split(/\s+/);
       const spokenWords = normalizedSpoken.split(/\s+/);
 
       if (expectedWords.length !== spokenWords.length) continue;
@@ -1392,8 +1440,8 @@ function handleUserResponse(spokenText) {
       }
 
       if (allWordsMatch) {
-        matched = display;
-        spokenText = display;
+        matched = render;
+        spokenText = render;
 
         const transcriptEl = document.getElementById('liveTranscript');
         if (transcriptEl) {
