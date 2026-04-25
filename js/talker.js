@@ -1739,7 +1739,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const prevItem = conversation[currentIndex - 1];
           const fallbackAnswer = prevItem?.expectedAnswers?.[0];
           if (fallbackAnswer) {
-            currentItem.text = fallbackAnswer;
+            currentItem.text = extractDisplayAndVariants(fallbackAnswer).display;
             currentItem.autoFilled = true;
           }
         }

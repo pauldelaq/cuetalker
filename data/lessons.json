@@ -71,6 +71,16 @@
       "name": {
         "es-ES": "Verbos -ar, parte 2"
       }
+    },
+    {
+      "id": "Restaurant",
+      "name": {
+        "en-US": "Ordering at the Restaurant",
+        "fr-FR": "Commander au restaurant",
+        "es-ES": "Pedir en el restaurante",
+        "zh-CN": "在餐厅点餐",
+        "zh-TW": "在餐廳點餐"
+      }
     }
   ]
   ,
