@@ -106,7 +106,7 @@ function flashPracticeMicCheckmark(duration = 5000) {
 
 function getLangKey(code) {
   // Ensure consistent language keys using full xx-XX format
-  const knownLangs = ['en-US', 'fr-FR', 'es-ES', 'zh-CN', 'zh-TW'];
+  const knownLangs = ['en-US', 'fr-FR', 'es-ES', 'zh-CN', 'zh-TW', 'ja-JP', 'th-TH'];
   if (knownLangs.includes(code)) return code;
 
   const base = (code || '').split('-')[0];
@@ -1174,31 +1174,42 @@ function stopSpeechRecognition() {
     // The caller will handle the matched response directly.
   } else if (finalInput) {
     if (recogCtx.mode === 'practiceTry' || practiceMode) {
-      // ✅ PRACTICE-TRY: just highlight differences
+      // ✅ PRACTICE-TRY: highlight differences against the closest expanded answer pair
       const prevItem = conversation[currentIndex - 1];
       const processed = (prevItem?.expectedAnswers || []).map(extractDisplayAndVariants);
+      const allPairs = processed.flatMap(p => p.pairs || []);
+      const normalizedFinal = normalize(finalInput);
 
-      let best = processed.length ? processed[0].display : '';
-      let bestDist = Infinity;
-      for (const { display } of processed) {
-        const d = wordLevelDistance(normalize(finalInput), normalize(display));
-        if (d < bestDist) { bestDist = d; best = display; }
+      const directPair = allPairs.find(({ match }) => match === normalizedFinal);
+
+      let best = directPair?.render || processed[0]?.display || '';
+      let bestDist = directPair ? 0 : Infinity;
+
+      if (!directPair) {
+        for (const { match, render } of allPairs) {
+          const d = wordLevelDistance(normalizedFinal, match);
+          if (d < bestDist) {
+            bestDist = d;
+            best = render;
+          }
+        }
       }
 
       if (transcriptEl) {
-        transcriptEl.innerHTML = best ? highlightDifferences(finalInput, best) : finalInput;
+        if (directPair) {
+          transcriptEl.textContent = directPair.render;
+        } else {
+          transcriptEl.innerHTML = best ? highlightDifferences(finalInput, best) : finalInput;
+        }
       }
 
-      // Compute “perfect” (no mistakes) using normalized matching against your variants
-      const normalizedFinal = normalize(finalInput);
-      const isPerfectFromVariants =
-        (processed || []).some(({ variants }) => variants.includes(normalizedFinal));
+      const isPerfectFromVariants = !!directPair;
 
-      // Fallback: if you didn’t have variants, exact normalized equality with best display
+      // Fallback: if you didn’t have variants/pairs, exact normalized equality with best display
       const isPerfectByDistance =
-        (!processed || processed.length === 0) &&
+        (!allPairs || allPairs.length === 0) &&
         best &&
-        wordLevelDistance(normalize(finalInput), normalize(best)) === 0;
+        wordLevelDistance(normalizedFinal, normalize(best)) === 0;
 
       if (isPerfectFromVariants || isPerfectByDistance) {
         // ✅ briefly show a checkmark on the practice mic, then revert to 🎙️
@@ -1305,7 +1316,7 @@ function normalize(text, langHint) {
   normalized = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
   // 🔥 Remove punctuation
-  normalized = normalized.replace(/[.,!?;:"'’“”()\[\]{}¿¡，。！？；：「」『』（）【】]/g, '');
+  normalized = normalized.replace(/[.,!?;:"'’“”()\[\]{}¿¡，。！？；：「」『』（）【】、]/g, '');
 
   // 🔥 Fix non-breaking spaces
   normalized = normalized.replace(/\u00A0/g, ' ');

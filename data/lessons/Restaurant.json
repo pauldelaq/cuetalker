@@ -57,7 +57,7 @@
           "id": 5,
           "type": "prompt",
           "character": { "name": "Host", "svg": 1 },
-          "text": "Right this way. Please take a seat and our server Sally will be right with you.",
+          "text": "Right this way. Please take a seat and our server Shelly will be right with you.",
           "hint": "(be polite)",
           "expectedAnswers": [
             "(Thank you/Thanks) (very much./.)"
@@ -72,7 +72,7 @@
           "id": 7,
           "type": "prompt",
           "character": { "name": "Server", "svg": 3 },
-          "text": "Hi and welcome to Tony's! My name is Sally and I'll be your server today. Here is your menu. Would you like something to drink first?",
+          "text": "Hi and welcome to Tony's! My name is Shelly and I'll be your server today. Here is your menu. Would you like something to drink first?",
           "hint": "Yes, ... coffee",
           "expectedAnswers": [
             "Yes, (I would/I'd) like (a cup of/some/a) coffee, please."
@@ -122,7 +122,7 @@
           "text": "Today we have a grilled sirloin steak. It comes with a side of french fries or salad.",
           "hint": "Alright, ... with french fries",
           "expectedAnswers": [
-            "Alright, (I will have/I'll have/I would like/I'd like) (the special/the sirloin steak) with french fries, please."
+            "((Alright)All right), (I will have/I'll have/I would like/I'd like) (the special/the sirloin steak) with french fries, please."
           ]
         },
         {
@@ -158,7 +158,7 @@
           "hint": "No, ... just the check ...",
           "expectedAnswers": [
             "No (thank you/thanks). Just the check, please.",
-            "No (thank you/thanks). Can I just get the check, please?"
+            "No (thank you/thanks). (May/Can) I just get the check, please?"
           ]
         },
         {
@@ -235,7 +235,7 @@
           "id": 5,
           "type": "prompt",
           "character": { "name": "Hôte", "svg": 1 },
-          "text": "Par ici, s'il vous plaît. Installez-vous, et notre serveuse Sally va s'occuper de vous dans un instant.",
+          "text": "Par ici, s'il vous plaît. Installez-vous, et notre serveuse Shelly va s'occuper de vous dans un instant.",
           "hint": "(sois poli)",
           "expectedAnswers": [
             "Merci beaucoup.",
@@ -251,7 +251,7 @@
           "id": 7,
           "type": "prompt",
           "character": { "name": "Serveuse", "svg": 3 },
-          "text": "Bonjour et bienvenue chez Tony ! Je m'appelle Sally et je serai votre serveuse aujourd'hui. Voici votre menu. Voulez-vous d'abord quelque chose à boire ?",
+          "text": "Bonjour et bienvenue chez Tony ! Je m'appelle Shelly et je serai votre serveuse aujourd'hui. Voici votre menu. Voulez-vous d'abord quelque chose à boire ?",
           "hint": "Oui, ... café",
           "expectedAnswers": [
             "Oui, je voudrais un café, s'il vous plaît.",
@@ -384,7 +384,7 @@
           "id": 1,
           "type": "prompt",
           "character": { "name": "Anfitrión", "svg": 1 },
-          "text": "Buenas tardes y bienvenido a Tony's. ¿Tiene reserva?",
+          "text": "Buenas tardes y bienvenido al restaurante. ¿Tiene reserva?",
           "hint": "No, ...",
           "expectedAnswers": [
             "No, no tengo reserva.",
@@ -416,7 +416,7 @@
           "id": 5,
           "type": "prompt",
           "character": { "name": "Anfitrión", "svg": 1 },
-          "text": "Por aquí, por favor. Tome asiento y nuestra camarera Sally lo atenderá enseguida.",
+          "text": "Por aquí, por favor. Tome asiento y nuestra camarera Shelly lo atenderá enseguida.",
           "hint": "(sé educado)",
           "expectedAnswers": [
             "Muchas gracias.",
@@ -432,7 +432,7 @@
           "id": 7,
           "type": "prompt",
           "character": { "name": "Camarera", "svg": 3 },
-          "text": "Hola y bienvenido a Tony's. Me llamo Sally y seré su camarera hoy. Aquí tiene el menú. ¿Le gustaría tomar algo primero?",
+          "text": "Hola y bienvenido al restaurante. Me llamo Shelly y seré su camarera hoy. Aquí tiene el menú. ¿Le gustaría tomar algo primero?",
           "hint": "Sí, ... café",
           "expectedAnswers": [
             "Sí, quisiera un café, por favor.",
@@ -481,10 +481,10 @@
           "type": "prompt",
           "character": { "name": "Camarera", "svg": 3 },
           "text": "Hoy tenemos un filete de solomillo a la parrilla. Viene con papas fritas o ensalada.",
-          "hint": "De acuerdo, ... con papas fritas",
+          "hint": "Entonces, ... con papas fritas",
           "expectedAnswers": [
-            "De acuerdo, tomaré el especial con papas fritas, por favor.",
-            "De acuerdo, quisiera el filete de solomillo con papas fritas, por favor."
+            "Entonces, tomaré el (especial/filete de solomillo) con papas fritas, por favor.",
+            "Entonces, quisiera el (especial/filete de solomillo) con papas fritas, por favor."
           ]
         },
         {
@@ -521,7 +521,7 @@
           "hint": "No, ... la cuenta ...",
           "expectedAnswers": [
             "No, gracias. Solo la cuenta, por favor.",
-            "No, gracias. ¿Me puede traer la cuenta, por favor?"
+            "No, gracias. ¿Me (puede/puedes) traer la cuenta, por favor?"
           ]
         },
         {
@@ -536,7 +536,8 @@
           "text": "Muy bien. Son veinte dólares, por favor. ¿Cómo desea pagar?",
           "hint": "... tarjeta de crédito ...",
           "expectedAnswers": [
-            "Quisiera pagar con tarjeta de crédito, por favor."
+            "Quisiera pagar con tarjeta de crédito, por favor.",
+            "Con tarjeta de crédito, por favor."
           ]
         },
         {
@@ -596,7 +597,7 @@
           "id": 5,
           "type": "prompt",
           "character": { "name": "接待员", "svg": 1 },
-          "text": "这边请。请坐，我们的服务员Sally马上来为您服务。",
+          "text": "这边请。请坐，我们的服务员Shelly马上来为您服务。",
           "hint": "（有礼貌地回答）",
           "expectedAnswers": [
             "谢谢。",
@@ -612,7 +613,7 @@
           "id": 7,
           "type": "prompt",
           "character": { "name": "服务员", "svg": 3 },
-          "text": "您好，欢迎来到Tony's！我叫Sally，今天由我为您服务。这是菜单。您想先喝点什么吗？",
+          "text": "您好，欢迎来到Tony's！我叫Shelly，今天由我为您服务。这是菜单。您想先喝点什么吗？",
           "hint": "想，... 咖啡",
           "expectedAnswers": [
             "我(想要/要)一杯咖啡，谢谢。",
@@ -777,7 +778,7 @@
           "id": 5,
           "type": "prompt",
           "character": { "name": "接待員", "svg": 1 },
-          "text": "這邊請。請坐，我們的服務生Sally馬上來為您服務。",
+          "text": "這邊請。請坐，我們的服務生Shelly馬上來為您服務。",
           "hint": "（有禮貌地回答）",
           "expectedAnswers": [
             "謝謝。",
@@ -793,7 +794,7 @@
           "id": 7,
           "type": "prompt",
           "character": { "name": "服務生", "svg": 3 },
-          "text": "您好，歡迎來到Tony's！我叫Sally，今天由我為您服務。這是菜單。您想先喝點什麼嗎？",
+          "text": "您好，歡迎來到Tony's！我叫Shelly，今天由我為您服務。這是菜單。您想先喝點什麼嗎？",
           "hint": "想，... 咖啡",
           "expectedAnswers": [
             "我(想要/要)一杯咖啡，謝謝。",
@@ -909,6 +910,370 @@
           "id": 22,
           "type": "narration",
           "text": "你有禮貌地跟辛苦工作的服務人員說話，並享用了一頓很棒的午餐。做得好！"
+        }
+      ]
+    },
+    "ja-JP": {
+      "language": "ja-JP",
+      "languageName": "日本語",
+      "lessonName": "レストランで注文する",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "お腹がすいたので、昼食を食べに素敵なレストランに入りました。席に案内してもらい、注文しましょう。忙しく働いているスタッフに丁寧に話すことを忘れないでください。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "案内係", "svg": 1 },
+          "text": "こんにちは。トニーのレストランへようこそ。ご予約はありますか？",
+          "hint": "いいえ、...",
+          "expectedAnswers": [
+            "いいえ、予約はありません。",
+            "いいえ、ありません。"
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "案内係", "svg": 1 },
+          "text": "かしこまりました。大丈夫です。まだ空いている席がいくつかございます。何名様ですか？",
+          "hint": "... 一人 ...",
+          "expectedAnswers": [
+            "一人です。お願いします。",
+            "一名です。お願いします。"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "案内係", "svg": 1 },
+          "text": "こちらへどうぞ。お席におかけください。まもなく担当のシェリーが参ります。",
+          "hint": "（丁寧に答える）",
+          "expectedAnswers": [
+            "ありがとうございます。",
+            "ありがとう。"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "店員", "svg": 3 },
+          "text": "こんにちは。トニーのレストランへようこそ。私はシェリーです。本日担当いたします。こちらがメニューです。まず何かお飲み物はいかがですか？",
+          "hint": "はい、... コーヒー",
+          "expectedAnswers": [
+            "はい、コーヒーをお願いします。",
+            "はい、コーヒーを一杯お願いします。"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "店員", "svg": 3 },
+          "text": "はい、もちろんです。ホットとアイス、どちらになさいますか？",
+          "hint": "... ホット ...",
+          "expectedAnswers": [
+            "ホットでお願いします。",
+            "ホットをお願いします。"
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "店員", "svg": 3 },
+          "text": "ホットコーヒーを一つですね。すぐにお持ちします。メニューをご覧になったようですが、何かご質問はありますか？",
+          "hint": "今日の... おすすめ？",
+          "expectedAnswers": [
+            "今日のおすすめは何ですか？",
+            "今日のスペシャルは何ですか？"
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "店員", "svg": 3 },
+          "text": "本日は、グリルしたサーロインステーキがございます。フライドポテトかサラダが付きます。",
+          "hint": "では、... フライドポテトで",
+          "expectedAnswers": [
+            "では、(おすすめ/サーロインステーキ)をフライドポテトでお願いします。",
+            "では、(おすすめ/サーロインステーキ)にします。フライドポテトでお願いします。"
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "店員", "svg": 3 },
+          "text": "いい選択ですね。数分でご用意いたします。",
+          "hint": "（丁寧に答える）",
+          "expectedAnswers": [
+            "ありがとうございます。",
+            "ありがとう。"
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 17,
+          "type": "narration",
+          "text": "ステーキとコーヒーはとてもおいしかったです。お腹いっぱいになり、そろそろレストランを出る準備ができました。"
+        },
+        {
+          "id": 18,
+          "type": "prompt",
+          "character": { "name": "店員", "svg": 3 },
+          "text": "ほかに何かお持ちしましょうか？デザートなどはいかがですか？",
+          "hint": "いいえ、... お会計 ...",
+          "expectedAnswers": [
+            "いいえ、結構です。お会計をお願いします。",
+            "いいえ、ありがとうございます。お会計をお願いします。"
+          ]
+        },
+        {
+          "id": 19,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 4 }
+        },
+        {
+          "id": 20,
+          "type": "prompt",
+          "character": { "name": "店員", "svg": 3 },
+          "text": "かしこまりました。二十ドルになります。お支払いはどのようになさいますか？",
+          "hint": "... クレジットカード ...",
+          "expectedAnswers": [
+            "クレジットカードでお願いします。",
+            "クレジットカードで払います。"
+          ]
+        },
+        {
+          "id": 21,
+          "type": "response",
+          "character": { "name": "あなた", "svg": 2 }
+        },
+        {
+          "id": 22,
+          "type": "narration",
+          "text": "あなたは忙しく働いているスタッフに丁寧に話し、素晴らしい昼食を楽しみました。よくできました！"
+        }
+      ]
+    },
+    "th-TH": {
+      "language": "th-TH",
+      "languageName": "ไทย",
+      "lessonName": "สั่งอาหารที่ร้านอาหาร",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "คุณหิว จึงเพิ่งเดินเข้าไปในร้านอาหารดี ๆ เพื่อกินมื้อกลางวัน ขอที่นั่งและสั่งอาหาร อย่าลืมพูดกับพนักงานที่ทำงานหนักอย่างสุภาพ"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "พนักงานต้อนรับ", "svg": 1 },
+          "text": "สวัสดีตอนบ่ายครับ ยินดีต้อนรับสู่ร้านโทนี่ มีจองไว้ไหมครับ?",
+          "hint": "ไม่มี...",
+          "expectedAnswers": [
+            "ไม่มี(ครับ/ค่ะ) (ผม/ฉัน)ไม่ได้จองไว้(ครับ/ค่ะ)",
+            "ไม่มี(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "พนักงานต้อนรับ", "svg": 1 },
+          "text": "เข้าใจครับ ไม่เป็นไรครับ เรายังมีโต๊ะว่างอยู่บ้าง มากี่ท่านครับ?",
+          "hint": "... คนเดียว ...",
+          "expectedAnswers": [
+            "คนเดียว(ครับ/ค่ะ)",
+            "โต๊ะสำหรับ((หนึ่ง)1)คน(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "พนักงานต้อนรับ", "svg": 1 },
+          "text": "เชิญทางนี้ครับ นั่งก่อนได้เลยครับ เดี๋ยวเชลลี พนักงานเสิร์ฟของเรา จะมาดูแลคุณครับ",
+          "hint": "(ตอบอย่างสุภาพ)",
+          "expectedAnswers": [
+            "ขอบคุณ(ครับ/ค่ะ)",
+            "ขอบคุณมาก(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "พนักงานเสิร์ฟ", "svg": 3 },
+          "text": "สวัสดีค่ะ ยินดีต้อนรับสู่ร้านโทนี่ ฉันชื่อเชลลี และจะเป็นพนักงานเสิร์ฟของคุณวันนี้ นี่คือเมนูค่ะ รับเครื่องดื่มอะไรก่อนไหมคะ?",
+          "hint": "ครับ... กาแฟ",
+          "expectedAnswers": [
+            "(ครับ/ค่ะ) ขอ(กาแฟ/กาแฟหนึ่งแก้ว)(ครับ/ค่ะ)",
+            "(ครับ/ค่ะ) (ผม/ฉัน)ขอ(กาแฟ/กาแฟหนึ่งแก้ว)(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "พนักงานเสิร์ฟ", "svg": 3 },
+          "text": "ได้ค่ะ รับแบบร้อนหรือเย็นคะ?",
+          "hint": "... ร้อน ...",
+          "expectedAnswers": [
+            "ขอแบบร้อน(ครับ/ค่ะ)",
+            "ร้อน(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "พนักงานเสิร์ฟ", "svg": 3 },
+          "text": "กาแฟร้อนหนึ่งแก้วนะคะ เดี๋ยวนำมาให้ค่ะ เห็นว่าคุณได้ดูเมนูแล้ว มีคำถามอะไรไหมคะ?",
+          "hint": "วันนี้... เมนูพิเศษ?",
+          "expectedAnswers": [
+            "วันนี้มีเมนูพิเศษอะไร(ครับ/ค่ะ)",
+            "เมนูพิเศษวันนี้คืออะไร(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "พนักงานเสิร์ฟ", "svg": 3 },
+          "text": "วันนี้เรามีสเต๊กเนื้อสันนอกย่างค่ะ เสิร์ฟพร้อมเฟรนช์ฟรายส์หรือสลัด",
+          "hint": "งั้น... พร้อมเฟรนช์ฟรายส์",
+          "expectedAnswers": [
+            "((งั้น)งาน) ขอ(เมนูพิเศษ/สเต๊กเนื้อสันนอก)พร้อม((เฟรนช์ฟรายส์)french fries)(ครับ/ค่ะ)",
+            "((งั้น)งาน) (ผม/ฉัน)ขอ(เมนูพิเศษ/สเต๊กเนื้อสันนอก)พร้อม((เฟรนช์ฟรายส์)french fries)(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "พนักงานเสิร์ฟ", "svg": 3 },
+          "text": "เลือกได้ดีค่ะ เราจะเตรียมให้ในอีกไม่กี่นาทีค่ะ",
+          "hint": "(ตอบอย่างสุภาพ)",
+          "expectedAnswers": [
+            "ขอบคุณ(ครับ/ค่ะ)",
+            "ขอบคุณมาก(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 17,
+          "type": "narration",
+          "text": "สเต๊กและกาแฟของคุณอร่อยมาก คุณอิ่มแล้วและพร้อมที่จะออกจากร้านอาหารแล้ว"
+        },
+        {
+          "id": 18,
+          "type": "prompt",
+          "character": { "name": "พนักงานเสิร์ฟ", "svg": 3 },
+          "text": "รับอะไรเพิ่มไหมคะ ของหวานสักอย่างไหมคะ?",
+          "hint": "ไม่ครับ... เช็กบิล ...",
+          "expectedAnswers": [
+            "ไม่(ครับ/ค่ะ) ขอบคุณ(ครับ/ค่ะ) ขอ((เช็กบิล)เช็คบิล)(ครับ/ค่ะ)",
+            "ไม่(ครับ/ค่ะ) ขอบคุณ(ครับ/ค่ะ) ขอคิดเงิน(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 19,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 4 }
+        },
+        {
+          "id": 20,
+          "type": "prompt",
+          "character": { "name": "พนักงานเสิร์ฟ", "svg": 3 },
+          "text": "ได้ค่ะ ทั้งหมด ยี่สิบดอลลาร์ค่ะ ต้องการจ่ายอย่างไรคะ?",
+          "hint": "... บัตรเครดิต ...",
+          "expectedAnswers": [
+            "ขอจ่ายด้วยบัตรเครดิต(ครับ/ค่ะ)",
+            "จ่ายด้วยบัตรเครดิต(ครับ/ค่ะ)"
+          ]
+        },
+        {
+          "id": 21,
+          "type": "response",
+          "character": { "name": "คุณ", "svg": 2 }
+        },
+        {
+          "id": 22,
+          "type": "narration",
+          "text": "คุณพูดกับพนักงานที่ทำงานหนักอย่างสุภาพ และได้กินมื้อกลางวันที่ยอดเยี่ยม ทำได้ดีมาก!"
         }
       ]
     }

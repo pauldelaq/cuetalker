@@ -79,7 +79,9 @@
         "fr-FR": "Commander au restaurant",
         "es-ES": "Pedir en el restaurante",
         "zh-CN": "在餐厅点餐",
-        "zh-TW": "在餐廳點餐"
+        "zh-TW": "在餐廳點餐",
+        "ja-JP": "レストランで注文する",
+        "th-TH": "สั่งอาหารที่ร้านอาหาร"
       }
     }
   ]
