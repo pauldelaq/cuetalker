@@ -436,6 +436,20 @@ label.disabled {
   }
 }
 
+.play-icon-pulse {
+  animation: playIconPulse 1.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes playIconPulse {
+  0%, 100% {
+    transform: scale(0.80);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+}
+
 .wrong-word {
   color: red;
   font-weight: bold;

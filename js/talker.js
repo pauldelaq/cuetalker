@@ -272,6 +272,8 @@ const fallbackTriggersByLang = {
   'es-ES': ["no lo sé"],
   'zh-TW': ["我不知道"],
   'zh-CN': ["我不知道"],
+  'ja-JP': ["わかりません", "分かりません"],
+  'th-TH': ["ไม่รู้", "ผมไม่รู้", "ฉันไม่รู้"]
 };
 
 function isFallbackTrigger(spokenText) {
@@ -663,6 +665,7 @@ function tryAutoAdvance() {
 
 function updateMicIcon() {
   const micIcon   = document.querySelector('#micButton img');
+  if (micIcon) micIcon.classList.remove('play-icon-pulse');
   const micButton = document.getElementById('micButton');
   const currentItem = conversation[currentIndex];
   const nextItem    = conversation[currentIndex + 1];
@@ -720,6 +723,7 @@ function updateMicIcon() {
 
   if (!currentItem || currentItem.type === 'narration') {
     micIcon.src = 'assets/svg/25B6.svg';
+    if (micIcon) micIcon.classList.add('play-icon-pulse');
   } else {
     micIcon.src = 'assets/svg/1F3A4.svg';
   }
@@ -1242,7 +1246,7 @@ function extractDisplayAndVariants(rawAnswer) {
   }
 
   const aliasRegexGlobal = /\(\(([^()]+?)\)([^()]+?)\)/g;
-  const variantRegexGlobal = /\(([^()\/]+(?:\/[^()\/]+)+)\)/g;
+  const variantRegexGlobal = /\(([^()]*\/[^()]*)\)/g;
 
   // Default display:
   // - ((canonical)alias) => canonical
@@ -1250,8 +1254,8 @@ function extractDisplayAndVariants(rawAnswer) {
   const displayText = raw
     .replace(aliasRegexGlobal, (_, canonical) => canonical)
     .replace(variantRegexGlobal, (_, inner) => {
-      const options = inner.split('/').map(part => part.trim()).filter(Boolean);
-      return options[0] || '';
+      const options = inner.split('/').map(part => part.trim());
+      return options[0] ?? '';
     })
     .replace(/\s+/g, ' ')
     .trim();
@@ -1270,10 +1274,10 @@ function extractDisplayAndVariants(rawAnswer) {
       ];
     }
 
-    const variantMatch = /\(([^()\/]+(?:\/[^()\/]+)+)\)/.exec(str);
+    const variantMatch = /\(([^()]*\/[^()]*)\)/.exec(str);
     if (variantMatch) {
       const [fullMatch, inner] = variantMatch;
-      const options = inner.split('/').map(part => part.trim()).filter(Boolean);
+      const options = inner.split('/').map(part => part.trim());
       const results = [];
 
       options.forEach(option => {
@@ -1375,6 +1379,11 @@ function handleUserResponse(spokenText) {
   const directPair = allPairs.find(({ match }) => match === normalizedSpoken);
   if (directPair) {
     matched = directPair.render;
+
+    const transcriptEl = document.getElementById('liveTranscript');
+    if (transcriptEl) {
+      transcriptEl.textContent = matched;
+    }
   }
 
   // ✅ Step 3: Global misheard correction

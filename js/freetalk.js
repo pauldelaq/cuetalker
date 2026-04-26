@@ -1682,11 +1682,16 @@ function updateFooterIcons() {
   const sessionImg = sessionBtn?.querySelector('img');
 
   if (sessionImg) {
-    sessionImg.src = showingFinalScore
-      ? 'assets/svg/1F504.svg'  // 🔁 restart
-      : isSessionActive
-        ? 'assets/svg/23F9.svg' // ⏹ stop session
-        : 'assets/svg/25B6.svg'; // ▶ play
+    sessionImg.classList.remove('play-icon-pulse');
+
+    if (showingFinalScore) {
+      sessionImg.src = 'assets/svg/1F504.svg'; // 🔁 restart
+    } else if (isSessionActive) {
+      sessionImg.src = 'assets/svg/23F9.svg'; // ⏹ stop session
+    } else {
+      sessionImg.src = 'assets/svg/25B6.svg'; // ▶ play
+      sessionImg.classList.add('play-icon-pulse');
+    }
   }
 
   const recordBtn = document.getElementById(RECORD_BUTTON_ID);
