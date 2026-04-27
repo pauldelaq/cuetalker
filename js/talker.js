@@ -1319,8 +1319,8 @@ function normalize(text, langHint) {
   // 🔥 Remove accents/diacritics globally
   normalized = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  // 🔥 Remove punctuation
-  normalized = normalized.replace(/[.,!?;:"'’“”()\[\]{}¿¡，。！？；：「」『』（）【】、]/g, '');
+  // 🔥 Remove Unicode punctuation/symbols, including Western and Asian punctuation
+  normalized = normalized.replace(/[\p{P}\p{S}]/gu, '');
 
   // 🔥 Fix non-breaking spaces
   normalized = normalized.replace(/\u00A0/g, ' ');
