@@ -472,6 +472,7 @@ label.disabled {
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   border: 1px solid #ccc;
   margin-top: 8px;
+  min-height: 166px;
 }
 
 #modeSelector {
@@ -511,8 +512,13 @@ label.disabled {
 }
 
 input#volumeLevelSlider, input#TTSSpeedSlider {
-  width: 100%;
+  max-width: 300px;
 }
+
+input#fontSizeSlider {
+  max-width: 350px;
+}
+
 
 input[type="range"] {
   -webkit-appearance: none;
