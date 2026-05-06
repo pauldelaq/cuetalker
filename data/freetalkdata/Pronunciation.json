@@ -1,0 +1,595 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F469-200D-1F3EB.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Practicing Pronunciation",
+      "lessonPrompt": {
+        "text": "The following sentences contain all the basic sounds of English. Practice them to work on your pronunciation. Pay attention to the sounds you're having trouble producing. Click the sentence to hear it first. Expand it to see the text. (Headphones recommended.)",
+        "character": {
+          "name": "Miss Mimi",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "(Sentence 1/Please call Stella.)",
+          "forms": ["Please call Stella."],
+          "phrases": ["Please call Stella."]
+        },
+        {
+          "word": "(Sentence 2/The thick thread fell through.)",
+          "forms": ["The thick thread fell through."],
+          "phrases": ["The thick thread fell through."]
+        },
+        {
+          "word": "(Sentence 3/Victor drove the van.)",
+          "forms": ["Victor drove the van."],
+          "phrases": ["Victor drove the van."]
+        },
+        {
+          "word": "(Sentence 4/Rachel likes fresh green grapes.)",
+          "forms": ["Rachel likes fresh green grapes."],
+          "phrases": ["Rachel likes fresh green grapes."]
+        },
+        {
+          "word": "(Sentence 5/Jack chose cheap orange juice.)",
+          "forms": ["Jack chose cheap orange juice."],
+          "phrases": ["Jack chose cheap orange juice."]
+        },
+        {
+          "word": "(Sentence 6/My quiet neighbor bought a bicycle.)",
+          "forms": ["My quiet neighbor bought a bicycle."],
+          "phrases": ["My quiet neighbor bought a bicycle."]
+        },
+        {
+          "word": "(Sentence 7/A young boy found five coins.)",
+          "forms": ["A young boy found five coins."],
+          "phrases": ["A young boy found five coins."]
+        },
+        {
+          "word": "(Sentence 8/The nurse heard a bird.)",
+          "forms": ["The nurse heard a bird."],
+          "phrases": ["The nurse heard a bird."]
+        },
+        {
+          "word": "(Sentence 9/Sam packed six crisp snacks.)",
+          "forms": ["Sam packed six crisp snacks."],
+          "phrases": ["Sam packed six crisp snacks."]
+        },
+        {
+          "word": "(Sentence 10/They waited at the station.)",
+          "forms": ["They waited at the station."],
+          "phrases": ["They waited at the station."]
+        },
+        {
+          "word": "(Sentence 11/The weather improves by Thursday.)",
+          "forms": ["The weather improves by Thursday."],
+          "phrases": ["The weather improves by Thursday."]
+        },
+        {
+          "word": "(Sentence 12/Zoe smiled at the music.)",
+          "forms": ["Zoe smiled at the music."],
+          "phrases": ["Zoe smiled at the music."]
+        },
+        {
+          "word": "(Sentence 13/I wish every learner spoke clearly.)",
+          "forms": ["I wish every learner spoke clearly."],
+          "phrases": ["I wish every learner spoke clearly."]
+        },
+        {
+          "word": "(Sentence 14/Usually, the television is in the garage.)",
+          "forms": ["Usually, the television is in the garage."],
+          "phrases": ["Usually, the television is in the garage."]
+        }
+      ]
+    },
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Pratiquer la prononciation",
+      "lessonPrompt": {
+        "text": "Les phrases suivantes contiennent les sons de base du français. Entraîne-toi à les prononcer clairement. Fais attention aux sons qui sont difficiles pour toi. Clique sur la phrase pour l'écouter d'abord. Ouvre-la pour voir le texte. (Casque recommandé.)",
+        "character": {
+          "name": "Madame Mimi",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "(Phrase 1/Paul parle près du parc.)",
+          "forms": ["Paul parle près du parc."],
+          "phrases": ["Paul parle près du parc."]
+        },
+        {
+          "word": "(Phrase 2/La petite fille répond vite.)",
+          "forms": ["La petite fille répond vite."],
+          "phrases": ["La petite fille répond vite."]
+        },
+        {
+          "word": "(Phrase 3/Je cherche une jolie chemise.)",
+          "forms": ["Je cherche une jolie chemise."],
+          "phrases": ["Je cherche une jolie chemise."]
+        },
+        {
+          "word": "(Phrase 4/Charles joue chaque jeudi.)",
+          "forms": ["Charles joue chaque jeudi."],
+          "phrases": ["Charles joue chaque jeudi."]
+        },
+        {
+          "word": "(Phrase 5/Mon frère vend du vin blanc.)",
+          "forms": ["Mon frère vend du vin blanc."],
+          "phrases": ["Mon frère vend du vin blanc."]
+        },
+        {
+          "word": "(Phrase 6/Nous mangeons une orange.)",
+          "forms": ["Nous mangeons une orange."],
+          "phrases": ["Nous mangeons une orange."]
+        },
+        {
+          "word": "(Phrase 7/Le garçon gagne un grand gâteau.)",
+          "forms": ["Le garçon gagne un grand gâteau."],
+          "phrases": ["Le garçon gagne un grand gâteau."]
+        },
+        {
+          "word": "(Phrase 8/Tu veux des œufs bleus.)",
+          "forms": ["Tu veux des œufs bleus."],
+          "phrases": ["Tu veux des œufs bleus."]
+        },
+        {
+          "word": "(Phrase 9/Elle met ses lunettes sur la table.)",
+          "forms": ["Elle met ses lunettes sur la table."],
+          "phrases": ["Elle met ses lunettes sur la table."]
+        },
+        {
+          "word": "(Phrase 10/Un bon pain sent très bon.)",
+          "forms": ["Un bon pain sent très bon."],
+          "phrases": ["Un bon pain sent très bon."]
+        },
+        {
+          "word": "(Phrase 11/Ma sœur prend le train demain.)",
+          "forms": ["Ma sœur prend le train demain."],
+          "phrases": ["Ma sœur prend le train demain."]
+        },
+        {
+          "word": "(Phrase 12/Il y a huit choix dans la boîte.)",
+          "forms": ["Il y a (huit/8) choix dans la boîte."],
+          "phrases": ["Il y a huit choix dans la boîte."]
+        },
+        {
+          "word": "(Phrase 13/Le chat dort sous le soleil.)",
+          "forms": ["Le chat dort sous le soleil."],
+          "phrases": ["Le chat dort sous le soleil."]
+        },
+        {
+          "word": "(Phrase 14/Hier, la rue était calme.)",
+          "forms": ["Hier, la rue était calme."],
+          "phrases": ["Hier, la rue était calme."]
+        }
+      ]
+    },
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Practicar la pronunciación",
+      "lessonPrompt": {
+        "text": "Las siguientes frases contienen los sonidos básicos del español. Practícalas para mejorar tu pronunciación. Presta atención a los sonidos que te resulten difíciles. Haz clic en la frase para escucharla primero. Ábrela para ver el texto. (Se recomienda usar auriculares.)",
+        "character": {
+          "name": "Señorita Mimi",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "(Frase 1/Pablo prepara pan para Pedro.)",
+          "forms": ["Pablo prepara pan para Pedro."],
+          "phrases": ["Pablo prepara pan para Pedro."]
+        },
+        {
+          "word": "(Frase 2/Julia lleva una chaqueta roja.)",
+          "forms": ["Julia lleva una chaqueta roja."],
+          "phrases": ["Julia lleva una chaqueta roja."]
+        },
+        {
+          "word": "(Frase 3/Mi vecino vende vino blanco.)",
+          "forms": ["Mi vecino vende vino blanco."],
+          "phrases": ["Mi vecino vende vino blanco."]
+        },
+        {
+          "word": "(Frase 4/El chico escucha música suave.)",
+          "forms": ["El chico escucha música suave."],
+          "phrases": ["El chico escucha música suave."]
+        },
+        {
+          "word": "(Frase 5/Tres trenes cruzan la frontera.)",
+          "forms": ["Tres trenes cruzan la frontera."],
+          "phrases": ["Tres trenes cruzan la frontera."]
+        },
+        {
+          "word": "(Frase 6/Marta cocina sopa con ajo.)",
+          "forms": ["Marta cocina sopa con ajo."],
+          "phrases": ["Marta cocina sopa con ajo."]
+        },
+        {
+          "word": "(Frase 7/Un joven juega bajo la lluvia.)",
+          "forms": ["Un joven juega bajo la lluvia."],
+          "phrases": ["Un joven juega bajo la lluvia."]
+        },
+        {
+          "word": "(Frase 8/Quiero cuatro quesos pequeños.)",
+          "forms": ["Quiero cuatro quesos pequeños."],
+          "phrases": ["Quiero cuatro quesos pequeños."]
+        },
+        {
+          "word": "(Frase 9/La niña mira las estrellas.)",
+          "forms": ["La niña mira las estrellas."],
+          "phrases": ["La niña mira las estrellas."]
+        },
+        {
+          "word": "(Frase 10/Mis amigos comen arroz amarillo.)",
+          "forms": ["Mis amigos comen arroz amarillo."],
+          "phrases": ["Mis amigos comen arroz amarillo."]
+        },
+        {
+          "word": "(Frase 11/El perro duerme cerca del fuego.)",
+          "forms": ["El perro duerme cerca del fuego."],
+          "phrases": ["El perro duerme cerca del fuego."]
+        },
+        {
+          "word": "(Frase 12/Beatriz compra flores azules.)",
+          "forms": ["Beatriz compra flores azules."],
+          "phrases": ["Beatriz compra flores azules."]
+        },
+        {
+          "word": "(Frase 13/Hoy hace mucho calor afuera.)",
+          "forms": ["Hoy hace mucho calor afuera."],
+          "phrases": ["Hoy hace mucho calor afuera."]
+        },
+        {
+          "word": "(Frase 14/La calle estaba tranquila ayer.)",
+          "forms": ["La calle estaba tranquila ayer."],
+          "phrases": ["La calle estaba tranquila ayer."]
+        }
+      ]
+    },
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "練習發音",
+      "lessonPrompt": {
+        "text": "以下句子包含中文的基本聲音。請練習清楚地說出來，並注意你覺得困難的發音。先點擊句子來聽發音，再展開查看文字。（建議使用耳機。）",
+        "character": {
+          "name": "咪咪小姐",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "(句子 1/爸爸陪朋友爬山。)",
+          "forms": ["爸爸陪朋友爬山。"],
+          "phrases": ["爸爸陪朋友爬山。"]
+        },
+        {
+          "word": "(句子 2/小貓喜歡吃水果。)",
+          "forms": ["小貓喜歡吃水果。"],
+          "phrases": ["小貓喜歡吃水果。"]
+        },
+        {
+          "word": "(句子 3/今天的天氣非常好。)",
+          "forms": ["今天的天氣非常好。"],
+          "phrases": ["今天的天氣非常好。"]
+        },
+        {
+          "word": "(句子 4/老師正在教學生。)",
+          "forms": ["老師正在教學生。"],
+          "phrases": ["老師正在教學生。"]
+        },
+        {
+          "word": "(句子 5/這隻鳥站在樹上。)",
+          "forms": ["這隻鳥站在樹上。"],
+          "phrases": ["這隻鳥站在樹上。"]
+        },
+        {
+          "word": "(句子 6/妹妹想去游泳池。)",
+          "forms": ["妹妹想去(游/遊)泳池。"],
+          "phrases": ["妹妹想去游泳池。"]
+        },
+        {
+          "word": "(句子 7/我昨天晚上看電影。)",
+          "forms": ["我昨天晚上看電影。"],
+          "phrases": ["我昨天晚上看電影。"]
+        },
+        {
+          "word": "(句子 8/媽媽準備熱牛奶。)",
+          "forms": ["媽媽準備熱牛奶。"],
+          "phrases": ["媽媽準備熱牛奶。"]
+        },
+        {
+          "word": "(句子 9/秋天常常下小雨。)",
+          "forms": ["秋天常常下小雨。"],
+          "phrases": ["秋天常常下小雨。"]
+        },
+        {
+          "word": "(句子 10/哥哥喜歡打籃球。)",
+          "forms": ["哥哥喜歡打籃球。"],
+          "phrases": ["哥哥喜歡打籃球。"]
+        },
+        {
+          "word": "(句子 11/很多人坐地鐵上班。)",
+          "forms": ["很多人坐地鐵上班。"],
+          "phrases": ["很多人坐地鐵上班。"]
+        },
+        {
+          "word": "(句子 12/窗外的風聲很大。)",
+          "forms": ["窗外的風聲很大。"],
+          "phrases": ["窗外的風聲很大。"]
+        },
+        {
+          "word": "(句子 13/他穿著黃色外套。)",
+          "forms": ["(他/她)穿著黃色外套。"],
+          "phrases": ["她穿著黃色外套。"]
+        },
+        {
+          "word": "(句子 14/這個週末我要休息。)",
+          "forms": ["這個週末我要休息。"],
+          "phrases": ["這個週末我要休息。"]
+        }
+      ]
+    },
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "练习发音",
+      "lessonPrompt": {
+        "text": "以下句子包含中文的基本声音。请练习清楚地说出来，并注意你觉得困难的发音。先点击句子来听发音，再展开查看文字。（建议使用耳机。）",
+        "character": {
+          "name": "咪咪小姐",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "(句子 1/爸爸陪朋友爬山。)",
+          "forms": ["爸爸陪朋友爬山。"],
+          "phrases": ["爸爸陪朋友爬山。"]
+        },
+        {
+          "word": "(句子 2/小猫喜欢吃水果。)",
+          "forms": ["小猫喜欢吃水果。"],
+          "phrases": ["小猫喜欢吃水果。"]
+        },
+        {
+          "word": "(句子 3/今天天气非常好。)",
+          "forms": ["今天天气非常好。"],
+          "phrases": ["今天天气非常好。"]
+        },
+        {
+          "word": "(句子 4/老师正在教学生。)",
+          "forms": ["老师正在教学生。"],
+          "phrases": ["老师正在教学生。"]
+        },
+        {
+          "word": "(句子 5/这只鸟站在树上。)",
+          "forms": ["这只鸟站在树上。"],
+          "phrases": ["这只鸟站在树上。"]
+        },
+        {
+          "word": "(句子 6/妹妹想去游泳池。)",
+          "forms": ["妹妹想去(游/遊)泳池。"],
+          "phrases": ["妹妹想去游泳池。"]
+        },
+        {
+          "word": "(句子 7/我昨天晚上看电影。)",
+          "forms": ["我昨天晚上看电影。"],
+          "phrases": ["我昨天晚上看电影。"]
+        },
+        {
+          "word": "(句子 8/妈妈准备热牛奶。)",
+          "forms": ["妈妈准备热牛奶。"],
+          "phrases": ["妈妈准备热牛奶。"]
+        },
+        {
+          "word": "(句子 9/秋天常常下小雨。)",
+          "forms": ["秋天常常下小雨。"],
+          "phrases": ["秋天常常下小雨。"]
+        },
+        {
+          "word": "(句子 10/哥哥喜欢打篮球。)",
+          "forms": ["哥哥喜欢打篮球。"],
+          "phrases": ["哥哥喜欢打篮球。"]
+        },
+        {
+          "word": "(句子 11/很多人坐地铁上班。)",
+          "forms": ["很多人坐地铁上班。"],
+          "phrases": ["很多人坐地铁上班。"]
+        },
+        {
+          "word": "(句子 12/窗外的风声很大。)",
+          "forms": ["窗外的风声很大。"],
+          "phrases": ["窗外的风声很大。"]
+        },
+        {
+          "word": "(句子 13/他穿着黄色外套。)",
+          "forms": ["(他/她)穿着黄色外套。"],
+          "phrases": ["他穿着黄色外套。"]
+        },
+        {
+          "word": "(句子 14/这个周末我要休息。)",
+          "forms": ["这个周末我要休息。"],
+          "phrases": ["这个周末我要休息。"]
+        }
+      ]
+    },
+    "ja-JP": {
+      "language": "ja-JP",
+      "languageName": "日本語",
+      "lessonName": "発音練習",
+      "lessonPrompt": {
+        "text": "以下の文には、日本語の基本的な音が含まれています。はっきり発音する練習をして、苦手な音に注意してください。まず文をクリックして音声を聞き、開いて文章を確認しましょう。（ヘッドホン推奨。）",
+        "character": {
+          "name": "ミミ先生",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "(文 1/パパは公園を歩きます。)",
+          "forms": ["パパは公園を歩きます。"],
+          "phrases": ["パパは公園を歩きます。"]
+        },
+        {
+          "word": "(文 2/小さい猫が魚を食べます。)",
+          "forms": ["小さい猫が魚を食べます。"],
+          "phrases": ["小さい猫が魚を食べます。"]
+        },
+        {
+          "word": "(文 3/今日は天気がとてもいいです。)",
+          "forms": ["今日は天気がとてもいいです。"],
+          "phrases": ["今日は天気がとてもいいです。"]
+        },
+        {
+          "word": "(文 4/先生は学生に日本語を教えます。)",
+          "forms": ["先生は学生に日本語を教えます。"],
+          "phrases": ["先生は学生に日本語を教えます。"]
+        },
+        {
+          "word": "(文 5/赤い電車が駅に着きます。)",
+          "forms": ["赤い電車が駅に着きます。"],
+          "phrases": ["赤い電車が駅に着きます。"]
+        },
+        {
+          "word": "(文 6/妹が温かい牛乳を飲みます。)",
+          "forms": ["妹(は/が)温かい牛乳を飲みます。"],
+          "phrases": ["妹が温かい牛乳を飲みます。"]
+        },
+        {
+          "word": "(文 7/友達は映画を見ました。)",
+          "forms": ["(友達/友だち)は映画を見ました。"],
+          "phrases": ["友達は映画を見ました。"]
+        },
+        {
+          "word": "(文 8/白い鳥が空を飛んでいます。)",
+          "forms": ["白い鳥が空を飛んでいます。"],
+          "phrases": ["白い鳥が空を飛んでいます。"]
+        },
+        {
+          "word": "(文 9/秋には雨がよく降ります。)",
+          "forms": ["秋には雨がよく降ります。"],
+          "phrases": ["秋には雨がよく降ります。"]
+        },
+        {
+          "word": "(文 10/兄は毎週バスケットボールをします。)",
+          "forms": ["兄は毎週バスケットボールをします。"],
+          "phrases": ["兄は毎週バスケットボールをします。"]
+        },
+        {
+          "word": "(文 11/たくさんの人が地下鉄に乗ります。)",
+          "forms": ["たくさんの人が地下鉄に乗ります。"],
+          "phrases": ["たくさんの人が地下鉄に乗ります。"]
+        },
+        {
+          "word": "(文 12/窓の外で風の音が聞こえます。)",
+          "forms": ["窓の外で風の音が聞こえます。"],
+          "phrases": ["窓の外で風の音が聞こえます。"]
+        },
+        {
+          "word": "(文 13/彼女は黄色いコートを着ています。)",
+          "forms": ["彼女は黄色いコートを着ています。"],
+          "phrases": ["彼女は黄色いコートを着ています。"]
+        },
+        {
+          "word": "(文 14/週末は家でゆっくり休みます。)",
+          "forms": ["週末は家でゆっくり休みます。"],
+          "phrases": ["週末は家でゆっくり休みます。"]
+        }
+      ]
+    },
+    "th-TH": {
+      "language": "th-TH",
+      "languageName": "ไทย",
+      "lessonName": "ฝึกออกเสียง",
+      "lessonPrompt": {
+        "text": "ประโยคต่อไปนี้มีเสียงพื้นฐานของภาษาไทย ฝึกพูดให้ชัด และสังเกตเสียงที่คุณออกเสียงยาก คลิกที่ประโยคเพื่อฟังก่อน แล้วเปิดดูข้อความ (แนะนำให้ใช้หูฟัง)",
+        "character": {
+          "name": "ครูมิมิ",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "(ประโยค 1/ป้าปลูกผักใกล้บ้าน)",
+          "forms": ["ป้าปลูกผักใกล้บ้าน"],
+          "phrases": ["ป้าปลูกผักใกล้บ้าน"]
+        },
+        {
+          "word": "(ประโยค 2/พ่อพาเพื่อนไปเที่ยว)",
+          "forms": ["พ่อพาเพื่อนไปเที่ยว"],
+          "phrases": ["พ่อพาเพื่อนไปเที่ยว"]
+        },
+        {
+          "word": "(ประโยค 3/แม่ซื้อมะม่วงหวานมาก)",
+          "forms": ["แม่ซื้อมะม่วงหวานมาก"],
+          "phrases": ["แม่ซื้อมะม่วงหวานมาก"]
+        },
+        {
+          "word": "(ประโยค 4/เด็กกินข้าวกับไก่)",
+          "forms": ["เด็กกินข้าวกับไก่"],
+          "phrases": ["เด็กกินข้าวกับไก่"]
+        },
+        {
+          "word": "(ประโยค 5/ครูชอบชาร้อน)",
+          "forms": ["ครูชอบชาร้อน"],
+          "phrases": ["ครูชอบชาร้อน"]
+        },
+        {
+          "word": "(ประโยค 6/ฉันช่วยล้างจาน)",
+          "forms": ["ฉันช่วยล้างจาน"],
+          "phrases": ["ฉันช่วยล้างจาน"]
+        },
+        {
+          "word": "(ประโยค 7/น้องนั่งดูหนัง)",
+          "forms": ["น้องนั่งดูหนัง"],
+          "phrases": ["น้องนั่งดูหนัง"]
+        },
+        {
+          "word": "(ประโยค 8/ลุงเดินเร็วมาก)",
+          "forms": ["ลุงเดินเร็วมาก"],
+          "phrases": ["ลุงเดินเร็วมาก"]
+        },
+        {
+          "word": "(ประโยค 9/รถสีฟ้าอยู่หน้าร้าน)",
+          "forms": ["รถสีฟ้าอยู่หน้าร้าน"],
+          "phrases": ["รถสีฟ้าอยู่หน้าร้าน"]
+        },
+        {
+          "word": "(ประโยค 10/แมววิ่งผ่านสวน)",
+          "forms": ["แมววิ่งผ่านสวน"],
+          "phrases": ["แมววิ่งผ่านสวน"]
+        },
+        {
+          "word": "(ประโยค 11/เขาเจองูใต้ต้นไม้)",
+          "forms": ["เขาเจองูใต้ต้นไม้"],
+          "phrases": ["เขาเจองูใต้ต้นไม้"]
+        },
+        {
+          "word": "(ประโยค 12/เรากินเกี๊ยวกับน้ำซุป)",
+          "forms": ["เรากินเกี๊ยวกับน้ำซุป"],
+          "phrases": ["เรากินเกี๊ยวกับน้ำซุป"]
+        },
+        {
+          "word": "(ประโยค 13/หญิงชรายืนข้างหน้าต่าง)",
+          "forms": ["หญิงชรายืนข้างหน้าต่าง"],
+          "phrases": ["หญิงชรายืนข้างหน้าต่าง"]
+        },
+        {
+          "word": "(ประโยค 14/วันนี้ฝนตกหนัก)",
+          "forms": ["วันนี้ฝนตกหนัก"],
+          "phrases": ["วันนี้ฝนตกหนัก"]
+        }
+      ]
+    }
+  }
+}

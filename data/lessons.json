@@ -100,6 +100,18 @@
       }
     },
     {
+      "id": "Pronunciation",
+      "name": {
+        "en-US": "Practicing Pronunciation",
+        "fr-FR": "Pratiquer la prononciation",
+        "es-ES": "Practicar la pronunciación",
+        "zh-CN": "练习发音",
+        "zh-TW": "練習發音",
+        "ja-JP": "発音練習",
+        "th-TH": "ฝึกออกเสียง"
+      }
+    },
+    {
       "id": "PrepareForATrip",
       "name": {
         "en-US": "Preparing For a Trip",

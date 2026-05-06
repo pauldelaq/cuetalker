@@ -363,6 +363,24 @@ function normalizeText(s) {
     .trim();
 }
 
+// Helper for parsing display/tts text in the form "(display/tts)"
+function parseDisplayTtsText(rawText) {
+  const raw = String(rawText || '').trim();
+  const match = /^\(([^/()]+)\/([^()]+)\)$/.exec(raw);
+
+  if (!match) {
+    return {
+      displayText: raw,
+      ttsText: raw
+    };
+  }
+
+  return {
+    displayText: match[1].trim(),
+    ttsText: match[2].trim()
+  };
+}
+
 
 function normalizeLooseMatchText(s) {
   return normalizeText(s).replace(/\s+/g, '');
@@ -471,7 +489,8 @@ function compileMatchers() {
   matchers = [];
 
   (wordListData || []).forEach((item) => {
-    const base = (item.word || '').trim();
+    const { displayText } = parseDisplayTtsText(item.word);
+    const base = displayText;
     if (!base) return;
 
     // IMPORTANT: forms is the only source of truth for transcript matching.
@@ -1437,7 +1456,8 @@ function renderWordList() {
   container.innerHTML = '';
 
   wordListData.forEach((item, idx) => {
-    const word = (item.word || '').trim();
+    const { displayText, ttsText } = parseDisplayTtsText(item.word);
+    const word = displayText;
     if (!word) return;
 
     const bubble = document.createElement('div');
@@ -1472,7 +1492,7 @@ function renderWordList() {
     wordSpan.style.cursor = 'pointer';
     wordSpan.addEventListener('click', (e) => {
       e.stopPropagation();
-      speakText(word, selectedLang || lessonLang || localStorage.getItem('ctlanguage') || 'en-US');
+      speakText(ttsText, selectedLang || lessonLang || localStorage.getItem('ctlanguage') || 'en-US');
     });
 
     header.appendChild(toggle);
@@ -1485,7 +1505,7 @@ function renderWordList() {
     if (hasPhrases) {
       const ul = document.createElement('ul');
       ul.className = 'phraseList';
-      phrases.forEach(p => ul.appendChild(buildPhraseListItem(p, word)));
+      phrases.forEach(p => ul.appendChild(buildPhraseListItem(p, ttsText)));
       phrasesWrap.appendChild(ul);
     }
 
