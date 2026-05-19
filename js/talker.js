@@ -223,9 +223,21 @@ const misheardMap = {
   }
 };
 
-function wordLevelDistance(a, b) {
-  const wordsA = a.trim().split(/\s+/);
-  const wordsB = b.trim().split(/\s+/);
+function isNoSpaceLanguage(lang = lessonLang) {
+  const baseLang = (lang || '').split('-')[0];
+  return ['zh', 'ja', 'th'].includes(baseLang);
+}
+
+function getComparisonUnits(text, lang = lessonLang) {
+  const normalized = normalize(text, lang);
+  return isNoSpaceLanguage(lang)
+    ? Array.from(normalized)
+    : normalized.split(/\s+/).filter(Boolean);
+}
+
+function wordLevelDistance(a, b, lang = lessonLang) {
+  const wordsA = getComparisonUnits(a, lang);
+  const wordsB = getComparisonUnits(b, lang);
 
   let mismatches = 0;
   const len = Math.max(wordsA.length, wordsB.length);
@@ -480,30 +492,80 @@ function populateCustomVoiceList() {
   });
 }
 
+// Escape HTML special characters for safe display
+function escapeHTML(text) {
+  return String(text || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 function highlightDifferences(userText, expectedText) {
-  const isCJK = ['zh-CN', 'zh-TW', 'ja', 'ko'].includes(lessonLang);
+  const noSpaceLang = isNoSpaceLanguage(lessonLang);
 
-  const userUnitsRaw = isCJK ? Array.from(userText.trim()) : userText.trim().split(/\s+/);
-  const userUnitsNorm = isCJK ? Array.from(normalize(userText)) : normalize(userText).split(/\s+/);
-  const expectedUnitsNorm = isCJK ? Array.from(normalize(expectedText)) : normalize(expectedText).split(/\s+/);
+  if (!noSpaceLang) {
+    const userUnitsRaw = userText.trim().split(/\s+/).filter(Boolean);
+    const userUnitsNorm = getComparisonUnits(userText, lessonLang);
+    const expectedUnitsNorm = getComparisonUnits(expectedText, lessonLang);
 
-  const highlighted = [];
+    const highlighted = [];
+    const len = Math.max(userUnitsNorm.length, expectedUnitsNorm.length);
 
-  const len = Math.max(userUnitsNorm.length, expectedUnitsNorm.length);
+    for (let i = 0; i < len; i++) {
+      const userRaw = userUnitsRaw[i] || '';
+      const userNorm = userUnitsNorm[i] || '';
+      const expectedNorm = expectedUnitsNorm[i] || '';
+
+      if (userNorm === expectedNorm) {
+        highlighted.push(escapeHTML(userRaw));
+      } else {
+        highlighted.push(`<span class="wrong-word">${escapeHTML(userRaw)}</span>`);
+      }
+    }
+
+    return highlighted.join(' ');
+  }
+
+  // Asian languages: ignore spaces/punctuation, then compare by character position.
+  const cleanUserText = userText.trim().replace(/\s+/g, '');
+  const userRawChars = Array.from(cleanUserText);
+
+  const userComparable = userRawChars
+    .map((char, rawIndex) => ({
+      raw: char,
+      rawIndex,
+      norm: normalize(char, lessonLang)
+    }))
+    .filter(entry => entry.norm);
+
+  const expectedComparable = Array.from(expectedText.trim().replace(/\s+/g, ''))
+    .map(char => normalize(char, lessonLang))
+    .filter(Boolean);
+
+  const wrongRawIndexes = new Set();
+  const len = Math.max(userComparable.length, expectedComparable.length);
 
   for (let i = 0; i < len; i++) {
-    const userRaw = userUnitsRaw[i] || '';
-    const userNorm = userUnitsNorm[i] || '';
-    const expectedNorm = expectedUnitsNorm[i] || '';
+    const userUnit = userComparable[i];
+    const expectedUnit = expectedComparable[i] || '';
 
-    if (userNorm === expectedNorm) {
-      highlighted.push(userRaw);
-    } else {
-      highlighted.push(`<span class="wrong-word">${userRaw}</span>`);
+    if (userUnit && userUnit.norm !== expectedUnit) {
+      wrongRawIndexes.add(userUnit.rawIndex);
     }
   }
 
-  return highlighted.join(isCJK ? '' : ' ');
+  return userRawChars.map((char, index) => {
+    const normalizedChar = normalize(char, lessonLang);
+
+    // Punctuation/symbols are ignored for matching, so show them neutrally.
+    if (!normalizedChar) return escapeHTML(char);
+
+    return wrongRawIndexes.has(index)
+      ? `<span class="wrong-word">${escapeHTML(char)}</span>`
+      : escapeHTML(char);
+  }).join('');
 }
 
 function removePracticeTryButton() {
@@ -644,6 +706,49 @@ async function loadLesson() {
     console.error('Failed to load lesson:', error);
     alert(`Could not load lesson: ${lessonId}`);
   }
+}
+
+function debugJumpToId(id, options = {}) {
+  const targetId = Number(id);
+
+  if (!Number.isFinite(targetId)) {
+    console.warn('[debugJumpToId] Please provide a numeric id, like debugJumpToId(12).');
+    return;
+  }
+
+  const targetIndex = conversation.findIndex(item => Number(item.id) === targetId);
+
+  if (targetIndex === -1) {
+    console.warn(`[debugJumpToId] No conversation item found with id ${targetId}.`);
+    return;
+  }
+
+  speechSynthesis.cancel();
+  isSpeaking = false;
+
+  if (isRecording) {
+    stopSpeechRecognition();
+  }
+
+  clearGraceTimer();
+  finalizedTranscript = '';
+  suppressStopResponseHandling = false;
+  intentionallyStoppingRecognition = false;
+
+  const container = document.getElementById('cue-content');
+  if (container && options.clear !== false) {
+    container.innerHTML = '';
+  }
+
+  const transcriptEl = document.getElementById('liveTranscript');
+  if (transcriptEl) transcriptEl.textContent = '';
+  if (transcriptController) transcriptController.reset();
+
+  currentIndex = targetIndex;
+  updateMicIcon();
+  showNextMessage();
+
+  console.log(`[debugJumpToId] Jumped to id ${targetId} at index ${targetIndex}.`, conversation[targetIndex]);
 }
 
 function tryAutoAdvance() {
@@ -1330,7 +1435,7 @@ function normalize(text, langHint) {
 
   // 🔥 Remove all spaces for Asian languages
   const baseLang = (langHint || lessonLang || 'en-US').split('-')[0];
-  const asianLangs = ['zh', 'ja', 'ko', 'th'];
+  const asianLangs = ['zh', 'ja', 'th'];
   if (asianLangs.includes(baseLang)) {
     normalized = normalized.replace(/ /g, '');  // spaces already collapsed above
   }
@@ -1861,3 +1966,7 @@ window.addEventListener('beforeunload', () => {
     audioContext = null;
   }
 });
+
+// Debug helpers available from the browser console.
+window.debugJumpToId = debugJumpToId;
+window.jumpToId = debugJumpToId;

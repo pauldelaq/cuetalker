@@ -1,0 +1,1098 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F469-200D-1F3EB.svg",
+    "2": "assets/svg/1F60A.svg",
+    "hint": "assets/svg/1F914.svg"
+  },
+  "hintAvatar": {
+    "name": "You",
+    "svg": "hint"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Pronunciation Lesson",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "The following sentences contain all the basic sounds of English. Practice them to work on your pronunciation. Pay attention to the sounds you're having trouble producing. Listen to the lecturer and repeat after her."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "Please call Stella.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "Please call Stella."
+          ]
+        },
+        {
+          "id": 2,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "The thick thread fell through.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "The thick thread fell through."
+          ]
+        },
+        {
+          "id": 4,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "Victor drove the van.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "Victor drove the van."
+          ]
+        },
+        {
+          "id": 6,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "Rachel likes fresh green grapes.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "Rachel likes fresh green grapes."
+          ]
+        },
+        {
+          "id": 8,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "Jack chose cheap orange juice.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "Jack chose cheap orange juice."
+          ]
+        },
+        {
+          "id": 10,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "My quiet neighbor bought a bicycle.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "My quiet neighbor bought a bicycle."
+          ]
+        },
+        {
+          "id": 12,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "A young boy found five coins.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "A young boy found five coins."
+          ]
+        },
+        {
+          "id": 14,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "The nurse heard a bird.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "The nurse heard a bird."
+          ]
+        },
+        {
+          "id": 16,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "Sam packed six crisp snacks.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "Sam packed six crisp snacks."
+          ]
+        },
+        {
+          "id": 18,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "They waited at the station.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "They waited at the station."
+          ]
+        },
+        {
+          "id": 20,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 21,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "The weather improves by Thursday.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "The weather improves by Thursday."
+          ]
+        },
+        {
+          "id": 22,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+                {
+          "id": 23,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "Zoe smiled at the music.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "Zoe smiled at the music."
+          ]
+        },
+        {
+          "id": 24,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 25,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "I wish every learner spoke clearly.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "I wish every learner spoke clearly."
+          ]
+        },
+        {
+          "id": 26,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+          "id": 27,
+          "type": "prompt",
+          "character": { "name": "Miss Mimi", "svg": 1 },
+          "text": "Usually, the television is in the garage.",
+          "hint": "(repeat)",
+          "expectedAnswers": [
+            "Usually, the television is in the garage."
+          ]
+        },
+        {
+          "id": 28,
+          "type": "response",
+          "character": { "name": "You", "svg": 2 }
+        },
+        {
+            "id": 29,
+            "type": "narration",
+            "text": "You have completed all the sentences. Well done!"
+        }
+      ]
+    }
+    ,"fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonName": "Pratiquer la prononciation",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Les phrases suivantes contiennent les sons de base du français. Entraîne-toi à les prononcer clairement. Fais attention aux sons qui sont difficiles pour toi. Écoute la professeure et répète après elle."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Paul parle près du parc.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Paul parle près du parc."]
+        },
+        { "id": 2, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "La petite fille répond vite.",
+          "hint": "(répète)",
+          "expectedAnswers": ["La petite fille répond vite."]
+        },
+        { "id": 4, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Je cherche une jolie chemise.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Je cherche une jolie chemise."]
+        },
+        { "id": 6, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Charles joue chaque jeudi.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Charles joue chaque jeudi."]
+        },
+        { "id": 8, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Mon frère vend du vin blanc.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Mon frère vend du vin blanc."]
+        },
+        { "id": 10, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Nous mangeons une orange.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Nous mangeons une orange."]
+        },
+        { "id": 12, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Le garçon gagne un grand gâteau.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Le garçon gagne un grand gâteau."]
+        },
+        { "id": 14, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Tu veux des œufs bleus.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Tu veux des œufs bleus."]
+        },
+        { "id": 16, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Elle met ses lunettes sur la table.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Elle met ses lunettes sur la table."]
+        },
+        { "id": 18, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Un bon pain sent très bon.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Un bon pain sent très bon."]
+        },
+        { "id": 20, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 21,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Ma sœur prend le train demain.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Ma sœur prend le train demain."]
+        },
+        { "id": 22, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 23,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Il y a huit choix dans la boîte.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Il y a (huit/8) choix dans la boîte."]
+        },
+        { "id": 24, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 25,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Le chat dort sous le soleil.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Le chat dort sous le soleil."]
+        },
+        { "id": 26, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 27,
+          "type": "prompt",
+          "character": { "name": "Madame Mimi", "svg": 1 },
+          "text": "Hier, la rue était calme.",
+          "hint": "(répète)",
+          "expectedAnswers": ["Hier, la rue était calme."]
+        },
+        { "id": 28, "type": "response", "character": { "name": "Toi", "svg": 2 } },
+        {
+          "id": 29,
+          "type": "narration",
+          "text": "Tu as terminé toutes les phrases. Bravo !"
+        }
+      ]
+    },
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Practicar la pronunciación",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "Las siguientes frases contienen los sonidos básicos del español. Practícalas para mejorar tu pronunciación. Presta atención a los sonidos que te resulten difíciles. Escucha a la profesora y repite después de ella."
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Pablo prepara pan para Pedro.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Pablo prepara pan para Pedro."]
+        },
+        { "id": 2, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Julia lleva una chaqueta roja.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Julia lleva una chaqueta roja."]
+        },
+        { "id": 4, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Mi vecino vende vino blanco.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Mi vecino vende vino blanco."]
+        },
+        { "id": 6, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "El chico escucha música suave.",
+          "hint": "(repite)",
+          "expectedAnswers": ["El chico escucha música suave."]
+        },
+        { "id": 8, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Tres trenes cruzan la frontera.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Tres trenes cruzan la frontera."]
+        },
+        { "id": 10, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Marta cocina sopa con ajo.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Marta cocina sopa con ajo."]
+        },
+        { "id": 12, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Un joven juega bajo la lluvia.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Un joven juega bajo la lluvia."]
+        },
+        { "id": 14, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Quiero cuatro quesos pequeños.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Quiero cuatro quesos pequeños."]
+        },
+        { "id": 16, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "La niña mira las estrellas.",
+          "hint": "(repite)",
+          "expectedAnswers": ["La niña mira las estrellas."]
+        },
+        { "id": 18, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Mis amigos comen arroz amarillo.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Mis amigos comen arroz amarillo."]
+        },
+        { "id": 20, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 21,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "El perro duerme cerca del fuego.",
+          "hint": "(repite)",
+          "expectedAnswers": ["El perro duerme cerca del fuego."]
+        },
+        { "id": 22, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 23,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Beatriz compra flores azules.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Beatriz compra flores azules."]
+        },
+        { "id": 24, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 25,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "Hoy hace mucho calor afuera.",
+          "hint": "(repite)",
+          "expectedAnswers": ["Hoy hace mucho calor afuera."]
+        },
+        { "id": 26, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 27,
+          "type": "prompt",
+          "character": { "name": "Señorita Mimi", "svg": 1 },
+          "text": "La calle estaba tranquila ayer.",
+          "hint": "(repite)",
+          "expectedAnswers": ["La calle estaba tranquila ayer."]
+        },
+        { "id": 28, "type": "response", "character": { "name": "Tú", "svg": 2 } },
+        {
+          "id": 29,
+          "type": "narration",
+          "text": "Has completado todas las frases. ¡Muy bien!"
+        }
+      ]
+    },
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "中文 (繁體)",
+      "lessonName": "練習發音",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "以下句子包含中文的基本聲音。請練習清楚地說出來，並注意你覺得困難的發音。聽老師說，然後跟著重複。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "爸爸陪朋友爬山。",
+          "hint": "（重複）",
+          "expectedAnswers": ["爸爸陪朋友爬山。"]
+        },
+        { "id": 2, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "小貓喜歡吃水果。",
+          "hint": "（重複）",
+          "expectedAnswers": ["小貓喜歡吃水果。"]
+        },
+        { "id": 4, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "今天的天氣非常好。",
+          "hint": "（重複）",
+          "expectedAnswers": ["今天的天氣非常好。"]
+        },
+        { "id": 6, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "老師正在教學生。",
+          "hint": "（重複）",
+          "expectedAnswers": ["老師正在教學生。"]
+        },
+        { "id": 8, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "這隻鳥站在樹上。",
+          "hint": "（重複）",
+          "expectedAnswers": ["這隻鳥站在樹上。"]
+        },
+        { "id": 10, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "妹妹想去游泳池。",
+          "hint": "（重複）",
+          "expectedAnswers": ["妹妹想去(游/遊)泳池。"]
+        },
+        { "id": 12, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "我昨天晚上看電影。",
+          "hint": "（重複）",
+          "expectedAnswers": ["我昨天晚上看電影。"]
+        },
+        { "id": 14, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "媽媽準備熱牛奶。",
+          "hint": "（重複）",
+          "expectedAnswers": ["媽媽準備熱牛奶。"]
+        },
+        { "id": 16, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "秋天常常下小雨。",
+          "hint": "（重複）",
+          "expectedAnswers": ["秋天常常下小雨。"]
+        },
+        { "id": 18, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "哥哥喜歡打籃球。",
+          "hint": "（重複）",
+          "expectedAnswers": ["哥哥喜歡打籃球。"]
+        },
+        { "id": 20, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 21,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "很多人坐地鐵上班。",
+          "hint": "（重複）",
+          "expectedAnswers": ["很多人坐地鐵上班。"]
+        },
+        { "id": 22, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 23,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "窗外的風聲很大。",
+          "hint": "（重複）",
+          "expectedAnswers": ["窗外的風聲很大。"]
+        },
+        { "id": 24, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 25,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "他穿著黃色外套。",
+          "hint": "（重複）",
+          "expectedAnswers": ["(他/她)穿著黃色外套。"]
+        },
+        { "id": 26, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 27,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "這個週末我要休息。",
+          "hint": "（重複）",
+          "expectedAnswers": ["這個週末我要休息。"]
+        },
+        { "id": 28, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 29,
+          "type": "narration",
+          "text": "你已經完成所有句子了。做得很好！"
+        }
+      ]
+    },
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "中文 (简体)",
+      "lessonName": "练习发音",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "以下句子包含中文的基本声音。请练习清楚地说出来，并注意你觉得困难的发音。听老师说，然后跟着重复。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "爸爸陪朋友爬山。",
+          "hint": "（重复）",
+          "expectedAnswers": ["爸爸陪朋友爬山。"]
+        },
+        { "id": 2, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "小猫喜欢吃水果。",
+          "hint": "（重复）",
+          "expectedAnswers": ["小猫喜欢吃水果。"]
+        },
+        { "id": 4, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "今天天气非常好。",
+          "hint": "（重复）",
+          "expectedAnswers": ["今天天气非常好。"]
+        },
+        { "id": 6, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "老师正在教学生。",
+          "hint": "（重复）",
+          "expectedAnswers": ["老师正在教学生。"]
+        },
+        { "id": 8, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "这只鸟站在树上。",
+          "hint": "（重复）",
+          "expectedAnswers": ["这只鸟站在树上。"]
+        },
+        { "id": 10, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "妹妹想去游泳池。",
+          "hint": "（重复）",
+          "expectedAnswers": ["妹妹想去(游/遊)泳池。"]
+        },
+        { "id": 12, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "我昨天晚上看电影。",
+          "hint": "（重复）",
+          "expectedAnswers": ["我昨天晚上看电影。"]
+        },
+        { "id": 14, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "妈妈准备热牛奶。",
+          "hint": "（重复）",
+          "expectedAnswers": ["妈妈准备热牛奶。"]
+        },
+        { "id": 16, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "秋天常常下小雨。",
+          "hint": "（重复）",
+          "expectedAnswers": ["秋天常常下小雨。"]
+        },
+        { "id": 18, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "哥哥喜欢打篮球。",
+          "hint": "（重复）",
+          "expectedAnswers": ["哥哥喜欢打篮球。"]
+        },
+        { "id": 20, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 21,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "很多人坐地铁上班。",
+          "hint": "（重复）",
+          "expectedAnswers": ["很多人坐地铁上班。"]
+        },
+        { "id": 22, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 23,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "窗外的风声很大。",
+          "hint": "（重复）",
+          "expectedAnswers": ["窗外的风声很大。"]
+        },
+        { "id": 24, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 25,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "他穿着黄色外套。",
+          "hint": "（重复）",
+          "expectedAnswers": ["(他/她)穿着黄色外套。"]
+        },
+        { "id": 26, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 27,
+          "type": "prompt",
+          "character": { "name": "咪咪小姐", "svg": 1 },
+          "text": "这个周末我要休息。",
+          "hint": "（重复）",
+          "expectedAnswers": ["这个周末我要休息。"]
+        },
+        { "id": 28, "type": "response", "character": { "name": "你", "svg": 2 } },
+        {
+          "id": 29,
+          "type": "narration",
+          "text": "你已经完成所有句子了。做得很好！"
+        }
+      ]
+    },
+    "ja-JP": {
+      "language": "ja-JP",
+      "languageName": "日本語",
+      "lessonName": "発音練習",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "以下の文には、日本語の基本的な音が含まれています。はっきり発音する練習をして、苦手な音に注意してください。先生の音声を聞いて、あとに続いて繰り返しましょう。"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "パパは公園を歩きます。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["パパは公園を歩きます。"]
+        },
+        { "id": 2, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "小さい猫が魚を食べます。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["小さい猫が魚を食べます。"]
+        },
+        { "id": 4, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "今日は天気がとてもいいです。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["今日は天気がとてもいいです。"]
+        },
+        { "id": 6, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "先生は学生に日本語を教えます。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["先生は学生に日本語を教えます。"]
+        },
+        { "id": 8, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "赤い電車が駅に着きます。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["赤い電車が駅に着きます。"]
+        },
+        { "id": 10, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "妹が温かい牛乳を飲みます。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["妹(は/が)温かい牛乳を飲みます。"]
+        },
+        { "id": 12, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "友達は映画を見ました。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["(友達/友だち)は映画を見ました。"]
+        },
+        { "id": 14, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "白い鳥が空を飛んでいます。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["白い鳥が空を飛んでいます。"]
+        },
+        { "id": 16, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "秋には雨がよく降ります。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["秋には雨がよく降ります。"]
+        },
+        { "id": 18, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "兄は毎週バスケットボールをします。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["兄は毎週バスケットボールをします。"]
+        },
+        { "id": 20, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 21,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "たくさんの人が地下鉄に乗ります。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["たくさんの人が地下鉄に乗ります。"]
+        },
+        { "id": 22, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 23,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "窓の外で風の音が聞こえます。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["窓の外で風の音が聞こえます。"]
+        },
+        { "id": 24, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 25,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "彼女は黄色いコートを着ています。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["彼女は黄色いコートを着ています。"]
+        },
+        { "id": 26, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 27,
+          "type": "prompt",
+          "character": { "name": "ミミ先生", "svg": 1 },
+          "text": "週末は家でゆっくり休みます。",
+          "hint": "（くり返す）",
+          "expectedAnswers": ["週末は家でゆっくり休みます。"]
+        },
+        { "id": 28, "type": "response", "character": { "name": "あなた", "svg": 2 } },
+        {
+          "id": 29,
+          "type": "narration",
+          "text": "すべての文が終わりました。よくできました！"
+        }
+      ]
+    },
+    "th-TH": {
+      "language": "th-TH",
+      "languageName": "ไทย",
+      "lessonName": "ฝึกออกเสียง",
+      "exercises": [
+        {
+          "id": 0,
+          "type": "narration",
+          "text": "ประโยคต่อไปนี้มีเสียงพื้นฐานของภาษาไทย ฝึกพูดให้ชัด และสังเกตเสียงที่คุณออกเสียงยาก ฟังครูแล้วพูดตาม"
+        },
+        {
+          "id": 1,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "พ่อไปบ้านเพื่อน",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["พ่อไปบ้านเพื่อน"]
+        },
+        { "id": 2, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 3,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "พ่อพาเพื่อนไปเที่ยว",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["พ่อพาเพื่อนไปเที่ยว"]
+        },
+        { "id": 4, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 5,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "แม่ซื้อมะม่วงหวานมาก",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["แม่ซื้อมะม่วงหวานมาก"]
+        },
+        { "id": 6, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 7,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "เด็กกินข้าวไก่",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["เด็กกินข้าวไก่"]
+        },
+        { "id": 8, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 9,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "ครูชอบชาเย็น",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["ครูชอบชาเย็น"]
+        },
+        { "id": 10, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 11,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "ฉันช่วยล้างจาน",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["ฉันช่วยล้างจาน"]
+        },
+        { "id": 12, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 13,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "น้องนั่งดูหนัง",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["น้องนั่งดูหนัง"]
+        },
+        { "id": 14, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 15,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "ลุงเดินเร็วมาก",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["ลุงเดินเร็วมาก"]
+        },
+        { "id": 16, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 17,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "รถสีฟ้าอยู่หน้าร้าน",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["รถสีฟ้าอยู่หน้าร้าน"]
+        },
+        { "id": 18, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 19,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "แมววิ่งผ่านสวน",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["แมววิ่งผ่านสวน"]
+        },
+        { "id": 20, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 21,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "เขาเจองูใต้ต้นไม้",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["เขาเจองูใต้ต้นไม้"]
+        },
+        { "id": 22, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 23,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "เรากินเกี๊ยวกับน้ำซุป",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["เรากินเกี๊ยวกับน้ำซุป"]
+        },
+        { "id": 24, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 25,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "ผู้หญิงยืนหน้าบ้าน",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["ผู้หญิงยืนหน้าบ้าน"]
+        },
+        { "id": 26, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 27,
+          "type": "prompt",
+          "character": { "name": "ครูมิมิ", "svg": 1 },
+          "text": "วันนี้ฝนตกหนัก",
+          "hint": "(พูดตาม)",
+          "expectedAnswers": ["วันนี้ฝนตกหนัก"]
+        },
+        { "id": 28, "type": "response", "character": { "name": "คุณ", "svg": 2 } },
+        {
+          "id": 29,
+          "type": "narration",
+          "text": "คุณพูดครบทุกประโยคแล้ว เก่งมาก!"
+        }
+      ]
+    }
+  }
+}
