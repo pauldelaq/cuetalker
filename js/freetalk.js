@@ -1395,7 +1395,7 @@ function renderLessonPrompt() {
     container.appendChild(msgDiv);
   }
 
-  container.scrollTop = container.scrollHeight;
+  // container.scrollTop = container.scrollHeight;
 
 }
 
@@ -1743,6 +1743,11 @@ document.addEventListener('DOMContentLoaded', () => {
       loadLesson()
     ]).then(() => {
       document.body.classList.remove('preload');
+
+      // Prevent initial auto-scroll on smaller screens after dynamic content renders.
+      const cueContent = document.getElementById('cue-content');
+      if (cueContent) cueContent.scrollTop = 0;
+      window.scrollTo(0, 0);
     });
     
     speechSynthesis.onvoiceschanged = populateCustomVoiceList;
