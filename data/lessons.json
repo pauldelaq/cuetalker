@@ -123,6 +123,18 @@
         "th-TH": "ฝึกออกเสียง"
       }
     },
+        {
+      "id": "CommonResponses",
+      "name": {
+        "en-US": "Common Responses",
+        "fr-FR": "Réponses courantes",
+        "es-ES": "Respuestas comunes",
+        "zh-CN": "常见回应",
+        "zh-TW": "常見回應",
+        "ja-JP": "よく使う返事",
+        "th-TH": "คำตอบที่ใช้บ่อย"
+      }
+    },
     {
       "id": "PrepareForATrip",
       "name": {

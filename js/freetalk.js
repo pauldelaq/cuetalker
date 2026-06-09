@@ -407,14 +407,11 @@ function expandVariantPattern(input) {
     if (!match) return [str];
 
     const [fullMatch, inner] = match;
+    // Keep empty options so patterns like "Thank you (very much/)"
+    // expand to both "Thank you very much" and "Thank you".
     const options = inner
       .split('/')
-      .map(part => part.trim())
-      .filter(Boolean);
-
-    if (!options.length) {
-      return [str.replace(fullMatch, '')];
-    }
+      .map(part => part.trim());
 
     const results = [];
     options.forEach(option => {
@@ -426,6 +423,7 @@ function expandVariantPattern(input) {
 
   return Array.from(new Set(
     expandRecursive(raw)
+      // Clean up spacing left behind by optional blank variants.
       .map(s => s.replace(/\s+/g, ' ').trim())
       .filter(Boolean)
   ));

@@ -1,0 +1,602 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F469-200D-1F3EB.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Common Responses",
+    "lessonPrompt": {
+        "text": "What would you say in each of these situations? Click the examples to hear them. To see suggested responses, expand the examples.",
+        "character": {
+        "name": "Miss Mimi",
+        "svg": "1"
+        }
+    },
+    "wordList": [
+        {
+        "word": "Good morning.",
+        "forms": ["Good morning."],
+        "phrases": ["Good morning."]
+        },
+        {
+        "word": "Nice to meet you.",
+        "forms": ["(It's/) nice to meet you, too."],
+        "phrases": ["(It's) nice to meet you, too."]
+        },
+        {
+        "word": "How are you?",
+        "forms": ["(I'm/I am) fine, (thanks/).", "(I'm/I am) well, (thanks/)."],
+        "phrases": ["(I'm) fine, thanks.", "(I'm) well, thanks."]
+        },
+        {
+        "word": "Thank you.",
+        "forms": ["You are welcome.", "You're welcome.", "My pleasure."],
+        "phrases": ["You're welcome.", "My pleasure."]
+        },
+        {
+        "word": "Sorry about that.",
+        "forms": ["No (problem/worries).", "(It's/That's) okay."],
+        "phrases": ["No problem.", "No worries.", "It's okay.", "That's okay."]
+        },
+        {
+        "word": "May I help you?",
+        "forms": ["Yes, please.", "No, (thanks/thank you)."],
+        "phrases": ["Yes, please.", "No, thanks."]
+        },
+        {
+        "word": "Have a nice day!",
+        "forms": ["(Thanks,/) you (too/as well)."],
+        "phrases": ["Thanks, you too.", "Thanks, you as well."]
+        },
+        {
+        "word": "Please give it to me.",
+        "forms": ["Here you (are/go)."],
+        "phrases": ["Here you are.", "Here you go."]
+        },
+        {
+        "word": "Congratulations! Great job.",
+        "forms": ["Thanks.", "Thank you (very much/)."],
+        "phrases": ["Thanks.", "Thank you (very much)."]
+        },
+        {
+        "word": "Hey! You broke my pencil.",
+        "forms": ["Sorry (about that/).", "My (apologies/mistake)."],
+        "phrases": ["Sorry (about that).", "My apologies.", "My mistake."]
+        },
+        {
+        "word": "I'm getting married.",
+        "forms": ["Congratulations!", "That's great!"],
+        "phrases": ["Congratulations!", "That's great!"]
+        },
+        {
+        "word": "I'm sick this week.",
+        "forms": ["Get well soon.", "(I hope you'll/) feel better soon."],
+        "phrases": ["Get well soon.", "(I hope you'll) feel better soon."]
+        },
+        {
+        "word": "My dog died.",
+        "forms": ["I'm (so/) sorry (to hear that/).", "My condolences."],
+        "phrases": ["I'm sorry (to hear that).", "My condolences."]
+        },
+        {
+        "word": "Goodbye.",
+        "forms": ["Goodbye.", "See you (later/)."],
+        "phrases": ["Goodbye.", "See you later.", "See you."]
+        }
+    ]
+    },
+        "fr-FR": {
+    "language": "fr-FR",
+    "languageName": "Français",
+    "lessonName": "Réponses courantes",
+    "lessonPrompt": {
+        "text": "Que diriez-vous dans chacune de ces situations ? Cliquez sur les exemples pour les écouter. Pour voir des réponses suggérées, développez les exemples.",
+        "character": {
+        "name": "Mademoiselle Mimi",
+        "svg": "1"
+        }
+    },
+    "wordList": [
+        {
+        "word": "Bonjour.",
+        "forms": ["Bonjour."],
+        "phrases": ["Bonjour."]
+        },
+        {
+        "word": "Enchanté.",
+        "forms": ["(C'est/) un plaisir de vous rencontrer aussi."],
+        "phrases": ["C'est un plaisir de vous rencontrer aussi."]
+        },
+        {
+        "word": "Comment allez-vous ?",
+        "forms": ["Je vais bien, merci."],
+        "phrases": ["Je vais bien, merci."]
+        },
+        {
+        "word": "Merci.",
+        "forms": ["Je vous en prie.", "De rien.", "Avec plaisir."],
+        "phrases": ["Je vous en prie.", "De rien.", "Avec plaisir."]
+        },
+        {
+        "word": "Désolé pour ça.",
+        "forms": ["Ce n'est pas grave.", "Pas de problème."],
+        "phrases": ["Ce n'est pas grave.", "Pas de problème."]
+        },
+        {
+        "word": "Puis-je vous aider ?",
+        "forms": ["Oui, s'il vous plaît.", "Non, merci."],
+        "phrases": ["Oui, s'il vous plaît.", "Non, merci."]
+        },
+        {
+        "word": "Bonne journée !",
+        "forms": ["Merci, à vous aussi."],
+        "phrases": ["Merci, à vous aussi."]
+        },
+        {
+        "word": "Donnez-le-moi, s'il vous plaît.",
+        "forms": ["Tenez."],
+        "phrases": ["Tenez."]
+        },
+        {
+        "word": "Félicitations ! Bon travail.",
+        "forms": ["Merci.", "Merci beaucoup."],
+        "phrases": ["Merci.", "Merci beaucoup."]
+        },
+        {
+        "word": "Hé ! Vous avez cassé mon crayon.",
+        "forms": ["Désolé.", "Toutes mes excuses.", "C'est ma faute."],
+        "phrases": ["Désolé.", "Toutes mes excuses.", "C'est ma faute."]
+        },
+        {
+        "word": "Je vais me marier.",
+        "forms": ["Félicitations !", "C'est formidable !"],
+        "phrases": ["Félicitations !", "C'est formidable !"]
+        },
+        {
+        "word": "Je suis malade cette semaine.",
+        "forms": ["Bon rétablissement.", "J'espère que vous irez mieux bientôt."],
+        "phrases": ["Bon rétablissement.", "J'espère que vous irez mieux bientôt."]
+        },
+        {
+        "word": "Mon chien est mort.",
+        "forms": ["Je suis désolé d'apprendre cela.", "Mes condoléances."],
+        "phrases": ["Je suis désolé d'apprendre cela.", "Mes condoléances."]
+        },
+        {
+        "word": "Au revoir.",
+        "forms": ["Au revoir.", "À plus tard."],
+        "phrases": ["Au revoir.", "À plus tard."]
+        }
+    ]
+    }
+,
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "Respuestas comunes",
+      "lessonPrompt": {
+        "text": "¿Qué dirías en cada una de estas situaciones? Haz clic en los ejemplos para escucharlos. Para ver respuestas sugeridas, expande los ejemplos.",
+        "character": {
+          "name": "Señorita Mimi",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "Buenos días.",
+          "forms": ["Buenos días."],
+          "phrases": ["Buenos días."]
+        },
+        {
+          "word": "Mucho gusto.",
+          "forms": ["El gusto es mío."],
+          "phrases": ["El gusto es mío."]
+        },
+        {
+          "word": "¿Cómo estás?",
+          "forms": ["Estoy bien, gracias."],
+          "phrases": ["Estoy bien, gracias."]
+        },
+        {
+          "word": "Gracias.",
+          "forms": ["De nada.", "Con gusto."],
+          "phrases": ["De nada.", "Con gusto."]
+        },
+        {
+          "word": "Perdón por eso.",
+          "forms": ["No pasa nada.", "Está bien."],
+          "phrases": ["No pasa nada.", "Está bien."]
+        },
+        {
+          "word": "¿Puedo ayudarte?",
+          "forms": ["Sí, por favor.", "No, gracias."],
+          "phrases": ["Sí, por favor.", "No, gracias."]
+        },
+        {
+          "word": "¡Que tengas un buen día!",
+          "forms": ["Igualmente."],
+          "phrases": ["Igualmente."]
+        },
+        {
+          "word": "Por favor, dámelo.",
+          "forms": ["Aquí tienes."],
+          "phrases": ["Aquí tienes."]
+        },
+        {
+          "word": "¡Felicidades! Buen trabajo.",
+          "forms": ["Gracias.", "Muchas gracias."],
+          "phrases": ["Gracias.", "Muchas gracias."]
+        },
+        {
+          "word": "¡Oye! Rompiste mi lápiz.",
+          "forms": ["Lo siento.", "Perdón.", "Fue mi culpa."],
+          "phrases": ["Lo siento.", "Perdón.", "Fue mi culpa."]
+        },
+        {
+          "word": "Me voy a casar.",
+          "forms": ["¡Felicidades!", "¡Qué bueno!"],
+          "phrases": ["¡Felicidades!", "¡Qué bueno!"]
+        },
+        {
+          "word": "Estoy enfermo esta semana.",
+          "forms": ["Que te mejores pronto.", "Espero que te sientas mejor pronto."],
+          "phrases": ["Que te mejores pronto.", "Espero que te sientas mejor pronto."]
+        },
+        {
+          "word": "Mi perro murió.",
+          "forms": ["Lo siento mucho.", "Mis condolencias."],
+          "phrases": ["Lo siento mucho.", "Mis condolencias."]
+        },
+        {
+          "word": "Adiós.",
+          "forms": ["Adiós.", "Hasta luego."],
+          "phrases": ["Adiós.", "Hasta luego."]
+        }
+      ]
+    },
+        "zh-TW": {
+    "language": "zh-TW",
+    "languageName": "繁體中文",
+    "lessonName": "常見回應",
+    "lessonPrompt": {
+        "text": "遇到這些情況時，你會怎麼回答呢？點擊例句可以聆聽發音。想查看建議回應，請展開例句。",
+        "character": {
+        "name": "咪咪老師",
+        "svg": "1"
+        }
+    },
+    "wordList": [
+        {
+        "word": "早安。",
+        "forms": ["早安。"],
+        "phrases": ["早安。"]
+        },
+        {
+        "word": "很高興認識你。",
+        "forms": ["我也很高興認識你。"],
+        "phrases": ["我也很高興認識你。"]
+        },
+        {
+        "word": "你好嗎？",
+        "forms": ["我很好，謝謝。"],
+        "phrases": ["我很好，謝謝。"]
+        },
+        {
+        "word": "謝謝。",
+        "forms": ["不客氣。", "不會。"],
+        "phrases": ["不客氣。", "不會。"]
+        },
+        {
+        "word": "不好意思。",
+        "forms": ["沒關係。", "沒事。"],
+        "phrases": ["沒關係。", "沒事。"]
+        },
+        {
+        "word": "需要幫忙嗎？",
+        "forms": ["好，麻煩你了。", "不用(了/)，謝謝。"],
+        "phrases": ["好，麻煩你了。", "不用，謝謝。"]
+        },
+        {
+        "word": "祝你今天愉快！",
+        "forms": ["你也是。"],
+        "phrases": ["你也是。"]
+        },
+        {
+        "word": "請把它給我。",
+        "forms": ["給你。"],
+        "phrases": ["給你。"]
+        },
+        {
+        "word": "恭喜！做得好！",
+        "forms": ["謝謝你。", "非常謝謝你。"],
+        "phrases": ["謝謝你。", "非常謝謝你。"]
+        },
+        {
+        "word": "喂！你把我的鉛筆弄斷了。",
+        "forms": ["對不起。", "抱歉。", "是我的錯。"],
+        "phrases": ["對不起。", "抱歉。", "是我的錯。"]
+        },
+        {
+        "word": "我要結婚了。",
+        "forms": ["恭喜！", "太好了！"],
+        "phrases": ["恭喜！", "太好了！"]
+        },
+        {
+        "word": "我這星期生病了。",
+        "forms": ["祝你早日康復。", "希望你快點好起來。"],
+        "phrases": ["祝你早日康復。", "希望你快點好起來。"]
+        },
+        {
+        "word": "我的狗過世了。",
+        "forms": ["聽到這個消息我很難過。", "請節哀。"],
+        "phrases": ["聽到這個消息我很難過。", "請節哀。"]
+        },
+        {
+        "word": "再見。",
+        "forms": ["再見。", "待會見。"],
+        "phrases": ["再見。", "待會見。"]
+        }
+    ]
+    }
+,
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "简体中文",
+      "lessonName": "常见回应",
+      "lessonPrompt": {
+        "text": "遇到这些情况时，你会怎么回答呢？点击例句可以听发音。想查看建议回应，请展开例句。",
+        "character": {
+          "name": "咪咪老师",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "早上好。",
+          "forms": ["早上好。"],
+          "phrases": ["早上好。"]
+        },
+        {
+          "word": "很高兴认识你。",
+          "forms": ["我也很高兴认识你。"],
+          "phrases": ["我也很高兴认识你。"]
+        },
+        {
+          "word": "你好吗？",
+          "forms": ["我很好，谢谢。"],
+          "phrases": ["我很好，谢谢。"]
+        },
+        {
+          "word": "谢谢。",
+          "forms": ["不客气。", "不用谢。"],
+          "phrases": ["不客气。", "不用谢。"]
+        },
+        {
+          "word": "不好意思。",
+          "forms": ["没关系。", "没事。"],
+          "phrases": ["没关系。", "没事。"]
+        },
+        {
+          "word": "需要帮忙吗？",
+          "forms": ["好，麻烦你了。", "不用(了/)，谢谢。"],
+          "phrases": ["好，麻烦你了。", "不用了，谢谢。"]
+        },
+        {
+          "word": "祝你今天愉快！",
+          "forms": ["你也是。"],
+          "phrases": ["你也是。"]
+        },
+        {
+          "word": "请把它给我。",
+          "forms": ["给你。"],
+          "phrases": ["给你。"]
+        },
+        {
+          "word": "恭喜！做得好！",
+          "forms": ["谢谢你。", "非常感谢。"],
+          "phrases": ["谢谢你。", "非常感谢。"]
+        },
+        {
+          "word": "喂！你把我的铅笔弄断了。",
+          "forms": ["对不起。", "抱歉。", "是我的错。"],
+          "phrases": ["对不起。", "抱歉。", "是我的错。"]
+        },
+        {
+          "word": "我要结婚了。",
+          "forms": ["恭喜！", "太好了！"],
+          "phrases": ["恭喜！", "太好了！"]
+        },
+        {
+          "word": "我这星期生病了。",
+          "forms": ["祝你早日康复。", "希望你快点好起来。"],
+          "phrases": ["祝你早日康复。", "希望你快点好起来。"]
+        },
+        {
+          "word": "我的狗去世了。",
+          "forms": ["听到这个消息我很难过。", "节哀。"],
+          "phrases": ["听到这个消息我很难过。", "节哀。"]
+        },
+        {
+          "word": "再见。",
+          "forms": ["再见。", "回头见。"],
+          "phrases": ["再见。", "回头见。"]
+        }
+      ]
+    },
+    "ja-JP": {
+      "language": "ja-JP",
+      "languageName": "日本語",
+      "lessonName": "よく使う返事",
+      "lessonPrompt": {
+        "text": "このような場面では、何と答えますか？例文をクリックすると発音を聞けます。返答例を見るには、例文を開いてください。",
+        "character": {
+          "name": "ミミ先生",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "おはようございます。",
+          "forms": ["おはようございます。"],
+          "phrases": ["おはようございます。"]
+        },
+        {
+          "word": "はじめまして。",
+          "forms": ["こちらこそよろしくお願いします。"],
+          "phrases": ["こちらこそよろしくお願いします。"]
+        },
+        {
+          "word": "お元気ですか。",
+          "forms": ["はい、元気です。"],
+          "phrases": ["はい、元気です。"]
+        },
+        {
+          "word": "ありがとうございます。",
+          "forms": ["どういたしまして。"],
+          "phrases": ["どういたしまして。"]
+        },
+        {
+          "word": "すみません。",
+          "forms": ["大丈夫です。", "気にしないでください。"],
+          "phrases": ["大丈夫です。", "気にしないでください。"]
+        },
+        {
+          "word": "お手伝いしましょうか。",
+          "forms": ["はい、お願いします。", "大丈夫です、ありがとうございます。"],
+          "phrases": ["はい、お願いします。", "大丈夫です、ありがとうございます。"]
+        },
+        {
+        "word": "行ってきます。",
+        "forms": ["行ってらっしゃい。"],
+        "phrases": ["行ってらっしゃい。"]
+        },
+        {
+        "word": "ただいま。",
+        "forms": ["おかえり。"],
+        "phrases": ["おかえり。"]
+        },
+        {
+          "word": "それをください。",
+          "forms": ["どうぞ。"],
+          "phrases": ["どうぞ。"]
+        },
+        {
+          "word": "おめでとうございます！よくできました！",
+          "forms": ["ありがとうございます。"],
+          "phrases": ["ありがとうございます。"]
+        },
+        {
+          "word": "おい！私の鉛筆を折ったね。",
+          "forms": ["ごめんなさい。", "すみません。", "私のせいです。"],
+          "phrases": ["ごめんなさい。", "すみません。", "私のせいです。"]
+        },
+        {
+          "word": "結婚することになりました。",
+          "forms": ["おめでとうございます！", "よかったですね！"],
+          "phrases": ["おめでとうございます！", "よかったですね！"]
+        },
+        {
+          "word": "今週は病気です。",
+          "forms": ["お大事に。", "早く(よく/良く)なるといいですね。"],
+          "phrases": ["お大事に。", "早くよくなるといいですね。"]
+        },
+        {
+          "word": "犬が亡くなりました。",
+          "forms": ["それはつらいですね。", "お気の毒です。"],
+          "phrases": ["それはつらいですね。", "お気の毒です。"]
+        },
+        {
+          "word": "さようなら。",
+          "forms": ["さようなら。", "またね。"],
+          "phrases": ["さようなら。", "またね。"]
+        }
+      ]
+    },
+    "th-TH": {
+      "language": "th-TH",
+      "languageName": "ไทย",
+      "lessonName": "คำตอบที่ใช้บ่อย",
+      "lessonPrompt": {
+        "text": "ในสถานการณ์เหล่านี้ คุณจะตอบว่าอะไร กดที่ตัวอย่างเพื่อฟังเสียง ถ้าต้องการดูคำตอบแนะนำ ให้กดขยายตัวอย่าง",
+        "character": {
+          "name": "ครูมิมิ",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "สวัสดีครับ",
+          "forms": ["สวัสดี(ครับ/ค่ะ)"],
+          "phrases": ["สวัสดี(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "ยินดีที่ได้รู้จักครับ",
+          "forms": ["ยินดีที่ได้รู้จักเช่นกัน(ครับ/ค่ะ)"],
+          "phrases": ["ยินดีที่ได้รู้จักเช่นกัน(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "สบายดีไหมครับ",
+          "forms": ["สบายดี(ครับ/ค่ะ) ขอบคุณ(ครับ/ค่ะ)"],
+          "phrases": ["สบายดี(ครับ/ค่ะ) ขอบคุณ(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "ขอบคุณครับ",
+          "forms": ["ไม่เป็นไร(ครับ/ค่ะ)", "ยินดี(ครับ/ค่ะ)"],
+          "phrases": ["ไม่เป็นไร(ครับ/ค่ะ)", "ยินดี(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "ขอโทษครับ",
+          "forms": ["ไม่เป็นไร(ครับ/ค่ะ)", "ไม่ต้องกังวล(ครับ/ค่ะ)"],
+          "phrases": ["ไม่เป็นไร(ครับ/ค่ะ)", "ไม่ต้องกังวล(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "ให้ช่วยไหมครับ",
+          "forms": ["(ครับ/ค่ะ) รบกวนด้วย(ครับ/ค่ะ)", "ไม่เป็นไร(ครับ/ค่ะ) ขอบคุณ(ครับ/ค่ะ)"],
+          "phrases": ["(ครับ/ค่ะ) รบกวนด้วย(ครับ/ค่ะ)", "ไม่เป็นไร(ครับ/ค่ะ) ขอบคุณ(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "ขอให้วันนี้เป็นวันที่ดีนะครับ",
+          "forms": ["เช่นกัน(ครับ/ค่ะ)"],
+          "phrases": ["เช่นกัน(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "ช่วยส่งให้ผมหน่อยครับ",
+          "forms": ["นี่(ครับ/ค่ะ)"],
+          "phrases": ["นี่(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "ยินดีด้วยครับ ทำได้ดีมากครับ",
+          "forms": ["ขอบคุณ(ครับ/ค่ะ)", "ขอบคุณมาก(ครับ/ค่ะ)"],
+          "phrases": ["ขอบคุณ(ครับ/ค่ะ)", "ขอบคุณมาก(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "เฮ้ย คุณทำดินสอของผมหัก",
+          "forms": ["ขอโทษ(ครับ/ค่ะ)", "ขอโทษจริง ๆ (ครับ/ค่ะ)", "เป็นความผิดของ(ผมครับ/ฉันค่ะ)"],
+          "phrases": ["ขอโทษ(ครับ/ค่ะ)", "ขอโทษจริง ๆ (ครับ/ค่ะ)", "เป็นความผิดของ(ผมครับ/ฉันค่ะ)"]
+        },
+        {
+          "word": "ผมกำลังจะแต่งงานครับ",
+          "forms": ["ยินดีด้วย(ครับ/ค่ะ)", "ดีใจด้วย(ครับ/ค่ะ)"],
+          "phrases": ["ยินดีด้วย(ครับ/ค่ะ)", "ดีใจด้วย(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "อาทิตย์นี้ผมไม่สบายครับ",
+          "forms": ["ขอให้หายไว ๆ นะ(ครับ/คะ)", "พักผ่อนเยอะ ๆ นะ(ครับ/คะ)"],
+          "phrases": ["ขอให้หายไว ๆ นะ(ครับ/คะ)", "พักผ่อนเยอะ ๆ นะ(ครับ/คะ)"]
+        },
+        {
+          "word": "หมาของผมตายแล้วครับ",
+          "forms": ["เสียใจด้วยนะ(ครับ/คะ)", "(ผม/ฉัน)เสียใจด้วย(ครับ/ค่ะ)"],
+          "phrases": ["เสียใจด้วยนะ(ครับ/คะ)", "(ผม/ฉัน)เสียใจด้วย(ครับ/ค่ะ)"]
+        },
+        {
+          "word": "ลาก่อนครับ",
+          "forms": ["ลาก่อน(ครับ/ค่ะ)", "แล้วเจอกัน(ครับ/ค่ะ)"],
+          "phrases": ["ลาก่อน(ครับ/ค่ะ)", "แล้วเจอกัน(ครับ/ค่ะ)"]
+        }
+      ]
+    }
+  }
+}
