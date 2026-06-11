@@ -8,7 +8,7 @@
       "languageName": "English",
       "lessonName": "Common Responses",
     "lessonPrompt": {
-        "text": "What would you say in each of these situations? Click the examples to hear them. To see suggested responses, expand the examples.",
+        "text": "What would you say in each of these situations? Click the examples to hear them. To see suggested responses, expand the examples. (Headphones recommended.)",
         "character": {
         "name": "Miss Mimi",
         "svg": "1"
@@ -92,7 +92,7 @@
     "languageName": "Français",
     "lessonName": "Réponses courantes",
     "lessonPrompt": {
-        "text": "Que diriez-vous dans chacune de ces situations ? Cliquez sur les exemples pour les écouter. Pour voir des réponses suggérées, développez les exemples.",
+        "text": "Que diriez-vous dans chacune de ces situations ? Cliquez sur les exemples pour les écouter. Pour voir des réponses suggérées, développez les exemples. (Casque recommandé.)",
         "character": {
         "name": "Mademoiselle Mimi",
         "svg": "1"
@@ -177,7 +177,7 @@
       "languageName": "Español",
       "lessonName": "Respuestas comunes",
       "lessonPrompt": {
-        "text": "¿Qué dirías en cada una de estas situaciones? Haz clic en los ejemplos para escucharlos. Para ver respuestas sugeridas, expande los ejemplos.",
+        "text": "¿Qué dirías en cada una de estas situaciones? Haz clic en los ejemplos para escucharlos. Para ver respuestas sugeridas, expande los ejemplos. (Se recomienda usar auriculares.)",
         "character": {
           "name": "Señorita Mimi",
           "svg": "1"
@@ -261,7 +261,7 @@
     "languageName": "繁體中文",
     "lessonName": "常見回應",
     "lessonPrompt": {
-        "text": "遇到這些情況時，你會怎麼回答呢？點擊例句可以聆聽發音。想查看建議回應，請展開例句。",
+        "text": "遇到這些情況時，你會怎麼回答呢？點擊例句可以聆聽發音。想查看建議回應，請展開例句。（建議戴耳機。）",
         "character": {
         "name": "咪咪老師",
         "svg": "1"
@@ -346,7 +346,7 @@
       "languageName": "简体中文",
       "lessonName": "常见回应",
       "lessonPrompt": {
-        "text": "遇到这些情况时，你会怎么回答呢？点击例句可以听发音。想查看建议回应，请展开例句。",
+        "text": "遇到这些情况时，你会怎么回答呢？点击例句可以听发音。想查看建议回应，请展开例句。（建议戴耳机。）",
         "character": {
           "name": "咪咪老师",
           "svg": "1"
@@ -430,7 +430,7 @@
       "languageName": "日本語",
       "lessonName": "よく使う返事",
       "lessonPrompt": {
-        "text": "このような場面では、何と答えますか？例文をクリックすると発音を聞けます。返答例を見るには、例文を開いてください。",
+        "text": "このような場面では、何と答えますか？例文をクリックすると発音を聞けます。返答例を見るには、例文を開いてください。（ヘッドホン推奨。）",
         "character": {
           "name": "ミミ先生",
           "svg": "1"
@@ -519,7 +519,7 @@
       "languageName": "ไทย",
       "lessonName": "คำตอบที่ใช้บ่อย",
       "lessonPrompt": {
-        "text": "ในสถานการณ์เหล่านี้ คุณจะตอบว่าอะไร กดที่ตัวอย่างเพื่อฟังเสียง ถ้าต้องการดูคำตอบแนะนำ ให้กดขยายตัวอย่าง",
+        "text": "ในสถานการณ์เหล่านี้ คุณจะตอบว่าอะไร กดที่ตัวอย่างเพื่อฟังเสียง ถ้าต้องการดูคำตอบแนะนำ ให้กดขยายตัวอย่าง (แนะนำให้ใช้หูฟัง)",
         "character": {
           "name": "ครูมิมิ",
           "svg": "1"
@@ -543,8 +543,8 @@
         },
         {
           "word": "ขอบคุณครับ",
-          "forms": ["ไม่เป็นไร(ครับ/ค่ะ)", "ยินดี(ครับ/ค่ะ)"],
-          "phrases": ["ไม่เป็นไร(ครับ/ค่ะ)", "ยินดี(ครับ/ค่ะ)"]
+          "forms": ["ยินดี(ครับ/ค่ะ)", "ด้วยความยินดี(ครับ/ค่ะ)"],
+          "phrases": ["ยินดี(ครับ/ค่ะ)", "ด้วยความยินดี(ครับ/ค่ะ)"]
         },
         {
           "word": "ขอโทษครับ",
