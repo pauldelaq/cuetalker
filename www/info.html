@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="CueTalker">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="white">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">  
+  <title>CueTalker Info</title>
+  <link rel="stylesheet" href="css/info.css" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="manifest" href="manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+</head>
+  <header>
+    <h1 id="header-title"><a href="index.html"><span class="blue-text">Cue</span>Talker</a></h1>
+    <div class="menu">
+      <button id="languageButton" class="circle-btn">
+        <img src="assets/svg/1F310.svg" alt="Language" width="32" height="32" />
+      </button>
+    </div>
+  </header>
+
+<body class="preload">
+
+<main>
+  <h2 id="welcome-text">Welcome</h2>
+  <p id="intro-text">Intro placeholder text.</p>
+
+  <!-- 🔥 Full-page language menu overlay -->
+  <div id="languageMenu" class="panel hidden">
+    <h2>Select a Language</h2>
+    <div class="language-list"></div>
+  </div>
+
+  <h2 id="credits-label">Credits</h3>
+  <p id="created-by">Created by placeholder</p>
+  <p id="openmoji">OpenMoji credit placeholder</p>
+</main>
+
+  <footer>
+    <p>© 2026 <span class="blue-text">Cue</span>Talker</p>
+              <button id="backButton" class="circle-btn">
+        <img src="assets/svg/E25E.svg" alt="Back" width="24" height="24" />
+      </button>
+  </footer>
+
+  <script src="js/info.js"></script>
+</body>
+</html>

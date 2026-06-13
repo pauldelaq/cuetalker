@@ -1,0 +1,25 @@
+{
+  "name": "cuetalker",
+  "version": "1.0.0",
+  "description": "Check out the project at https://pauldelaq.github.io/cuetalker/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pauldelaq/cuetalker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pauldelaq/cuetalker/issues"
+  },
+  "homepage": "https://github.com/pauldelaq/cuetalker#readme",
+  "dependencies": {
+    "@capacitor/cli": "^8.4.0",
+    "@capacitor/core": "^8.4.0",
+    "@capacitor/ios": "^8.4.0"
+  }
+}
