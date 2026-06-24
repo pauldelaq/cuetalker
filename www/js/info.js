@@ -70,9 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const langMenuHeader = document.querySelector('#languageMenu h2');
     if (langMenuHeader) langMenuHeader.textContent = t.languageMenuTitle;
 
-    const footerEl = document.querySelector('footer p');
-    if (footerEl) footerEl.textContent = t.footer;
-
     if (lang.startsWith('fr')) {
       patchFrenchPunctuationSpaces(document.body);
     }
