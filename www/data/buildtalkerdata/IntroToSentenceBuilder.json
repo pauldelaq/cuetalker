@@ -1,0 +1,24 @@
+{
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+
+      "lessonPrompt": {
+        "text": "Welcome to BuildTalker! This mode helps you practice making sentences by adding additional words in the correct order. Start with a short sentence, then expand it by adding the items suggested."
+      },
+
+      "sentences": [
+        "Please say the sentence and add the following phrase (at the end).",
+
+        "Make sure to say (all) the words in (the correct) order.",
+
+        "In Step Mode, you can add one word (at a time).",
+
+        "In Free Mode, you can add (several) more words (together) (to get a higher score).",
+
+        "You can use this mode (to practice expanding sentences) (with your microphone) (every day)."
+      ]
+    }
+  }
+}
