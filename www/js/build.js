@@ -1,9 +1,6 @@
-
-
 let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
-
 
 // ---- BuildTalker lesson state ----
 let buildLesson = null;
@@ -24,6 +21,8 @@ let lessonStarted = false;
 let stepAdvanceTimer = null;
 let suppressFooterIconUpdates = false;
 let isAdvancingStep = false;
+let freeModeSilenceTimer = null;
+let pendingFreeModeMatch = null;
 let lessonLang = '';
 let lessonLangName = '';
 
@@ -293,6 +292,23 @@ function speakText(text, langCode) {
   utter.onerror = () => { isTtsSpeaking = false; };
 
   speechSynthesis.speak(utter);
+}
+
+// Add sentence-level TTS click support
+function makeSentenceTtsClickable(el, text) {
+  if (!el) return;
+
+  const ttsText = String(text || '').trim();
+  if (!ttsText) return;
+
+  el.classList.add('tts-clickable');
+  el.style.cursor = 'pointer';
+  el.dataset.tts = ttsText;
+
+  el.addEventListener('click', (e) => {
+    e.stopPropagation();
+    speakText(ttsText, selectedLang || lessonLang || localStorage.getItem('ctlanguage') || 'en-US');
+  });
 }
 
 function populateCustomVoiceList() {
@@ -743,6 +759,25 @@ function getAllChunkIndexSubsets(count) {
   return subsets;
 }
 
+// Returns all non-empty subsets of the given chunk indexes array
+function getNonEmptyChunkIndexSubsets(indexes) {
+  const source = Array.isArray(indexes) ? indexes : [];
+  const total = Math.pow(2, source.length);
+  const subsets = [];
+
+  for (let mask = 1; mask < total; mask += 1) {
+    const subset = [];
+
+    for (let i = 0; i < source.length; i += 1) {
+      if (mask & (1 << i)) subset.push(source[i]);
+    }
+
+    subsets.push(subset);
+  }
+
+  return subsets;
+}
+
 function buildSentenceStateMap(sentence) {
   const chunks = extractChunks(sentence);
   const map = new Map();
@@ -764,7 +799,11 @@ function initializeCurrentSentence() {
   currentSentenceHistory = [];
   awaitingSentenceReview = false;
 
-  pickNextTargetChunk();
+  if (isFreeBuildMode()) {
+    currentTargetChunkIndex = null;
+  } else {
+    pickNextTargetChunk();
+  }
 
   currentSentenceHistory.push({
     text: getCurrentDisplaySentence(),
@@ -791,9 +830,18 @@ function pickNextTargetChunk() {
     remaining[Math.floor(Math.random() * remaining.length)];
 }
 
+function getSelectedBuildMode() {
+  return document.querySelector('#modeSelector input[name="mode"]:checked')?.value || 'step';
+}
+
+function isFreeBuildMode() {
+  return getSelectedBuildMode() === 'free';
+}
+
 function getCurrentDisplaySentence() {
   return currentSentenceStateMap.get(makeChunkKey(addedChunkIndexes)) || '';
 }
+
 
 function getCurrentExpectedSentence() {
   if (currentTargetChunkIndex === null || currentTargetChunkIndex === undefined) return '';
@@ -803,6 +851,70 @@ function getCurrentExpectedSentence() {
   ) || '';
 }
 
+// Attempts to find a Free Mode match in the transcript text
+function findFreeModeMatch(transcriptText) {
+  const sentence = sentenceItems[currentSentenceIndex];
+  if (!sentence) return null;
+
+  const chunks = extractChunks(sentence);
+
+  const remaining = chunks
+    .map((_, i) => i)
+    .filter(i => !addedChunkIndexes.includes(i));
+
+  const transcriptNorm = normalizeText(transcriptText);
+  if (!transcriptNorm) return null;
+
+  const candidates = getNonEmptyChunkIndexSubsets(remaining)
+    .map(newIndexes => {
+      const allIndexes = [...addedChunkIndexes, ...newIndexes];
+      const text = currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '';
+
+      return {
+        text,
+        newIndexes,
+        allIndexes
+      };
+    })
+    .filter(candidate => candidate.text)
+    .sort((a, b) => b.newIndexes.length - a.newIndexes.length);
+
+  return candidates.find(candidate => {
+    const expectedNorm = normalizeText(candidate.text);
+    return expectedNorm && transcriptNorm.includes(expectedNorm);
+  }) || null;
+}
+
+function clearPendingFreeModeMatch() {
+  if (freeModeSilenceTimer) {
+    clearTimeout(freeModeSilenceTimer);
+    freeModeSilenceTimer = null;
+  }
+
+  pendingFreeModeMatch = null;
+}
+
+function queueFreeModeMatch(match) {
+  if (!match) return;
+
+  const currentSize = pendingFreeModeMatch?.newIndexes?.length || 0;
+  const nextSize = match?.newIndexes?.length || 0;
+
+  if (!pendingFreeModeMatch || nextSize >= currentSize) {
+    pendingFreeModeMatch = match;
+  }
+
+  if (freeModeSilenceTimer) clearTimeout(freeModeSilenceTimer);
+
+  freeModeSilenceTimer = setTimeout(() => {
+    const queuedMatch = pendingFreeModeMatch;
+    clearPendingFreeModeMatch();
+
+    if (queuedMatch) {
+      handleCorrectFreeModeMatch(queuedMatch);
+    }
+  }, 900);
+}
 
 function updateMainBubble(text) {
   const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
@@ -810,6 +922,7 @@ function updateMainBubble(text) {
   if (!bubble) return;
 
   bubble.textContent = text;
+  makeSentenceTtsClickable(bubble, text);
   patchFrenchPunctuationSpaces(bubble);
 }
 
@@ -828,6 +941,7 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
 
   if (!active.length || !expandedSentence) {
     bubble.textContent = expandedSentence;
+    makeSentenceTtsClickable(bubble, expandedSentence);
     patchFrenchPunctuationSpaces(bubble);
     return;
   }
@@ -858,6 +972,60 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
 
   if (remainingText) bubble.appendChild(document.createTextNode(remainingText));
 
+  makeSentenceTtsClickable(bubble, expandedSentence);
+  patchFrenchPunctuationSpaces(bubble);
+}
+
+function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIndexes) {
+  const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
+  if (!bubble) return;
+
+  const active = [...new Set((activeIndexes || []).map(Number))]
+    .filter(n => Number.isInteger(n) && n >= 0)
+    .sort((a, b) => a - b);
+
+  const newest = new Set(
+    [...new Set((newestIndexes || []).map(Number))]
+      .filter(n => Number.isInteger(n) && n >= 0)
+  );
+
+  const expandedSentence = currentSentenceStateMap.get(makeChunkKey(active)) || '';
+
+  bubble.innerHTML = '';
+
+  if (!active.length || !expandedSentence) {
+    bubble.textContent = expandedSentence;
+    makeSentenceTtsClickable(bubble, expandedSentence);
+    patchFrenchPunctuationSpaces(bubble);
+    return;
+  }
+
+  const chunks = extractChunks(sentence);
+  let remainingText = expandedSentence;
+
+  active.forEach(index => {
+    const chunk = chunks[index] || '';
+    if (!chunk) return;
+
+    const start = remainingText.indexOf(chunk);
+    if (start < 0) return;
+
+    const before = remainingText.slice(0, start);
+    if (before) bubble.appendChild(document.createTextNode(before));
+
+    const span = document.createElement('span');
+    span.className = newest.has(index)
+      ? 'highlight phrase-underline buildtalker-added-chunk buildtalker-current-added-chunk'
+      : 'highlight buildtalker-added-chunk';
+    span.textContent = chunk;
+    bubble.appendChild(span);
+
+    remainingText = remainingText.slice(start + chunk.length);
+  });
+
+  if (remainingText) bubble.appendChild(document.createTextNode(remainingText));
+
+  makeSentenceTtsClickable(bubble, expandedSentence);
   patchFrenchPunctuationSpaces(bubble);
 }
 
@@ -875,6 +1043,7 @@ function updateMainBubbleWithActiveHighlights(sentence, activeIndexes) {
 
   if (!active.length || !displaySentence) {
     bubble.textContent = displaySentence;
+    makeSentenceTtsClickable(bubble, displaySentence);
     patchFrenchPunctuationSpaces(bubble);
     return;
   }
@@ -903,6 +1072,7 @@ function updateMainBubbleWithActiveHighlights(sentence, activeIndexes) {
 
   if (remainingText) bubble.appendChild(document.createTextNode(remainingText));
 
+  makeSentenceTtsClickable(bubble, displaySentence);
   patchFrenchPunctuationSpaces(bubble);
 }
 
@@ -942,6 +1112,37 @@ function renderStepButton() {
   container.appendChild(btn);
 }
 
+function renderFreeButtons() {
+  const container = document.getElementById('wordListContainer');
+  if (!container) return;
+
+  const bubbleMessage = document.querySelector('.buildtalker-lesson-prompt');
+  if (bubbleMessage) {
+    bubbleMessage.insertAdjacentElement('afterend', container);
+  }
+
+  container.innerHTML = '';
+
+  const sentence = sentenceItems[currentSentenceIndex];
+  if (!sentence) return;
+
+  const chunks = extractChunks(sentence);
+
+  chunks.forEach((chunk, index) => {
+    if (addedChunkIndexes.includes(index)) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'wordBubble';
+    btn.textContent = chunk;
+
+    btn.addEventListener('click', () => {
+      speakText(chunk, selectedLang);
+    });
+
+    container.appendChild(btn);
+  });
+}
+
 function renderCurrentStep() {
 
   const sentence = sentenceItems[currentSentenceIndex];
@@ -950,7 +1151,11 @@ function renderCurrentStep() {
 
   updateMainBubbleWithActiveHighlights(sentence, addedChunkIndexes);
 
-  renderStepButton();
+  if (isFreeBuildMode()) {
+    renderFreeButtons();
+  } else {
+    renderStepButton();
+  }
 }
 
 function renderSentenceReview() {
@@ -980,18 +1185,17 @@ function renderSentenceReview() {
     row.className = 'buildtalker-review-row';
 
     const rowText = entry?.text || '';
-    const addedChunk = entry?.addedChunk || '';
+    const addedChunks = Array.isArray(entry?.addedChunks) && entry.addedChunks.length
+      ? entry.addedChunks
+      : (entry?.addedChunk ? [entry.addedChunk] : []);
 
-    if (addedChunk) {
-      cumulativeChunks.push(addedChunk);
-    }
+    addedChunks.forEach(chunk => {
+      if (chunk) cumulativeChunks.push(chunk);
+    });
 
     if (!cumulativeChunks.length) {
-
       row.textContent = rowText;
-
     } else {
-
       let remainingText = rowText;
 
       const chunksForRow = [...cumulativeChunks]
@@ -999,25 +1203,19 @@ function renderSentenceReview() {
         .sort((a, b) => rowText.indexOf(a) - rowText.indexOf(b));
 
       chunksForRow.forEach(chunk => {
-
         const start = remainingText.indexOf(chunk);
-
         if (start < 0) return;
 
         const before = remainingText.slice(0, start);
-
         if (before) {
           row.appendChild(document.createTextNode(before));
         }
 
         const span = document.createElement('span');
-
-        span.className = chunk === addedChunk
+        span.className = addedChunks.includes(chunk)
           ? 'highlight phrase-underline'
           : 'highlight';
-
         span.textContent = chunk;
-
         row.appendChild(span);
 
         remainingText = remainingText.slice(start + chunk.length);
@@ -1028,6 +1226,7 @@ function renderSentenceReview() {
       }
     }
 
+    makeSentenceTtsClickable(row, rowText);
     list.appendChild(row);
   });
 
@@ -1119,11 +1318,13 @@ function renderRoundReview() {
       row.className = 'buildtalker-review-row';
 
       const rowText = entryObj?.text || '';
-      const addedChunk = entryObj?.addedChunk || '';
+      const addedChunks = Array.isArray(entryObj?.addedChunks) && entryObj.addedChunks.length
+        ? entryObj.addedChunks
+        : (entryObj?.addedChunk ? [entryObj.addedChunk] : []);
 
-      if (addedChunk) {
-        cumulativeChunks.push(addedChunk);
-      }
+      addedChunks.forEach(chunk => {
+        if (chunk) cumulativeChunks.push(chunk);
+      });
 
       if (!cumulativeChunks.length) {
         row.textContent = rowText;
@@ -1142,7 +1343,7 @@ function renderRoundReview() {
           if (before) row.appendChild(document.createTextNode(before));
 
           const span = document.createElement('span');
-          span.className = chunk === addedChunk
+          span.className = addedChunks.includes(chunk)
             ? 'highlight phrase-underline'
             : 'highlight';
           span.textContent = chunk;
@@ -1156,6 +1357,7 @@ function renderRoundReview() {
         }
       }
 
+      makeSentenceTtsClickable(row, rowText);
       reviewList.appendChild(row);
     });
 
@@ -1189,7 +1391,8 @@ function saveCurrentSentenceHistory() {
 
       return {
         text: entry?.text || '',
-        addedChunk: entry?.addedChunk || ''
+        addedChunk: entry?.addedChunk || '',
+        addedChunks: Array.isArray(entry?.addedChunks) ? entry.addedChunks : []
       };
     })
   );
@@ -1273,7 +1476,7 @@ function advanceToNextStep() {
 
   const chunks = extractChunks(sentence);
 
-  if (currentTargetChunkIndex !== null && currentTargetChunkIndex !== undefined) {
+  if (!isFreeBuildMode() && currentTargetChunkIndex !== null && currentTargetChunkIndex !== undefined) {
     addedChunkIndexes.push(currentTargetChunkIndex);
   }
 
@@ -1344,7 +1547,11 @@ function advanceToNextStep() {
     return;
   }
 
-  pickNextTargetChunk();
+  if (isFreeBuildMode()) {
+    currentTargetChunkIndex = null;
+  } else {
+    pickNextTargetChunk();
+  }
 
   isAdvancingStep = false;
   suppressFooterIconUpdates = false;
@@ -1385,8 +1592,57 @@ function handleCorrectCurrentStep() {
   }, 2400);
 }
 
+function handleCorrectFreeModeMatch(match) {
+  if (isAdvancingStep || !match) return;
+
+  const sentence = sentenceItems[currentSentenceIndex];
+  if (!sentence) return;
+
+  const chunks = extractChunks(sentence);
+  const newIndexes = Array.isArray(match.newIndexes) ? match.newIndexes : [];
+  const allIndexes = Array.isArray(match.allIndexes) ? match.allIndexes : [...addedChunkIndexes, ...newIndexes];
+
+  if (!newIndexes.length) return;
+
+  isAdvancingStep = true;
+  suppressFooterIconUpdates = true;
+  pauseBuildTalkerListening();
+
+  currentSentenceHistory.push({
+    text: match.text || currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '',
+    addedChunk: chunks[newIndexes[0]] || '',
+    addedChunks: newIndexes.map(index => chunks[index] || '').filter(Boolean)
+  });
+
+  addedChunkIndexes = [...new Set(allIndexes.map(Number))]
+    .filter(n => Number.isInteger(n) && n >= 0)
+    .sort((a, b) => a - b);
+
+  currentTargetChunkIndex = null;
+
+  updateMainBubbleWithHighlightedChunks(sentence, addedChunkIndexes, newIndexes);
+  flashSessionButtonCheckmark();
+
+  const container = document.getElementById('wordListContainer');
+  if (container) container.innerHTML = '';
+
+  if (stepAdvanceTimer) clearTimeout(stepAdvanceTimer);
+  stepAdvanceTimer = setTimeout(() => {
+    stepAdvanceTimer = null;
+    advanceToNextStep();
+  }, 2400);
+}
+
 function checkCurrentStepAnswer(transcriptText) {
   if (!lessonStarted || isAdvancingStep || awaitingSentenceReview) return;
+
+  if (isFreeBuildMode()) {
+    const match = findFreeModeMatch(transcriptText);
+    if (match) {
+      queueFreeModeMatch(match);
+    }
+    return;
+  }
 
   const expected = getCurrentExpectedSentence();
   if (!expected) return;
@@ -1458,7 +1714,7 @@ async function loadLesson() {
     initializeVoiceMenu();
     updateFooterIcons();
 
-    console.log('[BuildTalker] Lesson loaded:', lessonId, { lang: storedLang, sentences: sentenceItems.length });
+   // console.log('[BuildTalker] Lesson loaded:', lessonId, { lang: storedLang, sentences: sentenceItems.length });
   } catch (error) {
     console.error('[BuildTalker] Failed to load lesson:', error);
     alert(`Could not load BuildTalker lesson: ${lessonId}`);
@@ -1556,7 +1812,6 @@ window.addEventListener('beforeunload', () => {
   stopMicSession();
   stopVolumeMonitoring();
   if (stepAdvanceTimer) clearTimeout(stepAdvanceTimer);
-  if (sessionIconResetTimer) clearTimeout(sessionIconResetTimer);
 
   if (audioContext) {
     try { audioContext.close(); } catch (_) {}

@@ -1,7 +1,7 @@
 /* stuff for FreeTalker*/
 
 main#cue-content {
-  padding-top: calc(var(--app-header-height) + 20px)
+  padding-top: 20px;
 }
 
 .wordBubble {

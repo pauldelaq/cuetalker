@@ -20,6 +20,12 @@
   color: #4a90e2;
 }
 
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
 input[type="radio"] {
     appearance: none;
     -webkit-appearance: none;
@@ -65,8 +71,8 @@ body {
 main {
   flex: 1;
   overflow-y: auto;
-  padding-top: var(--app-header-height);
   box-sizing: border-box;
+  min-height: 0;
 }
 
 header {
@@ -76,13 +82,14 @@ header {
   box-sizing: border-box;
   padding: calc(0.5em + var(--app-safe-top)) 1em 0.5em;
   background: white;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
   height: var(--app-header-height);
   z-index: 1010; /* Higher than settings menu */
   border-bottom: 1px solid #ccc;
+  flex-shrink: 0;
 }
 
 html, body {

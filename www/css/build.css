@@ -6,6 +6,9 @@
   font-size: var(--message-font-size);
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   margin: 10px 0;
+  cursor: pointer;
+  width: fit-content;
+  min-width: 300px;
 }
 
 .highlight {
@@ -60,4 +63,13 @@
 
 .phraseList {
   padding: 1em 0 10px 1.25em;
+}
+
+.wordListContainer {
+  display: grid;
+  justify-content: center;
+}
+
+.tts-clickable:hover {
+  color: orange;
 }

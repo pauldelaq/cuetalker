@@ -20,50 +20,51 @@
 
 <body class="preload">
 
-  <header>
-    <h1 id="header-title"><span class="blue-text">Cue</span>Talker</h1>
-    <div class="menu">
-      <button id="languageButton" class="circle-btn">
-        <img src="assets/svg/1F310.svg" alt="Language" width="32" height="32" />
-      </button>
-    </div>
-  </header>
+  <div class="app-layout">
+    <header>
+      <h1 id="header-title"><span class="blue-text">Cue</span>Talker</h1>
+      <div class="menu">
+        <button id="languageButton" class="circle-btn">
+          <img src="assets/svg/1F310.svg" alt="Language" width="32" height="32" />
+        </button>
+      </div>
+    </header>
 
-  <main>
-    <p id="conversation-mode-text" class="choose-text">Conversation Mode:</p>
-    <ul id="lesson-list"></ul>
+    <main>
+      <p id="conversation-mode-text" class="choose-text">Conversation Mode:</p>
+      <ul id="lesson-list"></ul>
 
-    <p id="freetalk-mode-text" class="choose-text freetalk-mode-label">Free Talk Mode:</p>
-    <ul id="freetalk-lesson-list"></ul>
+      <p id="freetalk-mode-text" class="choose-text freetalk-mode-label">Free Talk Mode:</p>
+      <ul id="freetalk-lesson-list"></ul>
 
-    <!-- Clear Scores Button -->
-    <button id="clearScoresBtn" class="lesson-item clear-scores-btn interactive-btn">Clear Scores</button>
+      <!-- Clear Scores Button -->
+      <button id="clearScoresBtn" class="lesson-item clear-scores-btn interactive-btn">Clear Scores</button>
 
-    <!-- Confirmation Modal -->
-    <div id="confirmationModal" class="modal hidden">
-      <div class="modal-content">
-        <p id="modalText">Are you sure you want to reset all scores for this language?</p>
-        <div class="modal-buttons">
-          <button id="confirmReset" class="confirm-btn interactive-btn">Yes, Reset</button>
-          <button id="cancelReset" class="cancel-btn interactive-btn">Cancel</button>
+      <!-- Confirmation Modal -->
+      <div id="confirmationModal" class="modal hidden">
+        <div class="modal-content">
+          <p id="modalText">Are you sure you want to reset all scores for this language?</p>
+          <div class="modal-buttons">
+            <button id="confirmReset" class="confirm-btn interactive-btn">Yes, Reset</button>
+            <button id="cancelReset" class="cancel-btn interactive-btn">Cancel</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 🔥 Full-page language menu overlay -->
-    <div id="languageMenu" class="panel hidden">
-      <div class="choose-text">Select a Language</div>
-      <div class="language-list"></div>
-    </div>
-  </main>
+      <!-- 🔥 Full-page language menu overlay -->
+      <div id="languageMenu" class="panel hidden">
+        <div class="choose-text">Select a Language</div>
+        <div class="language-list"></div>
+      </div>
+    </main>
 
-  <footer>
-    <p>© 2026 <span class="blue-text">Cue</span>Talker</p>
-          <button id="infoButton" class="circle-btn">
-        <img src="assets/svg/2753b.svg" alt="Info" width="24" height="24" />
-      </button>
-  </footer>
-
+    <footer>
+      <p>© 2026 <span class="blue-text">Cue</span>Talker</p>
+            <button id="infoButton" class="circle-btn">
+          <img src="assets/svg/2753b.svg" alt="Info" width="24" height="24" />
+        </button>
+    </footer>
+  </div>
   <script src="js/index.js"></script>
 </body>
 </html>
