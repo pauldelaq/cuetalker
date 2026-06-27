@@ -5,12 +5,11 @@
       "languageName": "English",
 
       "lessonPrompt": {
-        "text": "Welcome to BuildTalker! This mode helps you practice making sentences by putting words in the correct order. Start with a short sentence, then expand it by adding the items suggested."
+        "text": "test test check 1 2."
       },
 
       "sentences": [
-        "(Please) say (that).",
-        "Hello (Good) (Sir)"
+        "He will cook (me/2) (some pizza/1) (tonight)."
 
       ]
     }

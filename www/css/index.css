@@ -14,7 +14,7 @@ main {
   display: none;
 }
 
-#lesson-list, #freetalk-lesson-list {
+#lesson-list, #freetalk-lesson-list, #buildtalk-lesson-list {
   list-style: none;
   padding: 0;
 }

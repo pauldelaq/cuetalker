@@ -253,5 +253,25 @@
       }
     }
 
+  ],
+  "buildtalkerLessons": [
+    {
+      "id": "IntroToSentenceBuilder",
+      "name": {
+        "en-US": "Intro to Sentence Builder",
+        "fr-FR": "Introduction au mode construction de phrases",
+        "es-ES": "Introducción al modo constructor de oraciones",
+        "zh-CN": "句子构建模式简介",
+        "zh-TW": "句子建構模式簡介",
+        "ja-JP": "文作りモード入門",
+        "th-TH": "แนะนำโหมดสร้างประโยค"
+      }
+    },
+    {
+      "id": "test",
+      "name": {
+        "en-US": "test"
+      }
+    }
   ]
 }

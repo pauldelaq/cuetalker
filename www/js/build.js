@@ -25,6 +25,7 @@ let freeModeSilenceTimer = null;
 let pendingFreeModeMatch = null;
 let lessonLang = '';
 let lessonLangName = '';
+let buildTalkerSkippedSteps = 0;
 
 // ---- BuildTalker mic/tts state ----
 let transcriptController = null;
@@ -253,6 +254,23 @@ function applyTalkerTranslations() {
 
   const preview = document.getElementById('fontSizePreview');
   if (preview) preview.textContent = t.preview;
+
+  const modeLabels = document.querySelectorAll('#modeSelector label');
+  if (modeLabels.length >= 2) {
+    modeLabels[0].lastChild.nodeValue = ` ${t.modeTest || 'Test Mode'}`;
+    modeLabels[1].lastChild.nodeValue = ` ${t.modePractice || 'Practice Mode'}`;
+  }
+}
+
+function t(key) {
+  const lang = getLangKey(localStorage.getItem('ctlanguage'));
+
+  return (
+    talkerTranslations?.[lang]?.[key] ||
+    talkerTranslations?.['en-US']?.[key] ||
+    talkerTranslations?.['en']?.[key] ||
+    `[${key}]`
+  );
 }
 
 function getSelectedVoiceForLang(langCode) {
@@ -309,6 +327,49 @@ function makeSentenceTtsClickable(el, text) {
     e.stopPropagation();
     speakText(ttsText, selectedLang || lessonLang || localStorage.getItem('ctlanguage') || 'en-US');
   });
+}
+
+function createClickableSentence(ttsText) {
+  const span = document.createElement('span');
+  makeSentenceTtsClickable(span, ttsText);
+  return span;
+}
+
+function makeReviewRowTtsClickable(row, text) {
+  if (!row) return;
+
+  const ttsText = String(text || '').trim();
+  if (!ttsText) return;
+
+  const sentenceWrap = document.createElement('span');
+  sentenceWrap.className = 'buildtalker-review-sentence';
+
+  while (row.firstChild) {
+    sentenceWrap.appendChild(row.firstChild);
+  }
+
+  row.appendChild(sentenceWrap);
+  makeSentenceTtsClickable(sentenceWrap, ttsText);
+}
+
+function clearBubbleTtsHoverState(bubble) {
+  if (!bubble) return;
+
+  bubble.classList.remove('tts-clickable');
+  bubble.style.cursor = '';
+  delete bubble.dataset.tts;
+}
+
+function replaceBubbleWithoutListeners(bubble) {
+  if (!bubble || !bubble.parentNode) return bubble;
+
+  const freshBubble = bubble.cloneNode(false);
+  freshBubble.className = bubble.className;
+  freshBubble.removeAttribute('data-tts');
+  freshBubble.style.cursor = '';
+
+  bubble.parentNode.replaceChild(freshBubble, bubble);
+  return freshBubble;
 }
 
 function populateCustomVoiceList() {
@@ -410,7 +471,10 @@ function renderLessonPrompt() {
 
   const bubble = document.createElement('div');
   bubble.className = 'bubble center';
-  bubble.textContent = text;
+
+  const sentence = createClickableSentence(text);
+  sentence.textContent = text;
+  bubble.appendChild(sentence);
 
   patchFrenchPunctuationSpaces(bubble);
 
@@ -695,8 +759,36 @@ function startLesson() {
   beginBuildTalkerSession();
 }
 
+function getChunkData(sentence) {
+  return [...String(sentence || '').matchAll(/\((.*?)\)/g)].map(m => {
+    const raw = m[1].trim();
+    const dependencyMatch = raw.match(/^(.*)\/(\d+)$/);
+    const punctuationMatch = raw.match(/^(.*)\/([?.!。？！])$/);
+    const text = dependencyMatch
+      ? dependencyMatch[1].trim()
+      : punctuationMatch
+        ? punctuationMatch[1].trim()
+        : raw;
+    const dependencyOrder = dependencyMatch ? Number(dependencyMatch[2]) : null;
+    const finalPunctuation = punctuationMatch ? punctuationMatch[2] : null;
+    const buttonText = text.replace(/^[,.;:!?，。！？、；：]\s*/, '').trim();
+
+    return {
+      raw,
+      text,
+      buttonText,
+      dependencyOrder,
+      finalPunctuation
+    };
+  });
+}
+
 function extractChunks(sentence) {
-  return [...sentence.matchAll(/\((.*?)\)/g)].map(m => m[1].trim());
+  return getChunkData(sentence).map(chunk => chunk.text);
+}
+
+function extractChunkButtonTexts(sentence) {
+  return getChunkData(sentence).map(chunk => chunk.buttonText || chunk.text);
 }
 
 function getBaseSentence(sentence) {
@@ -707,19 +799,36 @@ function getBaseSentence(sentence) {
 }
 
 function getGoalSentence(sentence) {
-  return sentence
-    .replace(/[()]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  const chunks = getChunkData(sentence);
+  const indexes = chunks.map((_, index) => index);
+  return generateSentenceFromChunkIndexes(sentence, indexes);
 }
 
 function cleanupGeneratedSentence(text) {
   const cleaned = String(text || '')
-    .replace(/\s+([.,!?;:])/g, '$1')
+    .replace(/\s+([.,!?;:，。！？、；：])/g, '$1')
     .replace(/\s+/g, ' ')
     .trim();
 
   return cleaned.replace(/^([a-zà-ÿ])/, char => char.toUpperCase());
+}
+
+function applyActiveChunkFinalPunctuation(text, sentence, indexes) {
+  const chunks = getChunkData(sentence);
+  const active = new Set((indexes || []).map(Number));
+
+  const punctuationChunk = chunks.find((chunk, index) => {
+    return active.has(index) && chunk.finalPunctuation;
+  });
+
+  if (!punctuationChunk) return text;
+
+  const punctuation = punctuationChunk.finalPunctuation;
+  const trimmed = String(text || '').trim();
+
+  if (!trimmed) return trimmed;
+  if (/[?.!。？！]$/.test(trimmed)) return trimmed.replace(/[?.!。？！]$/, punctuation);
+  return `${trimmed}${punctuation}`;
 }
 
 function makeChunkKey(indexes) {
@@ -732,14 +841,40 @@ function makeChunkKey(indexes) {
 
 function generateSentenceFromChunkIndexes(sentence, indexes) {
   const active = new Set(indexes.map(Number));
+  const chunks = getChunkData(sentence);
   let chunkIndex = -1;
 
-  const generated = String(sentence || '').replace(/\((.*?)\)/g, (_, chunk) => {
+  const generated = String(sentence || '').replace(/\((.*?)\)/g, () => {
     chunkIndex += 1;
-    return active.has(chunkIndex) ? chunk : '';
+    return active.has(chunkIndex) ? (chunks[chunkIndex]?.text || '') : '';
   });
 
-  return cleanupGeneratedSentence(generated);
+  return applyActiveChunkFinalPunctuation(
+    cleanupGeneratedSentence(generated),
+    sentence,
+    indexes
+  );
+}
+
+function isValidChunkIndexSubset(sentence, indexes) {
+  const chunks = getChunkData(sentence);
+  const active = new Set((indexes || []).map(Number));
+
+  return chunks.every((chunk, index) => {
+    if (!active.has(index)) return true;
+    if (!Number.isInteger(chunk.dependencyOrder)) return true;
+
+    const requiredOrders = [];
+    for (let order = 1; order < chunk.dependencyOrder; order += 1) {
+      requiredOrders.push(order);
+    }
+
+    return requiredOrders.every(requiredOrder => {
+      return chunks.some((candidate, candidateIndex) => {
+        return active.has(candidateIndex) && candidate.dependencyOrder === requiredOrder;
+      });
+    });
+  });
 }
 
 function getAllChunkIndexSubsets(count) {
@@ -759,6 +894,99 @@ function getAllChunkIndexSubsets(count) {
   return subsets;
 }
 
+function debugExplodedBuildTalkerSentences() {
+  const sourceSentences = Array.isArray(sentenceItems) ? sentenceItems : [];
+
+  if (!sourceSentences.length) {
+    console.warn('[BuildTalker Debug] No sentenceItems loaded yet. Load a BuildTalker lesson first.');
+    return [];
+  }
+
+  const exploded = sourceSentences.map((sentence, sentenceIndex) => {
+    const chunks = extractChunks(sentence);
+    const sentences = getAllChunkIndexSubsets(chunks.length)
+      .filter(indexes => isValidChunkIndexSubset(sentence, indexes))
+      .map(indexes => generateSentenceFromChunkIndexes(sentence, indexes));
+
+    return {
+      sentenceIndex: sentenceIndex + 1,
+      sentences
+    };
+  });
+
+  const copyText = exploded
+    .map(item => [
+      `Item ${item.sentenceIndex}`,
+      ...item.sentences.map(sentence => sentence)
+    ].join('\n'))
+    .join('\n\n');
+
+  let debugBox = document.getElementById('buildtalkerExplodedDebugBox');
+
+  if (!debugBox) {
+    debugBox = document.createElement('div');
+    debugBox.id = 'buildtalkerExplodedDebugBox';
+    debugBox.style.position = 'fixed';
+    debugBox.style.left = '12px';
+    debugBox.style.right = '12px';
+    debugBox.style.bottom = '12px';
+    debugBox.style.zIndex = '9999';
+    debugBox.style.padding = '12px';
+    debugBox.style.background = 'white';
+    debugBox.style.border = '1px solid #ccc';
+    debugBox.style.borderRadius = '8px';
+    debugBox.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+    debugBox.style.fontFamily = 'system-ui, sans-serif';
+
+    const header = document.createElement('div');
+    header.style.display = 'flex';
+    header.style.justifyContent = 'space-between';
+    header.style.alignItems = 'center';
+    header.style.gap = '12px';
+    header.style.marginBottom = '8px';
+
+    const title = document.createElement('strong');
+    title.textContent = 'Exploded BuildTalker Sentences';
+
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.textContent = 'Close';
+    closeButton.addEventListener('click', () => {
+      debugBox.remove();
+    });
+
+    header.appendChild(title);
+    header.appendChild(closeButton);
+
+    const textarea = document.createElement('textarea');
+    textarea.id = 'buildtalkerExplodedDebugTextarea';
+    textarea.readOnly = true;
+    textarea.style.width = '100%';
+    textarea.style.height = '40vh';
+    textarea.style.boxSizing = 'border-box';
+    textarea.style.fontFamily = 'monospace';
+    textarea.style.fontSize = '14px';
+    textarea.style.lineHeight = '1.4';
+    textarea.style.whiteSpace = 'pre';
+
+    debugBox.appendChild(header);
+    debugBox.appendChild(textarea);
+    document.body.appendChild(debugBox);
+  }
+
+  const textarea = document.getElementById('buildtalkerExplodedDebugTextarea');
+  if (textarea) {
+    textarea.value = copyText;
+    textarea.focus();
+    textarea.select();
+  }
+
+  console.log('[BuildTalker Debug] Exploded sentences shown in copy box.');
+
+  return exploded;
+}
+
+window.debugExplodedBuildTalkerSentences = debugExplodedBuildTalkerSentences;
 // Returns all non-empty subsets of the given chunk indexes array
 function getNonEmptyChunkIndexSubsets(indexes) {
   const source = Array.isArray(indexes) ? indexes : [];
@@ -782,9 +1010,11 @@ function buildSentenceStateMap(sentence) {
   const chunks = extractChunks(sentence);
   const map = new Map();
 
-  getAllChunkIndexSubsets(chunks.length).forEach(indexes => {
-    map.set(makeChunkKey(indexes), generateSentenceFromChunkIndexes(sentence, indexes));
-  });
+  getAllChunkIndexSubsets(chunks.length)
+    .filter(indexes => isValidChunkIndexSubset(sentence, indexes))
+    .forEach(indexes => {
+      map.set(makeChunkKey(indexes), generateSentenceFromChunkIndexes(sentence, indexes));
+    });
 
   return map;
 }
@@ -821,13 +1051,17 @@ function pickNextTargetChunk() {
     .map((_, i) => i)
     .filter(i => !addedChunkIndexes.includes(i));
 
-  if (!remaining.length) {
+  const validRemaining = remaining.filter(index => {
+    return isValidChunkIndexSubset(sentence, [...addedChunkIndexes, index]);
+  });
+
+  if (!validRemaining.length) {
     currentTargetChunkIndex = null;
     return;
   }
 
   currentTargetChunkIndex =
-    remaining[Math.floor(Math.random() * remaining.length)];
+    validRemaining[Math.floor(Math.random() * validRemaining.length)];
 }
 
 function getSelectedBuildMode() {
@@ -838,9 +1072,76 @@ function isFreeBuildMode() {
   return getSelectedBuildMode() === 'free';
 }
 
+function isScoredBuildMode() {
+  return !isFreeBuildMode();
+}
+
 function getCurrentDisplaySentence() {
   return currentSentenceStateMap.get(makeChunkKey(addedChunkIndexes)) || '';
 }
+
+function getBuildTalkerTotalSteps() {
+  return sentenceItems.reduce((total, sentence) => {
+    return total + extractChunks(sentence).length;
+  }, 0);
+}
+
+function getBuildTalkerScoreString() {
+  const total = getBuildTalkerTotalSteps();
+  const correct = Math.max(0, total - buildTalkerSkippedSteps);
+  const percent = total > 0
+    ? Math.round((correct / total) * 100)
+    : 100;
+
+  return `${percent}% (${correct}/${total})`;
+}
+
+function displayBuildTalkerFinalScore() {
+  const transcriptEl = getLiveTranscriptEl();
+  if (!transcriptEl) return;
+
+  if (!isScoredBuildMode()) {
+    clearTranscriptUI();
+    return;
+  }
+
+  resetTranscriptDisplay(getBuildTalkerScoreString());
+}
+
+function saveBuildTalkerFinalScore() {
+  if (!isScoredBuildMode()) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const lessonId = urlParams.get('lesson') || 'unknown';
+  const lang = getLangKey(localStorage.getItem('ctlanguage'));
+  const today = new Date();
+  const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+  const mode = 'buildtalker';
+  const scoreString = getBuildTalkerScoreString();
+
+  const storedScores = JSON.parse(localStorage.getItem('ctscores') || '{}');
+  if (!storedScores[lang]) storedScores[lang] = [];
+
+  const existingIndex = storedScores[lang].findIndex(entry => {
+    return entry.lesson === lessonId && entry.mode === mode;
+  });
+
+  const newEntry = {
+    lesson: lessonId,
+    mode,
+    score: scoreString,
+    date: dateStr
+  };
+
+  if (existingIndex >= 0) {
+    storedScores[lang][existingIndex] = newEntry;
+  } else {
+    storedScores[lang].push(newEntry);
+  }
+
+  localStorage.setItem('ctscores', JSON.stringify(storedScores));
+}
+
 
 
 function getCurrentExpectedSentence() {
@@ -849,6 +1150,32 @@ function getCurrentExpectedSentence() {
   return currentSentenceStateMap.get(
     makeChunkKey([...addedChunkIndexes, currentTargetChunkIndex])
   ) || '';
+}
+
+function renderStepCounter() {
+  const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
+  if (!bubble) return;
+
+  bubble.querySelector('.buildtalker-step-counter')?.remove();
+
+  if (!lessonStarted || isFreeBuildMode() || awaitingSentenceReview || lessonCompleteAwaitingReview || showingRoundReview) {
+    return;
+  }
+
+  const sentence = sentenceItems[currentSentenceIndex];
+  if (!sentence) return;
+
+  const total = extractChunks(sentence).length;
+  if (total < 2) return;
+
+  const current = Math.min(addedChunkIndexes.length + 1, total);
+
+  const counter = document.createElement('div');
+  counter.className = 'buildtalker-step-counter';
+  counter.textContent = `${current}/${total}`;
+  counter.setAttribute('aria-hidden', 'true');
+
+  bubble.appendChild(counter);
 }
 
 // Attempts to find a Free Mode match in the transcript text
@@ -868,7 +1195,9 @@ function findFreeModeMatch(transcriptText) {
   const candidates = getNonEmptyChunkIndexSubsets(remaining)
     .map(newIndexes => {
       const allIndexes = [...addedChunkIndexes, ...newIndexes];
-      const text = currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '';
+      const text = isValidChunkIndexSubset(sentence, allIndexes)
+        ? (currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '')
+        : '';
 
       return {
         text,
@@ -916,13 +1245,32 @@ function queueFreeModeMatch(match) {
   }, 900);
 }
 
+
 function updateMainBubble(text) {
   const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
 
   if (!bubble) return;
 
+  bubble.innerHTML = '';
+  clearBubbleTtsHoverState(bubble);
+
+  const sentence = createClickableSentence(text);
+  sentence.textContent = text;
+  bubble.appendChild(sentence);
+
+  patchFrenchPunctuationSpaces(bubble);
+}
+
+function updateMainBubblePlain(text) {
+  const oldBubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
+
+  if (!oldBubble) return;
+
+  const bubble = replaceBubbleWithoutListeners(oldBubble);
+  bubble.innerHTML = '';
+  clearBubbleTtsHoverState(bubble);
   bubble.textContent = text;
-  makeSentenceTtsClickable(bubble, text);
+
   patchFrenchPunctuationSpaces(bubble);
 }
 
@@ -939,14 +1287,19 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
 
   bubble.innerHTML = '';
 
+  clearBubbleTtsHoverState(bubble);
+
+  const sentenceWrap = createClickableSentence(expandedSentence);
+  bubble.appendChild(sentenceWrap);
+
   if (!active.length || !expandedSentence) {
-    bubble.textContent = expandedSentence;
-    makeSentenceTtsClickable(bubble, expandedSentence);
+    sentenceWrap.textContent = expandedSentence;
     patchFrenchPunctuationSpaces(bubble);
+    renderStepCounter();
     return;
   }
 
-  const chunks = extractChunks(sentence);
+  const chunks = extractChunkButtonTexts(sentence);
   let remainingText = expandedSentence;
 
   active.forEach(index => {
@@ -957,7 +1310,7 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
     if (start < 0) return;
 
     const before = remainingText.slice(0, start);
-    if (before) bubble.appendChild(document.createTextNode(before));
+    if (before) sentenceWrap.appendChild(document.createTextNode(before));
 
     const span = document.createElement('span');
     span.className = index === Number(chunkIndex)
@@ -965,15 +1318,15 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
       : 'highlight buildtalker-added-chunk';
     span.textContent = chunk;
 
-    bubble.appendChild(span);
+    sentenceWrap.appendChild(span);
 
     remainingText = remainingText.slice(start + chunk.length);
   });
 
-  if (remainingText) bubble.appendChild(document.createTextNode(remainingText));
+  if (remainingText) sentenceWrap.appendChild(document.createTextNode(remainingText));
 
-  makeSentenceTtsClickable(bubble, expandedSentence);
   patchFrenchPunctuationSpaces(bubble);
+  renderStepCounter();
 }
 
 function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIndexes) {
@@ -993,14 +1346,19 @@ function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIn
 
   bubble.innerHTML = '';
 
+  clearBubbleTtsHoverState(bubble);
+
+  const sentenceWrap = createClickableSentence(expandedSentence);
+  bubble.appendChild(sentenceWrap);
+
   if (!active.length || !expandedSentence) {
-    bubble.textContent = expandedSentence;
-    makeSentenceTtsClickable(bubble, expandedSentence);
+    sentenceWrap.textContent = expandedSentence;
     patchFrenchPunctuationSpaces(bubble);
+    renderStepCounter();
     return;
   }
 
-  const chunks = extractChunks(sentence);
+  const chunks = extractChunkButtonTexts(sentence);
   let remainingText = expandedSentence;
 
   active.forEach(index => {
@@ -1011,22 +1369,22 @@ function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIn
     if (start < 0) return;
 
     const before = remainingText.slice(0, start);
-    if (before) bubble.appendChild(document.createTextNode(before));
+    if (before) sentenceWrap.appendChild(document.createTextNode(before));
 
     const span = document.createElement('span');
     span.className = newest.has(index)
       ? 'highlight phrase-underline buildtalker-added-chunk buildtalker-current-added-chunk'
       : 'highlight buildtalker-added-chunk';
     span.textContent = chunk;
-    bubble.appendChild(span);
+    sentenceWrap.appendChild(span);
 
     remainingText = remainingText.slice(start + chunk.length);
   });
 
-  if (remainingText) bubble.appendChild(document.createTextNode(remainingText));
+  if (remainingText) sentenceWrap.appendChild(document.createTextNode(remainingText));
 
-  makeSentenceTtsClickable(bubble, expandedSentence);
   patchFrenchPunctuationSpaces(bubble);
+  renderStepCounter();
 }
 
 function updateMainBubbleWithActiveHighlights(sentence, activeIndexes) {
@@ -1041,14 +1399,19 @@ function updateMainBubbleWithActiveHighlights(sentence, activeIndexes) {
 
   bubble.innerHTML = '';
 
+  clearBubbleTtsHoverState(bubble);
+
+  const sentenceWrap = createClickableSentence(displaySentence);
+  bubble.appendChild(sentenceWrap);
+
   if (!active.length || !displaySentence) {
-    bubble.textContent = displaySentence;
-    makeSentenceTtsClickable(bubble, displaySentence);
+    sentenceWrap.textContent = displaySentence;
     patchFrenchPunctuationSpaces(bubble);
+    renderStepCounter();
     return;
   }
 
-  const chunks = extractChunks(sentence);
+  const chunks = extractChunkButtonTexts(sentence);
   let remainingText = displaySentence;
 
   active.forEach(index => {
@@ -1060,20 +1423,20 @@ function updateMainBubbleWithActiveHighlights(sentence, activeIndexes) {
     if (start < 0) return;
 
     const before = remainingText.slice(0, start);
-    if (before) bubble.appendChild(document.createTextNode(before));
+    if (before) sentenceWrap.appendChild(document.createTextNode(before));
 
     const span = document.createElement('span');
     span.className = 'highlight buildtalker-added-chunk';
     span.textContent = chunk;
-    bubble.appendChild(span);
+    sentenceWrap.appendChild(span);
 
     remainingText = remainingText.slice(start + chunk.length);
   });
 
-  if (remainingText) bubble.appendChild(document.createTextNode(remainingText));
+  if (remainingText) sentenceWrap.appendChild(document.createTextNode(remainingText));
 
-  makeSentenceTtsClickable(bubble, displaySentence);
   patchFrenchPunctuationSpaces(bubble);
+  renderStepCounter();
 }
 
 function renderStepButton() {
@@ -1094,7 +1457,7 @@ function renderStepButton() {
 
   if (!sentence) return;
 
-  const chunks = extractChunks(sentence);
+  const chunks = extractChunkButtonTexts(sentence);
 
   const chunk = chunks[currentTargetChunkIndex];
 
@@ -1126,7 +1489,7 @@ function renderFreeButtons() {
   const sentence = sentenceItems[currentSentenceIndex];
   if (!sentence) return;
 
-  const chunks = extractChunks(sentence);
+  const chunks = extractChunkButtonTexts(sentence);
 
   chunks.forEach((chunk, index) => {
     if (addedChunkIndexes.includes(index)) return;
@@ -1150,6 +1513,7 @@ function renderCurrentStep() {
   if (!sentence) return;
 
   updateMainBubbleWithActiveHighlights(sentence, addedChunkIndexes);
+  renderStepCounter();
 
   if (isFreeBuildMode()) {
     renderFreeButtons();
@@ -1163,6 +1527,7 @@ function renderSentenceReview() {
   if (!bubble) return;
 
   bubble.innerHTML = '';
+  clearBubbleTtsHoverState(bubble);
 
   const list = document.createElement('div');
   list.className = 'buildtalker-review-list';
@@ -1226,7 +1591,7 @@ function renderSentenceReview() {
       }
     }
 
-    makeSentenceTtsClickable(row, rowText);
+    makeReviewRowTtsClickable(row, rowText);
     list.appendChild(row);
   });
 
@@ -1241,13 +1606,10 @@ function renderRoundReview() {
   showingRoundReview = true;
   lessonCompleteAwaitingReview = false;
 
-  // Keep/reuse the main BuildTalker message bubble as the lesson-complete bubble.
-  const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
-  if (bubble) {
-    bubble.innerHTML = '';
-    bubble.textContent = 'Lesson Complete';
-    patchFrenchPunctuationSpaces(bubble);
-  }
+  displayBuildTalkerFinalScore();
+  saveBuildTalkerFinalScore();
+
+  updateMainBubblePlain(t('lessonComplete'));
 
   const wordListContainer = document.getElementById('wordListContainer');
   if (!wordListContainer) return;
@@ -1357,7 +1719,7 @@ function renderRoundReview() {
         }
       }
 
-      makeSentenceTtsClickable(row, rowText);
+      makeReviewRowTtsClickable(row, rowText);
       reviewList.appendChild(row);
     });
 
@@ -1451,7 +1813,7 @@ function showLessonCompleteAwaitingReview() {
   stopMicSession();
 
   clearTranscriptUI();
-  updateMainBubble('Lesson complete');
+  updateMainBubblePlain(t('lessonComplete'));
 
   const container = document.getElementById('wordListContainer');
   if (container) container.innerHTML = '';
@@ -1572,7 +1934,7 @@ function handleCorrectCurrentStep() {
 
   const expectedSentence = getCurrentExpectedSentence();
   if (expectedSentence) {
-    const chunks = extractChunks(sentence);
+    const chunks = extractChunkButtonTexts(sentence);
     currentSentenceHistory.push({
       text: expectedSentence,
       addedChunk: chunks[currentTargetChunkIndex] || ''
@@ -1598,7 +1960,7 @@ function handleCorrectFreeModeMatch(match) {
   const sentence = sentenceItems[currentSentenceIndex];
   if (!sentence) return;
 
-  const chunks = extractChunks(sentence);
+  const chunks = extractChunkButtonTexts(sentence);
   const newIndexes = Array.isArray(match.newIndexes) ? match.newIndexes : [];
   const allIndexes = Array.isArray(match.allIndexes) ? match.allIndexes : [...addedChunkIndexes, ...newIndexes];
 
@@ -1694,6 +2056,7 @@ async function loadLesson() {
     showingRoundReview = false;
     currentChunkIndex = 0;
     lessonStarted = false;
+    buildTalkerSkippedSteps = 0;
 
     isAdvancingStep = false;
 

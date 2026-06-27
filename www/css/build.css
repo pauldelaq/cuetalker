@@ -9,6 +9,7 @@
   cursor: pointer;
   width: fit-content;
   min-width: 300px;
+  border: none;
 }
 
 .highlight {
@@ -71,5 +72,14 @@
 }
 
 .tts-clickable:hover {
-  color: orange;
+  background: #357ab8;
+}
+
+.buildtalker-step-counter {
+  margin-top: 1em;
+  font-size: 1em;
+  opacity: 0.65;
+  font-weight: 600;
+  text-align: center;
+  font-style: normal;
 }

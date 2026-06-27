@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const langList = document.querySelector('.language-list');
   const lessonList = document.getElementById('lesson-list');
   const freeTalkList = document.getElementById('freetalk-lesson-list');
+  const buildTalkList = document.getElementById('buildtalk-lesson-list');
 
   const languages = [
     { code: 'en-US', name: 'English' },
@@ -59,6 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('conversation-mode-text').textContent = t.conversationMode;
     document.getElementById('freetalk-mode-text').textContent = t.freetalkMode;
+
+    const buildTalkModeText = document.getElementById('buildtalker-mode-text');
+    if (buildTalkModeText) {
+      buildTalkModeText.textContent = t.buildtalkerMode || 'Sentence Builder Mode:';
+    }
+
     document.querySelector('#languageMenu div').textContent = t.languageMenuTitle;
 
     // 🔁 Update modal button text dynamically when language changes
@@ -104,6 +111,7 @@ function loadLessons() {
 
       lessonList.innerHTML = '';
       if (freeTalkList) freeTalkList.innerHTML = '';
+      if (buildTalkList) buildTalkList.innerHTML = '';
 
       data.lessons.forEach(lesson => {
         const li = document.createElement('li');
@@ -168,6 +176,40 @@ function loadLessons() {
           });
 
           freeTalkList.appendChild(li);
+        });
+      }
+
+      // Render BuildTalker / Sentence Builder lessons
+      if (buildTalkList && data.buildtalkerLessons) {
+        data.buildtalkerLessons.forEach(lesson => {
+          const li = document.createElement('li');
+          li.className = 'lesson-item';
+
+          // Only show BuildTalker lessons when this exact language exists
+          const title = lesson.name?.[lang] || '';
+          if (!title) return;
+
+          const matching = scoresForLang.find(entry =>
+            entry.lesson === lesson.id && entry.mode === 'buildtalker'
+          );
+          const date = matching?.date || '';
+          const score = matching?.score || '';
+
+          li.innerHTML = `
+            <div class="lesson-title">${title}</div>
+            ${matching ? `
+              <div class="lesson-meta">
+                <span class="lesson-date">${date}</span>
+                <span class="lesson-score">${score}</span>
+              </div>
+            ` : ''}
+          `;
+
+          li.addEventListener('click', () => {
+            window.location.href = `build.html?lesson=${encodeURIComponent(lesson.id)}`;
+          });
+
+          buildTalkList.appendChild(li);
         });
       }
     });
