@@ -1,11 +1,28 @@
+#cue-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.buildtalker-lesson-prompt {
+  flex: 0 0 auto;
+}
+
+.buildtalker-main-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .wordBubble {
-  background-color: #4a90e2;
+  background-color: var(--accent);
   color: white;
   border-radius: 15px;
   padding: 10px 15px;
   font-size: var(--message-font-size);
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  margin: 10px 0;
+  margin-left: -1px;
+  margin: 0;
   cursor: pointer;
   width: fit-content;
   min-width: 300px;
@@ -69,10 +86,62 @@
 .wordListContainer {
   display: grid;
   justify-content: center;
+  align-content: start;
+  width: 100%;
+  margin-top: 0;
+  padding-bottom: 0;
+  padding-top: 2em;
+}
+
+.buildtalker-chunk-control {
+  display: inline-grid;
+  margin: 10px 0;
+  justify-self: center;
+}
+
+.buildtalker-skip-chunk-button {
+  grid-area: 1 / 1;
+  align-self: center;
+  justify-self: start;
+  margin-left: 18px;
+
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  z-index: 2;
+
+  font-size: var(--message-font-size);
+  transition: color 0.15s ease, transform 0.15s ease;
+  pointer-events: auto;
+}
+
+.buildtalker-skip-chunk-button:hover {
+  background: transparent;
+  color: var(--hover);
+}
+
+.buildtalker-chunk-control .wordBubble {
+  grid-area: 1 / 1;
+  display: block;
+  text-align: center;
+  padding-left: 64px;
+}
+
+.buildtalker-skip-chunk-button:active {
+  transform: scale(0.94);
 }
 
 .tts-clickable:hover {
-  background: #357ab8;
+  background: var(--hover);
 }
 
 .buildtalker-step-counter {
@@ -82,4 +151,36 @@
   font-weight: 600;
   text-align: center;
   font-style: normal;
+}
+
+@keyframes buildtalker-nudge {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.wordBubble.buildtalker-nudge {
+  animation: buildtalker-nudge 0.45s ease-in-out;
+}
+
+.wordBubbleHeader {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 12px;
+  text-align: left;
+}
+
+.wordBubbleHeader .wordBubbleToggle {
+  grid-column: 1;
+  justify-self: center;
+}
+
+.wordBubbleHeader > span,
+.wordBubbleHeader > .wordBubbleText,
+.wordBubbleHeader > .wordBubbleTitle {
+  grid-column: 2;
+  min-width: 0;
 }

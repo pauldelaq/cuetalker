@@ -1,6 +1,7 @@
 let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
+let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
 
 // ---- BuildTalker lesson state ----
 let buildLesson = null;
@@ -12,6 +13,7 @@ let currentChunkIndex = 0;
 let addedChunkIndexes = [];
 let currentTargetChunkIndex = null;
 let currentSentenceStateMap = new Map();
+let currentInvalidSentenceStateMap = new Map();
 let currentSentenceHistory = [];
 let roundSentenceHistories = [];
 let awaitingSentenceReview = false;
@@ -23,6 +25,7 @@ let suppressFooterIconUpdates = false;
 let isAdvancingStep = false;
 let freeModeSilenceTimer = null;
 let pendingFreeModeMatch = null;
+let currentSpeechBuffer = '';
 let lessonLang = '';
 let lessonLangName = '';
 let buildTalkerSkippedSteps = 0;
@@ -103,6 +106,7 @@ function resetTranscriptDisplay(text = '') {
 function clearTranscriptUI() {
   finalizedTranscript = '';
   resetTranscriptDisplay('');
+  currentSpeechBuffer = '';
 }
 
 function initTranscriptController() {
@@ -208,6 +212,15 @@ function initializeSettingsMenu() {
       if (fontPreview) fontPreview.style.fontSize = `${newSize}%`;
     });
   }
+
+  const autoAdvanceToggle = document.getElementById('autoAdvanceToggle');
+  if (autoAdvanceToggle) {
+    autoAdvanceToggle.checked = autoAdvance;
+    autoAdvanceToggle.addEventListener('change', e => {
+      autoAdvance = e.target.checked;
+      localStorage.setItem('ctAutoAdvance', autoAdvance);
+    });
+  }
 }
 
 function updateSpeakerIcon(volume) {
@@ -251,6 +264,11 @@ function applyTalkerTranslations() {
 
   const fontLabel = document.querySelector('label[for="fontSizeSlider"]');
   if (fontLabel) fontLabel.textContent = t.fontSize;
+
+  const autoAdvanceLabel = document.querySelector('label[for="autoAdvanceToggle"]');
+  if (autoAdvanceLabel && t.autoAdvance) {
+    autoAdvanceLabel.lastChild.nodeValue = ` ${t.autoAdvance}`;
+  }
 
   const preview = document.getElementById('fontSizePreview');
   if (preview) preview.textContent = t.preview;
@@ -480,12 +498,13 @@ function renderLessonPrompt() {
 
   msgDiv.appendChild(bubble);
 
-  const settingsMenuEl = document.getElementById('settingsMenu');
+  const mainArea = document.getElementById('buildtalkerMainArea') || container;
+  const wordListContainer = document.getElementById('wordListContainer');
 
-  if (settingsMenuEl && settingsMenuEl.parentNode === container) {
-    container.insertBefore(msgDiv, settingsMenuEl);
+  if (wordListContainer && wordListContainer.parentNode === mainArea) {
+    mainArea.insertBefore(msgDiv, wordListContainer);
   } else {
-    container.appendChild(msgDiv);
+    mainArea.appendChild(msgDiv);
   }
 }
 
@@ -587,6 +606,11 @@ function startBuildTalkerRecognition() {
   transcriber.onInterim = (interimText) => {
     const interim = (interimText || '').trim();
 
+    // In Free/Practice Mode, each speaking attempt gets its own transcript.
+    if (isFreeBuildMode() && !currentSpeechBuffer && displayTranscript) {
+      resetTranscriptDisplay('');
+    }
+
     if (transcriptController) {
       transcriptController.setInterim(interim);
     } else {
@@ -594,7 +618,13 @@ function startBuildTalkerRecognition() {
     }
 
     const full = (finalizedTranscript + ' ' + interim).trim();
-    checkCurrentStepAnswer(full);
+
+    if (isFreeBuildMode()) {
+      const attempt = (currentSpeechBuffer + ' ' + interim).trim();
+      scheduleFreeModeAttemptEvaluation(attempt);
+    } else {
+      checkCurrentStepAnswer(full);
+    }
   };
 
   transcriber.onFinal = (finalChunk) => {
@@ -602,25 +632,24 @@ function startBuildTalkerRecognition() {
     if (!chunk) return;
 
     finalizedTranscript = (finalizedTranscript + ' ' + chunk).trim();
-    const nextDisplayTranscript = (displayTranscript + ' ' + chunk).trim();
+    currentSpeechBuffer = (currentSpeechBuffer + ' ' + chunk).trim();
+    const nextDisplayTranscript = isFreeBuildMode()
+      ? currentSpeechBuffer
+      : (displayTranscript + ' ' + chunk).trim();
 
-    if (transcriptController) {
-      transcriptController.reset();
-      if (nextDisplayTranscript) transcriptController.appendFinal(nextDisplayTranscript);
-      transcriptController.setInterim('');
-    } else {
-      displayTranscript = nextDisplayTranscript;
-      renderTranscriptFallback('');
-    }
+    resetTranscriptDisplay(nextDisplayTranscript);
 
-    if (isTranscriptOverflowing()) {
+    if (!isFreeBuildMode() && isTranscriptOverflowing()) {
       resetTranscriptDisplay(chunk);
-    } else {
-      displayTranscript = nextDisplayTranscript;
     }
 
     console.log('[BuildTalker] Final transcript:', finalizedTranscript);
-    checkCurrentStepAnswer(finalizedTranscript);
+
+    if (isFreeBuildMode()) {
+      scheduleFreeModeAttemptEvaluation(currentSpeechBuffer);
+    } else {
+      checkCurrentStepAnswer(currentSpeechBuffer);
+    }
   };
 
   transcriber.onError = (e) => {
@@ -705,6 +734,31 @@ async function beginBuildTalkerSession() {
   updateFooterIcons();
 }
 
+function prepareBuildTalkerAwaitingManualStart() {
+  isSessionActive = false;
+  isRecording = false;
+  micIsMuted = true;
+  stopBuildTalkerRecognition();
+  updateFooterIcons();
+}
+
+function startOrWaitForBuildTalkerRecording() {
+  if (autoAdvance) {
+    beginBuildTalkerSession();
+  } else {
+    prepareBuildTalkerAwaitingManualStart();
+  }
+}
+
+function resumeOrWaitForBuildTalkerRecording() {
+  if (autoAdvance) {
+    isSessionActive = true;
+    resumeBuildTalkerListeningIfNeeded();
+  } else {
+    prepareBuildTalkerAwaitingManualStart();
+  }
+}
+
 function endBuildTalkerSession() {
   isSessionActive = false;
   isRecording = false;
@@ -733,8 +787,14 @@ function updateFooterIcons() {
   } else if (isSessionActive && !isRecording) {
     sessionImg.src = 'assets/svg/1F3A4.svg'; // 🎤 recording paused/ready
   } else {
-    sessionImg.src = 'assets/svg/25B6.svg'; // ▶ play
-    sessionImg.classList.add('play-icon-pulse');
+    // Auto-advance disabled: lesson has started, but the user hasn't begun
+    // recording yet. Show the microphone to indicate recording can be started.
+    if (lessonStarted && !autoAdvance) {
+      sessionImg.src = 'assets/svg/1F3A4.svg'; // 🎤 ready
+    } else {
+      sessionImg.src = 'assets/svg/25B6.svg'; // ▶ play
+      sessionImg.classList.add('play-icon-pulse');
+    }
   }
 }
 
@@ -756,7 +816,7 @@ function startLesson() {
     modeSelector.style.display = 'none';
   }
 
-  beginBuildTalkerSession();
+  startOrWaitForBuildTalkerRecording();
 }
 
 function getChunkData(sentence) {
@@ -894,6 +954,53 @@ function getAllChunkIndexSubsets(count) {
   return subsets;
 }
 
+function getIndexPermutations(indexes) {
+  const source = Array.isArray(indexes) ? indexes : [];
+
+  if (source.length <= 1) return [source];
+
+  const results = [];
+
+  source.forEach((index, position) => {
+    const rest = source.filter((_, i) => i !== position);
+    getIndexPermutations(rest).forEach(permutation => {
+      results.push([index, ...permutation]);
+    });
+  });
+
+  return results;
+}
+
+function makeChunkSequenceKey(indexes) {
+  return (indexes || [])
+    .map(Number)
+    .filter(n => Number.isInteger(n) && n >= 0)
+    .join('>');
+}
+
+function generateSentenceFromChunkOrder(sentence, indexes) {
+  const chunks = getChunkData(sentence);
+  const source = String(sentence || '');
+  const firstChunkMatch = /\([^)]*\)/.exec(source);
+
+  if (!firstChunkMatch) return cleanupGeneratedSentence(source);
+
+  const prefix = source.slice(0, firstChunkMatch.index);
+  const suffix = source.slice(firstChunkMatch.index).replace(/\([^)]*\)/g, '');
+  const orderedText = (indexes || [])
+    .map(index => chunks[Number(index)]?.text || '')
+    .filter(Boolean)
+    .join(' ');
+
+  const generated = `${prefix} ${orderedText} ${suffix}`;
+
+  return applyActiveChunkFinalPunctuation(
+    cleanupGeneratedSentence(generated),
+    sentence,
+    indexes
+  );
+}
+
 function debugExplodedBuildTalkerSentences() {
   const sourceSentences = Array.isArray(sentenceItems) ? sentenceItems : [];
 
@@ -903,22 +1010,27 @@ function debugExplodedBuildTalkerSentences() {
   }
 
   const exploded = sourceSentences.map((sentence, sentenceIndex) => {
-    const chunks = extractChunks(sentence);
-    const sentences = getAllChunkIndexSubsets(chunks.length)
-      .filter(indexes => isValidChunkIndexSubset(sentence, indexes))
-      .map(indexes => generateSentenceFromChunkIndexes(sentence, indexes));
+    const maps = buildSentenceStateMaps(sentence);
 
     return {
       sentenceIndex: sentenceIndex + 1,
-      sentences
+      valid: [...maps.valid.values()],
+      invalid: [...maps.invalid.values()].map(entry => entry.text)
     };
   });
 
   const copyText = exploded
-    .map(item => [
-      `Item ${item.sentenceIndex}`,
-      ...item.sentences.map(sentence => sentence)
-    ].join('\n'))
+    .map(item => {
+      const lines = [`Item ${item.sentenceIndex}`, '', 'VALID'];
+      lines.push(...item.valid);
+
+      if (item.invalid.length) {
+        lines.push('', 'INVALID');
+        lines.push(...item.invalid);
+      }
+
+      return lines.join('\n');
+    })
     .join('\n\n');
 
   let debugBox = document.getElementById('buildtalkerExplodedDebugBox');
@@ -1006,24 +1118,106 @@ function getNonEmptyChunkIndexSubsets(indexes) {
   return subsets;
 }
 
-function buildSentenceStateMap(sentence) {
-  const chunks = extractChunks(sentence);
-  const map = new Map();
+function buildSentenceStateMaps(sentence) {
+  const chunks = getChunkData(sentence);
+  const valid = new Map();
+  const invalid = new Map();
+  const validNormalizedTexts = new Set();
+  const invalidNormalizedTexts = new Set();
+
+  getAllChunkIndexSubsets(chunks.length).forEach(indexes => {
+    const key = makeChunkKey(indexes);
+    const text = generateSentenceFromChunkIndexes(sentence, indexes);
+    const normalizedText = normalizeText(text);
+
+    if (isValidChunkIndexSubset(sentence, indexes)) {
+      valid.set(key, text);
+      if (normalizedText) validNormalizedTexts.add(normalizedText);
+    } else if (normalizedText && !validNormalizedTexts.has(normalizedText)) {
+      const active = new Set(indexes);
+
+      const missingIndexes = chunks
+        .map((chunk, idx) => ({ chunk, idx }))
+        .filter(({ chunk }) => Number.isInteger(chunk.dependencyOrder))
+        .filter(({ idx }) => !active.has(idx))
+        .filter(({ chunk }) => {
+          return indexes.some(activeIndex => {
+            const activeChunk = chunks[activeIndex];
+            return Number.isInteger(activeChunk?.dependencyOrder)
+              && activeChunk.dependencyOrder > chunk.dependencyOrder;
+          });
+        })
+        .map(({ idx }) => idx)
+        .sort((a, b) => a - b);
+
+      const expectedIndexes = [...new Set([...indexes, ...missingIndexes])]
+        .sort((a, b) => a - b);
+
+      invalid.set(`dependency:${key}`, {
+        text,
+        type: 'dependency',
+        indexes: [...indexes],
+        missingIndexes,
+        missingChunks: missingIndexes.map(i => chunks[i]?.buttonText || chunks[i]?.text || ''),
+        expectedSentence: generateSentenceFromChunkIndexes(sentence, expectedIndexes)
+      });
+
+      invalidNormalizedTexts.add(normalizedText);
+    }
+  });
 
   getAllChunkIndexSubsets(chunks.length)
-    .filter(indexes => isValidChunkIndexSubset(sentence, indexes))
+    .filter(indexes => indexes.length > 1)
     .forEach(indexes => {
-      map.set(makeChunkKey(indexes), generateSentenceFromChunkIndexes(sentence, indexes));
+      getIndexPermutations(indexes).forEach(sequence => {
+        const canonicalKey = makeChunkKey(indexes);
+        const sequenceKey = makeChunkSequenceKey(sequence);
+
+        if (sequenceKey === indexes.join('>')) return;
+
+        const text = generateSentenceFromChunkOrder(sentence, sequence);
+        const normalizedText = normalizeText(text);
+
+        if (!normalizedText) return;
+        if (validNormalizedTexts.has(normalizedText)) return;
+        if (invalidNormalizedTexts.has(normalizedText)) return;
+
+        const expectedSequence = [...indexes];
+
+        const affectedIndexes = [...new Set(
+          sequence.filter((index, position) => index !== expectedSequence[position])
+            .concat(expectedSequence.filter((index, position) => index !== sequence[position]))
+        )];
+
+        invalid.set(`order:${sequenceKey}`, {
+          text,
+          type: isValidChunkIndexSubset(sentence, indexes) ? 'order' : 'dependency-order',
+          indexes: [...indexes],
+          affectedIndexes,
+          actualSequence: [...sequence],
+          expectedSequence,
+          sequence: [...sequence], // temporary backwards compatibility
+          canonicalKey
+        });
+
+        invalidNormalizedTexts.add(normalizedText);
+      });
     });
 
-  return map;
+  return { valid, invalid };
+}
+
+function buildSentenceStateMap(sentence) {
+  return buildSentenceStateMaps(sentence).valid;
 }
 
 function initializeCurrentSentence() {
   const sentence = sentenceItems[currentSentenceIndex];
   if (!sentence) return;
 
-  currentSentenceStateMap = buildSentenceStateMap(sentence);
+  const sentenceMaps = buildSentenceStateMaps(sentence);
+  currentSentenceStateMap = sentenceMaps.valid;
+  currentInvalidSentenceStateMap = sentenceMaps.invalid;
 
   addedChunkIndexes = [];
   currentSentenceHistory = [];
@@ -1214,6 +1408,271 @@ function findFreeModeMatch(transcriptText) {
   }) || null;
 }
 
+// Attempts to find a recognized invalid Free Mode sentence in the transcript
+
+function findInvalidFreeModeMatch(transcriptText) {
+  const transcriptNorm = normalizeText(transcriptText);
+  if (!transcriptNorm) return null;
+
+  const candidates = [...currentInvalidSentenceStateMap.values()]
+    .filter(entry => entry?.text)
+    .sort((a, b) => {
+      // Prefer longer matches first, just like valid matching.
+      return normalizeText(b.text).length - normalizeText(a.text).length;
+    });
+
+  return candidates.find(candidate => {
+    const expectedNorm = normalizeText(candidate.text);
+    return expectedNorm && transcriptNorm.includes(expectedNorm);
+  }) || null;
+}
+
+function createBuildTalkerRecognitionResult(status, match) {
+  if (!match) return null;
+
+  if (status === 'valid') {
+    return {
+      status: 'valid',
+      reason: 'valid',
+      text: match.text || '',
+      match,
+      newIndexes: Array.isArray(match.newIndexes) ? [...match.newIndexes] : [],
+      allIndexes: Array.isArray(match.allIndexes) ? [...match.allIndexes] : []
+    };
+  }
+
+  return {
+    status: 'invalid',
+    reason: match.type || 'invalid',
+    text: match.text || '',
+    match,
+    indexes: Array.isArray(match.indexes) ? [...match.indexes] : [],
+    missingIndexes: Array.isArray(match.missingIndexes) ? [...match.missingIndexes] : [],
+    missingChunks: Array.isArray(match.missingChunks) ? [...match.missingChunks] : [],
+    expectedSentence: match.expectedSentence || '',
+    affectedIndexes: Array.isArray(match.affectedIndexes) ? [...match.affectedIndexes] : [],
+    actualSequence: Array.isArray(match.actualSequence) ? [...match.actualSequence] : null,
+    expectedSequence: Array.isArray(match.expectedSequence) ? [...match.expectedSequence] : null,
+    sequence: Array.isArray(match.sequence) ? [...match.sequence] : null,
+    canonicalKey: match.canonicalKey || null
+  };
+}
+
+function getFreeModeRecognitionResult(transcriptText) {
+  const validMatch = findFreeModeMatch(transcriptText);
+  const invalidMatch = findInvalidFreeModeMatch(transcriptText);
+
+  if (!validMatch && !invalidMatch) return null;
+  if (validMatch && !invalidMatch) return createBuildTalkerRecognitionResult('valid', validMatch);
+  if (!validMatch && invalidMatch) return createBuildTalkerRecognitionResult('invalid', invalidMatch);
+
+  const validLength = normalizeText(validMatch.text).length;
+  const invalidLength = normalizeText(invalidMatch.text).length;
+
+  return invalidLength > validLength
+    ? createBuildTalkerRecognitionResult('invalid', invalidMatch)
+    : createBuildTalkerRecognitionResult('valid', validMatch);
+}
+
+
+function showRecognizedAttemptText(result) {
+  const formattedText = String(result?.text || '').trim();
+  if (!formattedText) return;
+
+  resetTranscriptDisplay(formattedText);
+}
+
+// --- BuildTalker feedback helpers ---
+function escapeBuildTalkerHTML(text) {
+  return String(text || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function getOrderFeedbackIndexes(result) {
+  return Array.isArray(result?.affectedIndexes)
+    ? [...result.affectedIndexes]
+    : [];
+}
+
+function renderTranscriptWithHighlightedChunks(text, chunkIndexes) {
+  const transcriptEl = getLiveTranscriptEl();
+  if (!transcriptEl) return;
+
+  const sentence = sentenceItems[currentSentenceIndex];
+  const chunks = extractChunkButtonTexts(sentence);
+  const targetChunks = [...new Set((chunkIndexes || [])
+    .map(Number)
+    .filter(index => Number.isInteger(index) && index >= 0)
+    .map(index => chunks[index])
+    .filter(Boolean))]
+    .sort((a, b) => String(b).length - String(a).length);
+
+  let remainingText = String(text || '');
+  const parts = [];
+
+  while (remainingText) {
+    let nextMatch = null;
+
+    targetChunks.forEach(chunk => {
+      const start = remainingText.indexOf(chunk);
+      if (start < 0) return;
+
+      if (!nextMatch || start < nextMatch.start || (start === nextMatch.start && chunk.length > nextMatch.chunk.length)) {
+        nextMatch = { chunk, start };
+      }
+    });
+
+    if (!nextMatch) {
+      parts.push(escapeBuildTalkerHTML(remainingText));
+      break;
+    }
+
+    const before = remainingText.slice(0, nextMatch.start);
+    if (before) parts.push(escapeBuildTalkerHTML(before));
+
+    parts.push(`<span class="wrong-word">${escapeBuildTalkerHTML(nextMatch.chunk)}</span>`);
+    remainingText = remainingText.slice(nextMatch.start + nextMatch.chunk.length);
+  }
+
+  displayTranscript = String(text || '').trim();
+
+  if (transcriptController) {
+    transcriptController.reset();
+    transcriptController.setInterim('');
+  }
+
+  transcriptEl.innerHTML = parts.join('');
+}
+
+function nudgeChunkButtons(chunkIndexes) {
+  const indexes = [...new Set((chunkIndexes || [])
+    .map(Number)
+    .filter(index => Number.isInteger(index) && index >= 0))];
+
+  indexes.forEach(index => {
+    const btn = document.querySelector(`#wordListContainer .wordBubble[data-chunk-index="${index}"]`);
+    if (!btn) return;
+
+    btn.classList.remove('buildtalker-nudge');
+    void btn.offsetWidth;
+    btn.classList.add('buildtalker-nudge');
+
+    btn.addEventListener('animationend', () => {
+      btn.classList.remove('buildtalker-nudge');
+    }, { once: true });
+  });
+}
+
+function handleSkipChunk(index) {
+  const chunkIndex = Number(index);
+  if (!Number.isInteger(chunkIndex) || chunkIndex < 0) return;
+  if (isAdvancingStep || awaitingSentenceReview || lessonCompleteAwaitingReview || showingRoundReview) return;
+
+  const sentence = sentenceItems[currentSentenceIndex];
+  if (!sentence) return;
+
+  if (isScoredBuildMode()) {
+    if (chunkIndex !== currentTargetChunkIndex) return;
+
+    buildTalkerSkippedSteps += 1;
+    handleCorrectCurrentStep(false);
+    return;
+  }
+
+  if (addedChunkIndexes.includes(chunkIndex)) return;
+
+  const allIndexes = [...new Set([...addedChunkIndexes, chunkIndex])]
+    .map(Number)
+    .filter(n => Number.isInteger(n) && n >= 0)
+    .sort((a, b) => a - b);
+
+  if (!isValidChunkIndexSubset(sentence, allIndexes)) {
+    const key = makeChunkKey(allIndexes);
+    const invalidEntry = currentInvalidSentenceStateMap.get(`dependency:${key}`) ||
+      currentInvalidSentenceStateMap.get(`order:${allIndexes.join('>')}`);
+
+    const result = createBuildTalkerRecognitionResult('invalid', invalidEntry || {
+      text: generateSentenceFromChunkIndexes(sentence, allIndexes),
+      type: 'dependency',
+      indexes: allIndexes
+    });
+
+    if (result) {
+      showRecognizedAttemptText(result);
+      handleInvalidFreeModeMatch(result);
+    }
+
+    return;
+  }
+
+  const text = currentSentenceStateMap.get(makeChunkKey(allIndexes)) || generateSentenceFromChunkIndexes(sentence, allIndexes);
+
+  handleCorrectFreeModeMatch(
+    createBuildTalkerRecognitionResult('valid', {
+      text,
+      newIndexes: [chunkIndex],
+      allIndexes
+    }),
+    false
+  );
+}
+
+function scheduleFreeModeAttemptEvaluation(attemptText) {
+  const attempt = String(attemptText || '').trim();
+  if (!attempt) return;
+
+  if (freeModeSilenceTimer) clearTimeout(freeModeSilenceTimer);
+
+  freeModeSilenceTimer = setTimeout(() => {
+    freeModeSilenceTimer = null;
+
+    const result = getFreeModeRecognitionResult(attempt);
+
+    if (result?.status === 'valid') {
+      showRecognizedAttemptText(result);
+      handleCorrectFreeModeMatch(result);
+    } else if (result?.status === 'invalid') {
+      showRecognizedAttemptText(result);
+      handleInvalidFreeModeMatch(result);
+    }
+
+    currentSpeechBuffer = '';
+    pendingFreeModeMatch = null;
+  }, 900);
+}
+
+function handleInvalidFreeModeMatch(result) {
+  console.group('[BuildTalker] Invalid attempt');
+  console.log('Reason:', result.reason);
+  console.log('Sentence:', result.text);
+
+  if (result.reason === 'dependency') {
+    renderTranscriptWithHighlightedChunks(result.text, result.indexes);
+    nudgeChunkButtons(result.missingIndexes);
+
+    console.log('Used indexes:', result.indexes);
+    console.log('Missing indexes:', result.missingIndexes);
+    console.log('Missing chunks:', result.missingChunks);
+  }
+
+  if (result.reason === 'order' || result.reason === 'dependency-order') {
+    const feedbackIndexes = getOrderFeedbackIndexes(result);
+    renderTranscriptWithHighlightedChunks(result.text, feedbackIndexes);
+
+    console.log('Affected indexes:', result.affectedIndexes);
+    console.log('Feedback indexes:', feedbackIndexes);
+    console.log('Actual sequence:', result.actualSequence);
+    console.log('Expected sequence:', result.expectedSequence);
+  }
+
+  console.log(result);
+  console.groupEnd();
+}
+
 function clearPendingFreeModeMatch() {
   if (freeModeSilenceTimer) {
     clearTimeout(freeModeSilenceTimer);
@@ -1242,6 +1701,9 @@ function queueFreeModeMatch(match) {
     if (queuedMatch) {
       handleCorrectFreeModeMatch(queuedMatch);
     }
+
+    // A pause marks the end of one speaking attempt.
+    currentSpeechBuffer = '';
   }, 900);
 }
 
@@ -1445,10 +1907,9 @@ function renderStepButton() {
 
   if (!container) return;
 
-  const bubbleMessage = document.querySelector('.buildtalker-lesson-prompt');
-
-  if (bubbleMessage) {
-    bubbleMessage.insertAdjacentElement('afterend', container);
+  const mainArea = document.getElementById('buildtalkerMainArea');
+  if (mainArea && container.parentNode !== mainArea) {
+    mainArea.appendChild(container);
   }
 
   container.innerHTML = '';
@@ -1463,25 +1924,42 @@ function renderStepButton() {
 
   if (!chunk) return;
 
-  const btn = document.createElement('button');
+  // --- replaced block start ---
+  const group = document.createElement('div');
+  group.className = 'buildtalker-chunk-control';
 
+  const skipBtn = document.createElement('button');
+  skipBtn.type = 'button';
+  skipBtn.className = 'buildtalker-skip-chunk-button';
+  skipBtn.textContent = '⏭';
+  skipBtn.setAttribute('aria-label', 'Skip this chunk');
+  skipBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    handleSkipChunk(currentTargetChunkIndex);
+  });
+
+  const btn = document.createElement('button');
   btn.className = 'wordBubble';
+  btn.dataset.chunkIndex = String(currentTargetChunkIndex);
   btn.textContent = chunk;
 
   btn.addEventListener('click', () => {
     speakText(chunk, selectedLang);
   });
 
-  container.appendChild(btn);
+  group.appendChild(skipBtn);
+  group.appendChild(btn);
+  container.appendChild(group);
+  // --- replaced block end ---
 }
 
 function renderFreeButtons() {
   const container = document.getElementById('wordListContainer');
   if (!container) return;
 
-  const bubbleMessage = document.querySelector('.buildtalker-lesson-prompt');
-  if (bubbleMessage) {
-    bubbleMessage.insertAdjacentElement('afterend', container);
+  const mainArea = document.getElementById('buildtalkerMainArea');
+  if (mainArea && container.parentNode !== mainArea) {
+    mainArea.appendChild(container);
   }
 
   container.innerHTML = '';
@@ -1494,15 +1972,33 @@ function renderFreeButtons() {
   chunks.forEach((chunk, index) => {
     if (addedChunkIndexes.includes(index)) return;
 
+    // --- replaced block start ---
+    const group = document.createElement('div');
+    group.className = 'buildtalker-chunk-control';
+
+    const skipBtn = document.createElement('button');
+    skipBtn.type = 'button';
+    skipBtn.className = 'buildtalker-skip-chunk-button';
+    skipBtn.textContent = '⏭';
+    skipBtn.setAttribute('aria-label', 'Add this chunk');
+    skipBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleSkipChunk(index);
+    });
+
     const btn = document.createElement('button');
     btn.className = 'wordBubble';
+    btn.dataset.chunkIndex = String(index);
     btn.textContent = chunk;
 
     btn.addEventListener('click', () => {
       speakText(chunk, selectedLang);
     });
 
-    container.appendChild(btn);
+    group.appendChild(skipBtn);
+    group.appendChild(btn);
+    container.appendChild(group);
+    // --- replaced block end ---
   });
 }
 
@@ -1614,9 +2110,9 @@ function renderRoundReview() {
   const wordListContainer = document.getElementById('wordListContainer');
   if (!wordListContainer) return;
 
-  const promptMessage = document.querySelector('.buildtalker-lesson-prompt');
-  if (promptMessage) {
-    promptMessage.insertAdjacentElement('afterend', wordListContainer);
+  const mainArea = document.getElementById('buildtalkerMainArea');
+  if (mainArea && wordListContainer.parentNode !== mainArea) {
+    mainArea.appendChild(wordListContainer);
   }
 
   wordListContainer.innerHTML = '';
@@ -1764,9 +2260,9 @@ function renderNextSentenceButton() {
   const container = document.getElementById('wordListContainer');
   if (!container) return;
 
-  const bubbleMessage = document.querySelector('.buildtalker-lesson-prompt');
-  if (bubbleMessage) {
-    bubbleMessage.insertAdjacentElement('afterend', container);
+  const mainArea = document.getElementById('buildtalkerMainArea');
+  if (mainArea && container.parentNode !== mainArea) {
+    mainArea.appendChild(container);
   }
 
   container.innerHTML = '';
@@ -1797,7 +2293,7 @@ function proceedAfterSentenceReview() {
   clearTranscriptUI();
   renderCurrentStep();
   updateFooterIcons();
-  resumeBuildTalkerListeningIfNeeded();
+  resumeOrWaitForBuildTalkerRecording();
 }
 
 function showLessonCompleteAwaitingReview() {
@@ -1906,6 +2402,7 @@ function advanceToNextStep() {
 
     initializeCurrentSentence();
     renderCurrentStep();
+    resumeOrWaitForBuildTalkerRecording();
     return;
   }
 
@@ -1919,10 +2416,10 @@ function advanceToNextStep() {
   suppressFooterIconUpdates = false;
   clearTranscriptUI();
   renderCurrentStep();
-  resumeBuildTalkerListeningIfNeeded();
+  resumeOrWaitForBuildTalkerRecording();
 }
 
-function handleCorrectCurrentStep() {
+function handleCorrectCurrentStep(showCheckmark = true) {
   if (isAdvancingStep) return;
 
   const sentence = sentenceItems[currentSentenceIndex];
@@ -1942,7 +2439,10 @@ function handleCorrectCurrentStep() {
   }
 
   updateMainBubbleWithHighlightedChunk(sentence, currentTargetChunkIndex);
-  flashSessionButtonCheckmark(2200);
+
+  if (showCheckmark) {
+    flashSessionButtonCheckmark(2200);
+  }
 
   const container = document.getElementById('wordListContainer');
   if (container) container.innerHTML = '';
@@ -1954,15 +2454,17 @@ function handleCorrectCurrentStep() {
   }, 2400);
 }
 
-function handleCorrectFreeModeMatch(match) {
+function handleCorrectFreeModeMatch(match, showCheckmark = true) {
   if (isAdvancingStep || !match) return;
+
+  const recognitionMatch = match.match || match;
 
   const sentence = sentenceItems[currentSentenceIndex];
   if (!sentence) return;
 
   const chunks = extractChunkButtonTexts(sentence);
-  const newIndexes = Array.isArray(match.newIndexes) ? match.newIndexes : [];
-  const allIndexes = Array.isArray(match.allIndexes) ? match.allIndexes : [...addedChunkIndexes, ...newIndexes];
+  const newIndexes = Array.isArray(recognitionMatch.newIndexes) ? recognitionMatch.newIndexes : [];
+  const allIndexes = Array.isArray(recognitionMatch.allIndexes) ? recognitionMatch.allIndexes : [...addedChunkIndexes, ...newIndexes];
 
   if (!newIndexes.length) return;
 
@@ -1971,7 +2473,7 @@ function handleCorrectFreeModeMatch(match) {
   pauseBuildTalkerListening();
 
   currentSentenceHistory.push({
-    text: match.text || currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '',
+    text: recognitionMatch.text || currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '',
     addedChunk: chunks[newIndexes[0]] || '',
     addedChunks: newIndexes.map(index => chunks[index] || '').filter(Boolean)
   });
@@ -1983,10 +2485,15 @@ function handleCorrectFreeModeMatch(match) {
   currentTargetChunkIndex = null;
 
   updateMainBubbleWithHighlightedChunks(sentence, addedChunkIndexes, newIndexes);
-  flashSessionButtonCheckmark();
 
-  const container = document.getElementById('wordListContainer');
-  if (container) container.innerHTML = '';
+  if (showCheckmark) {
+    flashSessionButtonCheckmark();
+  }
+
+  // In Practice Mode, keep the remaining chunk buttons visible while the
+  // accepted answer is being shown. This preserves the exploration UI instead
+  // of briefly clearing all choices after every correct attempt.
+  renderFreeButtons();
 
   if (stepAdvanceTimer) clearTimeout(stepAdvanceTimer);
   stepAdvanceTimer = setTimeout(() => {
@@ -1999,10 +2506,7 @@ function checkCurrentStepAnswer(transcriptText) {
   if (!lessonStarted || isAdvancingStep || awaitingSentenceReview) return;
 
   if (isFreeBuildMode()) {
-    const match = findFreeModeMatch(transcriptText);
-    if (match) {
-      queueFreeModeMatch(match);
-    }
+    scheduleFreeModeAttemptEvaluation(transcriptText);
     return;
   }
 
@@ -2049,6 +2553,7 @@ async function loadLesson() {
     addedChunkIndexes = [];
     currentTargetChunkIndex = null;
     currentSentenceStateMap = new Map();
+    currentInvalidSentenceStateMap = new Map();
     currentSentenceHistory = [];
     roundSentenceHistories = [];
     awaitingSentenceReview = false;

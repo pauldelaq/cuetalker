@@ -28,8 +28,11 @@
   </header>
 
   <main id="cue-content">
-    <!-- Message bubbles (narration, speaker, user) will be dynamically inserted here -->
-    <div id="wordListContainer" class="wordListContainer"></div>
+    <!-- BuildTalker prompt + chunk controls will be dynamically inserted here -->
+    <div id="buildtalkerMainArea" class="buildtalker-main-area">
+      <div id="wordListContainer" class="wordListContainer"></div>
+    </div>
+
     <div id="settingsMenu" class="hidden">
         <h2>Settings</h2>
 
@@ -58,6 +61,13 @@
         <span class="speed-text">1.0x</span>
       </div>
     </div>
+
+        <div class="setting-row">
+            <label for="autoAdvanceToggle">
+            <input type="checkbox" id="autoAdvanceToggle" />
+            Auto-advance
+            </label>
+        </div>
 
         <div class="setting-row">
             <label for="fontSizeSlider">Font Size:</label>
