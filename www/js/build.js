@@ -122,7 +122,7 @@ function initTranscriptController() {
 }
 
 function normalizeText(s) {
-  return String(s || '')
+  let normalized = String(s || '')
     .toLowerCase()
     .replace(/[’‘´`]/g, "'")
     .normalize('NFD')
@@ -130,6 +130,38 @@ function normalizeText(s) {
     .replace(/[^\p{L}\p{N}\s']/gu, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+
+  // Chinese/Japanese/Thai STT engines are inconsistent about inserting
+  // whitespace. Ignore whitespace entirely for those languages.
+  const lang = (lessonLang || selectedLang || localStorage.getItem('ctlanguage') || '').toLowerCase();
+  if (lang.startsWith('zh') || lang.startsWith('ja') || lang.startsWith('th')) {
+    normalized = normalized.replace(/\s+/g, '');
+  }
+
+  return normalized;
+}
+
+function displayRecognitionAliases(text) {
+  return String(text || '').replace(/\{([^{}]*\/[^{}]*)\}/g, (_, inner) => {
+    return inner.split('/')[0].trim();
+  });
+}
+
+function expandRecognitionAliases(input) {
+  const raw = String(input || '');
+  const aliasRegex = /\{([^{}]*\/[^{}]*)\}/;
+
+  const expandRecursive = (str) => {
+    const match = aliasRegex.exec(str);
+    if (!match) return [str];
+
+    const [fullMatch, inner] = match;
+    return inner.split('/').flatMap(option =>
+      expandRecursive(str.replace(fullMatch, option.trim()))
+    );
+  };
+
+  return Array.from(new Set(expandRecursive(raw)));
 }
 
 function parseDisplayTtsText(rawText) {
@@ -831,11 +863,13 @@ function getChunkData(sentence) {
         : raw;
     const dependencyOrder = dependencyMatch ? Number(dependencyMatch[2]) : null;
     const finalPunctuation = punctuationMatch ? punctuationMatch[2] : null;
-    const buttonText = text.replace(/^[,.;:!?，。！？、；：]\s*/, '').trim();
+    const displayText = displayRecognitionAliases(text);
+    const buttonText = displayText.replace(/^[,.;:!?，。！？、；：]\s*/, '').trim();
 
     return {
       raw,
       text,
+      displayText,
       buttonText,
       dependencyOrder,
       finalPunctuation
@@ -848,7 +882,7 @@ function extractChunks(sentence) {
 }
 
 function extractChunkButtonTexts(sentence) {
-  return getChunkData(sentence).map(chunk => chunk.buttonText || chunk.text);
+  return getChunkData(sentence).map(chunk => chunk.buttonText || chunk.displayText || chunk.text);
 }
 
 function getBaseSentence(sentence) {
@@ -864,13 +898,36 @@ function getGoalSentence(sentence) {
   return generateSentenceFromChunkIndexes(sentence, indexes);
 }
 
-function cleanupGeneratedSentence(text) {
-  const cleaned = String(text || '')
+function cleanupGeneratedSentenceCore(text) {
+  return String(text || '')
     .replace(/\s+([.,!?;:，。！？、；：])/g, '$1')
     .replace(/\s+/g, ' ')
     .trim();
+}
 
-  return cleaned.replace(/^([a-zà-ÿ])/, char => char.toUpperCase());
+function cleanupGeneratedSentence(text) {
+  const displayed = displayRecognitionAliases(text);
+  return cleanupGeneratedSentenceCore(displayed)
+    .replace(/^([a-zà-ÿ])/, char => char.toUpperCase());
+}
+
+function cleanupRecognitionVariantSentence(text) {
+  return cleanupGeneratedSentenceCore(text)
+    .replace(/^([a-zà-ÿ])/, char => char.toUpperCase());
+}
+
+function getNormalizedRecognitionVariants(rawText) {
+  return Array.from(new Set(
+    expandRecognitionAliases(rawText)
+      .map(cleanupRecognitionVariantSentence)
+      .map(normalizeText)
+      .filter(Boolean)
+  ));
+}
+
+// Helper to determine if chunk joining should use spaces (for CJK/Thai in a sentence)
+function shouldBuildTalkerJoinChunksWithoutSpacesForSentence(sentence) {
+  return /[\u0E00-\u0E7F\u3040-\u30FF\u3400-\u9FFF]/u.test(String(sentence || ''));
 }
 
 function applyActiveChunkFinalPunctuation(text, sentence, indexes) {
@@ -899,7 +956,7 @@ function makeChunkKey(indexes) {
     .join(',');
 }
 
-function generateSentenceFromChunkIndexes(sentence, indexes) {
+function generateSentenceFromChunkIndexesRaw(sentence, indexes) {
   const active = new Set(indexes.map(Number));
   const chunks = getChunkData(sentence);
   let chunkIndex = -1;
@@ -910,10 +967,14 @@ function generateSentenceFromChunkIndexes(sentence, indexes) {
   });
 
   return applyActiveChunkFinalPunctuation(
-    cleanupGeneratedSentence(generated),
+    cleanupGeneratedSentenceCore(generated),
     sentence,
     indexes
   );
+}
+
+function generateSentenceFromChunkIndexes(sentence, indexes) {
+  return cleanupGeneratedSentence(generateSentenceFromChunkIndexesRaw(sentence, indexes));
 }
 
 function isValidChunkIndexSubset(sentence, indexes) {
@@ -978,63 +1039,177 @@ function makeChunkSequenceKey(indexes) {
     .join('>');
 }
 
-function generateSentenceFromChunkOrder(sentence, indexes) {
+function generateSentenceFromChunkOrderRaw(sentence, indexes) {
   const chunks = getChunkData(sentence);
   const source = String(sentence || '');
   const firstChunkMatch = /\([^)]*\)/.exec(source);
 
-  if (!firstChunkMatch) return cleanupGeneratedSentence(source);
+  if (!firstChunkMatch) return cleanupGeneratedSentenceCore(source);
 
   const prefix = source.slice(0, firstChunkMatch.index);
   const suffix = source.slice(firstChunkMatch.index).replace(/\([^)]*\)/g, '');
+  const joinWithoutSpaces = shouldBuildTalkerJoinChunksWithoutSpacesForSentence(sentence);
   const orderedText = (indexes || [])
     .map(index => chunks[Number(index)]?.text || '')
     .filter(Boolean)
-    .join(' ');
+    .join(joinWithoutSpaces ? '' : ' ');
 
-  const generated = `${prefix} ${orderedText} ${suffix}`;
+  const generated = joinWithoutSpaces
+    ? `${prefix}${orderedText}${suffix}`
+    : `${prefix} ${orderedText} ${suffix}`;
 
   return applyActiveChunkFinalPunctuation(
-    cleanupGeneratedSentence(generated),
+    cleanupGeneratedSentenceCore(generated),
     sentence,
     indexes
   );
 }
 
-function debugExplodedBuildTalkerSentences() {
-  const sourceSentences = Array.isArray(sentenceItems) ? sentenceItems : [];
+function generateSentenceFromChunkOrder(sentence, indexes) {
+  return cleanupGeneratedSentence(generateSentenceFromChunkOrderRaw(sentence, indexes));
+}
 
-  if (!sourceSentences.length) {
-    console.warn('[BuildTalker Debug] No sentenceItems loaded yet. Load a BuildTalker lesson first.');
+function debugExplodedBuildTalkerSentences(allLanguages = false) {
+  // Default: current behaviour, single language
+  if (!allLanguages) {
+    const sourceSentences = Array.isArray(sentenceItems) ? sentenceItems : [];
+
+    if (!sourceSentences.length) {
+      console.warn('[BuildTalker Debug] No sentenceItems loaded yet. Load a BuildTalker lesson first.');
+      return [];
+    }
+
+    const exploded = sourceSentences.map((sentence, sentenceIndex) => {
+      const maps = buildSentenceStateMaps(sentence);
+
+      return {
+        sentenceIndex: sentenceIndex + 1,
+        valid: [...maps.valid.values()],
+        invalid: [...maps.invalid.values()].map(entry => entry.text)
+      };
+    });
+
+    const copyText = exploded
+      .map(item => {
+        const lines = [`Item ${item.sentenceIndex}`, '', 'VALID'];
+        lines.push(...item.valid);
+
+        if (item.invalid.length) {
+          lines.push('', 'INVALID');
+          lines.push(...item.invalid);
+        }
+
+        return lines.join('\n');
+      })
+      .join('\n\n');
+
+    let debugBox = document.getElementById('buildtalkerExplodedDebugBox');
+
+    if (!debugBox) {
+      debugBox = document.createElement('div');
+      debugBox.id = 'buildtalkerExplodedDebugBox';
+      debugBox.style.position = 'fixed';
+      debugBox.style.left = '12px';
+      debugBox.style.right = '12px';
+      debugBox.style.bottom = '12px';
+      debugBox.style.zIndex = '9999';
+      debugBox.style.padding = '12px';
+      debugBox.style.background = 'white';
+      debugBox.style.border = '1px solid #ccc';
+      debugBox.style.borderRadius = '8px';
+      debugBox.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+      debugBox.style.fontFamily = 'system-ui, sans-serif';
+
+      const header = document.createElement('div');
+      header.style.display = 'flex';
+      header.style.justifyContent = 'space-between';
+      header.style.alignItems = 'center';
+      header.style.gap = '12px';
+      header.style.marginBottom = '8px';
+
+      const title = document.createElement('strong');
+      title.textContent = 'Exploded BuildTalker Sentences';
+
+      const closeButton = document.createElement('button');
+      closeButton.type = 'button';
+      closeButton.textContent = 'Close';
+      closeButton.addEventListener('click', () => {
+        debugBox.remove();
+      });
+
+      header.appendChild(title);
+      header.appendChild(closeButton);
+
+      const textarea = document.createElement('textarea');
+      textarea.id = 'buildtalkerExplodedDebugTextarea';
+      textarea.readOnly = true;
+      textarea.style.width = '100%';
+      textarea.style.height = '40vh';
+      textarea.style.boxSizing = 'border-box';
+      textarea.style.fontFamily = 'monospace';
+      textarea.style.fontSize = '14px';
+      textarea.style.lineHeight = '1.4';
+      textarea.style.whiteSpace = 'pre';
+
+      debugBox.appendChild(header);
+      debugBox.appendChild(textarea);
+      document.body.appendChild(debugBox);
+    }
+
+    const textarea = document.getElementById('buildtalkerExplodedDebugTextarea');
+    if (textarea) {
+      textarea.value = copyText;
+      textarea.focus();
+      textarea.select();
+    }
+
+    console.log('[BuildTalker Debug] Exploded sentences shown in copy box.');
+
+    return exploded;
+  }
+
+  // allLanguages = true: iterate over all lesson languages
+  if (!buildLesson || !buildLesson.languages || typeof buildLesson.languages !== 'object') {
+    console.warn('[BuildTalker Debug] No buildLesson.languages loaded yet. Load a BuildTalker lesson first.');
     return [];
   }
 
-  const exploded = sourceSentences.map((sentence, sentenceIndex) => {
-    const maps = buildSentenceStateMaps(sentence);
+  const resultsByLang = [];
+  for (const [langCode, langData] of Object.entries(buildLesson.languages)) {
+    if (!langData || !Array.isArray(langData.sentences)) continue;
+    const sentences = langData.sentences;
+    const languageName = langData.languageName || langCode;
+    const exploded = sentences.map((sentence, sentenceIndex) => {
+      const maps = buildSentenceStateMaps(sentence);
+      return {
+        sentenceIndex: sentenceIndex + 1,
+        valid: [...maps.valid.values()],
+        invalid: [...maps.invalid.values()].map(entry => entry.text)
+      };
+    });
+    resultsByLang.push({
+      langCode,
+      languageName,
+      exploded
+    });
+  }
 
-    return {
-      sentenceIndex: sentenceIndex + 1,
-      valid: [...maps.valid.values()],
-      invalid: [...maps.invalid.values()].map(entry => entry.text)
-    };
-  });
-
-  const copyText = exploded
-    .map(item => {
+  // Format output
+  const copyText = resultsByLang.map(langBlock => {
+    const header = `===== ${langBlock.languageName} (${langBlock.langCode}) =====\n`;
+    const body = langBlock.exploded.map(item => {
       const lines = [`Item ${item.sentenceIndex}`, '', 'VALID'];
       lines.push(...item.valid);
-
       if (item.invalid.length) {
         lines.push('', 'INVALID');
         lines.push(...item.invalid);
       }
-
       return lines.join('\n');
-    })
-    .join('\n\n');
+    }).join('\n\n');
+    return header + '\n' + body;
+  }).join('\n\n');
 
   let debugBox = document.getElementById('buildtalkerExplodedDebugBox');
-
   if (!debugBox) {
     debugBox = document.createElement('div');
     debugBox.id = 'buildtalkerExplodedDebugBox';
@@ -1093,12 +1268,12 @@ function debugExplodedBuildTalkerSentences() {
     textarea.select();
   }
 
-  console.log('[BuildTalker Debug] Exploded sentences shown in copy box.');
-
-  return exploded;
+  console.log('[BuildTalker Debug] Exploded sentences for all languages shown in copy box.');
+  return resultsByLang;
 }
 
 window.debugExplodedBuildTalkerSentences = debugExplodedBuildTalkerSentences;
+window.debugExplodedBuildTalkerSentencesAll = () => debugExplodedBuildTalkerSentences(true);
 // Returns all non-empty subsets of the given chunk indexes array
 function getNonEmptyChunkIndexSubsets(indexes) {
   const source = Array.isArray(indexes) ? indexes : [];
@@ -1127,12 +1302,14 @@ function buildSentenceStateMaps(sentence) {
 
   getAllChunkIndexSubsets(chunks.length).forEach(indexes => {
     const key = makeChunkKey(indexes);
-    const text = generateSentenceFromChunkIndexes(sentence, indexes);
-    const normalizedText = normalizeText(text);
+    const rawText = generateSentenceFromChunkIndexesRaw(sentence, indexes);
+    const text = cleanupGeneratedSentence(rawText);
+    const normalizedVariants = getNormalizedRecognitionVariants(rawText);
+    const normalizedText = normalizedVariants[0] || normalizeText(text);
 
     if (isValidChunkIndexSubset(sentence, indexes)) {
       valid.set(key, text);
-      if (normalizedText) validNormalizedTexts.add(normalizedText);
+      normalizedVariants.forEach(variant => validNormalizedTexts.add(variant));
     } else if (normalizedText && !validNormalizedTexts.has(normalizedText)) {
       const active = new Set(indexes);
 
@@ -1155,12 +1332,16 @@ function buildSentenceStateMaps(sentence) {
 
       invalid.set(`dependency:${key}`, {
         text,
+        rawText,
+        matchVariants: normalizedVariants,
         type: 'dependency',
         indexes: [...indexes],
         missingIndexes,
-        missingChunks: missingIndexes.map(i => chunks[i]?.buttonText || chunks[i]?.text || ''),
+        missingChunks: missingIndexes.map(i => chunks[i]?.buttonText || chunks[i]?.displayText || chunks[i]?.text || ''),
         expectedSentence: generateSentenceFromChunkIndexes(sentence, expectedIndexes)
       });
+
+      normalizedVariants.forEach(variant => invalidNormalizedTexts.add(variant));
 
       invalidNormalizedTexts.add(normalizedText);
     }
@@ -1175,12 +1356,13 @@ function buildSentenceStateMaps(sentence) {
 
         if (sequenceKey === indexes.join('>')) return;
 
-        const text = generateSentenceFromChunkOrder(sentence, sequence);
-        const normalizedText = normalizeText(text);
+        const rawText = generateSentenceFromChunkOrderRaw(sentence, sequence);
+        const text = cleanupGeneratedSentence(rawText);
+        const normalizedVariants = getNormalizedRecognitionVariants(rawText);
 
-        if (!normalizedText) return;
-        if (validNormalizedTexts.has(normalizedText)) return;
-        if (invalidNormalizedTexts.has(normalizedText)) return;
+        if (!normalizedVariants.length) return;
+        if (normalizedVariants.some(variant => validNormalizedTexts.has(variant))) return;
+        if (normalizedVariants.some(variant => invalidNormalizedTexts.has(variant))) return;
 
         const expectedSequence = [...indexes];
 
@@ -1197,10 +1379,12 @@ function buildSentenceStateMaps(sentence) {
           actualSequence: [...sequence],
           expectedSequence,
           sequence: [...sequence], // temporary backwards compatibility
-          canonicalKey
+          canonicalKey,
+          rawText,
+          matchVariants: normalizedVariants
         });
 
-        invalidNormalizedTexts.add(normalizedText);
+        normalizedVariants.forEach(variant => invalidNormalizedTexts.add(variant));
       });
     });
 
@@ -1346,6 +1530,20 @@ function getCurrentExpectedSentence() {
   ) || '';
 }
 
+function getCurrentExpectedSentenceRecognitionVariants() {
+  if (currentTargetChunkIndex == null) return [];
+
+  const sentence = sentenceItems[currentSentenceIndex];
+  if (!sentence) return [];
+
+  const rawText = generateSentenceFromChunkIndexesRaw(
+    sentence,
+    [...addedChunkIndexes, currentTargetChunkIndex]
+  );
+
+  return getNormalizedRecognitionVariants(rawText);
+}
+
 function renderStepCounter() {
   const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
   if (!bubble) return;
@@ -1393,8 +1591,14 @@ function findFreeModeMatch(transcriptText) {
         ? (currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '')
         : '';
 
+const rawText = isValidChunkIndexSubset(sentence, allIndexes)
+  ? generateSentenceFromChunkIndexesRaw(sentence, allIndexes)
+  : '';
+
       return {
         text,
+        rawText,
+        matchVariants: getNormalizedRecognitionVariants(rawText),
         newIndexes,
         allIndexes
       };
@@ -1403,8 +1607,13 @@ function findFreeModeMatch(transcriptText) {
     .sort((a, b) => b.newIndexes.length - a.newIndexes.length);
 
   return candidates.find(candidate => {
-    const expectedNorm = normalizeText(candidate.text);
-    return expectedNorm && transcriptNorm.includes(expectedNorm);
+    const variants = candidate.matchVariants?.length
+      ? candidate.matchVariants
+      : [normalizeText(candidate.text)].filter(Boolean);
+
+    return variants.some(expectedNorm =>
+      transcriptNorm.includes(expectedNorm)
+    );
   }) || null;
 }
 
@@ -1422,8 +1631,13 @@ function findInvalidFreeModeMatch(transcriptText) {
     });
 
   return candidates.find(candidate => {
-    const expectedNorm = normalizeText(candidate.text);
-    return expectedNorm && transcriptNorm.includes(expectedNorm);
+    const variants = candidate.matchVariants?.length
+      ? candidate.matchVariants
+      : getNormalizedRecognitionVariants(candidate.rawText || candidate.text);
+
+    return variants.some(expectedNorm =>
+      transcriptNorm.includes(expectedNorm)
+    );
   }) || null;
 }
 
@@ -2101,11 +2315,23 @@ function renderRoundReview() {
 
   showingRoundReview = true;
   lessonCompleteAwaitingReview = false;
+  awaitingSentenceReview = false;
+  isSessionActive = false;
+  isRecording = false;
+  micIsMuted = true;
+  suppressFooterIconUpdates = false;
 
   displayBuildTalkerFinalScore();
   saveBuildTalkerFinalScore();
+  updateFooterIcons();
 
   updateMainBubblePlain(t('lessonComplete'));
+  // Ensure the lesson-complete message is visible before showing the
+  // expandable review list.
+  const cueContent = document.getElementById('cue-content');
+  if (cueContent) {
+    cueContent.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   const wordListContainer = document.getElementById('wordListContainer');
   if (!wordListContainer) return;
@@ -2355,6 +2581,7 @@ function advanceToNextStep() {
         isSessionActive = false;
         isRecording = false;
         micIsMuted = true;
+        suppressFooterIconUpdates = false;
         stopBuildTalkerRecognition();
         stopMicSession();
 
@@ -2388,6 +2615,7 @@ function advanceToNextStep() {
       isSessionActive = false;
       isRecording = false;
       micIsMuted = true;
+      suppressFooterIconUpdates = false;
       stopBuildTalkerRecognition();
       stopMicSession();
 
@@ -2400,8 +2628,12 @@ function advanceToNextStep() {
       return;
     }
 
+    // The temporary ✓ has finished; allow the footer icon to update for the next sentence.
+    suppressFooterIconUpdates = false;
+
     initializeCurrentSentence();
     renderCurrentStep();
+    updateFooterIcons();
     resumeOrWaitForBuildTalkerRecording();
     return;
   }
@@ -2514,12 +2746,14 @@ function checkCurrentStepAnswer(transcriptText) {
   if (!expected) return;
 
   const transcriptNorm = normalizeText(transcriptText);
-  const expectedNorm = normalizeText(expected);
+  const expectedVariants = getCurrentExpectedSentenceRecognitionVariants();
 
-  if (!transcriptNorm || !expectedNorm) return;
+  if (!transcriptNorm || !expectedVariants.length) return;
 
-  if (transcriptNorm.includes(expectedNorm)) {
-    handleCorrectCurrentStep();
+  if (expectedVariants.some(expectedNorm =>
+    transcriptNorm.includes(expectedNorm)
+  )) {
+      handleCorrectCurrentStep();
   }
 }
 

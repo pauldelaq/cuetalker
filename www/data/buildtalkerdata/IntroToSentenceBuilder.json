@@ -3,20 +3,105 @@
     "en-US": {
       "language": "en-US",
       "languageName": "English",
-
       "lessonPrompt": {
         "text": "Welcome to BuildTalker! This mode helps you practice making sentences by adding additional words in the correct order. Start with a short sentence, then expand it by adding the items suggested."
       },
-
       "sentences": [
         "Please say the sentence and add the following phrase (at the end).",
-
         "Make sure to say (all) the words in (the correct) order.",
-
         "In Test Mode, you can add one word (at a time).",
+        "In Practice Mode, you can add (several) words (together).",
+        "If you're stuck, press the skip button (to reveal the answer)."
+      ]
+    },
 
-        "In Practice Mode, you can add (several) words (together)."
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+      "lessonPrompt": {
+        "text": "Bienvenue dans BuildTalker ! Ce mode vous aide à construire des phrases en ajoutant des mots dans le bon ordre. Commencez par une phrase courte, puis développez-la en ajoutant les éléments proposés."
+      },
+      "sentences": [
+        "Veuillez dire la phrase et {ajouter/ajouté} le groupe de mots {suivant/suivants} (à la fin).",
+        "Assurez-vous de dire (tous) les mots (dans le {bon/bonne} ordre).",
+        "En Mode Test, vous pouvez ajouter un mot (à la fois).",
+        "En Mode Pratique, vous pouvez ajouter des mots (en même temps).",
+        "Si vous êtes bloqué, appuyez sur le bouton passer (pour révéler la réponse)."
+      ]
+    },
 
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonPrompt": {
+        "text": "¡Bienvenido a BuildTalker! Este modo te ayuda a practicar la formación de oraciones añadiendo palabras en el orden correcto. Empieza con una oración corta y luego amplíala añadiendo los elementos sugeridos."
+      },
+      "sentences": [
+        "Di la oración y añade la siguiente frase (al final).",
+        "Asegúrate de decir (todas) las palabras (en el orden correcto).",
+        "En Modo de prueba, puedes añadir una palabra (cada vez).",
+        "En Modo de práctica, puedes añadir (varias) palabras (a la vez).",
+        "Si te quedas atascado, pulsa el botón de omitir (para revelar la respuesta)."
+      ]
+    },
+
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "繁體中文",
+      "lessonPrompt": {
+        "text": "歡迎使用 BuildTalker！這個模式會幫助你按照正確的順序組成句子。先從簡短的句子開始，再加入建議的內容，逐步把句子變長。"
+      },
+      "sentences": [
+        "請說出這個句子，並(在最後)加入下一個詞組。",
+        "請(按照正確的順序)說出(所有)詞語。",
+        "在測驗模式中，你一次只能加入(一個)詞語。",
+        "在練習模式中，你可以一次加入(好幾個)詞語。",
+        "如果卡住了，可以按跳過按鈕(顯示答案)。"
+      ]
+    },
+
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "简体中文",
+      "lessonPrompt": {
+        "text": "欢迎使用 BuildTalker！这个模式可以帮助你按照正确的顺序组成句子。先从一个简短的句子开始，然后逐步加入建议的内容，把句子扩展得更长。"
+      },
+      "sentences": [
+        "请说出这个句子，并(在最后)加入下一个词组。",
+        "请(按照正确的顺序)说出(所有)词语。",
+        "在测试模式中，你一次只能加入(一个)词语。",
+        "在练习模式中，你可以一次加入(几个)词语。",
+        "如果卡住了，可以按跳过按钮(显示答案)。"
+      ]
+    },
+
+    "ja-JP": {
+      "language": "ja-JP",
+      "languageName": "日本語",
+      "lessonPrompt": {
+        "text": "BuildTalkerへようこそ！このモードでは、正しい語順で単語を追加しながら文を作る練習ができます。まずは短い文から始めて、指示された語句を加えながら文を長くしていきましょう。"
+      },
+      "sentences": [
+        "文を言って、次の語句を(文末に)加えてください。",
+        "単語を(すべて)(正しい順番で)言ってください。",
+        "テストモードでは、単語を(一つずつ)追加できます。",
+        "練習モードでは、単語を(いくつか)(まとめて)追加できます。",
+        "(答えを見るには、)スキップボタンを押してください。"
+      ]
+    },
+
+    "th-TH": {
+      "language": "th-TH",
+      "languageName": "ไทย",
+      "lessonPrompt": {
+        "text": "ยินดีต้อนรับสู่ BuildTalker! โหมดนี้จะช่วยให้คุณฝึกสร้างประโยคโดยเพิ่มคำตามลำดับที่ถูกต้อง เริ่มจากประโยคสั้น ๆ แล้วค่อย ๆ เพิ่มส่วนที่แนะนำ"
+      },
+      "sentences": [
+        "พูดประโยคนี้(แล้วเพิ่มวลีต่อไปนี้ไว้ท้ายประโยค)",
+        "อย่าลืมพูด(ทุก)คำ(ตามลำดับที่ถูกต้อง)",
+        "ในโหมดทดสอบ คุณสามารถเพิ่มได้ทีละ(หนึ่ง)คำ",
+        "ในโหมดฝึก คุณสามารถเพิ่ม(หลาย)คำ(พร้อมกัน)ได้",
+        "ถ้าคิดไม่ออก ให้กดปุ่มข้าม(เพื่อแสดงคำตอบ)"
       ]
     }
   }

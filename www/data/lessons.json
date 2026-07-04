@@ -272,6 +272,18 @@
       "name": {
         "en-US": "test"
       }
+    },
+      {
+      "id": "AdjectiveOrder",
+      "name": {
+        "en-US": "Adjective Order"
+      }
+    },
+          {
+      "id": "TheSportsGame",
+      "name": {
+        "en-US": "The Sports Game"
+      }
     }
   ]
 }

@@ -87,6 +87,7 @@ footer {
 .choose-text {
   font-weight: bold;
   color: #4a90e2;
+  margin-left: 10px;
 }
 
 /*
@@ -165,8 +166,4 @@ footer {
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 18px;
-}
-
-.freetalk-mode-label {
-  padding-top: 20px;
 }

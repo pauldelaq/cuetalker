@@ -1,0 +1,20 @@
+{
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+
+      "lessonPrompt": {
+        "text": "In English, you can use several adjectives in succession. But did you know that these adjectives follow a particular order? Try to finish the sentences using all of the words."
+      },
+
+      "sentences": [
+        "My (tall) (young) (Dutch) friend came to visit.",
+        "He brought (beautiful) (old) (wooden) shoes for me.",
+        "We drank (the best) (aged) (red) wine together.",
+        "We each took a (small) (round) (plastic) spoon.",
+        "Then, we ate (some) (lovely) (Greek) yogurt together."
+      ]
+    }
+  }
+}
