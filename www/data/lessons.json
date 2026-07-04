@@ -279,10 +279,16 @@
         "en-US": "Adjective Order"
       }
     },
-          {
-      "id": "TheSportsGame",
+    {
+      "id": "TheBasketballGame",
       "name": {
-        "en-US": "The Sports Game"
+        "en-US": "The Basketball Game",
+        "fr-FR": "Le match de basket",
+        "es-ES": "El partido de baloncesto",
+        "zh-TW": "籃球比賽",
+        "zh-CN": "篮球比赛",
+        "ja-JP": "バスケットボールの試合",
+        "th-TH": "การแข่งขันบาสเกตบอล"
       }
     }
   ]

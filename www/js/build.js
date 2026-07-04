@@ -852,8 +852,37 @@ function startLesson() {
 }
 
 function getChunkData(sentence) {
-  return [...String(sentence || '').matchAll(/\((.*?)\)/g)].map(m => {
-    const raw = m[1].trim();
+  const source = String(sentence || '');
+  const tokenRegex = /\((.*?)\)|\[([^\[\]]*\|[^\[\]]*\|[^\[\]]*)\]/g;
+  const chunks = [];
+  let match;
+
+  while ((match = tokenRegex.exec(source)) !== null) {
+    const isTransform = typeof match[2] === 'string';
+    const raw = (isTransform ? match[2] : match[1]).trim();
+
+    if (isTransform) {
+      const parts = raw.split('|').map(part => part.trim());
+      const inactiveText = parts[0] || '';
+      const buttonText = parts[1] || inactiveText;
+      const activeText = parts[2] || inactiveText;
+
+      chunks.push({
+        raw,
+        token: match[0],
+        type: 'transform',
+        text: activeText,
+        inactiveText,
+        activeText,
+        displayText: displayRecognitionAliases(activeText),
+        buttonText: displayRecognitionAliases(buttonText),
+        highlightText: displayRecognitionAliases(activeText),
+        dependencyOrder: null,
+        finalPunctuation: null
+      });
+      continue;
+    }
+
     const dependencyMatch = raw.match(/^(.*)\/(\d+)$/);
     const punctuationMatch = raw.match(/^(.*)\/([?.!。？！])$/);
     const text = dependencyMatch
@@ -866,15 +895,22 @@ function getChunkData(sentence) {
     const displayText = displayRecognitionAliases(text);
     const buttonText = displayText.replace(/^[,.;:!?，。！？、；：]\s*/, '').trim();
 
-    return {
+    chunks.push({
       raw,
+      token: match[0],
+      type: 'insert',
       text,
+      inactiveText: '',
+      activeText: text,
       displayText,
       buttonText,
+      highlightText: displayText,
       dependencyOrder,
       finalPunctuation
-    };
-  });
+    });
+  }
+
+  return chunks;
 }
 
 function extractChunks(sentence) {
@@ -885,9 +921,19 @@ function extractChunkButtonTexts(sentence) {
   return getChunkData(sentence).map(chunk => chunk.buttonText || chunk.displayText || chunk.text);
 }
 
+function extractChunkHighlightTexts(sentence) {
+  return getChunkData(sentence).map(chunk => chunk.highlightText || chunk.displayText || chunk.text);
+}
+
 function getBaseSentence(sentence) {
-  return sentence
-    .replace(/\([^)]*\)/g, '')
+  const chunks = getChunkData(sentence);
+  let chunkIndex = -1;
+
+  return String(sentence || '')
+    .replace(/\((.*?)\)|\[([^\[\]]*\|[^\[\]]*\|[^\[\]]*)\]/g, () => {
+      chunkIndex += 1;
+      return chunks[chunkIndex]?.inactiveText || '';
+    })
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -961,9 +1007,11 @@ function generateSentenceFromChunkIndexesRaw(sentence, indexes) {
   const chunks = getChunkData(sentence);
   let chunkIndex = -1;
 
-  const generated = String(sentence || '').replace(/\((.*?)\)/g, () => {
+  const generated = String(sentence || '').replace(/\((.*?)\)|\[([^\[\]]*\|[^\[\]]*\|[^\[\]]*)\]/g, () => {
     chunkIndex += 1;
-    return active.has(chunkIndex) ? (chunks[chunkIndex]?.text || '') : '';
+    const chunk = chunks[chunkIndex];
+    if (!chunk) return '';
+    return active.has(chunkIndex) ? (chunk.activeText || chunk.text || '') : (chunk.inactiveText || '');
   });
 
   return applyActiveChunkFinalPunctuation(
@@ -1042,15 +1090,19 @@ function makeChunkSequenceKey(indexes) {
 function generateSentenceFromChunkOrderRaw(sentence, indexes) {
   const chunks = getChunkData(sentence);
   const source = String(sentence || '');
-  const firstChunkMatch = /\([^)]*\)/.exec(source);
+  const tokenRegex = /\((.*?)\)|\[([^\[\]]*\|[^\[\]]*\|[^\[\]]*)\]/g;
+  const firstChunkMatch = tokenRegex.exec(source);
 
   if (!firstChunkMatch) return cleanupGeneratedSentenceCore(source);
 
   const prefix = source.slice(0, firstChunkMatch.index);
-  const suffix = source.slice(firstChunkMatch.index).replace(/\([^)]*\)/g, '');
+  const suffix = source.slice(firstChunkMatch.index).replace(tokenRegex, (match) => {
+    const chunk = chunks.find(item => item.token === match);
+    return chunk?.inactiveText || '';
+  });
   const joinWithoutSpaces = shouldBuildTalkerJoinChunksWithoutSpacesForSentence(sentence);
   const orderedText = (indexes || [])
-    .map(index => chunks[Number(index)]?.text || '')
+    .map(index => chunks[Number(index)]?.activeText || chunks[Number(index)]?.text || '')
     .filter(Boolean)
     .join(joinWithoutSpaces ? '' : ' ');
 
@@ -1274,6 +1326,24 @@ function debugExplodedBuildTalkerSentences(allLanguages = false) {
 
 window.debugExplodedBuildTalkerSentences = debugExplodedBuildTalkerSentences;
 window.debugExplodedBuildTalkerSentencesAll = () => debugExplodedBuildTalkerSentences(true);
+
+function debugBuildTalkerChunks(sentence) {
+  const source = sentence || sentenceItems[currentSentenceIndex] || '';
+  const chunks = getChunkData(source);
+  console.table(chunks.map((chunk, index) => ({
+    index,
+    type: chunk.type,
+    inactiveText: chunk.inactiveText,
+    activeText: chunk.activeText,
+    buttonText: chunk.buttonText,
+    highlightText: chunk.highlightText,
+    dependencyOrder: chunk.dependencyOrder,
+    finalPunctuation: chunk.finalPunctuation
+  })));
+  return chunks;
+}
+
+window.debugBuildTalkerChunks = debugBuildTalkerChunks;
 // Returns all non-empty subsets of the given chunk indexes array
 function getNonEmptyChunkIndexSubsets(indexes) {
   const source = Array.isArray(indexes) ? indexes : [];
@@ -1415,7 +1485,9 @@ function initializeCurrentSentence() {
 
   currentSentenceHistory.push({
     text: getCurrentDisplaySentence(),
-    addedChunk: ''
+    addedChunk: '',
+    addedChunks: [],
+    addedHighlightChunks: []
   });
 }
 
@@ -1717,7 +1789,7 @@ function renderTranscriptWithHighlightedChunks(text, chunkIndexes) {
   if (!transcriptEl) return;
 
   const sentence = sentenceItems[currentSentenceIndex];
-  const chunks = extractChunkButtonTexts(sentence);
+  const chunks = extractChunkHighlightTexts(sentence);
   const targetChunks = [...new Set((chunkIndexes || [])
     .map(Number)
     .filter(index => Number.isInteger(index) && index >= 0)
@@ -1975,7 +2047,7 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
     return;
   }
 
-  const chunks = extractChunkButtonTexts(sentence);
+  const chunks = extractChunkHighlightTexts(sentence);
   let remainingText = expandedSentence;
 
   active.forEach(index => {
@@ -2034,7 +2106,7 @@ function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIn
     return;
   }
 
-  const chunks = extractChunkButtonTexts(sentence);
+  const chunks = extractChunkHighlightTexts(sentence);
   let remainingText = expandedSentence;
 
   active.forEach(index => {
@@ -2087,7 +2159,7 @@ function updateMainBubbleWithActiveHighlights(sentence, activeIndexes) {
     return;
   }
 
-  const chunks = extractChunkButtonTexts(sentence);
+  const chunks = extractChunkHighlightTexts(sentence);
   let remainingText = displaySentence;
 
   active.forEach(index => {
@@ -2260,9 +2332,11 @@ function renderSentenceReview() {
     row.className = 'buildtalker-review-row';
 
     const rowText = entry?.text || '';
-    const addedChunks = Array.isArray(entry?.addedChunks) && entry.addedChunks.length
-      ? entry.addedChunks
-      : (entry?.addedChunk ? [entry.addedChunk] : []);
+    const addedChunks = Array.isArray(entry?.addedHighlightChunks) && entry.addedHighlightChunks.length
+      ? entry.addedHighlightChunks
+      : Array.isArray(entry?.addedChunks) && entry.addedChunks.length
+        ? entry.addedChunks
+        : (entry?.addedChunk ? [entry?.addedChunk] : []);
 
     addedChunks.forEach(chunk => {
       if (chunk) cumulativeChunks.push(chunk);
@@ -2402,10 +2476,11 @@ function renderRoundReview() {
       row.className = 'buildtalker-review-row';
 
       const rowText = entryObj?.text || '';
-      const addedChunks = Array.isArray(entryObj?.addedChunks) && entryObj.addedChunks.length
-        ? entryObj.addedChunks
-        : (entryObj?.addedChunk ? [entryObj.addedChunk] : []);
-
+      const addedChunks = Array.isArray(entryObj?.addedHighlightChunks) && entryObj.addedHighlightChunks.length
+        ? entryObj.addedHighlightChunks
+        : Array.isArray(entryObj?.addedChunks) && entryObj.addedChunks.length
+          ? entryObj.addedChunks
+          : (entryObj?.addedChunk ? [entryObj.addedChunk] : []);
       addedChunks.forEach(chunk => {
         if (chunk) cumulativeChunks.push(chunk);
       });
@@ -2470,13 +2545,19 @@ function saveCurrentSentenceHistory() {
   roundSentenceHistories.push(
     currentSentenceHistory.map(entry => {
       if (typeof entry === 'string') {
-        return { text: entry, addedChunk: '' };
+        return {
+          text: entry,
+          addedChunk: '',
+          addedChunks: [],
+          addedHighlightChunks: []
+        };
       }
 
       return {
         text: entry?.text || '',
         addedChunk: entry?.addedChunk || '',
-        addedChunks: Array.isArray(entry?.addedChunks) ? entry.addedChunks : []
+        addedChunks: Array.isArray(entry?.addedChunks) ? entry.addedChunks : [],
+        addedHighlightChunks: Array.isArray(entry?.addedHighlightChunks) ? entry.addedHighlightChunks : []
       };
     })
   );
@@ -2664,9 +2745,15 @@ function handleCorrectCurrentStep(showCheckmark = true) {
   const expectedSentence = getCurrentExpectedSentence();
   if (expectedSentence) {
     const chunks = extractChunkButtonTexts(sentence);
+    const highlightChunks = extractChunkHighlightTexts(sentence);
+    const addedChunk = chunks[currentTargetChunkIndex] || '';
+    const addedHighlightChunk = highlightChunks[currentTargetChunkIndex] || addedChunk;
+
     currentSentenceHistory.push({
       text: expectedSentence,
-      addedChunk: chunks[currentTargetChunkIndex] || ''
+      addedChunk,
+      addedChunks: addedChunk ? [addedChunk] : [],
+      addedHighlightChunks: addedHighlightChunk ? [addedHighlightChunk] : []
     });
   }
 
@@ -2695,6 +2782,7 @@ function handleCorrectFreeModeMatch(match, showCheckmark = true) {
   if (!sentence) return;
 
   const chunks = extractChunkButtonTexts(sentence);
+  const highlightChunks = extractChunkHighlightTexts(sentence);
   const newIndexes = Array.isArray(recognitionMatch.newIndexes) ? recognitionMatch.newIndexes : [];
   const allIndexes = Array.isArray(recognitionMatch.allIndexes) ? recognitionMatch.allIndexes : [...addedChunkIndexes, ...newIndexes];
 
@@ -2704,10 +2792,17 @@ function handleCorrectFreeModeMatch(match, showCheckmark = true) {
   suppressFooterIconUpdates = true;
   pauseBuildTalkerListening();
 
+  const addedChunk = chunks[newIndexes[0]] || '';
+  const addedChunks = newIndexes.map(index => chunks[index] || '').filter(Boolean);
+  const addedHighlightChunks = newIndexes
+    .map(index => highlightChunks[index] || chunks[index] || '')
+    .filter(Boolean);
+
   currentSentenceHistory.push({
     text: recognitionMatch.text || currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '',
-    addedChunk: chunks[newIndexes[0]] || '',
-    addedChunks: newIndexes.map(index => chunks[index] || '').filter(Boolean)
+    addedChunk,
+    addedChunks,
+    addedHighlightChunks
   });
 
   addedChunkIndexes = [...new Set(allIndexes.map(Number))]

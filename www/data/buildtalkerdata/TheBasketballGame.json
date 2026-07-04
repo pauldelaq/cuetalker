@@ -1,0 +1,102 @@
+{
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+
+      "lessonPrompt": {
+        "text": "What happened during the basketball game? Make sentences to describe what happened on the court."
+      },
+
+      "sentences": [
+        "The (basketball) player passed the ball (to his teammate).",
+        "The player (carefully) threw (him) the ball.",
+        "The teammate (skillfully) shot (it) (into the net)."
+      ]
+    },
+    "fr-FR": {
+        "language": "fr-FR",
+        "languageName": "Français",
+
+        "lessonPrompt": {
+            "text": "Que s'est-il passé pendant le match de basket ? Fais des phrases pour décrire ce qui s'est passé sur le terrain."
+        },
+
+        "sentences": [
+            "Le joueur (de basket) a passé le ballon (à son coéquipier).",
+            "Le joueur (lui) a (soigneusement) lancé le ballon.",
+            "Le coéquipier [a|le|l'a] (habilement) tiré (au panier)."
+        ]
+        },
+    "es-ES": {
+        "language": "es-ES",
+        "languageName": "Español",
+
+        "lessonPrompt": {
+            "text": "¿Qué pasó durante el partido de baloncesto? Haz frases para describir lo que ocurrió en la cancha."
+        },
+
+        "sentences": [
+            "El jugador (de baloncesto) pasó el balón (a su compañero de equipo).",
+            "El jugador (le) pasó (cuidadosamente) el balón.",
+            "El compañero de equipo (lo) tiró (hábilmente) (a la canasta)."
+        ]
+    },
+    "zh-TW": {
+        "language": "zh-TW",
+        "languageName": "繁體中文",
+
+        "lessonPrompt": {
+            "text": "籃球比賽中發生了什麼事？請造句描述球場上發生的事情。"
+        },
+
+        "sentences": [
+          "(籃球) 隊員 傳球 (給隊友)。",
+          "隊員 (準確地) 傳球 (給他)。",
+          "隊友 (熟練地) 把 球 投進 (籃框)。"
+        ]
+    },
+    "zh-CN": {
+        "language": "zh-CN",
+        "languageName": "简体中文",
+
+        "lessonPrompt": {
+            "text": "篮球比赛中发生了什么事？请造句描述球场上发生的事情。"
+        },
+
+        "sentences": [
+            "(篮球)队员 传球 (给队友)。",
+            "队员 (准确地) 传球 (给他)。",
+            "队友 (熟练地) 把 球 投进 (篮筐)。"
+        ]
+    },
+    "ja-JP": {
+        "language": "ja-JP",
+        "languageName": "日本語",
+
+        "lessonPrompt": {
+            "text": "バスケットボールの試合で何がありましたか。コートで起こったことを文で言ってください。"
+        },
+
+        "sentences": [
+            "(バスケットボール) 選手が ボールを (チームメイトに) パスしました。",
+            "選手が (注意深く) (彼に) ボールを 投げました。",
+            "チームメイトが (上手に) (それを) シュートしました (ゴールに)。"
+        ]
+    },
+    "th-TH": {
+        "language": "th-TH",
+        "languageName": "ไทย",
+
+        "lessonPrompt": {
+            "text": "เกิด อะไร ขึ้น ระหว่าง การแข่งขัน บาสเกตบอล ?  สร้าง ประโยค เพื่อ อธิบาย สิ่ง ที่ เกิด ขึ้น ใน สนาม"
+        },
+
+        "sentences": [
+            "ผู้เล่น (บาสเกตบอล) ส่ง ลูกบอล (ให้ เพื่อนร่วมทีม)",
+            "ผู้เล่น (อย่าง ระมัดระวัง) โยน (ให้ เขา) ลูกบอล",
+            "เพื่อนร่วมทีม (อย่าง ชำนาญ) ชู้ต (มัน) (ลง ห่วง)"
+        ]
+    }
+  }
+}
