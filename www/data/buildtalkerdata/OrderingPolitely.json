@@ -1,0 +1,109 @@
+{
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+
+      "lessonPrompt": {
+        "text": "In a formal setting such as a nice restaurant, it’s important to speak as politely as possible. Try expanding the sentences to be as polite as you can. What would you like?"
+      },
+
+      "sentences": [
+        "(I’ll have) the steak (with french fries), please.",
+        "(could you/?) get me some water(, please).",
+        "(would you/?) bring (me) the bill(, please).",
+        "thank you (very much) (for your excellent service)."
+      ]
+    },
+    "fr-FR": {
+      "language": "fr-FR",
+      "languageName": "Français",
+
+      "lessonPrompt": {
+        "text": "Dans un cadre formel, comme un bon restaurant, il est important de parler aussi poliment que possible. Essayez de rendre les phrases aussi polies que possible. Que désirez-vous ?"
+      },
+
+      "sentences": [
+        "(je voudrais prendre) le steak (avec des frites), s'il vous plaît.",
+        "(pourriez-vous m'apporter/?) un verre d'eau(, s'il vous plaît).",
+        "(pourriez-vous m'apporter/?) l'addition(, s'il vous plaît).",
+        "(merci) beaucoup (pour votre excellent service)."
+      ]
+    },
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+
+      "lessonPrompt": {
+        "text": "En un entorno formal, como un buen restaurante, es importante hablar con la mayor cortesía posible. Intenta ampliar las frases para que sean lo más corteses posible. ¿Qué le gustaría pedir?"
+      },
+
+      "sentences": [
+        "(me gustaría) el bistec (con patatas fritas), por favor.",
+        "(¿podría traerme/?) un vaso de agua(, por favor).",
+        "(¿podría traerme/?) la cuenta(, por favor).",
+        "(muchas) gracias (por su excelente servicio)."
+      ]
+    },
+    "zh-TW": {
+      "language": "zh-TW",
+      "languageName": "繁體中文",
+
+      "lessonPrompt": {
+        "text": "在正式場合，例如高級餐廳，用禮貌的方式說話很重要。試著把句子擴充得越有禮貌越好。您想點什麼？"
+      },
+
+      "sentences": [
+        "(我想點)牛排(配薯條)(，謝謝)。",
+        "(不好意思，/2)(麻煩給我/1)一杯水。",
+        "(不好意思，/2)(麻煩給我/1)帳單。",
+        "謝謝(您)(，辛苦了)。"
+      ]
+    },
+    "zh-CN": {
+      "language": "zh-CN",
+      "languageName": "简体中文",
+
+      "lessonPrompt": {
+        "text": "在正式场合，比如高级餐厅，礼貌地说话很重要。试着把句子扩充得越礼貌越好。您想点什么？"
+      },
+
+      "sentences": [
+        "(我想点)牛排(配薯条)(，谢谢)。",
+        "(请)给我一杯水(，谢谢)。",
+        "(请)把账单给我(，谢谢)。",
+        "谢谢(您)(，服务很好)。"
+      ]
+    },
+    "ja-JP": {
+      "language": "ja-JP",
+      "languageName": "日本語",
+
+      "lessonPrompt": {
+        "text": "高級レストランのようなフォーマルな場では、できるだけ丁寧に話すことが大切です。文をできるだけ丁寧になるように完成させましょう。ご注文はお決まりですか？"
+      },
+
+      "sentences": [
+        "ステーキをお願いします(、フライドポテト付きで)。",
+        "(すみません、)お水をお願いします。",
+        "お会計をお願いします(、レシートもお願いします)。",
+        "ありがとうございました(、とても{おい/美味}しかったです)(、ごちそうさまでした)。"
+      ]
+    },
+    "th-TH": {
+      "language": "th-TH",
+      "languageName": "ไทย",
+
+      "lessonPrompt": {
+        "text": "ในสถานที่ที่เป็นทางการ เช่นร้านอาหารดี ๆ การพูดอย่างสุภาพเป็นสิ่งสำคัญ ลองขยายประโยคให้สุภาพที่สุด คุณต้องการสั่งอะไร"
+      },
+
+      "sentences": [
+        "(ขอ)แฮมเบอร์เกอร์(กับมันฝรั่งทอด)(ครับ|ค่ะ)",
+        "(ขอ)น้ำ{หนึ่ง/ 1 }แก้ว(ด้วย)(ครับ|ค่ะ)",
+        "(ขอ){เช็ก/เช็ค}บิล(ด้วย)(ครับ|ค่ะ)",
+        "ขอบคุณ(มาก)(ครับ|ค่ะ)"
+      ]
+    }
+  }
+}

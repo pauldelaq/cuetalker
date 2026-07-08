@@ -280,6 +280,18 @@
       }
     },
     {
+      "id": "OrderingPolitely",
+      "name": {
+        "en-US": "Ordering Politely",
+        "fr-FR": "Commander poliment",
+        "es-ES": "Pedir con cortesía",
+        "zh-TW": "禮貌點餐",
+        "zh-CN": "礼貌点餐",
+        "ja-JP": "丁寧に注文する",
+        "th-TH": "สั่งอาหารอย่างสุภาพ"
+      }
+    },
+    {
       "id": "TheBasketballGame",
       "name": {
         "en-US": "The Basketball Game",

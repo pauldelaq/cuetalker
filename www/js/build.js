@@ -2,6 +2,8 @@ let selectedLang = localStorage.getItem('ctlanguage') || '';
 let selectedVoiceName = localStorage.getItem('ctvoice') || '';
 let availableVoices = [];
 let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
+let currentAgreementChoice = null;
+let currentStepRecognitionMatch = null;
 
 // ---- BuildTalker lesson state ----
 let buildLesson = null;
@@ -13,6 +15,7 @@ let currentChunkIndex = 0;
 let addedChunkIndexes = [];
 let currentTargetChunkIndex = null;
 let currentSentenceStateMap = new Map();
+let currentSentenceVariantMap = new Map();
 let currentInvalidSentenceStateMap = new Map();
 let currentSentenceHistory = [];
 let roundSentenceHistories = [];
@@ -861,11 +864,45 @@ function getChunkData(sentence) {
     const isTransform = typeof match[2] === 'string';
     const raw = (isTransform ? match[2] : match[1]).trim();
 
+    // Agreement chunk: (a|b). Every agreement chunk in a sentence shares
+    // the same selected option index, e.g. (ผม|ฉัน) pairs with (ครับ|ค่ะ).
+    if (!isTransform && raw.includes('|')) {
+      const options = raw.split('|').map(option => option.trim()).filter(Boolean);
+      const displayText = displayRecognitionAliases(options[0] || '');
+      const buttonText = options.map(option => displayRecognitionAliases(option)).join('/');
+      const highlightText = displayText
+        .replace(/^[¿¡]/, '')
+        .replace(/^[,.;:!?，。！？、；：「」『』（）【】〈〉《》〔〕［］｛｝]/, '')
+        .trim();
+
+      chunks.push({
+        raw,
+        token: match[0],
+        type: 'agreement',
+        options,
+        text: options[0] || '',
+        inactiveText: '',
+        activeText: options[0] || '',
+        displayText,
+        buttonText,
+        highlightText,
+        dependencyOrder: null,
+        finalPunctuation: null
+      });
+
+      continue;
+    }
+
     if (isTransform) {
       const parts = raw.split('|').map(part => part.trim());
       const inactiveText = parts[0] || '';
       const buttonText = parts[1] || inactiveText;
       const activeText = parts[2] || inactiveText;
+      const displayText = displayRecognitionAliases(activeText);
+      const highlightText = displayText
+        .replace(/^[¿¡]/, '')
+        .replace(/^[,.;:!?，。！？、；：「」『』（）【】〈〉《》〔〕［］｛｝]/, '')
+        .trim();
 
       chunks.push({
         raw,
@@ -874,9 +911,12 @@ function getChunkData(sentence) {
         text: activeText,
         inactiveText,
         activeText,
-        displayText: displayRecognitionAliases(activeText),
-        buttonText: displayRecognitionAliases(buttonText),
-        highlightText: displayRecognitionAliases(activeText),
+        displayText,
+        buttonText: displayRecognitionAliases(buttonText)
+          .replace(/^[¿¡]/, '')
+          .replace(/^[,.;:!?，。！？、；：]\s*/, '')
+          .trim(),
+        highlightText,
         dependencyOrder: null,
         finalPunctuation: null
       });
@@ -893,7 +933,14 @@ function getChunkData(sentence) {
     const dependencyOrder = dependencyMatch ? Number(dependencyMatch[2]) : null;
     const finalPunctuation = punctuationMatch ? punctuationMatch[2] : null;
     const displayText = displayRecognitionAliases(text);
-    const buttonText = displayText.replace(/^[,.;:!?，。！？、；：]\s*/, '').trim();
+    const buttonText = displayText
+      .replace(/^[¿¡]/, '')
+      .replace(/^[,.;:!?，。！？、；：]\s*/, '')
+      .trim();
+    const highlightText = displayText
+      .replace(/^[¿¡]/, '')
+      .replace(/^[,.;:!?，。！？、；：「」『』（）【】〈〉《》〔〕［］｛｝]/, '')
+      .trim();
 
     chunks.push({
       raw,
@@ -904,7 +951,7 @@ function getChunkData(sentence) {
       activeText: text,
       displayText,
       buttonText,
-      highlightText: displayText,
+      highlightText,
       dependencyOrder,
       finalPunctuation
     });
@@ -925,6 +972,30 @@ function extractChunkHighlightTexts(sentence) {
   return getChunkData(sentence).map(chunk => chunk.highlightText || chunk.displayText || chunk.text);
 }
 
+// Helper to get the chunk highlight text as it appears in the rendered sentence.
+function getChunkHighlightTextForRenderedSentence(sentence, chunkIndex, renderedSentence) {
+  const chunks = getChunkData(sentence);
+  const chunk = chunks[Number(chunkIndex)];
+  if (!chunk) return '';
+
+  if (chunk.type === 'agreement' && Array.isArray(chunk.options)) {
+    const rendered = String(renderedSentence || '').toLocaleLowerCase();
+
+    for (const option of chunk.options) {
+      const display = displayRecognitionAliases(option)
+        .replace(/^[¿¡]/, '')
+        .replace(/^[,.;:!?，。！？、；：「」『』（）【】〈〉《》〔〕［］｛｝]/, '')
+        .trim();
+
+      if (display && rendered.includes(display.toLocaleLowerCase())) {
+        return display;
+      }
+    }
+  }
+
+  return chunk.highlightText || chunk.displayText || chunk.text || '';
+}
+
 function getBaseSentence(sentence) {
   const chunks = getChunkData(sentence);
   let chunkIndex = -1;
@@ -932,7 +1003,9 @@ function getBaseSentence(sentence) {
   return String(sentence || '')
     .replace(/\((.*?)\)|\[([^\[\]]*\|[^\[\]]*\|[^\[\]]*)\]/g, () => {
       chunkIndex += 1;
-      return chunks[chunkIndex]?.inactiveText || '';
+      const chunk = chunks[chunkIndex];
+      if (!chunk) return '';
+      return chunk.inactiveText || '';
     })
     .replace(/\s+/g, ' ')
     .trim();
@@ -946,20 +1019,26 @@ function getGoalSentence(sentence) {
 
 function cleanupGeneratedSentenceCore(text) {
   return String(text || '')
-    .replace(/\s+([.,!?;:，。！？、；：])/g, '$1')
-    .replace(/\s+/g, ' ')
+    // Collapse ordinary spaces before punctuation, but preserve non-breaking
+    // spaces used for French punctuation before ? and !.
+    .replace(/[ \t\r\n\f\v]+([.,!?;:，。！？、；：])/g, '$1')
+    .replace(/[ \t\r\n\f\v]+/g, ' ')
     .trim();
+}
+
+function capitalizeInitialEuropeanLetter(text) {
+  return String(text || '').replace(/^([¿¡]?)([a-zà-ÿ])/, (_, openingPunctuation, letter) => {
+    return `${openingPunctuation}${letter.toUpperCase()}`;
+  });
 }
 
 function cleanupGeneratedSentence(text) {
   const displayed = displayRecognitionAliases(text);
-  return cleanupGeneratedSentenceCore(displayed)
-    .replace(/^([a-zà-ÿ])/, char => char.toUpperCase());
+  return capitalizeInitialEuropeanLetter(cleanupGeneratedSentenceCore(displayed));
 }
 
 function cleanupRecognitionVariantSentence(text) {
-  return cleanupGeneratedSentenceCore(text)
-    .replace(/^([a-zà-ÿ])/, char => char.toUpperCase());
+  return capitalizeInitialEuropeanLetter(cleanupGeneratedSentenceCore(text));
 }
 
 function getNormalizedRecognitionVariants(rawText) {
@@ -990,8 +1069,17 @@ function applyActiveChunkFinalPunctuation(text, sentence, indexes) {
   const trimmed = String(text || '').trim();
 
   if (!trimmed) return trimmed;
-  if (/[?.!。？！]$/.test(trimmed)) return trimmed.replace(/[?.!。？！]$/, punctuation);
-  return `${trimmed}${punctuation}`;
+
+  const lang = (lessonLang || selectedLang || localStorage.getItem('ctlanguage') || '').toLowerCase();
+  const needsFrenchSpace = lang.startsWith('fr') && /[!?]/.test(punctuation);
+  // Use a non-breaking space for French before ? and ! so it survives later whitespace handling.
+  const punctuationWithSpacing = `${needsFrenchSpace ? '\u00A0' : ''}${punctuation}`;
+
+  if (/[?.!。？！]$/.test(trimmed)) {
+    return trimmed.replace(/\s*[?.!。？！]$/, punctuationWithSpacing);
+  }
+
+  return `${trimmed}${punctuationWithSpacing}`;
 }
 
 function makeChunkKey(indexes) {
@@ -1019,6 +1107,54 @@ function generateSentenceFromChunkIndexesRaw(sentence, indexes) {
     sentence,
     indexes
   );
+}
+
+function generateSentenceVariantsFromChunkIndexesRaw(sentence, indexes) {
+  const chunks = getChunkData(sentence);
+  const agreementChunks = chunks.filter(chunk => chunk.type === 'agreement');
+
+  // No agreement syntax? Preserve existing behaviour.
+  if (!agreementChunks.length) {
+    return [generateSentenceFromChunkIndexesRaw(sentence, indexes)];
+  }
+
+  // Assume every agreement chunk has the same number of options.
+  const optionCount = agreementChunks[0].options.length;
+  const variants = [];
+
+  for (let agreementChoice = 0; agreementChoice < optionCount; agreementChoice++) {
+    const active = new Set(indexes.map(Number));
+    let chunkIndex = -1;
+
+    const generated = String(sentence || '').replace(
+      /\((.*?)\)|\[([^\[\]]*\|[^\[\]]*\|[^\[\]]*)\]/g,
+      () => {
+        chunkIndex += 1;
+        const chunk = chunks[chunkIndex];
+        if (!chunk) return '';
+
+        if (chunk.type === 'agreement') {
+          return active.has(chunkIndex)
+            ? (chunk.options[agreementChoice] || chunk.options[0] || '')
+            : '';
+        }
+
+        return active.has(chunkIndex)
+          ? (chunk.activeText || chunk.text || '')
+          : (chunk.inactiveText || '');
+      }
+    );
+
+    variants.push(
+      applyActiveChunkFinalPunctuation(
+        cleanupGeneratedSentenceCore(generated),
+        sentence,
+        indexes
+      )
+    );
+  }
+
+  return variants;
 }
 
 function generateSentenceFromChunkIndexes(sentence, indexes) {
@@ -1098,7 +1234,8 @@ function generateSentenceFromChunkOrderRaw(sentence, indexes) {
   const prefix = source.slice(0, firstChunkMatch.index);
   const suffix = source.slice(firstChunkMatch.index).replace(tokenRegex, (match) => {
     const chunk = chunks.find(item => item.token === match);
-    return chunk?.inactiveText || '';
+    if (!chunk) return '';
+    return chunk.inactiveText || '';
   });
   const joinWithoutSpaces = shouldBuildTalkerJoinChunksWithoutSpacesForSentence(sentence);
   const orderedText = (indexes || [])
@@ -1136,7 +1273,9 @@ function debugExplodedBuildTalkerSentences(allLanguages = false) {
 
       return {
         sentenceIndex: sentenceIndex + 1,
-        valid: [...maps.valid.values()],
+        valid: [...maps.validVariants.values()]
+          .flat()
+          .map(entry => entry.text),
         invalid: [...maps.invalid.values()].map(entry => entry.text)
       };
     });
@@ -1235,7 +1374,9 @@ function debugExplodedBuildTalkerSentences(allLanguages = false) {
       const maps = buildSentenceStateMaps(sentence);
       return {
         sentenceIndex: sentenceIndex + 1,
-        valid: [...maps.valid.values()],
+        valid: [...maps.validVariants.values()]
+          .flat()
+          .map(entry => entry.text),
         invalid: [...maps.invalid.values()].map(entry => entry.text)
       };
     });
@@ -1367,6 +1508,7 @@ function buildSentenceStateMaps(sentence) {
   const chunks = getChunkData(sentence);
   const valid = new Map();
   const invalid = new Map();
+  const validVariants = new Map();
   const validNormalizedTexts = new Set();
   const invalidNormalizedTexts = new Set();
 
@@ -1379,6 +1521,16 @@ function buildSentenceStateMaps(sentence) {
 
     if (isValidChunkIndexSubset(sentence, indexes)) {
       valid.set(key, text);
+      // --- Begin: Agreement variants ---
+      const rawVariants = generateSentenceVariantsFromChunkIndexesRaw(sentence, indexes);
+      const displayVariants = rawVariants.map((raw, agreementChoice) => ({
+        rawText: raw,
+        text: cleanupGeneratedSentence(raw),
+        matchVariants: getNormalizedRecognitionVariants(raw),
+        agreementChoice
+      }));
+      validVariants.set(key, displayVariants);
+      // --- End: Agreement variants ---
       normalizedVariants.forEach(variant => validNormalizedTexts.add(variant));
     } else if (normalizedText && !validNormalizedTexts.has(normalizedText)) {
       const active = new Set(indexes);
@@ -1458,7 +1610,7 @@ function buildSentenceStateMaps(sentence) {
       });
     });
 
-  return { valid, invalid };
+  return { valid, validVariants, invalid };
 }
 
 function buildSentenceStateMap(sentence) {
@@ -1466,11 +1618,14 @@ function buildSentenceStateMap(sentence) {
 }
 
 function initializeCurrentSentence() {
+  currentAgreementChoice = null;
+  currentStepRecognitionMatch = null;
   const sentence = sentenceItems[currentSentenceIndex];
   if (!sentence) return;
 
   const sentenceMaps = buildSentenceStateMaps(sentence);
   currentSentenceStateMap = sentenceMaps.valid;
+  currentSentenceVariantMap = sentenceMaps.validVariants;
   currentInvalidSentenceStateMap = sentenceMaps.invalid;
 
   addedChunkIndexes = [];
@@ -1492,6 +1647,7 @@ function initializeCurrentSentence() {
 }
 
 function pickNextTargetChunk() {
+  currentStepRecognitionMatch = null;
   const sentence = sentenceItems[currentSentenceIndex];
   if (!sentence) return;
 
@@ -1602,18 +1758,73 @@ function getCurrentExpectedSentence() {
   ) || '';
 }
 
-function getCurrentExpectedSentenceRecognitionVariants() {
+function getCurrentExpectedSentenceMatchEntries() {
   if (currentTargetChunkIndex == null) return [];
 
   const sentence = sentenceItems[currentSentenceIndex];
   if (!sentence) return [];
 
-  const rawText = generateSentenceFromChunkIndexesRaw(
-    sentence,
-    [...addedChunkIndexes, currentTargetChunkIndex]
-  );
+  const allIndexes = [...addedChunkIndexes, currentTargetChunkIndex]
+    .map(Number)
+    .filter(n => Number.isInteger(n) && n >= 0)
+    .sort((a, b) => a - b);
 
-  return getNormalizedRecognitionVariants(rawText);
+  const key = makeChunkKey(allIndexes);
+  const entries = currentSentenceVariantMap.get(key) || [];
+
+  if (!entries.length) {
+    const rawText = generateSentenceFromChunkIndexesRaw(sentence, allIndexes);
+    return [{
+      rawText,
+      text: cleanupGeneratedSentence(rawText),
+      matchVariants: getNormalizedRecognitionVariants(rawText),
+      agreementChoice: null
+    }];
+  }
+
+  const chunks = getChunkData(sentence);
+  const hasActiveAgreementChunk = allIndexes.some(index => {
+    return chunks[Number(index)]?.type === 'agreement';
+  });
+
+  if (!hasActiveAgreementChunk) {
+    return entries.map(entry => ({
+      ...entry,
+      agreementChoice: null
+    }));
+  }
+
+  if (currentAgreementChoice === null) {
+    return entries;
+  }
+
+  return entries.filter(entry => entry.agreementChoice === currentAgreementChoice);
+}
+
+function getCurrentExpectedSentenceRecognitionVariants() {
+  return getCurrentExpectedSentenceMatchEntries()
+    .flatMap(entry => entry.matchVariants || [])
+    .filter(Boolean);
+}
+
+function findCurrentStepRecognitionMatch(transcriptText) {
+  const transcriptNorm = normalizeText(transcriptText);
+  if (!transcriptNorm) return null;
+
+  const entries = getCurrentExpectedSentenceMatchEntries();
+
+  for (const entry of entries) {
+    const variants = entry.matchVariants?.length
+      ? entry.matchVariants
+      : [normalizeText(entry.text)].filter(Boolean);
+
+    const matched = variants.some(expectedNorm => transcriptNorm.includes(expectedNorm));
+    if (!matched) continue;
+
+    return entry;
+  }
+
+  return null;
 }
 
 function renderStepCounter() {
@@ -1659,34 +1870,62 @@ function findFreeModeMatch(transcriptText) {
   const candidates = getNonEmptyChunkIndexSubsets(remaining)
     .map(newIndexes => {
       const allIndexes = [...addedChunkIndexes, ...newIndexes];
-      const text = isValidChunkIndexSubset(sentence, allIndexes)
-        ? (currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '')
-        : '';
+      if (!isValidChunkIndexSubset(sentence, allIndexes)) return null;
 
-const rawText = isValidChunkIndexSubset(sentence, allIndexes)
-  ? generateSentenceFromChunkIndexesRaw(sentence, allIndexes)
-  : '';
+      // Use precomputed variants from the map
+      const matchEntries = currentSentenceVariantMap.get(makeChunkKey(allIndexes)) || [];
+
+      const hasActiveAgreementChunk = allIndexes.some(index => {
+        return getChunkData(sentence)[Number(index)]?.type === 'agreement';
+      });
+
+      const allowedEntries = currentAgreementChoice === null || !hasActiveAgreementChunk
+        ? matchEntries
+        : matchEntries.filter(entry => entry.agreementChoice === currentAgreementChoice);
 
       return {
-        text,
-        rawText,
-        matchVariants: getNormalizedRecognitionVariants(rawText),
+        text: allowedEntries[0]?.text || currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '',
+        rawText: allowedEntries[0]?.rawText || '',
+        matchVariants: allowedEntries.flatMap(entry => entry.matchVariants || []),
+        matchEntries: allowedEntries,
+        hasActiveAgreementChunk,
         newIndexes,
         allIndexes
       };
     })
-    .filter(candidate => candidate.text)
+    .filter(candidate => candidate?.text)
     .sort((a, b) => b.newIndexes.length - a.newIndexes.length);
 
-  return candidates.find(candidate => {
-    const variants = candidate.matchVariants?.length
-      ? candidate.matchVariants
-      : [normalizeText(candidate.text)].filter(Boolean);
+  for (const candidate of candidates) {
+    const entries = Array.isArray(candidate.matchEntries) && candidate.matchEntries.length
+      ? candidate.matchEntries
+      : [{
+          text: candidate.text,
+          rawText: candidate.rawText,
+          matchVariants: candidate.matchVariants?.length
+            ? candidate.matchVariants
+            : [normalizeText(candidate.text)].filter(Boolean)
+        }];
 
-    return variants.some(expectedNorm =>
-      transcriptNorm.includes(expectedNorm)
-    );
-  }) || null;
+    for (const entry of entries) {
+      const variants = entry.matchVariants?.length
+        ? entry.matchVariants
+        : [normalizeText(entry.text)].filter(Boolean);
+
+      const matched = variants.some(expectedNorm => transcriptNorm.includes(expectedNorm));
+      if (!matched) continue;
+
+      return {
+        ...candidate,
+        text: entry.text || candidate.text || '',
+        rawText: entry.rawText || candidate.rawText || '',
+        matchVariants: variants,
+        agreementChoice: candidate.hasActiveAgreementChunk ? entry.agreementChoice : null
+      };
+    }
+  }
+
+  return null;
 }
 
 // Attempts to find a recognized invalid Free Mode sentence in the transcript
@@ -1760,7 +1999,6 @@ function getFreeModeRecognitionResult(transcriptText) {
     : createBuildTalkerRecognitionResult('valid', validMatch);
 }
 
-
 function showRecognizedAttemptText(result) {
   const formattedText = String(result?.text || '').trim();
   if (!formattedText) return;
@@ -1804,7 +2042,7 @@ function renderTranscriptWithHighlightedChunks(text, chunkIndexes) {
     let nextMatch = null;
 
     targetChunks.forEach(chunk => {
-      const start = remainingText.indexOf(chunk);
+      const start = remainingText.toLocaleLowerCase().indexOf(chunk.toLocaleLowerCase());
       if (start < 0) return;
 
       if (!nextMatch || start < nextMatch.start || (start === nextMatch.start && chunk.length > nextMatch.chunk.length)) {
@@ -1820,8 +2058,9 @@ function renderTranscriptWithHighlightedChunks(text, chunkIndexes) {
     const before = remainingText.slice(0, nextMatch.start);
     if (before) parts.push(escapeBuildTalkerHTML(before));
 
-    parts.push(`<span class="wrong-word">${escapeBuildTalkerHTML(nextMatch.chunk)}</span>`);
-    remainingText = remainingText.slice(nextMatch.start + nextMatch.chunk.length);
+    const matchedText = remainingText.slice(nextMatch.start, nextMatch.start + nextMatch.chunk.length);
+    parts.push(`<span class="wrong-word">${escapeBuildTalkerHTML(matchedText)}</span>`);
+    remainingText = remainingText.slice(nextMatch.start + matchedText.length);
   }
 
   displayTranscript = String(text || '').trim();
@@ -2022,15 +2261,13 @@ function updateMainBubblePlain(text) {
   patchFrenchPunctuationSpaces(bubble);
 }
 
-
-function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
+function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex, transcriptText = '') {
   const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
   if (!bubble) return;
 
   const active = [...new Set([...addedChunkIndexes, chunkIndex].map(Number))]
     .filter(n => Number.isInteger(n) && n >= 0)
     .sort((a, b) => a - b);
-
   const expandedSentence = currentSentenceStateMap.get(makeChunkKey(active)) || getCurrentExpectedSentence();
 
   bubble.innerHTML = '';
@@ -2047,28 +2284,29 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
     return;
   }
 
-  const chunks = extractChunkHighlightTexts(sentence);
   let remainingText = expandedSentence;
 
   active.forEach(index => {
-    const chunk = chunks[index] || '';
+    const chunk = getChunkHighlightTextForRenderedSentence(sentence, index, expandedSentence);
     if (!chunk) return;
 
-    const start = remainingText.indexOf(chunk);
+    const start = remainingText.toLocaleLowerCase().indexOf(chunk.toLocaleLowerCase());
     if (start < 0) return;
 
     const before = remainingText.slice(0, start);
     if (before) sentenceWrap.appendChild(document.createTextNode(before));
 
+    const matchedText = remainingText.slice(start, start + chunk.length);
+
     const span = document.createElement('span');
     span.className = index === Number(chunkIndex)
       ? 'highlight phrase-underline buildtalker-added-chunk buildtalker-current-added-chunk'
       : 'highlight buildtalker-added-chunk';
-    span.textContent = chunk;
+    span.textContent = matchedText;
 
     sentenceWrap.appendChild(span);
 
-    remainingText = remainingText.slice(start + chunk.length);
+    remainingText = remainingText.slice(start + matchedText.length);
   });
 
   if (remainingText) sentenceWrap.appendChild(document.createTextNode(remainingText));
@@ -2077,7 +2315,7 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex) {
   renderStepCounter();
 }
 
-function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIndexes) {
+function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIndexes, displayTextOverride = '') {
   const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
   if (!bubble) return;
 
@@ -2089,8 +2327,9 @@ function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIn
     [...new Set((newestIndexes || []).map(Number))]
       .filter(n => Number.isInteger(n) && n >= 0)
   );
-
-  const expandedSentence = currentSentenceStateMap.get(makeChunkKey(active)) || '';
+  const expandedSentence = String(displayTextOverride || '').trim()
+    || currentSentenceStateMap.get(makeChunkKey(active))
+    || '';
 
   bubble.innerHTML = '';
 
@@ -2106,27 +2345,28 @@ function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIn
     return;
   }
 
-  const chunks = extractChunkHighlightTexts(sentence);
   let remainingText = expandedSentence;
 
   active.forEach(index => {
-    const chunk = chunks[index] || '';
+    const chunk = getChunkHighlightTextForRenderedSentence(sentence, index, expandedSentence);
     if (!chunk) return;
 
-    const start = remainingText.indexOf(chunk);
+    const start = remainingText.toLocaleLowerCase().indexOf(chunk.toLocaleLowerCase());
     if (start < 0) return;
 
     const before = remainingText.slice(0, start);
     if (before) sentenceWrap.appendChild(document.createTextNode(before));
 
+    const matchedText = remainingText.slice(start, start + chunk.length);
+
     const span = document.createElement('span');
     span.className = newest.has(index)
       ? 'highlight phrase-underline buildtalker-added-chunk buildtalker-current-added-chunk'
       : 'highlight buildtalker-added-chunk';
-    span.textContent = chunk;
+    span.textContent = matchedText;
     sentenceWrap.appendChild(span);
 
-    remainingText = remainingText.slice(start + chunk.length);
+    remainingText = remainingText.slice(start + matchedText.length);
   });
 
   if (remainingText) sentenceWrap.appendChild(document.createTextNode(remainingText));
@@ -2135,14 +2375,13 @@ function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIn
   renderStepCounter();
 }
 
-function updateMainBubbleWithActiveHighlights(sentence, activeIndexes) {
+function updateMainBubbleWithActiveHighlights(sentence, activeIndexes, transcriptText = '') {
   const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
   if (!bubble) return;
 
   const active = [...new Set(activeIndexes.map(Number))]
     .filter(n => Number.isInteger(n) && n >= 0)
     .sort((a, b) => a - b);
-
   const displaySentence = currentSentenceStateMap.get(makeChunkKey(active)) || '';
 
   bubble.innerHTML = '';
@@ -2159,26 +2398,27 @@ function updateMainBubbleWithActiveHighlights(sentence, activeIndexes) {
     return;
   }
 
-  const chunks = extractChunkHighlightTexts(sentence);
   let remainingText = displaySentence;
 
   active.forEach(index => {
-    const chunk = chunks[index] || '';
+    const chunk = getChunkHighlightTextForRenderedSentence(sentence, index, displaySentence);
     if (!chunk) return;
 
-    const start = remainingText.indexOf(chunk);
+    const start = remainingText.toLocaleLowerCase().indexOf(chunk.toLocaleLowerCase());
 
     if (start < 0) return;
 
     const before = remainingText.slice(0, start);
     if (before) sentenceWrap.appendChild(document.createTextNode(before));
 
+    const matchedText = remainingText.slice(start, start + chunk.length);
+
     const span = document.createElement('span');
     span.className = 'highlight buildtalker-added-chunk';
-    span.textContent = chunk;
+    span.textContent = matchedText;
     sentenceWrap.appendChild(span);
 
-    remainingText = remainingText.slice(start + chunk.length);
+    remainingText = remainingText.slice(start + matchedText.length);
   });
 
   if (remainingText) sentenceWrap.appendChild(document.createTextNode(remainingText));
@@ -2347,12 +2587,13 @@ function renderSentenceReview() {
     } else {
       let remainingText = rowText;
 
+      const rowTextLower = rowText.toLocaleLowerCase();
       const chunksForRow = [...cumulativeChunks]
-        .filter(chunk => rowText.includes(chunk))
-        .sort((a, b) => rowText.indexOf(a) - rowText.indexOf(b));
+        .filter(chunk => rowTextLower.includes(chunk.toLocaleLowerCase()))
+        .sort((a, b) => rowTextLower.indexOf(a.toLocaleLowerCase()) - rowTextLower.indexOf(b.toLocaleLowerCase()));
 
       chunksForRow.forEach(chunk => {
-        const start = remainingText.indexOf(chunk);
+        const start = remainingText.toLocaleLowerCase().indexOf(chunk.toLocaleLowerCase());
         if (start < 0) return;
 
         const before = remainingText.slice(0, start);
@@ -2360,14 +2601,16 @@ function renderSentenceReview() {
           row.appendChild(document.createTextNode(before));
         }
 
+        const matchedText = remainingText.slice(start, start + chunk.length);
+
         const span = document.createElement('span');
         span.className = addedChunks.includes(chunk)
           ? 'highlight phrase-underline'
           : 'highlight';
-        span.textContent = chunk;
+        span.textContent = matchedText;
         row.appendChild(span);
 
-        remainingText = remainingText.slice(start + chunk.length);
+        remainingText = remainingText.slice(start + matchedText.length);
       });
 
       if (remainingText) {
@@ -2490,25 +2733,28 @@ function renderRoundReview() {
       } else {
         let remainingText = rowText;
 
+        const rowTextLower = rowText.toLocaleLowerCase();
         const chunksForRow = [...cumulativeChunks]
-          .filter(chunk => rowText.includes(chunk))
-          .sort((a, b) => rowText.indexOf(a) - rowText.indexOf(b));
+          .filter(chunk => rowTextLower.includes(chunk.toLocaleLowerCase()))
+          .sort((a, b) => rowTextLower.indexOf(a.toLocaleLowerCase()) - rowTextLower.indexOf(b.toLocaleLowerCase()));
 
         chunksForRow.forEach(chunk => {
-          const start = remainingText.indexOf(chunk);
+          const start = remainingText.toLocaleLowerCase().indexOf(chunk.toLocaleLowerCase());
           if (start < 0) return;
 
           const before = remainingText.slice(0, start);
           if (before) row.appendChild(document.createTextNode(before));
 
+          const matchedText = remainingText.slice(start, start + chunk.length);
+
           const span = document.createElement('span');
           span.className = addedChunks.includes(chunk)
             ? 'highlight phrase-underline'
             : 'highlight';
-          span.textContent = chunk;
+          span.textContent = matchedText;
           row.appendChild(span);
 
-          remainingText = remainingText.slice(start + chunk.length);
+          remainingText = remainingText.slice(start + matchedText.length);
         });
 
         if (remainingText) {
@@ -2743,18 +2989,40 @@ function handleCorrectCurrentStep(showCheckmark = true) {
   pauseBuildTalkerListening();
 
   const expectedSentence = getCurrentExpectedSentence();
+  // Insert: displayedExpectedSentence and agreementChoice override
+  const displayedExpectedSentence = currentStepRecognitionMatch?.text || expectedSentence;
+
+  if (currentStepRecognitionMatch?.agreementChoice !== null && currentStepRecognitionMatch?.agreementChoice !== undefined) {
+    currentAgreementChoice = currentStepRecognitionMatch.agreementChoice;
+  }
+
   if (expectedSentence) {
     const chunks = extractChunkButtonTexts(sentence);
     const highlightChunks = extractChunkHighlightTexts(sentence);
     const addedChunk = chunks[currentTargetChunkIndex] || '';
-    const addedHighlightChunk = highlightChunks[currentTargetChunkIndex] || addedChunk;
+    // Use getChunkHighlightTextForRenderedSentence for highlight chunk
+    const addedHighlightChunk = getChunkHighlightTextForRenderedSentence(
+      sentence,
+      currentTargetChunkIndex,
+      displayedExpectedSentence
+    ) || highlightChunks[currentTargetChunkIndex] || addedChunk;
 
     currentSentenceHistory.push({
-      text: expectedSentence,
+      text: displayedExpectedSentence,
       addedChunk,
       addedChunks: addedChunk ? [addedChunk] : [],
       addedHighlightChunks: addedHighlightChunk ? [addedHighlightChunk] : []
     });
+
+    // After push, set state map for this chunk combination if needed
+    const nextIndexes = [...new Set([...addedChunkIndexes, currentTargetChunkIndex])]
+      .map(Number)
+      .filter(n => Number.isInteger(n) && n >= 0)
+      .sort((a, b) => a - b);
+
+    if (currentStepRecognitionMatch?.text) {
+      currentSentenceStateMap.set(makeChunkKey(nextIndexes), currentStepRecognitionMatch.text);
+    }
   }
 
   updateMainBubbleWithHighlightedChunk(sentence, currentTargetChunkIndex);
@@ -2765,6 +3033,11 @@ function handleCorrectCurrentStep(showCheckmark = true) {
 
   const container = document.getElementById('wordListContainer');
   if (container) container.innerHTML = '';
+
+  // Reset the match so next step uses the default
+  if (typeof currentStepRecognitionMatch !== "undefined") {
+    currentStepRecognitionMatch = null;
+  }
 
   if (stepAdvanceTimer) clearTimeout(stepAdvanceTimer);
   stepAdvanceTimer = setTimeout(() => {
@@ -2782,11 +3055,13 @@ function handleCorrectFreeModeMatch(match, showCheckmark = true) {
   if (!sentence) return;
 
   const chunks = extractChunkButtonTexts(sentence);
-  const highlightChunks = extractChunkHighlightTexts(sentence);
   const newIndexes = Array.isArray(recognitionMatch.newIndexes) ? recognitionMatch.newIndexes : [];
   const allIndexes = Array.isArray(recognitionMatch.allIndexes) ? recognitionMatch.allIndexes : [...addedChunkIndexes, ...newIndexes];
 
   if (!newIndexes.length) return;
+  if (recognitionMatch.agreementChoice !== null && recognitionMatch.agreementChoice !== undefined) {
+    currentAgreementChoice = recognitionMatch.agreementChoice;
+  }
 
   isAdvancingStep = true;
   suppressFooterIconUpdates = true;
@@ -2794,12 +3069,13 @@ function handleCorrectFreeModeMatch(match, showCheckmark = true) {
 
   const addedChunk = chunks[newIndexes[0]] || '';
   const addedChunks = newIndexes.map(index => chunks[index] || '').filter(Boolean);
+  const renderedMatchText = recognitionMatch.text || currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '';
   const addedHighlightChunks = newIndexes
-    .map(index => highlightChunks[index] || chunks[index] || '')
+    .map(index => getChunkHighlightTextForRenderedSentence(sentence, index, renderedMatchText) || chunks[index] || '')
     .filter(Boolean);
 
   currentSentenceHistory.push({
-    text: recognitionMatch.text || currentSentenceStateMap.get(makeChunkKey(allIndexes)) || '',
+    text: renderedMatchText,
     addedChunk,
     addedChunks,
     addedHighlightChunks
@@ -2811,7 +3087,16 @@ function handleCorrectFreeModeMatch(match, showCheckmark = true) {
 
   currentTargetChunkIndex = null;
 
-  updateMainBubbleWithHighlightedChunks(sentence, addedChunkIndexes, newIndexes);
+  if (recognitionMatch?.text) {
+    currentSentenceStateMap.set(makeChunkKey(addedChunkIndexes), recognitionMatch.text);
+  }
+
+  updateMainBubbleWithHighlightedChunks(
+    sentence,
+    addedChunkIndexes,
+    newIndexes,
+    recognitionMatch.text || ''
+  );
 
   if (showCheckmark) {
     flashSessionButtonCheckmark();
@@ -2840,16 +3125,11 @@ function checkCurrentStepAnswer(transcriptText) {
   const expected = getCurrentExpectedSentence();
   if (!expected) return;
 
-  const transcriptNorm = normalizeText(transcriptText);
-  const expectedVariants = getCurrentExpectedSentenceRecognitionVariants();
+  const match = findCurrentStepRecognitionMatch(transcriptText);
+  if (!match) return;
 
-  if (!transcriptNorm || !expectedVariants.length) return;
-
-  if (expectedVariants.some(expectedNorm =>
-    transcriptNorm.includes(expectedNorm)
-  )) {
-      handleCorrectCurrentStep();
-  }
+  currentStepRecognitionMatch = match;
+  handleCorrectCurrentStep();
 }
 
 async function loadLesson() {
