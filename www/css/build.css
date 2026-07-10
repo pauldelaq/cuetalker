@@ -88,10 +88,14 @@
   justify-content: center;
   align-content: start;
   width: 100%;
-  margin-top: 0;
+  margin-top: auto;
   padding-bottom: 20px;
   padding-top: 40px;
   gap: 20px;
+}
+
+.wordListContainer.buildtalker-review-layout {
+  margin-top: 0;
 }
 
 .buildtalker-chunk-control {
@@ -140,17 +144,37 @@
   transform: scale(0.94);
 }
 
+.tts-clickable {
+  transition: all 0.2s ease-in-out;
+  border-radius: 15px;
+}
+
 .tts-clickable:hover {
   background: var(--hover);
+
 }
 
 .buildtalker-step-counter {
-  margin-top: 1em;
+  margin-top: 20px;
   font-size: 1em;
   opacity: 0.65;
   font-weight: 600;
   text-align: center;
   font-style: normal;
+}
+
+.buildtalker-sentence-counter {
+  margin-bottom: 20px;
+  font-size: 0.70em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  text-align: center;
+}
+
+.buildtalker-sentence-counter span {
+  opacity: 1;
 }
 
 @keyframes buildtalker-nudge {
@@ -183,4 +207,74 @@
 .wordBubbleHeader > .wordBubbleTitle {
   grid-column: 2;
   min-width: 0;
+}
+
+.buildtalker-chunk-control-used {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.buildtalker-chunk-control-just-used {
+  visibility: visible;
+  animation: buildtalker-chunk-used 280ms ease-out forwards;
+}
+
+@keyframes buildtalker-chunk-used {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  45% {
+    opacity: 0.55;
+    transform: scale(1.04);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.94);
+    visibility: hidden;
+  }
+}
+
+.buildtalker-current-added-chunk {
+  display: inline;
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.12em;
+  text-decoration-color: transparent;
+  animation:
+    buildtalker-added-chunk-pop 420ms ease-out both,
+    buildtalker-added-chunk-underline 1850ms ease-out forwards;
+}
+
+@keyframes buildtalker-added-chunk-pop {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes buildtalker-added-chunk-underline {
+
+  0%,
+
+  18% {
+    text-decoration-color: transparent;
+  }
+
+  28%,
+
+  68% {
+    text-decoration-color: currentColor;
+  }
+
+  100% {
+    text-decoration-color: transparent;
+  }
+
 }

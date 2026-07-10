@@ -4,6 +4,7 @@ let availableVoices = [];
 let autoAdvance = localStorage.getItem('ctAutoAdvance') === 'true';
 let currentAgreementChoice = null;
 let currentStepRecognitionMatch = null;
+let previouslyRenderedFreeModeUsedIndexes = new Set();
 
 // ---- BuildTalker lesson state ----
 let buildLesson = null;
@@ -1629,8 +1630,15 @@ function initializeCurrentSentence() {
   currentInvalidSentenceStateMap = sentenceMaps.invalid;
 
   addedChunkIndexes = [];
+  previouslyRenderedFreeModeUsedIndexes = new Set();
   currentSentenceHistory = [];
   awaitingSentenceReview = false;
+
+  const wordListContainer = document.getElementById('wordListContainer');
+
+  if (wordListContainer) {
+    wordListContainer.classList.remove('buildtalker-review-layout');
+  }
 
   if (isFreeBuildMode()) {
     currentTargetChunkIndex = null;
@@ -1851,6 +1859,31 @@ function renderStepCounter() {
   counter.setAttribute('aria-hidden', 'true');
 
   bubble.appendChild(counter);
+}
+
+function renderSentenceCounter() {
+  const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
+  if (!bubble) return;
+
+  // Remove any previous counter.
+  bubble.querySelector('.buildtalker-sentence-counter')?.remove();
+
+  // Only show it while actively building a sentence.
+  if (
+    !lessonStarted ||
+    lessonCompleteAwaitingReview ||
+    showingRoundReview
+  ) {
+    return;
+  }
+
+  const counter = document.createElement('div');
+  counter.className = 'buildtalker-sentence-counter';
+
+  counter.innerHTML =
+    `${t('sentence')} <span>${currentSentenceIndex + 1}/${sentenceItems.length}</span>`;
+
+  bubble.prepend(counter);
 }
 
 // Attempts to find a Free Mode match in the transcript text
@@ -2281,6 +2314,7 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex, transcriptTe
     sentenceWrap.textContent = expandedSentence;
     patchFrenchPunctuationSpaces(bubble);
     renderStepCounter();
+    renderSentenceCounter();
     return;
   }
 
@@ -2313,6 +2347,7 @@ function updateMainBubbleWithHighlightedChunk(sentence, chunkIndex, transcriptTe
 
   patchFrenchPunctuationSpaces(bubble);
   renderStepCounter();
+  renderSentenceCounter();
 }
 
 function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIndexes, displayTextOverride = '') {
@@ -2342,6 +2377,7 @@ function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIn
     sentenceWrap.textContent = expandedSentence;
     patchFrenchPunctuationSpaces(bubble);
     renderStepCounter();
+    renderSentenceCounter();
     return;
   }
 
@@ -2373,6 +2409,7 @@ function updateMainBubbleWithHighlightedChunks(sentence, activeIndexes, newestIn
 
   patchFrenchPunctuationSpaces(bubble);
   renderStepCounter();
+  renderSentenceCounter();
 }
 
 function updateMainBubbleWithActiveHighlights(sentence, activeIndexes, transcriptText = '') {
@@ -2395,6 +2432,7 @@ function updateMainBubbleWithActiveHighlights(sentence, activeIndexes, transcrip
     sentenceWrap.textContent = displaySentence;
     patchFrenchPunctuationSpaces(bubble);
     renderStepCounter();
+    renderSentenceCounter();
     return;
   }
 
@@ -2425,6 +2463,7 @@ function updateMainBubbleWithActiveHighlights(sentence, activeIndexes, transcrip
 
   patchFrenchPunctuationSpaces(bubble);
   renderStepCounter();
+  renderSentenceCounter();
 }
 
 function renderStepButton() {
@@ -2467,7 +2506,12 @@ function renderStepButton() {
   const btn = document.createElement('button');
   btn.className = 'wordBubble';
   btn.dataset.chunkIndex = String(currentTargetChunkIndex);
-  btn.textContent = chunk;
+
+  const chunkText = document.createElement('span');
+  chunkText.className = 'tts-clickable';
+  chunkText.textContent = chunk;
+
+  btn.appendChild(chunkText);
 
   btn.addEventListener('click', () => {
     speakText(chunk, selectedLang);
@@ -2494,19 +2538,29 @@ function renderFreeButtons() {
   if (!sentence) return;
 
   const chunks = extractChunkButtonTexts(sentence);
+  const usedIndexesForThisRender = new Set(addedChunkIndexes);
 
   chunks.forEach((chunk, index) => {
-    if (addedChunkIndexes.includes(index)) return;
-
-    // --- replaced block start ---
     const group = document.createElement('div');
     group.className = 'buildtalker-chunk-control';
+
+    const isUsed = addedChunkIndexes.includes(index);
+
+    if (isUsed) {
+      group.classList.add('buildtalker-chunk-control-used');
+
+      if (!previouslyRenderedFreeModeUsedIndexes.has(index)) {
+        group.classList.add('buildtalker-chunk-control-just-used');
+      }
+    }
 
     const skipBtn = document.createElement('button');
     skipBtn.type = 'button';
     skipBtn.className = 'buildtalker-skip-chunk-button';
     skipBtn.textContent = '⏭';
     skipBtn.setAttribute('aria-label', 'Add this chunk');
+    skipBtn.disabled = isUsed;
+
     skipBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       handleSkipChunk(index);
@@ -2515,7 +2569,13 @@ function renderFreeButtons() {
     const btn = document.createElement('button');
     btn.className = 'wordBubble';
     btn.dataset.chunkIndex = String(index);
-    btn.textContent = chunk;
+    btn.disabled = isUsed;
+
+    const chunkText = document.createElement('span');
+    chunkText.className = 'tts-clickable';
+    chunkText.textContent = chunk;
+
+    btn.appendChild(chunkText);
 
     btn.addEventListener('click', () => {
       speakText(chunk, selectedLang);
@@ -2524,8 +2584,9 @@ function renderFreeButtons() {
     group.appendChild(skipBtn);
     group.appendChild(btn);
     container.appendChild(group);
-    // --- replaced block end ---
   });
+
+  previouslyRenderedFreeModeUsedIndexes = usedIndexesForThisRender;
 }
 
 function renderCurrentStep() {
@@ -2547,6 +2608,12 @@ function renderCurrentStep() {
 function renderSentenceReview() {
   const bubble = document.querySelector('.buildtalker-lesson-prompt .bubble');
   if (!bubble) return;
+
+  const wordListContainer = document.getElementById('wordListContainer');
+
+  if (wordListContainer) {
+    wordListContainer.classList.add('buildtalker-review-layout');
+  }
 
   bubble.innerHTML = '';
   clearBubbleTtsHoverState(bubble);
@@ -2623,6 +2690,7 @@ function renderSentenceReview() {
   });
 
   bubble.appendChild(list);
+  renderSentenceCounter();
   patchFrenchPunctuationSpaces(bubble);
 }
 
@@ -3031,8 +3099,20 @@ function handleCorrectCurrentStep(showCheckmark = true) {
     flashSessionButtonCheckmark(2200);
   }
 
-  const container = document.getElementById('wordListContainer');
-  if (container) container.innerHTML = '';
+  const usedChunkControl = document.querySelector(
+    '#wordListContainer .buildtalker-chunk-control'
+  );
+
+  if (usedChunkControl) {
+    usedChunkControl.classList.add(
+      'buildtalker-chunk-control-used',
+      'buildtalker-chunk-control-just-used'
+    );
+
+    usedChunkControl.querySelectorAll('button').forEach(button => {
+      button.disabled = true;
+    });
+  }
 
   // Reset the match so next step uses the default
   if (typeof currentStepRecognitionMatch !== "undefined") {
@@ -3042,6 +3122,10 @@ function handleCorrectCurrentStep(showCheckmark = true) {
   if (stepAdvanceTimer) clearTimeout(stepAdvanceTimer);
   stepAdvanceTimer = setTimeout(() => {
     stepAdvanceTimer = null;
+
+    const container = document.getElementById('wordListContainer');
+    if (container) container.innerHTML = '';
+
     advanceToNextStep();
   }, 2400);
 }
