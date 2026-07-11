@@ -287,3 +287,16 @@ function patchFrenchPunctuationSpaces(container) {
     }
   }
 }
+
+document.querySelectorAll('.circle-btn').forEach(button => {
+  button.addEventListener('touchstart', () => {
+    button.classList.add('active');
+  });
+
+  const removeActive = () => {
+    button.classList.remove('active');
+  };
+
+  button.addEventListener('touchend', removeActive);
+  button.addEventListener('touchcancel', removeActive);
+});
