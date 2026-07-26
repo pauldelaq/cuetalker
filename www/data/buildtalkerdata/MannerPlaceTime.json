@@ -1,0 +1,95 @@
+{
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+
+      "lessonPrompt": {
+        "text": "Sentences in English tend to follow a pattern of 'Manner / Place / Time'. Expand the sentences by placing the words in order using this pattern."
+      },
+
+      "sentences": [
+        "She studied (quietly) (in the library) (all afternoon).",
+        "The dog barked (loudly) (outside the house) (during the storm).",
+        "The children played (happily) (near the lake) (last Wednesday).",
+        "Did you dance (gracefully) (on stage) (during the performance)?"
+
+      ]
+    },
+        "fr-FR": {
+    "language": "fr-FR",
+    "languageName": "Français",
+
+    "lessonPrompt": {
+        "text": "En français, les éléments de la phrase tendent à suivre l'ordre « manière / lieu / temps ». Développez les phrases en plaçant les groupes de mots selon cet ordre."
+    },
+
+    "sentences": [
+        "Elle a étudié (tranquillement) (à la bibliothèque) (tout l'après-midi).",
+        "Le chien a aboyé (bruyamment) (devant la maison) (pendant l'orage).",
+        "Les enfants ont joué (joyeusement) (près du lac) (mercredi dernier).",
+        "As-tu {dansé/danser} (avec grâce) (sur scène) (pendant le spectacle) ?"
+    ]
+    },
+        "es-ES": {
+    "language": "es-ES",
+    "languageName": "Español",
+
+    "lessonPrompt": {
+        "text": "En español, los elementos de la oración suelen seguir el orden « manera / lugar / tiempo ». Completa las oraciones colocando los grupos de palabras según este orden."
+    },
+
+    "sentences": [
+        "Ella estudió (tranquilamente) (en la biblioteca) (toda la tarde).",
+        "El perro {ladró/ladrón} (ruidosamente) (fuera de la casa) (durante la tormenta).",
+        "Los niños jugaron (felizmente) (cerca del lago) (el miércoles pasado).",
+        "¿Bailaste (con gracia) (en el escenario) (durante la actuación)?"
+    ]
+    },
+    "zh-TW": {
+    "language": "zh-TW",
+    "languageName": "中文（繁體）",
+
+    "lessonPrompt": {
+        "text": "在中文裡，表示時間、地點和方式的詞語通常有固定的順序：「時間 → 地點 → 方式 → 動作」。請依照這個順序完成句子。"
+    },
+
+    "sentences": [
+        "{她/他}(昨天下午)(在圖書館)({安靜地/安靜的})學習。",
+        "那隻狗(下大雨的時候)(在房子外面)({大聲地/大聲的})叫。",
+        "孩子們(上星期三)(在河邊)({開心地/開心的})玩。",
+        "你(表演的時候)(在舞台上)({優雅地/優雅的})跳舞了嗎？"
+    ]
+    },
+        "zh-CN": {
+    "language": "zh-CN",
+    "languageName": "中文（简体）",
+
+    "lessonPrompt": {
+        "text": "在汉语中，表示时间、地点和方式的词语通常有固定的顺序：「时间 → 地点 → 方式 → 动作」。请按照这个顺序完成句子。"
+    },
+
+    "sentences": [
+        "{她/他}(昨天下午)(在图书馆)({安静地/安静的})学习。",
+        "那只狗(下大雨的时候)(在房子外面)({大声地/大声的})叫。",
+        "孩子们(上周三)(在河边)({开心地/开心的})玩。",
+        "你(表演的时候)(在舞台上)({优雅地/优雅的})跳舞了吗？"
+    ]
+    },
+        "ja-JP": {
+    "language": "ja-JP",
+    "languageName": "日本語",
+
+    "lessonPrompt": {
+        "text": "日本語では、「時間 → 場所 → 様子 → 動詞」の順で表現することがよくあります。この順番を意識して文を完成させましょう。"
+    },
+
+    "sentences": [
+        "彼女は(昨日の午後)(図書館で)(静かに)勉強した。",
+        "犬は(嵐の間)(家の前で)(大きな声で)吠えた。",
+        "{子どもたち/子供達}は(先週の水曜日)(湖の近くで)(楽しそうに)遊んだ。",
+        "あなたは(公演中)(舞台で)(優雅に)踊りましたか。"
+    ]
+    }
+}
+}

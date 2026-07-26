@@ -292,6 +292,17 @@
       }
     },
     {
+      "id": "MannerPlaceTime",
+      "name": {
+        "en-US": "Manner / Place / Time",
+        "fr-FR": "L'ordre des compléments",
+        "es-ES": "El orden de los complementos",
+        "zh-TW": "時間、地點、方式的順序",
+        "zh-CN": "时间、地点、方式的顺序",
+        "ja-JP": "時間・場所・様子の順番"
+      }
+    },
+    {
       "id": "OrderingPolitely",
       "name": {
         "en-US": "Ordering Politely",
