@@ -1,0 +1,724 @@
+{
+  "svgLibrary": {
+    "1": "assets/svg/1F9D1-1F3FC-200D-1F680.svg"
+  },
+  "languages": {
+    "en-US": {
+      "language": "en-US",
+      "languageName": "English",
+      "lessonName": "Negation",
+      "lessonPrompt": {
+        "text": "Do you know how to change the following sentences to their negative forms? Give it a try! If you're not sure how, just expand the sentences to check.",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+                {
+          "word": "I am hungry.",
+          "forms": ["I am not hungry.", "I'm not hungry."],
+          "phrases": [
+            "I {am not} hungry.", "{I'm not} hungry."
+          ]
+        },
+        {
+          "word": "I want to exercise.",
+          "forms": ["I (do not/don't) want to exercise."],
+          "phrases": [
+            "I {do not want} to exercise.",
+            "I {don't want} to exercise."
+          ]
+        },
+        {
+          "word": "He is happy.",
+          "forms": ["(He isn't/He's not) happy."],
+          "phrases": [
+            "He {is not} happy.",
+            "He {isn't} happy."
+          ]
+        },
+        {
+          "word": "She likes cats.",
+          "forms": ["She (does not/doesn't) like cats."],
+          "phrases": [
+            "She {does not like} cats.",
+            "She {doesn't like} cats."
+          ]
+        },
+        {
+          "word": "They are bored.",
+          "forms": ["They (are not/aren't) bored."],
+          "phrases": [
+            "They {are not} bored.",
+            "They {aren't} bored."
+          ]
+        },
+        {
+          "word": "We watch movies.",
+          "forms": ["We (do not/don't) watch movies."],
+          "phrases": [
+            "We {do not} watch movies.",
+            "We {don't watch} movies."
+          ]
+        },
+        {
+          "word": "You have swum.",
+          "forms": ["You (have not/haven't) swum."],
+          "phrases": [
+            "You {have not swum}.",
+            "You {haven't swum}."
+          ]
+        },
+        {
+          "word": "He has slept.",
+          "forms": ["He (has not/hasn't) slept."],
+          "phrases": [
+            "He {has not slept}.",
+            "He {hasn't slept}."
+          ]
+        },
+        {
+          "word": "I lost my wallet.",
+          "forms": ["I (did not/didn't) lose my wallet."],
+          "phrases": [
+            "I {did not lose} my wallet.",
+            "I {didn't lose} my wallet."
+          ]
+        },
+        {
+          "word": "We will take the bus.",
+          "forms": ["We (will not/won't) take the bus."],
+          "phrases": [
+            "We {will not take} the bus.",
+            "We {won't take} the bus."
+          ]
+        },
+        {
+          "word": "She used to be healthy.",
+          "forms": ["She (did not/didn't) use to be healthy."],
+          "phrases": [
+            "She {did not use to be} healthy.",
+            "She {didn't use to be} healthy."
+          ]
+        },
+        {
+          "word": "They were tired.",
+          "forms": ["They (were not/weren't) tired."],
+          "phrases": [
+            "They {were not} tired.",
+            "They {weren't} tired."
+          ]
+        }
+      ]
+    },
+        "fr-FR": {
+    "language": "fr-FR",
+    "languageName": "Français",
+    "lessonName": "La négation",
+    "lessonPrompt": {
+        "text": "Savez-vous mettre les phrases suivantes à la forme négative ? Essayez ! Si vous n'êtes pas sûr(e), développez les phrases pour vérifier.",
+        "character": {
+        "name": "Buzz",
+        "svg": "1"
+        }
+    },
+    "wordList": [
+        {
+        "word": "J'ai faim.",
+        "forms": ["Je n'ai pas faim."],
+        "phrases": [
+            "Je {n'ai pas} faim."
+        ]
+        },
+        {
+        "word": "Je veux faire de l'exercice.",
+        "forms": ["Je ne veux pas faire de l'exercice."],
+        "phrases": [
+            "Je {ne veux pas} faire de l'exercice."
+        ]
+        },
+        {
+        "word": "Il est content.",
+        "forms": ["Il n'est pas content."],
+        "phrases": [
+            "Il {n'est pas} content."
+        ]
+        },
+        {
+        "word": "Elle aime les chats.",
+        "forms": ["Elle n'aime pas les chats."],
+        "phrases": [
+            "Elle {n'aime pas} les chats."
+        ]
+        },
+        {
+        "word": "Ils s'ennuient.",
+        "forms": ["(Ils/Il) ne (s'ennuient/s'ennuie) pas."],
+        "phrases": [
+            "Ils {ne s'ennuient pas}."
+        ]
+        },
+        {
+        "word": "Nous regardons des films.",
+        "forms": ["Nous ne regardons pas de (films/film)."],
+        "phrases": [
+            "Nous {ne regardons pas} de films."
+        ]
+        },
+        {
+        "word": "Tu as nagé.",
+        "forms": ["Tu (n'a/n'as) pas nagé."],
+        "phrases": [
+            "Tu {n'as pas nagé}."
+        ]
+        },
+        {
+        "word": "Il a dormi.",
+        "forms": ["Il n'a pas dormi."],
+        "phrases": [
+            "Il {n'a pas dormi}."
+        ]
+        },
+        {
+        "word": "J'ai perdu mon portefeuille.",
+        "forms": ["Je n'ai pas perdu mon portefeuille."],
+        "phrases": [
+            "Je {n'ai pas perdu} mon portefeuille."
+        ]
+        },
+        {
+        "word": "Nous prendrons le bus.",
+        "forms": ["Nous ne prendrons pas le bus."],
+        "phrases": [
+            "Nous {ne prendrons pas} le bus."
+        ]
+        },
+        {
+        "word": "Elle était en bonne santé.",
+        "forms": ["Elle n'était pas en bonne santé."],
+        "phrases": [
+            "Elle {n'était pas} en bonne santé."
+        ]
+        },
+        {
+        "word": "Ils étaient fatigués.",
+        "forms": ["(Ils/Il) (n'étaient/n'était) pas (fatigués/fatigué)."],
+        "phrases": [
+            "Ils {n'étaient pas} fatigués."
+        ]
+        }
+    ]
+    },
+    "es-ES": {
+      "language": "es-ES",
+      "languageName": "Español",
+      "lessonName": "La negación",
+      "lessonPrompt": {
+        "text": "¿Sabes cómo cambiar las siguientes oraciones a la forma negativa? ¡Inténtalo! Si no estás seguro, expande las oraciones para comprobarlas.",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "Tengo hambre.",
+          "forms": ["No tengo hambre."],
+          "phrases": [
+            "{No tengo} hambre."
+          ]
+        },
+        {
+          "word": "Quiero hacer ejercicio.",
+          "forms": ["No quiero hacer ejercicio."],
+          "phrases": [
+            "{No quiero} hacer ejercicio."
+          ]
+        },
+        {
+          "word": "Él está contento.",
+          "forms": ["Él no está contento."],
+          "phrases": [
+            "Él {no está} contento."
+          ]
+        },
+        {
+          "word": "A ella le gustan los gatos.",
+          "forms": ["A ella no le gustan los gatos."],
+          "phrases": [
+            "A ella {no le gustan} los gatos."
+          ]
+        },
+        {
+          "word": "Ellos están aburridos.",
+          "forms": ["Ellos no están aburridos."],
+          "phrases": [
+            "Ellos {no están} aburridos."
+          ]
+        },
+        {
+          "word": "Vemos películas.",
+          "forms": ["No vemos películas."],
+          "phrases": [
+            "{No vemos} películas."
+          ]
+        },
+        {
+          "word": "Has nadado.",
+          "forms": ["No has nadado."],
+          "phrases": [
+            "{No has} nadado."
+          ]
+        },
+        {
+          "word": "Él ha dormido.",
+          "forms": ["Él no ha dormido."],
+          "phrases": [
+            "Él {no ha dormido}."
+          ]
+        },
+        {
+          "word": "Perdí mi cartera.",
+          "forms": ["No perdí mi cartera."],
+          "phrases": [
+            "{No perdí} mi cartera."
+          ]
+        },
+        {
+          "word": "Tomaremos el autobús.",
+          "forms": ["No tomaremos el autobús."],
+          "phrases": [
+            "{No tomaremos} el autobús."
+          ]
+        },
+        {
+          "word": "Ella estaba sana.",
+          "forms": ["Ella no estaba sana."],
+          "phrases": [
+            "Ella {no estaba} sana."
+          ]
+        },
+        {
+          "word": "Ellos estaban cansados.",
+          "forms": ["Ellos no estaban cansados."],
+          "phrases": [
+            "Ellos {no estaban} cansados."
+          ]
+        }
+      ]
+    },
+        "zh-TW": {
+    "language": "zh-TW",
+    "languageName": "中文 (繁體)",
+    "lessonName": "否定句",
+    "lessonPrompt": {
+        "text": "你知道怎麼把下面的句子改成否定句嗎？試試看吧！如果不確定，可以展開句子來確認。",
+        "character": {
+        "name": "Buzz",
+        "svg": "1"
+        }
+    },
+    "wordList": [
+        {
+        "word": "我肚子餓。",
+        "forms": ["我不餓。"],
+        "phrases": [
+            "我{不餓}。"
+        ]
+        },
+        {
+        "word": "我想運動。",
+        "forms": ["我不想運動。"],
+        "phrases": [
+            "我{不想}運動。"
+        ]
+        },
+        {
+        "word": "他很開心。",
+        "forms": ["(他/她)不開心。"],
+        "phrases": [
+            "他{不開心}。"
+        ]
+        },
+        {
+        "word": "她喜歡貓。",
+        "forms": ["(他/她)不喜歡貓。"],
+        "phrases": [
+            "她{不喜歡}貓。"
+        ]
+        },
+        {
+        "word": "他們很無聊。",
+        "forms": ["(他/她)們不無聊。"],
+        "phrases": [
+            "他們{不無聊}。"
+        ]
+        },
+        {
+        "word": "我們看電影。",
+        "forms": ["我們不看電影。"],
+        "phrases": [
+            "我們{不看}電影。"
+        ]
+        },
+        {
+        "word": "你游泳了。",
+        "forms": ["你沒(游泳/遊泳)。", "你沒有(游泳/遊泳)。"],
+        "phrases": [
+            "你{沒}游泳。",
+            "你{沒有}游泳。"
+        ]
+        },
+        {
+        "word": "他睡覺了。",
+        "forms": ["(他/她)沒睡覺。", "(他/她)沒有睡覺。"],
+        "phrases": [
+            "他{沒}睡覺。",
+            "他{沒有}睡覺。"
+
+        ]
+        },
+        {
+        "word": "我弄丟了錢包。",
+        "forms": ["我沒弄丟錢包。", "我沒有弄丟錢包。"],
+        "phrases": [
+            "我{沒}弄丟錢包。",
+            "我{沒有}弄丟錢包。"
+        ]
+        },
+        {
+        "word": "我們會搭公車。",
+        "forms": ["我們不會搭公車。"],
+        "phrases": [
+            "我們{不會}搭公車。"
+        ]
+        },
+        {
+        "word": "她以前很健康。",
+        "forms": ["(他/她)以前不健康。"],
+        "phrases": [
+            "她以前{不健康}。"
+        ]
+        },
+        {
+        "word": "他們昨天很累。",
+        "forms": ["(他/她)們昨天不累。"],
+        "phrases": [
+            "他們昨天{不累}。"
+        ]
+        }
+    ]
+    },
+"zh-CN": {
+    "language": "zh-CN",
+    "languageName": "中文 (简体)",
+    "lessonName": "否定句",
+    "lessonPrompt": {
+        "text": "你知道怎么把下面的句子改成否定句吗？试试看吧！如果不确定，可以展开句子来确认。",
+        "character": {
+        "name": "Buzz",
+        "svg": "1"
+        }
+    },
+    "wordList": [
+        {
+        "word": "我肚子饿。",
+        "forms": ["我不饿。"],
+        "phrases": [
+            "我{不饿}。"
+        ]
+        },
+        {
+        "word": "我想运动。",
+        "forms": ["我不想运动。"],
+        "phrases": [
+            "我{不想}运动。"
+        ]
+        },
+        {
+        "word": "他很开心。",
+        "forms": ["(他/她)不开心。"],
+        "phrases": [
+            "他{不开心}。"
+        ]
+        },
+        {
+        "word": "她喜欢猫。",
+        "forms": ["(他/她)不喜欢猫。"],
+        "phrases": [
+            "她{不喜欢}猫。"
+        ]
+        },
+        {
+        "word": "他们很无聊。",
+        "forms": ["(他/她)们不无聊。"],
+        "phrases": [
+            "他们{不无聊}。"
+        ]
+        },
+        {
+        "word": "我们看电影。",
+        "forms": ["我们不看电影。"],
+        "phrases": [
+            "我们{不看}电影。"
+        ]
+        },
+        {
+        "word": "你游泳了。",
+        "forms": ["你没(游泳/游泳)。", "你没有(游泳/游泳)。"],
+        "phrases": [
+            "你{没}游泳。",
+            "你{没有}游泳。"
+        ]
+        },
+        {
+        "word": "他睡觉了。",
+        "forms": ["(他/她)没睡觉。", "(他/她)没有睡觉。"],
+        "phrases": [
+            "他{没}睡觉。",
+            "他{没有}睡觉。"
+
+        ]
+        },
+        {
+        "word": "我弄丢了钱包。",
+        "forms": ["我没弄丢钱包。", "我没有弄丢钱包。"],
+        "phrases": [
+            "我{没}弄丢钱包。",
+            "我{没有}弄丢钱包。"
+        ]
+        },
+        {
+        "word": "我们会坐公交车。",
+        "forms": ["我们不会坐公交车。"],
+        "phrases": [
+            "我们{不会}坐公交车。"
+        ]
+        },
+        {
+        "word": "她以前很健康。",
+        "forms": ["(他/她)以前不健康。"],
+        "phrases": [
+            "她以前{不健康}。"
+        ]
+        },
+        {
+        "word": "他们昨天很累。",
+        "forms": ["(他/她)们昨天不累。"],
+        "phrases": [
+            "他们昨天{不累}。"
+        ]
+        }
+    ]
+    },
+    "ja-JP": {
+      "language": "ja-JP",
+      "languageName": "日本語",
+      "lessonName": "否定文",
+      "lessonPrompt": {
+        "text": "次の文を否定文に変えられますか？やってみましょう！分からないときは、文を展開して確認してください。",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "私はお腹が空いている。",
+          "forms": ["私はお腹が空いていない。"],
+          "phrases": [
+            "私はお腹が{空いていない}。"
+          ]
+        },
+        {
+          "word": "私は運動したい。",
+          "forms": ["私は運動したくない。"],
+          "phrases": [
+            "私は運動{したくない}。"
+          ]
+        },
+        {
+          "word": "彼はうれしい。",
+          "forms": ["(彼/彼女)は(うれ/嬉)しくない。"],
+          "phrases": [
+            "彼は{うれしくない}。"
+          ]
+        },
+        {
+          "word": "彼女は猫が好きだ。",
+          "forms": [
+            "(彼/彼女)は猫が好きではない。",
+            "(彼/彼女)は猫が好きじゃない。"
+          ],
+          "phrases": [
+            "彼女は猫が{好きではない}。",
+            "彼女は猫が{好きじゃない}。"
+          ]
+        },
+        {
+          "word": "彼らは退屈している。",
+          "forms": [
+            "(彼/彼女)らは退屈していない。"
+          ],
+          "phrases": [
+            "彼らは{退屈していない}。"
+          ]
+        },
+        {
+          "word": "私たちは映画を見る。",
+          "forms": ["私たちは映画を見ない。"],
+          "phrases": [
+            "私たちは映画を{見ない}。"
+          ]
+        },
+        {
+          "word": "あなたは泳いだ。",
+          "forms": ["あなたは泳がなかった。"],
+          "phrases": [
+            "あなたは{泳がなかった}。"
+          ]
+        },
+        {
+          "word": "彼は寝た。",
+          "forms": [
+            "(彼/彼女)は寝なかった。"
+          ],
+          "phrases": [
+            "彼は{寝なかった}。"
+          ]
+        },
+        {
+          "word": "私は財布をなくした。",
+          "forms": ["私は財布をなくさなかった。"],
+          "phrases": [
+            "私は財布を{なくさなかった}。"
+          ]
+        },
+        {
+          "word": "私たちはバスに乗る。",
+          "forms": ["私たちはバスに乗らない。"],
+          "phrases": [
+            "私たちはバスに{乗らない}。"
+          ]
+        },
+        {
+          "word": "彼女は健康だ。",
+          "forms": [
+            "(彼/彼女)は健康じゃない。"
+          ],
+          "phrases": [
+            "彼女は{健康じゃない}。"
+          ]
+        },
+        {
+          "word": "彼らは疲れていた。",
+          "forms": [
+            "(彼/彼女)らは疲れていなかった。"
+          ],
+          "phrases": [
+            "彼らは{疲れていなかった}。"
+          ]
+        }
+      ]
+    },
+    "th-TH": {
+      "language": "th-TH",
+      "languageName": "ไทย",
+      "lessonName": "ประโยคปฏิเสธ",
+      "lessonPrompt": {
+        "text": "คุณรู้ไหมว่าจะเปลี่ยนประโยคต่อไปนี้ให้เป็นประโยคปฏิเสธได้อย่างไร ลองดูนะ ถ้าไม่แน่ใจ กดขยายประโยคเพื่อดูคำตอบ",
+        "character": {
+          "name": "Buzz",
+          "svg": "1"
+        }
+      },
+      "wordList": [
+        {
+          "word": "ฉันหิว",
+          "forms": ["(ฉัน/ผม)ไม่หิว"],
+          "phrases": [
+            "ฉัน{ไม่หิว}"
+          ]
+        },
+        {
+          "word": "ฉันอยากออกกำลังกาย",
+          "forms": ["(ฉัน/ผม)ไม่อยากออกกำลังกาย"],
+          "phrases": [
+            "ฉัน{ไม่อยาก}ออกกำลังกาย"
+          ]
+        },
+        {
+          "word": "เขามีความสุข",
+          "forms": ["เขาไม่มีความสุข"],
+          "phrases": [
+            "เขา{ไม่มีความสุข}"
+          ]
+        },
+        {
+          "word": "เธอชอบแมว",
+          "forms": ["(เธอ/เขา)ไม่ชอบแมว"],
+          "phrases": [
+            "เธอ{ไม่ชอบ}แมว"
+          ]
+        },
+        {
+          "word": "พวกเขาเบื่อ",
+          "forms": ["พวกเขาไม่เบื่อ"],
+          "phrases": [
+            "พวกเขา{ไม่เบื่อ}"
+          ]
+        },
+        {
+          "word": "พวกเราดูหนัง",
+          "forms": ["พวกเราไม่ดูหนัง"],
+          "phrases": [
+            "พวกเรา{ไม่ดู}หนัง"
+          ]
+        },
+        {
+          "word": "คุณว่ายน้ำแล้ว",
+          "forms": ["คุณไม่ได้ว่ายน้ำ"],
+          "phrases": [
+            "คุณ{ไม่ได้ว่ายน้ำ}"
+          ]
+        },
+        {
+          "word": "เขานอนแล้ว",
+          "forms": ["เขาไม่ได้นอน"],
+          "phrases": [
+            "เขา{ไม่ได้นอน}"
+          ]
+        },
+        {
+          "word": "ฉันทำกระเป๋าสตางค์หาย",
+          "forms": ["(ฉัน/ผม)ไม่ได้ทำกระเป๋าสตางค์หาย"],
+          "phrases": [
+            "ฉัน{ไม่ได้ทำ}กระเป๋าสตางค์หาย"
+          ]
+        },
+        {
+          "word": "พวกเราจะขึ้นรถเมล์",
+          "forms": ["พวกเราจะไม่ขึ้นรถเมล์"],
+          "phrases": [
+            "พวกเรา{จะไม่ขึ้น}รถเมล์"
+          ]
+        },
+        {
+          "word": "เมื่อก่อนเธอแข็งแรง",
+          "forms": ["เมื่อก่อน(เธอ/เขา)ไม่แข็งแรง"],
+          "phrases": [
+            "เมื่อก่อนเธอ{ไม่แข็งแรง}"
+          ]
+        },
+        {
+          "word": "เมื่อวานพวกเขาเหนื่อย",
+          "forms": ["เมื่อวานพวกเขาไม่เหนื่อย"],
+          "phrases": [
+            "เมื่อวานพวกเขา{ไม่เหนื่อย}"
+          ]
+        }
+      ]
+    }
+  }
+}

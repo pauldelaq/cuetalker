@@ -240,6 +240,18 @@
         "th-TH": "ลักษณนาม: งานวันเกิด"
       }
     },
+        {
+      "id": "Negation",
+      "name": {
+        "en-US": "Negation",
+        "fr-FR": "La négation",
+        "es-ES": "La negación",
+        "zh-CN": "否定句",
+        "zh-TW": "否定句",
+        "ja-JP": "否定文",
+        "th-TH": "ประโยคปฏิเสธ"
+      }
+    },
     {
       "id": "Comparisons",
       "name": {
