@@ -1031,19 +1031,72 @@ function renderHintBubble(hint) {
   const hintDiv = document.createElement('div');
   hintDiv.className = 'message user';
 
-    const avatar = document.createElement('div');
-    avatar.className = 'avatar swipe-in-right';
+  // Create the skip button
+  const skipButton = document.createElement('button');
+  skipButton.type = 'button';
+  skipButton.className = 'talker-skip-button';
+  skipButton.textContent = '⏭';
+  skipButton.title = 'Skip and reveal answer';
+  skipButton.setAttribute('aria-label', 'Skip and reveal answer');
 
-  // ✅ Use svgLibrary + hintAvatar
-  let avatarHTML = `<div class="name">${hintAvatar?.name || 'You'}</div>`;
+  skipButton.addEventListener('click', (event) => {
+    event.stopPropagation();
 
-    avatarHTML = `
-    <img class="svg-avatar" src="${svgLibrary[hintAvatar.svg]}" alt="thinking">
+    // The button should not do anything in Practice Mode
+    if (practiceMode) return;
+
+    // If recognition is already running, stop it without processing
+    // the partial transcript as a separate answer.
+    if (isRecording) {
+      suppressStopResponseHandling = true;
+      stopSpeechRecognition();
+      suppressStopResponseHandling = false;
+    }
+
+    /*
+      handleUserResponse() expects currentIndex to point at a
+      response item.
+
+      When the hint first appears, currentIndex normally still points
+      at the prompt or narration immediately before the response.
+    */
+    if (conversation[currentIndex]?.type !== 'response') {
+      currentIndex++;
+    }
+
+    /*
+      Pass a real localized "I don't know" phrase into the existing
+      answer handler.
+
+      That means the button uses exactly the same fallback branch as
+      spoken input.
+    */
+    const fallbackPhrase =
+      fallbackTriggersByLang[lessonLang]?.[0] || "i don't know";
+
+    handleUserResponse(fallbackPhrase);
+  });
+
+  // Create the user's thinking avatar
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar swipe-in-right';
+
+  let avatarHTML = `
+    <div class="name">${hintAvatar?.name || 'You'}</div>
+  `;
+
+  avatarHTML = `
+    <img
+      class="svg-avatar"
+      src="${svgLibrary[hintAvatar.svg]}"
+      alt="thinking"
+    >
     ${avatarHTML}
-    `;
+  `;
 
   avatar.innerHTML = avatarHTML;
 
+  // Create the thinking bubble
   const wrapper = document.createElement('div');
   wrapper.className = 'bubble-wrapper swipe-in-right';
 
@@ -1055,13 +1108,18 @@ function renderHintBubble(hint) {
   bgLayer.className = 'bubble-bg-pulse';
 
   wrapper.appendChild(bgLayer);
+
+  if (!practiceMode) {
+    wrapper.appendChild(skipButton);
+  }
+
   wrapper.appendChild(textLayer);
 
   hintDiv.appendChild(wrapper);
   hintDiv.appendChild(avatar);
+
   container.appendChild(hintDiv);
   container.scrollTop = container.scrollHeight;
-
 }
 
 // was: function startSpeechRecognition() {
