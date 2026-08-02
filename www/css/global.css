@@ -24,7 +24,7 @@
 .app-layout {
   display: flex;
   flex-direction: column;
-  height: 100dvh;
+  height: 100%;
 }
 
 input[type="radio"] {
@@ -61,11 +61,10 @@ body {
   margin: 0;
   font-family: 'Noto Sans', sans-serif;
   letter-spacing: 1px;
-  background: var(--bg);
   color: var(--fg);
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -74,6 +73,7 @@ main {
   overflow-y: auto;
   box-sizing: border-box;
   min-height: 0;
+  background: var(--bg);
 }
 
 header {
@@ -94,11 +94,7 @@ header {
 }
 
 html, body {
-  height: 100dvh;
-}
-
-html {
-  background: white;
+  height: 100%;
 }
 
 #header-title {
